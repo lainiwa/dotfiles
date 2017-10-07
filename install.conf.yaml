@@ -12,6 +12,7 @@
     #~/.vimrc: vimrc
     ~/.zsh:
     ~/.zshrc:
+        force: true
     ~/.i3:
     ~/.i3blocks:
     ~/scripts:
