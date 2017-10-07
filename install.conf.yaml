@@ -14,7 +14,7 @@
     ~/.zshrc:
         force: true
     ~/.i3:
-    ~/.i3blocks:
+    ~/.i3blocks.conf:
     ~/scripts:
 
 - shell:
