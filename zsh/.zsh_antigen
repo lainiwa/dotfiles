@@ -1,0 +1,73 @@
+
+export plugins=$(</dev/stdin) <<EOF
+    supercrabtree/k                        # ls -lh + git helpers
+    mafredri/zsh-async
+    seletskiy/zsh-fuzzy-search-and-edit    # Ctrl+P
+    Tarrasch/zsh-command-not-found         # Guess what to install when running an unknown command.
+    zlsun/solarized-man                   # Cool!
+    Vifon/deer                             # File navigator inspired by ranger (Cool!), but less start time.
+    hcgraf/zsh-sudo                        # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
+    MichaelAquilina/zsh-you-should-use
+    hlissner/zsh-autopair
+    Tarrasch/zsh-functional
+    Tarrasch/zsh-autoenv
+    tonyseek/oh-my-zsh-virtualenv-prompt   # I use virtualenv_prompt_info() from here.
+    bric3/nice-exit-code                   # Maps exit status code to human readable string.
+    sindresorhus/pretty-time-zsh           # Used in prompt to convert seconds to human-readable format.
+    popstas/zsh-command-time               # Print time after program finishes. I use it in right prompt.
+    rupa/z                                 # Looks like autojump
+    andrewferrier/fzf-z                    # alt+g to choose from most frecent folders
+    chrissicool/zsh-256color
+    zsh-users/zsh-completions              # Additional completion definitions for Zsh.
+    zsh-users/zsh-autosuggestions
+    zsh-users/zsh-syntax-highlighting      # Syntax highlighting bundle
+    zsh-users/zsh-history-substring-search # Crtl+R search now highlited
+EOF
+
+DOWNLOAD_DIR="$HOME/bin"
+mkdir "$DOWNLOAD_DIR"
+
+if [ ! -f "$DOWNLOAD_DIR"/antibody ] && [ ! -f "$DOWNLOAD_DIR"/antigen ]; then
+    echo "Antibody not found in $DOWNLOAD_DIR/. Installing..."
+    mkdir ~/.zsh
+    if ! curl -sL https://git.io/antibody | sed "s|sudo||" | sed "s|/usr/local/bin/|$DOWNLOAD_DIR/|" | bash -s &>/dev/null ; then
+        echo "Failed to install antibody. Falling back to antigen. Installing..."
+        curl -sL git.io/antigen > "$DOWNLOAD_DIR"/antigen
+    fi
+fi
+
+if [ -f "$DOWNLOAD_DIR"/antibody ]; then
+    . <("$DOWNLOAD_DIR"/antibody init)
+    echo "$plugins" | antibody bundle
+else
+    . "$DOWNLOAD_DIR"/antigen
+    echo "$plugins" | antigen bundles
+    antigen apply
+fi
+
+
+# tonyseek/oh-my-zsh-virtualenv-prompt
+PS1='%B%F{green}$(virtualenv_prompt_info)'$PS1
+
+# bric3/nice-exit-code
+RPS1='%B%F{red}$(nice_exit_code)%f%b'
+
+# popstas/zsh-command-time
+# sindresorhus/pretty-time-zsh
+[ -f "$DOWNLOAD_DIR"/antibody ] && FPATH="$FPATH:$(find ~/.cache/antibody -name "*pretty-time-zsh")"
+ZSH_COMMAND_TIME_MIN_SECONDS=1
+ZSH_COMMAND_TIME_ECHO=''
+RPS1=$RPS1' %B%F{green}$([[ -n $ZSH_COMMAND_TIME ]] && pretty-time $ZSH_COMMAND_TIME)%f%b'
+
+# Vifon/deer
+autoload -U deer
+zle -N deer
+bindkey '\ek' deer
+
+# mafredri/zsh-async
+# seletskiy/zsh-fuzzy-search-and-edit
+bindkey '^P' fuzzy-search-and-edit
+export EDITOR=vim
+
+# zsh-users/zsh-syntax-highlighting
+export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)

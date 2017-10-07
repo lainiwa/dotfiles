@@ -1,0 +1,35 @@
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+source /usr/local/bin/virtualenvwrapper.sh
+
+for file in $(echo "prompts aliases set_history antigen completions")
+do
+    . "$HOME/.zsh/.zsh_$file"
+done
+
+rationalize-dot() { [[ $LBUFFER = *.. ]] && LBUFFER+=/.. || LBUFFER+=. }
+zle -N rationalize-dot # try to type "..." to see what this is
+bindkey . rationalize-dot
+
+# Automatically list directory contents on `cd`.
+auto-ls () { ls; }
+[[ ${chpwd_functions[(r)auto-ls]} == auto-ls ]] || chpwd_functions=( auto-ls $chpwd_functions )
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH=$HOME/0files/bin:$PATH
+
+setopt INTERACTIVE_COMMENTS extended_glob autocd
+
+# Esc+h
+autoload -Uz run-help
+autoload -Uz run-help-git
+autoload -Uz run-help-sudo
+
+export PATH=$HOME/0files/bin:$PATH
+
+
+# Initialise zulu plugin manager
+#source "${ZULU_DIR:-"${ZDOTDIR:-$HOME}/.zulu"}/core/zulu"
+#zulu init
+
+# https://github.com/zulu-zsh/zulu/blob/master/src/commands/init.zsh
