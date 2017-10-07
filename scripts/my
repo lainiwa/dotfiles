@@ -1,0 +1,325 @@
+#!/usr/bin/env bash
+
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+#set -euo pipefail
+#IFS=$'\n\t'
+
+
+#################################################
+# RELIABLE MY-IP AND PASTEBIN
+#################################################
+
+curl_first_ok() {
+    tmp_file=$(mktemp /tmp/XXXXXXXX)
+    trap 'rm "$tmp_file"' EXIT
+    for tail in "$@"; do
+        resp_code=$(eval "curl --max-time 5 --silent --write-out '%{http_code}' --output '$tmp_file' $tail") || continue
+        [[ 200 == "$resp_code" ]] && cat "$tmp_file" && exit
+    done
+    exit 1
+}
+
+ip() {
+    sites=('ifconfig.co' 'canihazip.com/s' 'ipinfo.io/ip' 'icanhazip.com' 'curlmyip.net' 'ipecho.net/plain' 'ifcfg.me' 'ip-addr.es')
+    ip=$(curl_first_ok "${sites[@]}")
+    echo "$ip"
+}
+
+pastebin() {
+    tmp_file_input=$(mktemp /tmp/XXXXXXXX)
+    trap 'rm "$tmp_file_input"' EXIT
+    flag_xclip='1'
+    flag_gpg=
+    flag_f='/dev/stdin'
+    while getopts "f:ne" opt; do
+        case $opt in
+            f) flag_f="$OPTARG" ;;
+            n) flag_xclip=''    ;;
+            e) flag_gpg='1'     ;;
+        esac
+    done
+    cp -- "$flag_f" "$tmp_file_input"
+    [[ $flag_gpg ]] && gpg -ca "$tmp_file_input" && mv "$tmp_file_input.asc" "$tmp_file_input"
+    tails=("--form 'sprunge=@$tmp_file_input' 'http://sprunge.us'   "
+           "--form     'f:1=@$tmp_file_input' 'http://ix.io'        "
+           "--form       'c=@$tmp_file_input' 'https://ptpb.pw/?u=1'")
+    lnk="$(curl_first_ok "${tails[@]}")"
+    echo "$lnk"
+    [[ $flag_gpg ]] && echo "Get file with: curl $lnk | gpg -d -o- -"
+    [[ $flag_xclip ]] && printf "%s" "$lnk" | xclip -selection clipboard 2>: || :
+}
+
+#################################################
+# I3 AND ZSH ADDITIONS
+#################################################
+
+# /etc/default/keyboard
+# http://unix.stackexchange.com/questions/12072/how-do-i-get-current-keyboard-layout/71408#71408
+current_layout_indicator() {
+    LED=$(xset -q | grep -A 0 'LED' | cut -c59-67)
+    case $LED in
+       '00000000') echo 'US' ;;
+                *) echo 'RU' ;;
+    esac
+}
+
+# https://github.com/bookercodes/dotfiles/blob/ubuntu/.i3/scripts/exit_menu
+i3_exit_menu() {
+    while true; do
+        select=$(printf "NO\nYES" | dmenu -fn style=bold:pixelsize=22 -i -p "Are you sure you want to logout?")
+        [ "$select" = "NO" ]  && exit 0
+        [ "$select" = "YES" ] && i3-msg exit
+    done
+}
+
+fix_zsh_history() {
+    mv .zsh_history .zsh_history_bad
+    strings .zsh_history_bad > .zsh_history
+    fc -R .zsh_history
+}
+
+#################################################
+# 4CHAN AND REDDIT
+#################################################
+
+# pip3 install beautifulsoup4
+get_attrs() {
+    selector=$1
+    attr=$2
+    cat - | python3 -c "import sys,bs4; [print(x['${attr}']) for x in bs4.BeautifulSoup(sys.stdin.read(),'html.parser').select('${selector}')]"
+}
+
+get_random_pic_from_reddit() {
+    tmp_file=$(mktemp /tmp/XXXXXXXX.jpg)
+    timeout 2 wget -qO- 'https://www.reddit.com/r/wallpaper/'  |
+        get_attrs 'div#siteTable div.thing a.thumbnail' 'href' |
+        grep -Eo 'http://i.imgur.com[^&]+jpg'                  |
+        shuf -n 1                                              |
+        xargs --no-run-if-empty wget -qO "$tmp_file"
+    echo "$tmp_file"
+}
+
+set_bg() {
+    { [[ "$1" =~ .(\.png|\.jpg|\.jpeg) ]] && feh --bg-scale "$1"                                            ; } ||
+    { [[ "$1" == 'reddit'              ]] && feh --bg-scale "$(get_random_pic_from_reddit)"                 ; } ||
+    { [[ "$1" == 'disk'                ]] && feh --bg-scale --randomize --recursive ~/0files/imgs/wallpapers; } ||
+    set_bg ${@:2}
+}
+
+# Arguments: $boardname $threadnumber
+save_4chan_thread_imgs() {
+    tmp_links=$(mktemp /tmp/XXXXXXXX)
+    trap 'rm "$tmp_links"' EXIT
+    pagename="${1}_${2}"
+    mkdir "$pagename"
+    wget -qO- "http://boards.4chan.org/${1}/thread/${2}/" |
+        get_attrs 'div.postContainer a.fileThumb' 'href'  |
+        xargs -I{} -n 1 -P 8 wget --no-verbose --directory-prefix="$pagename" "http:{}"
+}
+
+#################################################
+# I3BAR PLUGIN, SHOWING MY KOHAI'S ONLINE STATUS
+#################################################
+
+kohai_status() {
+    resp=$(curl "https://api.vk.com/method/users.get?user_ids=${KOHAI_ID}&fields=online,last_seen&version=5.60" | jq '.response[]')
+    online=$(jqv "$resp" '.online')
+    timestamp=$(jqv "$resp" '.last_seen.time')
+    last_seen=$(date -d @"$timestamp" +'%H:%M:%S')
+    resp=$(curl "https://api.vk.com/method/messages.getDialogs?count=5&user_id=${KOHAI_ID}&access_token=${KOHAI_TOKEN}&version=5.60" | jq '.response[1:][]')
+    has_new=$(jqv "$resp" '.read_state==0 and .out==0')
+    [[ $has_new == true ]] && echo -n "<span bgcolor='#FA4DF4'>" || echo -n "<span>"
+    [[ $online == 1 ]] && echo -n "<span color='red'></span> sweetie is online <span color='red'></span>" ||
+                          echo -n "<span color='cyan'></span> $last_seen"
+    echo "</span>"
+}
+
+#################################################
+# INSTALLATION FUNCTIONS
+#################################################
+
+install_deb_from_web() {
+    lnk=$1
+    tmp_file=$(mktemp /tmp/XXXXXXXX.deb)
+    trap 'rm "$tmp_file"' EXIT
+    wget -O "$tmp_file" "$lnk"
+    dpkg -i "$tmp_file" || apt-get install -f
+}
+
+install_tar_gz_from_web() {
+    lnk=$1
+    ci_flags=$2
+    tmp_dir=$(mktemp -d /tmp/XXXXXXXX)
+    trap 'rm -r "$tmp_dir"' EXIT
+    wget -O- "$lnk" | tar -xzvf - --strip-components=1
+    eval "checkinstall -D --install -y $ci_flags" |cat || :
+    apt-get install -f -y
+}
+
+latest_release() {
+    curl "https://api.github.com/repos/${1}/releases/latest" |
+        jq --raw-output "[.assets[] | select(.browser_download_url | endswith(\"${2}\"))][0] | .browser_download_url"
+}
+
+jqv() {
+    printf "%s" "$1" | jq ${@:2} # shellcheck says thats an error, butt it isnt
+}
+
+install_x() {
+    x=$1
+    case $x in
+        'lnav')
+            install_deb_from_web "$(latest_release 'tstack/lnav' 'amd64.deb')"
+            ;;
+        'encryptr')
+            install_deb_from_web "$(latest_release 'SpiderOak/Encryptr' 'amd64.deb')"
+            ;;
+        'ricochet')
+            wget -O- "$(latest_release 'ricochet-im/ricochet' 'x86_64.tar.bz2')" | tar -C "$HOME" -xjf -
+            ;;
+        'additional_grc_configs')
+            mkdir -p "$HOME/.grc/"
+            wget -O- 'https://fossies.org/linux/privat/grc-1.11.1.tar.gz' | tar -xzvf - -C "$HOME/.grc/" --strip-components=2 grc-1.11.1/colourfiles
+            ;;
+        'tomb')
+            ci_flags="--requires 'zsh,sudo,gnupg,cryptsetup,pinentry-curses' --pkgname 'tomb' --pkgversion '2.4'"
+            install_tar_gz_from_web 'https://files.dyne.org/tomb/Tomb-2.4.tar.gz' "$ci_flags"
+            ;;
+        'pass-tomb')
+            json=$(curl "https://api.github.com/repos/roddhjav/pass-tomb/releases/latest")
+            ci_flags="--pkgname \"pass-tomb\" --pkgversion $(jqv "$json" '.tag_name[1:]')"
+            url=$(jqv "$json" -r '.tarball_url')
+            install_tar_gz_from_web "$url" "$ci_flags"
+            ;;
+        'tor-browser')
+            url=$(dump_links 'https://github.com/TheTorProject/gettorbrowser/releases/latest' 'linux64.*_en-US.tar.xz$')
+            mkdir -p "/opt/tor-browser"
+            wget -O- "$url" | tar -xvJf - -C "/opt/tor-browser/" --strip-components=2
+            ln -s /opt/tor-browser/start-tor-browser /usr/bin/tor-browser
+            ;;
+        'sublime-text')
+            wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+            echo "deb https://download.sublimetext.com/ apt/stable/" >> /etc/apt/sources.list.d/sublime-text.list
+            apt update
+            apt install -y sublime-text
+            ;;
+        *)
+            exit 1
+    esac
+}
+
+dump_links() {
+    url=$1
+    reg=$2
+    tmp_html=$(mktemp /tmp/XXXXXXXX)
+    trap 'rm "$tmp_html"' EXIT
+    wget -qO "$tmp_html" -k "$url"
+    get_attrs 'a' 'href' <"$tmp_html" | grep "$reg"
+}
+
+
+
+
+
+
+
+
+
+json_to_flags() {
+    json=$1
+    jqv "$json" -r '[to_entries[] | "--"+.key+" \""+.value+"\" "] | add'
+}
+
+# ex.: 'ricochet-im/ricochet' 'x86_64.tar.bz2'
+
+
+
+
+
+
+
+disks() {
+    echo "╓───── m o u n t . p o i n t s"
+    echo "╙────────────────────────────────────── ─ ─ "
+    lsblk -a
+    echo ""
+    echo "╓───── d i s k . u s a g e"
+    echo "╙────────────────────────────────────── ─ ─ "
+    df -h
+}
+
+# finger moscow@graph.no
+weather() {
+    curl -4 wttr.in
+}
+
+history_hours_freq() {
+    history -i 0 | awk '{print $3}' | cut -c1-2 | sort | uniq -c | awk '{print $1}' | spark
+}
+
+most_used_commands() {
+    history |\
+        awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' |\
+        grep -v "./"         |\
+        column -c3 -s " " -t |\
+        sort -nr             |\
+        nl                   |\
+        head -n10
+}
+
+# Put a console clock in top right corner
+# http://www.commandlinefu.com/commands/view/7916/
+console_corner_clock() {
+    while sleep 0.8;
+    do
+        tput sc
+        tput cup 0 $(($(tput cols)-29))
+        date
+        tput rc
+    done &
+}
+
+share_http() {
+    PORT=$1
+    FILE=$2
+    while ( nc -l "$PORT" < "$FILE" > : ) ; do : ; done
+}
+
+bcc() {
+    echo "$*" | bc -l
+}
+
+
+
+transfer() {
+    if [ $# -eq 0 ]; then
+        echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"
+        return 1
+    fi
+    tmpfile=$( mktemp -t transferXXX )
+    if tty -s; then
+        basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
+        curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile
+    else
+        curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile
+    fi
+    cat $tmpfile
+    rm -f $tmpfile
+}
+
+"$@"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
