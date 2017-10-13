@@ -30,7 +30,11 @@ mkdir "$DOWNLOAD_DIR"
 if [ ! -f "$DOWNLOAD_DIR"/antibody ] && [ ! -f "$DOWNLOAD_DIR"/antigen ]; then
     echo "Antibody not found in $DOWNLOAD_DIR/. Installing..."
     mkdir ~/.zsh
-    if ! curl -sL https://git.io/antibody | sed "s|sudo||" | sed "s|/usr/local/bin/|$DOWNLOAD_DIR/|" | bash -s &>/dev/null ; then
+    if ! curl -sL https://git.io/antibody |
+         sed "s|sudo||" |
+         sed "s|/usr/local/bin/|$DOWNLOAD_DIR/|" |
+         sed "s|which antibody||" |
+         bash -s &>/dev/null ; then
         echo "Failed to install antibody. Falling back to antigen. Installing..."
         curl -sL git.io/antigen > "$DOWNLOAD_DIR"/antigen
     fi
