@@ -134,6 +134,14 @@ kohai_status() {
     echo "</span>"
 }
 
+kohai_unread() {
+    #KOHAI_ID=249148682
+    NUM_UNREAD=$(curl -s "https://api.vk.com/method/messages.getHistory?access_token=${KOHAI_TOKEN}&user_id=${KOHAI_ID}&count=200" |
+                     jq '[.response[1:][].read_state | -1 * (. - 1)] | add')
+    #NUM_UNREAD=10
+    ((NUM_UNREAD)) && echo "=$NUM_UNREAD=" || echo '*'
+}
+
 #################################################
 # INSTALLATION FUNCTIONS
 #################################################

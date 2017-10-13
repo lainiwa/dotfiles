@@ -16,7 +16,6 @@ auto-ls () { ls; }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export PATH=$HOME/0files/bin:$PATH
 
 setopt INTERACTIVE_COMMENTS extended_glob autocd
 
@@ -25,11 +24,4 @@ autoload -Uz run-help
 autoload -Uz run-help-git
 autoload -Uz run-help-sudo
 
-export PATH=$HOME/0files/bin:$PATH
 
-
-# Initialise zulu plugin manager
-#source "${ZULU_DIR:-"${ZDOTDIR:-$HOME}/.zulu"}/core/zulu"
-#zulu init
-
-# https://github.com/zulu-zsh/zulu/blob/master/src/commands/init.zsh

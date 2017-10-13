@@ -191,3 +191,6 @@ bindsym $mod+Shift+p exec passmenu
 
 #exec --no-startup-id conky
 
+# aka Alt+Tab, like normies do
+bindsym       $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
