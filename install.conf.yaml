@@ -16,6 +16,7 @@
     ~/.i3:
     ~/.i3blocks.conf:
     ~/scripts:
+    ~/.Xdefaults:
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
