@@ -1,5 +1,9 @@
 
-alias ls='ls -h --color=auto'
+if [ "$(uname -s)" == "FreeBSD" ]; then
+    alias ls='ls -h -G'
+else
+    alias ls='ls -h --color=auto'
+fi
 alias ll='ls -l'
 alias la='ls -A'
 alias lal='ls -Al'
