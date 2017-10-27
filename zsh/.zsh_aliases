@@ -1,5 +1,5 @@
 
-if [ "$(uname -s)" == "FreeBSD" ]; then
+if [[ "$(uname -s)" == "FreeBSD" ]]; then
     alias ls='ls -h -G'
 else
     alias ls='ls -h --color=auto'
