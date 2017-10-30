@@ -1,4 +1,4 @@
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_PYTHON=python3
 source /usr/local/bin/virtualenvwrapper.sh
 
 for file in $(echo "prompts aliases set_history antigen completions")
