@@ -24,5 +24,7 @@ autoload -Uz run-help
 autoload -Uz run-help-git
 autoload -Uz run-help-sudo
 
+bindkey -e
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
+
