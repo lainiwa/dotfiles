@@ -194,3 +194,6 @@ bindsym $mod+Shift+p exec passmenu
 # aka Alt+Tab, like normies do
 bindsym       $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
+
+# set keyboard layouts
+exec setxkbmap -option grp:switch,grp:alt_shift_toggle us,ru
