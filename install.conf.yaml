@@ -16,6 +16,7 @@
     ~/.i3:
     ~/.i3blocks.conf:
     ~/.i3status.conf:
+    ~/.py3status.conf:
     ~/scripts:
     ~/.Xdefaults:
     ~/.config/lxterminal/lxterminal.conf:
