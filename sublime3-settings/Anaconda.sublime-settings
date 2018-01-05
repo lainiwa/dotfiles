@@ -1,0 +1,4 @@
+{
+    "python_interpreter": "python3",
+    "pep8_ignore": ["E501"],
+}

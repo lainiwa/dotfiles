@@ -30,9 +30,16 @@ URxvt.color15: #FFFFFF
 ! font
 URxvt*font:    xft:Monospace:pixelsize=16
 
+
 !! SCROLL BAR (rxvt(default), plain, next, xterm)
 URxvt.scrollstyle: rxvt
 URxvt.scrollBar:   false
+
+
+!! SCROLLBACK BUFFER IN SECONDARY SCREEN
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+
 
 !! CURSOR WORD MOVEMENT
 URxvt*altSendsEscape: true
@@ -42,28 +49,14 @@ URxvt.keysym.Control-Left:  \033[1;5D
 URxvt.keysym.Control-Right: \033[1;5C
 
 
-
+!! CLICKABLE URLS
 URxvt.perl-ext-common : default,matcher
-URxvt.urlLauncher     : firefox
+URxvt.url-launcher    : xdg-open
 URxvt.matcher.button  : 1
+! Open from keyboard
+URxvt.keysym.C-Delete: perl:matcher:last
+URxvt.keysym.M-Delete: perl:matcher:list
 
-!! Perl extensions 
-! URxvt.perl-ext-common: default,clipboard,matcher,keyboard-select
-
-!! URLs
-URxvt.keysym.C-U: perl:url-select:select_next
-URxvt.url-launcher: /usr/bin/firefox -new-tab
-URxvt.underlineURLs: True
-! URxvt.matcher.button: 1
-
-!! Copy-Paste
-URxvt.clipboard.autocopy: true
-URxvt.keysym.M-Escape: perl:keyboard-select:activate
-URxvt.keysym.C-C: perl:clipboard:copy
-URxvt.keysym.C-V: perl:clipboard:paste
-URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
-URxvt.copyCommand: xsel -ib
-URxvt.pasteCommand: xsel -ob
 
 
 
