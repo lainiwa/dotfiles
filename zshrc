@@ -28,12 +28,12 @@ bindkey -e
 export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 # Ctrl+V Key to see key code
 # Ctrl+Right and Ctrl+Left to skip words (lxterminal. doesn't work in urxvt)
-bindkey ";5C" forward-word
-bindkey ";5D" backward-word
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
 # Shift+Up and Shift+Down to scroll history
 bindkey ";2A" up-history
 bindkey ";2B" down-history
-# Same for PageUp and PageDown 
+# Same for PageUp and PageDown
 bindkey "^[[5~" up-history
 bindkey "^[[6~" down-history
 

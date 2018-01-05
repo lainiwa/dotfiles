@@ -3,5 +3,11 @@
 	"font_size": 12,
 	"tab_size": 4,
 	"translate_tabs_to_spaces": true,
-	"word_wrap": "false"
+	"word_wrap": false,
+    "show_encoding": true,
+    "always_show_minimap_viewport": true,
+    "highlight_line": true,
+    "trim_trailing_white_space_on_save": true,
+    "drag_text": false,
+    "create_window_at_startup": false,
 }
