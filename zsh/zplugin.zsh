@@ -9,6 +9,7 @@ autoload -Uz _zplugin
 
 zplugin ice from"gh-r" as"command";         zplugin load junegunn/fzf-bin
 zplugin ice as"command" pick"bin/fzf-tmux"; zplugin load junegunn/fzf
+zplugin ice if'[[ $- == *i* ]]';
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh'   # because no way(?) to src two files at once
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh'
 
