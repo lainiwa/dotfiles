@@ -7,9 +7,8 @@ fi
 alias ll='ls -l'
 alias la='ls -A'
 alias lal='ls -Al'
-if [[ -n $(which grc) ]]; then
-    for cmd in $(echo "configure diff make gcc ld netstat ping ping6 traceroute traceroute6 head tail dig mount ps mtr df ifconfig")
-    do
+if hash grc 2>/dev/null 1>&2; then
+    for cmd in configure diff make gcc ld netstat ping ping6 traceroute traceroute6 head tail dig mount ps mtr df ifconfig; do
         alias $cmd="__grc_color__ $cmd"
     done
 fi

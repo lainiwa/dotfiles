@@ -1,7 +1,7 @@
 - defaults:
     link:
-      create: true
-      relink: true
+        create: true
+        relink: true
 
 - clean: ['~']
 
@@ -26,6 +26,12 @@
     ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings:
         path: sublime3-settings/Preferences.sublime-settings
         force: true
+    ~/.config/ranger/rc.conf: ranger/rc.conf
 
 - shell:
-  - [git submodule update --init --recursive, Installing submodules]
+    -
+        command: ranger --copy-config=all
+        stdout: true
+        stderr: true
+        description: Copying ranger config files
+    - [git submodule update --init --recursive, Installing submodules]

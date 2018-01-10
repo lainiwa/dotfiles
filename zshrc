@@ -5,7 +5,9 @@ source "$(which virtualenvwrapper.sh)"
 setopt interactive_comments extended_glob autocd
 bindkey -e
 
-for file (prompts aliases set_history zplugin completions) source "$HOME/.zsh/$file.zsh" end
+for file in prompts aliases set_history zplugin completions; do
+    source "$HOME/.zsh/$file.zsh"
+done
 
 # Automatically list directory contents on `cd`.
 auto-ls () { ls; }
