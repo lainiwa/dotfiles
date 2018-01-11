@@ -30,7 +30,7 @@
 
 - shell:
     -
-        command: ranger --copy-config=all
+        command: hash ranger 2>/dev/null && ranger --copy-config=all
         stdout: true
         stderr: true
         description: Copying ranger config files
