@@ -13,6 +13,8 @@ zplugin ice if'[[ $- == *i* ]]';
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh'   # because no way(?) to src two files at once
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh'
 
+zplugin snippet --command 'https://gist.githubusercontent.com/blueyed/54a257c411310a28805a/raw/cf9be9e0097839af88518e272c39256534799da0/_pip.zsh'
+
 zplugin load supercrabtree/k                        # ls -lh + git helpers
 zplugin load soimort/translate-shell
 zplugin load mafredri/zsh-async
@@ -56,3 +58,8 @@ export EDITOR="${EDITOR:-vim}"
 
 # zsh-users/zsh-syntax-highlighting
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+autoload -Uz compinit
+compinit
+
+zplugin cdreplay -q # -q is for quiet

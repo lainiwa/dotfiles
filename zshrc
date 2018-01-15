@@ -3,7 +3,7 @@ export VIRTUALENVWRAPPER_PYTHON="${VIRTUALENVWRAPPER_PYTHON:-$(which python3)}"
 source "$(which virtualenvwrapper.sh)"
 
 setopt interactive_comments extended_glob autocd
-bindkey -e
+# bindkey -e
 
 for file in prompts aliases set_history zplugin completions; do
     source "$HOME/.zsh/$file.zsh"
