@@ -9,11 +9,13 @@ autoload -Uz _zplugin
 
 zplugin ice from"gh-r" as"command";         zplugin load junegunn/fzf-bin
 zplugin ice as"command" pick"bin/fzf-tmux"; zplugin load junegunn/fzf
-zplugin ice if'[[ $- == *i* ]]';
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh'   # because no way(?) to src two files at once
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh'
 
-zplugin snippet --command 'https://gist.githubusercontent.com/blueyed/54a257c411310a28805a/raw/cf9be9e0097839af88518e272c39256534799da0/_pip.zsh'
+# doesnt work anymore
+# zplugin snippet --command 'https://gist.githubusercontent.com/blueyed/54a257c411310a28805a/raw/cf9be9e0097839af88518e272c39256534799da0/_pip.zsh'
+compctl -K _pip_completion pip3
+eval "$(pip3 completion --zsh)"
 
 zplugin load supercrabtree/k                        # ls -lh + git helpers
 zplugin load soimort/translate-shell

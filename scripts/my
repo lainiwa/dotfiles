@@ -93,7 +93,7 @@ get_random_pic_from_reddit() {
     tmp_file=$(mktemp /tmp/XXXXXXXX.jpg)
     timeout 2 wget -qO- 'https://www.reddit.com/r/wallpaper/'  |
         get_attrs 'div#siteTable div.thing a.thumbnail' 'href' |
-        grep -Eo 'http://i.imgur.com[^&]+jpg'                  |
+        grep -Eo 'https://i.imgur.com[^&]+jpg'                  |
         shuf -n 1                                              |
         xargs --no-run-if-empty wget -qO "$tmp_file"
     echo "$tmp_file"

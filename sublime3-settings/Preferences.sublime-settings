@@ -1,5 +1,5 @@
 {
-	"color_scheme": "Packages/User/SublimeLinter/Monokai (SL).tmTheme",
+    "theme": "Default.sublime-theme",
 	"font_size": 12,
 	"tab_size": 4,
 	"translate_tabs_to_spaces": true,
@@ -10,4 +10,9 @@
     "trim_trailing_white_space_on_save": true,
     "drag_text": false,
     "create_window_at_startup": false,
+    "ignored_packages":
+[
+    "anaconda",
+    "Anaconda"
+]
 }
