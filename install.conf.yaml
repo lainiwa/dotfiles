@@ -14,9 +14,6 @@
     ~/.zshrc:
         force: true
     ~/.i3:
-    ~/.i3blocks.conf:
-    ~/.i3status.conf:
-    ~/.py3status.conf:
     ~/scripts:
     ~/.Xdefaults:
     ~/.config/lxterminal/lxterminal.conf:
@@ -29,9 +26,4 @@
     ~/.config/ranger/rc.conf: ranger/rc.conf
 
 - shell:
-    -
-        command: hash ranger 2>/dev/null && ranger --copy-config=all
-        stdout: true
-        stderr: true
-        description: Copying ranger config files
     - [git submodule update --init --recursive, Installing submodules]

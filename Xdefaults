@@ -56,8 +56,3 @@ URxvt.matcher.button  : 1
 ! Open from keyboard
 URxvt.keysym.C-Delete: perl:matcher:last
 URxvt.keysym.M-Delete: perl:matcher:list
-
-
-
-
-

@@ -10,9 +10,4 @@
     "trim_trailing_white_space_on_save": true,
     "drag_text": false,
     "create_window_at_startup": false,
-    "ignored_packages":
-[
-    "anaconda",
-    "Anaconda"
-]
 }

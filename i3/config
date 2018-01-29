@@ -76,6 +76,7 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
+workspace_layout tabbed
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
@@ -128,10 +129,13 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
 # use "xprop G WM_CLASS"
-assign [class="X-terminal-emulator"] $ws1
-assign [class="Sublime_text"]        $ws2
-assign [class="Pcmanfm"]             $ws3
-assign [class="Firefox"]             $ws4
+# assign [class="X-terminal-emulator"]         $ws1
+# assign [class="^URxvt$" instance="^ranger$"] $ws3  # start urxvt -name ranger
+# assign [class="^URxvt$" title="^ranger$"]    $ws3  # start urxvt -e ranger
+# assign [class="URxvt"]                       $ws1
+assign [class="Sublime_text"]                $ws2
+# assign [class="Pcmanfm"]                     $ws3
+# assign [class="Firefox"]                     $ws4
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -170,19 +174,18 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        #status_command bash -c 'i3blocks || i3status'
-        status_command py3status -c ~/.py3status.conf
+        status_command py3status -c ~/.i3/py3status.conf
         position bottom
 }
 
 bindsym $mod+Shift+x exec i3lock -c 000000
 
-exec --no-startup-id lxterminal
-exec --no-startup-id subl
-exec --no-startup-id pcmanfm
 exec --no-startup-id my set_bg reddit disk
 
-#bindsym Mod1+semicolon exec i3-input -P "i3-msg"
+exec --no-startup-id i3-msg "workspace $ws1; exec i3-sensible-terminal"
+exec --no-startup-id i3-msg "workspace $ws2; exec subl"
+exec --no-startup-id i3-msg "workspace $ws3; exec urxvt -e ranger"
+exec --no-startup-id i3-msg "workspace $ws1"
 
 bindsym --release            Print exec scrot -m "$HOME/0files/imgs/screenshots/%s_%H%M_%d.%m.%Y_\$wx\$h.png" -e "printf \$f | xclip"
 bindsym --release      Shift+Print exec scrot -s "$HOME/0files/imgs/screenshots/%s_%H%M_%d.%m.%Y_\$wx\$h.png" -e "printf \$f | xclip"
