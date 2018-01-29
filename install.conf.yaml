@@ -16,8 +16,6 @@
     ~/.i3:
     ~/scripts:
     ~/.Xdefaults:
-    ~/.config/lxterminal/lxterminal.conf:
-        force: true
     ~/.config/sublime-text-3/Packages/User/Anaconda.sublime-settings: sublime3-settings/Anaconda.sublime-settings
     ~/.config/sublime-text-3/Packages/User/Markdown.sublime-settings: sublime3-settings/Markdown.sublime-settings
     ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings:
