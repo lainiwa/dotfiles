@@ -2,7 +2,7 @@
 export VIRTUALENVWRAPPER_PYTHON="${VIRTUALENVWRAPPER_PYTHON:-$(which python3)}"
 source "$(which virtualenvwrapper.sh)"
 
-setopt interactive_comments extended_glob autocd
+setopt interactive_comments extended_glob autocd complete_aliases
 # Ctrl+V Key to see key code
 # bindkey -e
 bindkey "^[[1;5C"  forward-word # Ctrl+Right

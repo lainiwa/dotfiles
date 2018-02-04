@@ -151,7 +151,8 @@ install_deb_from_web() {
     tmp_file=$(mktemp /tmp/XXXXXXXX.deb)
     trap 'rm "$tmp_file"' EXIT
     wget -O "$tmp_file" "$lnk"
-    dpkg -i "$tmp_file" || apt-get install -f
+    # dpkg -i "$tmp_file" || apt-get install -f
+    sudo apt install -y "$tmp_file"
 }
 
 install_tar_gz_from_web() {
@@ -181,6 +182,9 @@ install_x() {
             ;;
         'encryptr')
             install_deb_from_web "$(latest_release 'SpiderOak/Encryptr' 'amd64.deb')"
+            ;;
+        'newer_grc')  # because the version in ubuntu is old af
+            install_deb_from_web 'http://kassiopeia.juls.savba.sk/~garabik/software/grc/grc_1.11.1-1_all.deb'
             ;;
         'ricochet')
             wget -O- "$(latest_release 'ricochet-im/ricochet' 'x86_64.tar.bz2')" | tar -C "$HOME" -xjf -

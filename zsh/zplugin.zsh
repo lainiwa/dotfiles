@@ -61,7 +61,8 @@ export EDITOR="${EDITOR:-vim}"
 # zsh-users/zsh-syntax-highlighting
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-autoload -Uz compinit
-compinit
+# Caused compinit to spaun warning when 'sudo -s'
+# autoload -Uz compinit
+# compinit
 
 zplugin cdreplay -q # -q is for quiet
