@@ -26,6 +26,6 @@ autoload -Uz run-help-git
 autoload -Uz run-help-sudo
 
 
-export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export PAGER=less
 export EDITOR=vim

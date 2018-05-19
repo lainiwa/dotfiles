@@ -1,13 +1,13 @@
 {
-    "theme": "Default.sublime-theme",
+	"always_show_minimap_viewport": true,
+	"create_window_at_startup": false,
+	"drag_text": false,
 	"font_size": 12,
+	"highlight_line": true,
+	"show_encoding": true,
 	"tab_size": 4,
+	"theme": "Default.sublime-theme",
 	"translate_tabs_to_spaces": true,
-	"word_wrap": false,
-    "show_encoding": true,
-    "always_show_minimap_viewport": true,
-    "highlight_line": true,
-    "trim_trailing_white_space_on_save": true,
-    "drag_text": false,
-    "create_window_at_startup": false,
+	"trim_trailing_white_space_on_save": true,
+	"word_wrap": false
 }
