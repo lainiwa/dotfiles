@@ -22,6 +22,7 @@
         path: sublime3-settings/Preferences.sublime-settings
         force: true
     ~/.config/ranger/rc.conf: ranger/rc.conf
+    ~/.config/ranger/scope.sh: ranger/scope.sh
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
