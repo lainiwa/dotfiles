@@ -23,13 +23,13 @@ alias -g C='| column -t'
 alias -g NE="2> /dev/null"
 alias -g NUL="> /dev/null 2>&1"
 
-for filepath in {~/.grc,/usr/share/grc}/conf.* ; do
-    filename="$(basename $filepath)"
-    cmd=${filename#*.}
+# Set grc alias for available commands.
+for cmd in $(cat /etc/grc.conf |grep '^# ' | cut -f 2 -d " ") ; do
     if (( $+commands[$cmd] )) &&  [ "$cmd" != "ls" ]; then
       alias $cmd="grc --colour=auto $cmd"
     fi
 done
+# unset cmds cmd  <-- written in grc.zsh (?)
 
 mkcd() { mkdir -- "$1" && cd -P -- "$1" ; }
 
