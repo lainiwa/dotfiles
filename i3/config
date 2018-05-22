@@ -143,7 +143,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-bindsym $mod+Shift+e exec ~/scripts/my i3_exit_menu
+bindsym $mod+Shift+e exec my i3_exit_menu
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -180,7 +180,7 @@ bar {
 
 bindsym $mod+Shift+x exec i3lock -c 000000
 
-exec --no-startup-id exec ~/scripts/my set_bg reddit disk
+exec --no-startup-id exec my set_bg reddit disk
 
 exec --no-startup-id i3-msg "workspace $ws1; exec i3-sensible-terminal"
 exec --no-startup-id i3-msg "workspace $ws2; exec subl"
