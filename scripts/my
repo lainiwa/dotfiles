@@ -320,6 +320,22 @@ transfer() {
     rm -f $tmpfile
 }
 
+# https://askubuntu.com/questions/2389
+show_aptd() {
+    zgrep 'Commandline: apt' /var/log/apt/history.log{,.*.gz} |  # print apt history
+    egrep 'apt(|-get) install' |  # filter installations
+    cut -d' ' -f4- |  # show only stuff after "apt(-get) install"
+    tr '\ ' '\n' |  # split if multiple packages
+    nl | sort -uk2 | sort -nk1 | cut -f2- |  # leave only unique (https://stackoverflow.com/a/20639730)
+    xargs -I {} bash -c 'dpkg -s {} &>/dev/null && { echo {}; }' |  # print if only package found in system
+    xargs -I {} bash -c 'printf "\033[0;31m%s\033[0m - %s\n" {} "$(apropos {} 2>/dev/null | sed -n -e "s/^.*- //p" -e 1q)" '  # colored print with apropos explanation (if available)
+}
+
+show_aptd_2() {
+    comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz |
+        sed -n 's/^Package: //p' | sort -u)
+}
+
 "$@"
 
 

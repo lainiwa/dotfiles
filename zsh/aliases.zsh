@@ -36,3 +36,7 @@ mkcd() { mkdir -- "$1" && cd -P -- "$1" ; }
 # example: echo $PATH TRN :
 __rt__() { tr "$2" "$1" ; }
 alias -g TRN='| __rt__ "\n" '
+unset -f __rt__
+
+# remove colors
+alias -g NOC='| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"'

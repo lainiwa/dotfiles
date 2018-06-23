@@ -12,17 +12,6 @@ zplugin ice as"command" pick"bin/fzf-tmux"; zplugin light junegunn/fzf
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh'   # because no way(?) to src two files at once
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh'
 
-# eval "$(pip3 completion --zsh)"  # <-- slow af. soo:
-function _pip_completion {
-  local words cword
-  read -Ac words
-  read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] ) )
-}
-compctl -K _pip_completion pip3
-
 
 zplugin light supercrabtree/k                        # ls -lh + git helpers
 zplugin light soimort/translate-shell
