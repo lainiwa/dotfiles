@@ -4,6 +4,11 @@
 	"drag_text": false,
 	"font_size": 12,
 	"highlight_line": true,
+	"ignored_packages":
+	[
+		"Markdown",
+		"Vintage"
+	],
 	"show_encoding": true,
 	"tab_size": 4,
 	"theme": "Default.sublime-theme",
