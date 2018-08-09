@@ -17,7 +17,7 @@ zplugin light supercrabtree/k                        # ls -lh + git helpers
 zplugin light soimort/translate-shell
 zplugin light mafredri/zsh-async
 zplugin light seletskiy/zsh-fuzzy-search-and-edit    # Ctrl+P
-zplugin light zlsun/solarized-man
+# zplugin light zlsun/solarized-man
 zplugin light hcgraf/zsh-sudo                        # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
 zplugin light MichaelAquilina/zsh-you-should-use
 zplugin light Tarrasch/zsh-command-not-found         # Guess what to install when running an unknown command.

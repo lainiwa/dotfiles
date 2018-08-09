@@ -336,5 +336,14 @@ show_aptd_2() {
         sed -n 's/^Package: //p' | sort -u)
 }
 
+serveo() {
+    PORT=$1
+    RET=1
+    until [ ${RET} -eq 0 ]; do
+        ssh -R 80:localhost:"$PORT" serveo.net || RET=$?
+        sleep 1
+    done
+}
+
 "$@"
 
