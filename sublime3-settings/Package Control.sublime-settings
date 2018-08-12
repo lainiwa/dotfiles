@@ -6,9 +6,11 @@
 	"installed_packages":
 	[
 		"Anaconda",
+		"HTML-CSS-JS Prettify",
 		"MarkdownEditing",
 		"Package Control",
 		"Python Flake8 Lint",
+		"SideBarEnhancements",
 		"SublimeLinter",
 		"SublimeLinter-clang",
 		"SublimeLinter-shellcheck"

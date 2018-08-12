@@ -1,4 +1,12 @@
 {
     "python_interpreter": "python3.6",
     "pep8_ignore": ["E501"],
+        /*
+        Sets the linting behaviour for anaconda:
+
+        "always" - Linting works always even while you are writing (in the background)
+        "load-save" - Linting works in file load and save only
+        "save-only" - Linting works in file save only
+    */
+    "anaconda_linting_behaviour": "load-save",
 }
