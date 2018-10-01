@@ -1,349 +1,540 @@
 #!/usr/bin/env bash
 
-# http://redsymbol.net/articles/unofficial-bash-strict-mode/
-set -euo pipefail
-IFS=$'\n\t'
+set -o errexit   # exit on fail
+set -o pipefail  # catch errors in pipelines
+set -o nounset   # exit on undeclared variable
+# set -o xtrace    # trace execution
 
 
 #################################################
-# RELIABLE MY-IP AND PASTEBIN
-#################################################
+# CHECK IF A LIST OF DEPENDENCIES IS PRESENT
+#
+# Args: list of dependencies to check
+# exits with exit code =1 if no such
+#     command or package found.
+# Requires: dpkg
+check_dependencies() {
+    for dependency in "$@"; do
+        if ! builtin type "$dependency" &>/dev/null \
+        && ! dpkg --list | awk '{print $2}' | grep "^$dependency$" &>/dev/null; then
+            builtin printf "%s\n" "'$dependency' not found"
+            exit 1
+        fi
+    done
+}
 
+
+#################################################
+# INSTALL A .DEB PACKAGE VIA URL
+#
+# Args: .deb url
+# Downloads package into temporary file and
+#     installs it. Cleans up on exit.
+# Requires: mktemp, wget, sudo
+install_deb_from_web() {
+    local lnk=$1
+    local tmp_file; tmp_file=$(mktemp /tmp/XXXXXXXX.deb)
+    builtin trap "rm '$tmp_file'" EXIT
+    wget --output-document="$tmp_file" "$lnk"
+    sudo apt install --yes "$tmp_file"
+}
+
+
+#################################################
+# SHOW INSTALLED PACKAGES WITH THEIR DESCRIPTION
+#
+# Source: https://askubuntu.com/questions/2389
+#         https://stackoverflow.com/a/20639730
+#         https://stackoverflow.com/a/22439016
+# Requires: apropos, sed, zgrep, grep, cut, tr, nl, sort, awk, uniq, xargs, bash, dpkg
+show_installed() {
+    local red='\033[0;31m'
+    local nc='\033[0m'
+    local description
+    # print apt history
+    zgrep 'Commandline: apt' /var/log/apt/history.log{,.*.gz} |
+    # filter installations
+    grep --extended-regexp 'apt(|-get) install' |
+    # show only stuff after "apt(-get) install"
+    cut --delimiter=' ' --fields=4- |
+    # split if multiple packages
+    tr '\ ' '\n' |
+    # leave only unique
+    nl | sort --unique --key=2 | sort --numeric-sort | cut --fields=2- |
+    # print if only package found in system
+    sort <(dpkg --list | awk '{print $2}') <(cat) | uniq --repeated |
+    # print apropos for package, if available
+    while builtin read -r package; do
+        description="$(apropos "$package" 2>/dev/null |
+                       sed -n -e "s/^.*- //p" -e 1q)" \
+                    || builtin true
+        builtin printf "${red}%s${nc} - %s\n" "$package" "$description"
+    done
+}
+# The other possibility is using
+# comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz |
+#     sed -n 's/^Package: //p' | sort -u)
+# to get a list of installed packages.
+
+
+#################################################
+# SHOW INFO ON DISKS
+#
+# List block devices
+#   and eport disk space usage
+# Requires: lsblk, df
+disks() {
+    builtin echo "╓───── m o u n t . p o i n t s"
+    builtin echo "╙────────────────────────────────────── ─ ─ "
+    lsblk --all
+    builtin echo ""
+    builtin echo "╓───── d i s k . u s a g e"
+    builtin echo "╙────────────────────────────────────── ─ ─ "
+    df --human-readable
+}
+
+
+#################################################
+# PRINT CURRENT KEYBOARD LAYOUT (US/RU)
+#
+# Source: https://unix.stackexchange.com/a/28347
+# Requires: xset, grep, cut
+current_layout_indicator() {
+    local LED;
+    LED=$(xset -q | grep --after-context=0 'LED' | cut --characters=59-67)
+    case $LED in
+       '00000000') builtin echo 'US' ;;
+                *) builtin echo 'RU' ;;
+    esac
+}
+
+
+#################################################
+# LOGOUT PROMPT FOR I3 AND DMENU
+#
+# Using dmenu ask if user wants to logout
+#     and exit i3 on "yes" answer
+# Source: https://github.com/bookercodes/dotfiles/blob/ubuntu/.i3/scripts/exit_menu
+# Requires: dmenu, i3-msg
+i3_exit_menu() {
+    while true; do
+        select=$(
+            builtin printf "NO\nYES" |
+            dmenu -fn style=bold:pixelsize=22 -i -p "Are you sure you want to logout?"
+        )
+        [ "$select" = "NO" ]  && builtin exit 0
+        [ "$select" = "YES" ] && i3-msg exit
+    done
+}
+
+
+#################################################
+# FIX CORRUPTED ZSH HISTORY FILE
+#
+# Backup copy is placed into ~/.zsh_history_bad
+# Requires: mv, strings, zsh
+fix_zsh_history() {
+    mv "$HOME/.zsh_history" "$HOME/.zsh_history_bad"
+    strings "$HOME/.zsh_history_bad" > "$HOME/.zsh_history"
+    zsh -c 'builtin fc -R "$HOME/.zsh_history"'
+}
+
+
+#################################################
+# DOWNLOAD RANDOM IMAGE FROM /R/WALLPAPER
+#
+# Saves a random .jpg wallpaper to file and prints
+#     the file name back.
+# Returns non-zero exit code on fail.
+# Requires: mktemp, lynx, grep, shuf, xargs
+random_reddit_image() {
+    local tmp_file
+    tmp_file=$(mktemp /tmp/XXXXXXXX.jpg)
+
+    lynx -listonly -nonumbers -dump 'https://www.reddit.com/r/wallpaper/' |
+        grep -Eo 'https://i.imgur.com[^&]+jpg' |
+        shuf -n 1 |
+        xargs --no-run-if-empty wget -qO "$tmp_file"
+
+    builtin echo "$tmp_file"
+}
+
+
+#################################################
+# SET BACKGROUND IMAGE
+#
+# Args can be:
+#     a path to png|jpg|jpeg image
+#     reddit - to set image randomly from reddit
+#     disk - to set image randomly from disk
+# In case of multiple args, each is
+#     tried to be applied, until success.
+# Requires: feh
+set_bg() (
+    set_img() {
+        if [[ "$1" =~ .(\.png|\.jpg|\.jpeg) ]]; then
+            feh --bg-scale "$1"
+        else return 1; fi
+    }
+    set_reddit() {
+        if [[ "$1" == 'reddit' ]]; then
+            feh --bg-scale "$(random_reddit_image)"
+        else return 1; fi
+    }
+    set_disk() {
+        if [[ "$1" == 'disk' ]]; then
+            feh --bg-scale --randomize --recursive "${HOME}/0files/imgs/wallpapers"
+        else return 1; fi
+    }
+    set_img "$@" || set_reddit "$@" || set_disk "$@" || set_bg "${@:2}"
+)
+
+
+#################################################
+# DOWNLOAD ALL ATTACHMENTS FROM 4CHAN THREAD
+#
+# Args: boardname, threadnumber
+# Download all attachments found in 4chan thread
+# Requires: mkdir, lynx, grep, uniq, xargs
+save_4chan_thread_imgs() {
+    pagename="${1}_${2}"
+    mkdir "$pagename"
+    lynx -listonly -nonumbers -dump "http://boards.4chan.org/${1}/thread/${2}/" |
+    grep 4cdn | uniq |
+        xargs -I{} --max-args=1 --max-procs=8 \
+            wget --no-verbose --directory-prefix="$pagename" "{}"
+}
+
+
+#################################################
+# UPLOAD FILE TO TRANSFER.SH
+#
+# Args: filename to upload (or stdin stream)
+# Uploads file and prints download link
+# Requires: curl, sed, tty
+transfer() {
+    local tmp_file;
+    tmp_file=$(mktemp /tmp/transfer_XXXXXXXX)
+    builtin trap "rm '$tmp_file'" EXIT
+    # Help. In case no arguments specified
+    if [ $# -eq 0 ]; then
+        builtin printf "%s\n%s\n%s\n" "No arguments specified. Usage:" \
+                                      "echo transfer /tmp/test.md" \
+                                      "cat /tmp/test.md | transfer test.md"
+        builtin exit 1
+    fi
+    # Upload either from file or stdin
+    if tty -s; then
+        local basefile;
+        basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
+        curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> "$tmp_file"
+    else
+        curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> "$tmp_file"
+    fi
+    # Print download link
+    cat "$tmp_file"
+    builtin echo
+}
+
+
+#################################################
+# PRINT MOST FREQUENTLY USED COMMANDS
+#
+# Also prints how much each command is used.
+# Requires: zsh, awk, grep, column, sort, nl, head
+most_used_commands() {
+    zsh --login -c "HISTFILE=~/.zsh_history; HISTSIZE=999999999; fc -R; history 0" |
+        awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' |
+        grep -v "./"         |
+        column -c3 -s " " -t |
+        sort -nr             |
+        nl                   |
+        head -n30
+}
+
+
+
+#################################################
+# SHOW IN WHICH HOURS MOST COMMANDS WAS TYPED IN
+#
+# Shows distribution of commands per each of 24 hours.
+# Requires: zsh, awk, cut, sort, uniq, tail, tput, xargs, sed
+history_hours_freq() {
+    # 24 numbers for each ower, representing how much much
+    # commands was typed in at that hour
+    local freqs
+    freqs=$(
+        zsh --login -c "HISTFILE=~/.zsh_history; HISTSIZE=999999999; fc -R; history -i 0" |
+            awk '{print $3}' |
+            cut -c1-2 |
+            sort | uniq -c |
+            awk '{print $1}'
+    )
+
+    echo "$freqs" |
+        # normalize values according to screen width / 1.5
+        awk -v max=$(echo "$freqs" | sort --numeric-sort | tail --lines=1) \
+            -v width=${COLUMNS:-$(tput cols)} \
+            '{printf "%.0f\n", $1 * width / max / 1.5}' |
+        # print lines of appropriate length
+        xargs -I{} printf '%{}s\n' | sed 's/ /█/g'
+}
+
+
+#################################################
+# WEATHER FORECAST
+#
+# Show weather in two representations:
+#    a graph and pictures with texts.
+# Requires: finger, head, curl
+weather() {
+    # weather graph
+    finger telaviv~160@graph.no |
+        head --lines=-1
+    # empty line
+    builtin echo
+    # in pictures and texts
+    curl --silent --ipv4 --header "Accept-Language: en" wttr.in/Tel_Aviv |
+        head --lines=-1
+}
+
+
+#################################################
+# FULL SCREEN HORIZONTAL LINE
+#
+# Requires: tr
+hr() {
+    printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' |
+        tr ' ' '-'
+}
+
+
+#################################################
+# MAKE A SCREENSHOT
+#
+# Args: mode (full|selected|focused)
+# Save a screenshot and insert path to image
+#     into buffer
+# Requires: xclip, scrot
+screenshot() {
+    local mode=$1
+    local save_path="$HOME/0files/imgs/screenshots/%s_%H%M_%d.%m.%Y_\$wx\$h.png"
+    local xclip_cmd="printf \$f | xclip"
+
+    [ "$mode" = 'full'    ] && scrot --multidisp "$save_path" --exec "$xclip_cmd"
+    [ "$mode" = 'select'  ] && scrot --select    "$save_path" --exec "$xclip_cmd"
+    [ "$mode" = 'focused' ] && scrot --focused   "$save_path" --exec "$xclip_cmd"
+}
+
+
+#################################################
+# SHARE TCP PORT VIA SERVEO.NET
+#
+# Args: port
+# Reconnect to serveo.net on ssh disconnect.
+# Requires: ssh, sleep
+serveo() {
+    local port=$1
+    local ret=1
+    until [ ${ret} -eq 0 ]; do
+        ssh -R 80:localhost:"$port" serveo.net || ret=$?
+        sleep 1
+    done
+}
+
+
+#################################################
+# RUN VARIABLE AS STDIN FOR JQ
+#
+# Args: args for jq
+# Requires: jq
+jqv() {
+    printf "%s" "$1" | jq "${@:2}"
+}
+
+
+#################################################
+# RETURN 1ST SUCCESSFULL CURL REQUEST
+#
+# Args: array of strings aka curl args aka tails
+# Requires: curl, mktemp, cat
 curl_first_ok() {
+    local tmp_file
     tmp_file=$(mktemp /tmp/XXXXXXXX)
-    trap 'rm "$tmp_file"' EXIT
+    trap "rm '$tmp_file'" EXIT
+
     for tail in "$@"; do
         resp_code=$(eval "curl --max-time 5 --silent --write-out '%{http_code}' --output '$tmp_file' $tail") || continue
         [[ 200 == "$resp_code" ]] && cat "$tmp_file" && exit
     done
+
     exit 1
 }
 
+
+#################################################
+# RETURN CURRENT EXTERNAL IP ADDRESS
+#
 ip() {
     sites=('ifconfig.co' 'canihazip.com/s' 'ipinfo.io/ip' 'icanhazip.com' 'curlmyip.net' 'ipecho.net/plain' 'ifcfg.me' 'ip-addr.es')
     ip=$(curl_first_ok "${sites[@]}")
     echo "$ip"
 }
 
+
+#################################################
+# SAVE DOCUMENT TO PASTEBIN-LIKE SERVICE
+#
+# Args: [-h|--help] [-x|--xclip] [-e|--encrypt] [input_file]
+# Save a document to first available pastebin service.
+#   Optional: encrypt with gpg;
+#             insert to clipboard.
+# Requires: mktemp, cp, mv, gpg, xlicp
 pastebin() {
+    local tmp_file_input
     tmp_file_input=$(mktemp /tmp/XXXXXXXX)
-    trap 'rm "$tmp_file_input"' EXIT
-    flag_xclip='1'
-    flag_gpg=
-    flag_f='/dev/stdin'
-    while getopts "f:ne" opt; do
-        case $opt in
-            f) flag_f="$OPTARG" ;;
-            n) flag_xclip=''    ;;
-            e) flag_gpg='1'     ;;
+    trap "rm '$tmp_file_input'" EXIT
+
+    local ifile='/dev/stdin';
+    local flag_xclip='';
+    local flag_gpg='';
+
+    # If no arguments provided - just quit
+    if [ "$#" -eq 0 ]; then
+        echo "No arguments provided."
+        echo "Use pastebin --help to see available options."
+        exit
+    fi
+
+    # Parsing arguments
+    while true; do
+        # If no arguments left break the loop
+        [ "$#" -eq 0 ] && break
+        # Parse current argument
+        case "$1" in
+            -h | --help )
+                echo "pastebin [-h|--help] [-x|--xclip] [-e|--encrypt] [input_file]"
+                echo
+                echo "Provide either stdin stream or an input file option."
+                echo "Use --xclip flag to copy link to the clipboard."
+                echo "Use --encrypt to encrypt file before upload via gpg."
+                exit ;;
+            -x | --xclip ) flag_xclip=true; shift ;;
+            -e | --encrypt ) flag_gpg=true; shift ;;
+            -* )
+                echo "Unrecognized option."
+                exit 1 ;;
+            * )
+                if ! tty -s; then
+                    echo "Provide either stdin stream OR file argument."
+                    exit 1
+                fi
+                ifile="$1"
+                shift ;;
         esac
     done
-    cp -- "$flag_f" "$tmp_file_input"
-    [[ $flag_gpg ]] && gpg -ca "$tmp_file_input" && mv "$tmp_file_input.asc" "$tmp_file_input"
-    tails=("--form 'sprunge=@$tmp_file_input' 'http://sprunge.us'   "
-           "--form     'f:1=@$tmp_file_input' 'http://ix.io'        "
-           "--form       'c=@$tmp_file_input' 'https://ptpb.pw/?u=1'")
+
+    # Copy input file to a temporary file
+    cp -- "$ifile" "$tmp_file_input"
+
+    # Encrypt file and replace with encrypted version
+    if [[ $flag_gpg ]]; then
+        gpg --symmetric --armor "$tmp_file_input"
+        mv "$tmp_file_input.asc" "$tmp_file_input"
+    fi
+
+    # # Upload file and print download link
+    local tails=("--form 'sprunge=@$tmp_file_input' 'http://sprunge.us'   "
+                 "--form     'f:1=@$tmp_file_input' 'http://ix.io'        "
+                 "--form       'c=@$tmp_file_input' 'https://ptpb.pw/?u=1'")
+    local lnk
     lnk="$(curl_first_ok "${tails[@]}")"
-    echo "$lnk"
-    [[ $flag_gpg ]] && echo "Get file with: curl $lnk | gpg -d -o- -"
-    [[ $flag_xclip ]] && printf "%s" "$lnk" | xclip -selection clipboard 2>: || :
+    echo "Download link: $(tput bold)$lnk$(tput sgr0)"
+
+    # Print gpg usage help, so that user could decrypt document easily
+    [[ $flag_gpg ]] && echo "Get file with: $(tput bold)curl $lnk | gpg --decrypt -$(tput sgr0)"
+    # Copy link to the clipboard if possible
+    if [[ $flag_xclip ]]; then
+        if ! type xclip &>/dev/null; then
+            echo 'No xclip found in $PATH. Check if it is installed.'
+            echo 'Link was NOT copied to the clipboard.'
+        fi
+        printf "%s" "$lnk" | xclip -selection clipboard
+    fi
 }
+
 
 #################################################
-# I3 AND ZSH ADDITIONS
-#################################################
-
-# /etc/default/keyboard
-# http://unix.stackexchange.com/questions/12072/how-do-i-get-current-keyboard-layout/71408#71408
-current_layout_indicator() {
-    LED=$(xset -q | grep -A 0 'LED' | cut -c59-67)
-    case $LED in
-       '00000000') echo 'US' ;;
-                *) echo 'RU' ;;
-    esac
-}
-
-# https://github.com/bookercodes/dotfiles/blob/ubuntu/.i3/scripts/exit_menu
-i3_exit_menu() {
-    while true; do
-        select=$(printf "NO\nYES" | dmenu -fn style=bold:pixelsize=22 -i -p "Are you sure you want to logout?")
-        [ "$select" = "NO" ]  && exit 0
-        [ "$select" = "YES" ] && i3-msg exit
-    done
-}
-
-fix_zsh_history() {
-    mv .zsh_history .zsh_history_bad
-    strings .zsh_history_bad > .zsh_history
-    fc -R .zsh_history
-}
-
-#################################################
-# 4CHAN AND REDDIT
-#################################################
-
-# pip3 install beautifulsoup4
-get_attrs() {
-    selector=$1
-    attr=$2
-    cat - | python3 -c "import sys,bs4; [print(x['${attr}']) for x in bs4.BeautifulSoup(sys.stdin.read(),'html.parser').select('${selector}')]"
-}
-
-get_random_pic_from_reddit() {
-    tmp_file=$(mktemp /tmp/XXXXXXXX.jpg)
-    timeout 2 wget -qO- 'https://www.reddit.com/r/wallpaper/'  |
-        get_attrs 'div#siteTable div.thing a.thumbnail' 'href' |
-        grep -Eo 'https://i.imgur.com[^&]+jpg'                  |
-        shuf -n 1                                              |
-        xargs --no-run-if-empty wget -qO "$tmp_file"
-    echo "$tmp_file"
-}
-
-set_bg() {
-    { [[ "$1" =~ .(\.png|\.jpg|\.jpeg) ]] && feh --bg-scale "$1"                                            ; } ||
-    { [[ "$1" == 'reddit'              ]] && feh --bg-scale "$(get_random_pic_from_reddit)"                 ; } ||
-    { [[ "$1" == 'disk'                ]] && feh --bg-scale --randomize --recursive ~/0files/imgs/wallpapers; } ||
-    set_bg ${@:2}
-}
-
-# Arguments: $boardname $threadnumber
-save_4chan_thread_imgs() {
-    tmp_links=$(mktemp /tmp/XXXXXXXX)
-    trap 'rm "$tmp_links"' EXIT
-    pagename="${1}_${2}"
-    mkdir "$pagename"
-    wget -qO- "http://boards.4chan.org/${1}/thread/${2}/" |
-        get_attrs 'div.postContainer a.fileThumb' 'href'  |
-        xargs -I{} -n 1 -P 8 wget --no-verbose --directory-prefix="$pagename" "http:{}"
-}
-
-#################################################
-# I3BAR PLUGIN, SHOWING MY KOHAI'S ONLINE STATUS
-#################################################
-
-kohai_status() {
-    resp=$(curl "https://api.vk.com/method/users.get?user_ids=${KOHAI_ID}&fields=online,last_seen&version=5.60" | jq '.response[]')
-    online=$(jqv "$resp" '.online')
-    timestamp=$(jqv "$resp" '.last_seen.time')
-    last_seen=$(date -d @"$timestamp" +'%H:%M:%S')
-    resp=$(curl "https://api.vk.com/method/messages.getDialogs?count=5&user_id=${KOHAI_ID}&access_token=${KOHAI_TOKEN}&version=5.60" | jq '.response[1:][]')
-    has_new=$(jqv "$resp" '.read_state==0 and .out==0')
-    [[ $has_new == true ]] && echo -n "<span bgcolor='#FA4DF4'>" || echo -n "<span>"
-    [[ $online == 1 ]] && echo -n "<span color='red'></span> sweetie is online <span color='red'></span>" ||
-                          echo -n "<span color='cyan'></span> $last_seen"
-    echo "</span>"
-}
-
-kohai_unread() {
-    #KOHAI_ID=249148682
-    NUM_UNREAD=$(curl -s "https://api.vk.com/method/messages.getHistory?access_token=${KOHAI_TOKEN}&user_id=${KOHAI_ID}&count=200" |
-                     jq '[.response[1:][].read_state | -1 * (. - 1)] | add')
-    #NUM_UNREAD=10
-    ((NUM_UNREAD)) && echo "=$NUM_UNREAD=" || echo '*'
-}
-
-#################################################
-# INSTALLATION FUNCTIONS
-#################################################
-
-install_deb_from_web() {
-    lnk=$1
-    tmp_file=$(mktemp /tmp/XXXXXXXX.deb)
-    trap 'rm "$tmp_file"' EXIT
-    wget -O "$tmp_file" "$lnk"
-    # dpkg -i "$tmp_file" || apt-get install -f
-    sudo apt install -y "$tmp_file"
-}
-
+# INSTALL .TAR.GZ FILE BY URL LINK
+#
+# Args: url_link
+#       string of requirements e.g. 'zsh,sudo,gnupg'
+#       package name
+#       package version
+# Download an application in tar.gz archive,
+#     create a package and install it.
+# Requires: mktemp, cd, wget, tar, sudo, checkinstall, apt
 install_tar_gz_from_web() {
-    lnk=$1
-    ci_flags=$2
+    local lnk=$1
+    local requires=$2
+    local pkgname=$3
+    local pkgversion=$4
+    # Create temporary directory for package source files
+    # and schedule it's autoclean
+    local tmp_dir
     tmp_dir=$(mktemp -d /tmp/XXXXXXXX)
-    trap 'rm -r "$tmp_dir"' EXIT
+    trap "cd -; sudo rm -r '$tmp_dir'" EXIT
+    cd "$tmp_dir"
+    # Download and unpack .tar.gz
     wget -O- "$lnk" | tar -xzvf - --strip-components=1
-    eval "checkinstall -D --install -y $ci_flags" |cat || :
-    apt-get install -f -y
+    # Create a .deb package
+    sudo checkinstall -D \
+                      --install=no \
+                      --default \
+                      --requires "$requires" \
+                      --pkgname "$pkgname" \
+                      --pkgversion "$pkgversion" | cat
+    # Install .deb package with all dependencies
+    sudo apt install ./"${pkgname}"_*.deb
 }
 
-latest_release() {
-    curl "https://api.github.com/repos/${1}/releases/latest" |
-        jq --raw-output "[.assets[] | select(.browser_download_url | endswith(\"${2}\"))][0] | .browser_download_url"
-}
 
-jqv() {
-    printf "%s" "$1" | jq ${@:2} # shellcheck says thats an error, butt it isnt
-}
-
-install_x() {
+#################################################
+# INSTALL A SOFTWARE
+#
+# Requires: lynx, grep, sed, tar, ln
+install_package() {
     x=$1
     case $x in
-        'lnav')
-            install_deb_from_web "$(latest_release 'tstack/lnav' 'amd64.deb')"
-            ;;
-        'encryptr')
-            install_deb_from_web "$(latest_release 'SpiderOak/Encryptr' 'amd64.deb')"
-            ;;
-        'newer_grc')  # because the version in ubuntu is old af
-            install_deb_from_web 'http://kassiopeia.juls.savba.sk/~garabik/software/grc/grc_1.11.1-1_all.deb'
-            ;;
-        'ricochet')
-            wget -O- "$(latest_release 'ricochet-im/ricochet' 'x86_64.tar.bz2')" | tar -C "$HOME" -xjf -
-            ;;
-        'additional_grc_configs')
-            mkdir -p "$HOME/.grc/"
-            wget -O- 'https://fossies.org/linux/privat/grc-1.11.1.tar.gz' | tar -xzvf - -C "$HOME/.grc/" --strip-components=2 grc-1.11.1/colourfiles
-            ;;
         'tomb')
-            ci_flags="--requires 'zsh,sudo,gnupg,cryptsetup,pinentry-curses' --pkgname 'tomb' --pkgversion '2.4'"
-            install_tar_gz_from_web 'https://files.dyne.org/tomb/Tomb-2.4.tar.gz' "$ci_flags"
-            ;;
-        'pass-tomb')
-            json=$(curl "https://api.github.com/repos/roddhjav/pass-tomb/releases/latest")
-            ci_flags="--pkgname \"pass-tomb\" --pkgversion $(jqv "$json" '.tag_name[1:]')"
-            url=$(jqv "$json" -r '.tarball_url')
-            install_tar_gz_from_web "$url" "$ci_flags"
+            local url
+            local version
+            url=$(lynx -listonly -nonumbers -dump 'https://files.dyne.org/tomb/' |
+                    grep '^https://files.dyne.org/tomb/Tomb-.*.tar.gz$')
+            version=$(echo "$url" | sed -e 's/.*Tomb-\(.*\).tar.gz/\1/')
+            install_tar_gz_from_web "$url" 'zsh,sudo,gnupg,cryptsetup,pinentry-curses' 'tomb' "$version"
             ;;
         'tor-browser')
-            url=$(dump_links 'https://github.com/TheTorProject/gettorbrowser/releases/latest' 'linux64.*_en-US.tar.xz$')
-            mkdir -p "/opt/tor-browser"
-            wget -O- "$url" | tar -xvJf - -C "/opt/tor-browser/" --strip-components=2
-            ln -s /opt/tor-browser/start-tor-browser /usr/bin/tor-browser
+            local url
+            url=$(lynx -listonly -nonumbers -dump 'https://github.com/TheTorProject/gettorbrowser/releases/latest' |
+                    grep 'linux64.*_en-US.tar.xz$')
+            mkdir -p "$HOME/opt/tor-browser/"
+            wget -O- "$url" | tar -xJf - -C "$HOME/opt/tor-browser/" --strip-components=2
+            ln -s "$HOME/opt/tor-browser/start-tor-browser" "$HOME/bin/tor-browser"
             ;;
-        'sublime-text')
-            wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-            echo "deb https://download.sublimetext.com/ apt/stable/" >> /etc/apt/sources.list.d/sublime-text.list
-            apt update
-            apt install -y sublime-text
+        'ricochet')
+            local releases
+            local url
+            releases=$(lynx -listonly -nonumbers -dump 'https://ricochet.im/' |grep 'releases/.*/$')
+            url=$(lynx -listonly -nonumbers -dump "$releases" |grep 'x86_64.tar.bz2$')
+            mkdir -p "$HOME/opt/"
+            wget -O- "$url" | tar -C "$HOME/opt/" -xjf -
+            ln -s "$HOME/opt/ricochet/ricochet" "$HOME/bin/"
             ;;
         *)
             exit 1
     esac
 }
 
-dump_links() {
-    url=$1
-    reg=$2
-    tmp_html=$(mktemp /tmp/XXXXXXXX)
-    trap 'rm "$tmp_html"' EXIT
-    wget -qO "$tmp_html" -k "$url"
-    get_attrs 'a' 'href' <"$tmp_html" | grep "$reg"
-}
-
-
-
-
-
-
-
-
-
-json_to_flags() {
-    json=$1
-    jqv "$json" -r '[to_entries[] | "--"+.key+" \""+.value+"\" "] | add'
-}
-
-# ex.: 'ricochet-im/ricochet' 'x86_64.tar.bz2'
-
-
-
-
-
-
-
-disks() {
-    echo "╓───── m o u n t . p o i n t s"
-    echo "╙────────────────────────────────────── ─ ─ "
-    lsblk -a
-    echo ""
-    echo "╓───── d i s k . u s a g e"
-    echo "╙────────────────────────────────────── ─ ─ "
-    df -h
-}
-
-# finger moscow@graph.no
-weather() {
-    curl -4 wttr.in
-}
-
-history_hours_freq() {
-    history -i 0 | awk '{print $3}' | cut -c1-2 | sort | uniq -c | awk '{print $1}' | spark
-}
-
-most_used_commands() {
-    history |\
-        awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' |\
-        grep -v "./"         |\
-        column -c3 -s " " -t |\
-        sort -nr             |\
-        nl                   |\
-        head -n10
-}
-
-# Put a console clock in top right corner
-# http://www.commandlinefu.com/commands/view/7916/
-console_corner_clock() {
-    while sleep 0.8;
-    do
-        tput sc
-        tput cup 0 $(($(tput cols)-29))
-        date
-        tput rc
-    done &
-}
-
-share_http() {
-    PORT=$1
-    FILE=$2
-    while ( nc -l "$PORT" < "$FILE" > : ) ; do : ; done
-}
-
-bcc() {
-    echo "$*" | bc -l
-}
-
-
-
-transfer() {
-    if [ $# -eq 0 ]; then
-        echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"
-        return 1
-    fi
-    tmpfile=$( mktemp -t transferXXX )
-    if tty -s; then
-        basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
-        curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile
-    else
-        curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile
-    fi
-    cat $tmpfile
-    echo
-    rm -f $tmpfile
-}
-
-# https://askubuntu.com/questions/2389
-show_aptd() {
-    zgrep 'Commandline: apt' /var/log/apt/history.log{,.*.gz} |  # print apt history
-    egrep 'apt(|-get) install' |  # filter installations
-    cut -d' ' -f4- |  # show only stuff after "apt(-get) install"
-    tr '\ ' '\n' |  # split if multiple packages
-    nl | sort -uk2 | sort -nk1 | cut -f2- |  # leave only unique (https://stackoverflow.com/a/20639730)
-    xargs -I {} bash -c 'dpkg -s {} &>/dev/null && { echo {}; }' |  # print if only package found in system
-    xargs -I {} bash -c 'printf "\033[0;31m%s\033[0m - %s\n" {} "$(apropos {} 2>/dev/null | sed -n -e "s/^.*- //p" -e 1q)" '  # colored print with apropos explanation (if available)
-}
-
-show_aptd_2() {
-    comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz |
-        sed -n 's/^Package: //p' | sort -u)
-}
-
-serveo() {
-    PORT=$1
-    RET=1
-    until [ ${RET} -eq 0 ]; do
-        ssh -R 80:localhost:"$PORT" serveo.net || RET=$?
-        sleep 1
-    done
-}
 
 "$@"
-
