@@ -76,7 +76,8 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-workspace_layout tabbed
+workspace_layout default
+# workspace_layout tabbed
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
@@ -128,7 +129,7 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
-# use "xprop G WM_CLASS"
+# use "xprop |grep WM_CLASS"
 # assign [class="X-terminal-emulator"]         $ws1
 # assign [class="^URxvt$" instance="^ranger$"] $ws3  # start urxvt -name ranger
 # assign [class="^URxvt$" title="^ranger$"]    $ws3  # start urxvt -e ranger
@@ -136,6 +137,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 assign [class="Sublime_text"]                $ws2
 # assign [class="Pcmanfm"]                     $ws3
 # assign [class="Firefox"]                     $ws4
+assign [class="Chromium-browser"]            $ws4
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
