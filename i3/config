@@ -190,9 +190,9 @@ exec --no-startup-id i3-msg "workspace $ws3; exec chromium-browser"
 exec --no-startup-id i3-msg "workspace $ws4; exec urxvt -e ranger"
 exec --no-startup-id i3-msg "workspace $ws1"
 
-bindsym --release            Print exec scrot -m "$HOME/0files/imgs/screenshots/%s_%H%M_%d.%m.%Y_\$wx\$h.png" -e "printf \$f | xclip"
-bindsym --release      Shift+Print exec scrot -s "$HOME/0files/imgs/screenshots/%s_%H%M_%d.%m.%Y_\$wx\$h.png" -e "printf \$f | xclip"
-bindsym --release $mod+Shift+Print exec scrot -u "$HOME/0files/imgs/screenshots/%s_%H%M_%d.%m.%Y_\$wx\$h.png" -e "printf \$f | xclip"
+bindsym --release            Print exec my screenshot full
+bindsym --release      Shift+Print exec my screenshot select
+bindsym --release $mod+Shift+Print exec my screenshot focused
 
 bindsym $mod+Shift+p exec passmenu
 
