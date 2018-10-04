@@ -96,8 +96,8 @@ bindsym $mod+a focus parent
 
 set $ws1   "1: "
 set $ws2   "2: "
-set $ws3   "3: "
-set $ws4   "4: "
+set $ws3   "3: "
+set $ws4   "4: "
 set $ws5   "5: "
 set $ws6   "6: "
 set $ws7   "7: "
@@ -137,7 +137,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 assign [class="Sublime_text"]                $ws2
 # assign [class="Pcmanfm"]                     $ws3
 # assign [class="Firefox"]                     $ws4
-assign [class="Chromium-browser"]            $ws4
+assign [class="Chromium-browser"]            $ws3
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -186,7 +186,8 @@ exec --no-startup-id exec my set_bg reddit disk
 
 exec --no-startup-id i3-msg "workspace $ws1; exec i3-sensible-terminal"
 exec --no-startup-id i3-msg "workspace $ws2; exec subl"
-exec --no-startup-id i3-msg "workspace $ws3; exec urxvt -e ranger"
+exec --no-startup-id i3-msg "workspace $ws3; exec chromium-browser"
+exec --no-startup-id i3-msg "workspace $ws4; exec urxvt -e ranger"
 exec --no-startup-id i3-msg "workspace $ws1"
 
 bindsym --release            Print exec scrot -m "$HOME/0files/imgs/screenshots/%s_%H%M_%d.%m.%Y_\$wx\$h.png" -e "printf \$f | xclip"
