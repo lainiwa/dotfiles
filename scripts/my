@@ -314,12 +314,10 @@ hr() {
 #
 # Args: mode (full|selected|focused)
 # stdin to both buffers
-# Requires: xclip, tee
+# Requires: xclip
 cclip() {
-    local input
-    input=$(cat)
-    printf "%s" "$input" | xclip -in -selection primary
-    printf "%s" "$input" | xclip -in -selection clipboard
+    xclip -in -selection primary -filter |
+    xclip -in -selection clipboard
 }
 
 
