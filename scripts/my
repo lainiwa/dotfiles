@@ -310,16 +310,30 @@ hr() {
 
 
 #################################################
+# COPY FROM STDIN
+#
+# Args: mode (full|selected|focused)
+# stdin to both buffers
+# Requires: xclip, tee
+cclip() {
+    local input
+    input=$(cat)
+    printf "%s" "$input" | xclip -in -selection primary
+    printf "%s" "$input" | xclip -in -selection clipboard
+}
+
+
+#################################################
 # MAKE A SCREENSHOT
 #
 # Args: mode (full|selected|focused)
 # Save a screenshot and insert path to image
 #     into buffer
-# Requires: xclip, scrot
+# Requires: scrot
 screenshot() {
     local mode=$1
     local save_path="$HOME/0files/imgs/screenshots/%s_%H%M_%d.%m.%Y_\$wx\$h.png"
-    local xclip_cmd="printf \$f | xclip"
+    local xclip_cmd="printf \$f | my cclip"
 
     [ "$mode" = 'full'    ] && scrot --multidisp "$save_path" --exec "$xclip_cmd"
     [ "$mode" = 'select'  ] && scrot --select    "$save_path" --exec "$xclip_cmd"
