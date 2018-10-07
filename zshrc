@@ -29,8 +29,12 @@ autoload -Uz run-help-sudo
 
 
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-export PAGER=less
 export EDITOR=vim
+if type most &>/dev/null; then
+    export PAGER=most
+else
+    export PAGER=less
+fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
