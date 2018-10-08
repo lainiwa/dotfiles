@@ -12,28 +12,31 @@ zplugin ice as"command" pick"bin/fzf-tmux"; zplugin light junegunn/fzf
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh'   # because no way(?) to src two files at once
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh'
 
+zplugin ice as"command" pick"v"; zplugin light rupa/v
 
 zplugin light supercrabtree/k                        # ls -lh + git helpers
 zplugin light soimort/translate-shell
 zplugin light mafredri/zsh-async
 zplugin light seletskiy/zsh-fuzzy-search-and-edit    # Ctrl+P
-# zplugin light zlsun/solarized-man
 zplugin light hcgraf/zsh-sudo                        # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
-zplugin light MichaelAquilina/zsh-you-should-use
 zplugin light Tarrasch/zsh-command-not-found         # Guess what to install when running an unknown command.
-zplugin light Tarrasch/zsh-functional
-zplugin light Tarrasch/zsh-autoenv
 zplugin light tonyseek/oh-my-zsh-virtualenv-prompt   # I use virtualenv_prompt_info() from here.
 zplugin light bric3/nice-exit-code                   # Maps exit status code to human readable string.
 zplugin light sindresorhus/pretty-time-zsh           # Used in prompt to convert seconds to human-readable format.
 zplugin light popstas/zsh-command-time               # Print time after program finishes. I use it in right prompt.
 zplugin light rupa/z                                 # Looks like autojump
-zplugin light andrewferrier/fzf-z                    # alt+g to choose from most frecent folders
+zplugin light andrewferrier/fzf-z                    # ctrl+g to choose from most frecent folders
 zplugin light chrissicool/zsh-256color
 zplugin light zsh-users/zsh-completions              # Additional completion definitions for Zsh.
 zplugin light zsh-users/zsh-autosuggestions          # slow!
 zplugin light zsh-users/zsh-syntax-highlighting      # Syntax highlighting bundle
 zplugin light zsh-users/zsh-history-substring-search # Crtl+R search now highlited
+# zplugin light zlsun/solarized-man
+# zplugin light MichaelAquilina/zsh-you-should-use
+# zplugin light Tarrasch/zsh-functional
+# zplugin light Tarrasch/zsh-autoenv
+# zplugin light leophys/zsh-plugin-fzf-finder          # similar to zsh-fuzzy-search-and-edit
+# zplugin light changyuheng/fz                         # lets z+[Tab] and zz+[Tab]. Doesn't integrate well with autosuggestions
 
 zplugin ice pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
 
