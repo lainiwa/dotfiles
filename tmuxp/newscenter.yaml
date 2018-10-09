@@ -1,0 +1,22 @@
+session_name: newscenter
+start_directory: "${HOME}/projects/newscenter"
+windows:
+  - window_name: backend
+    focus: true  # doesn't work. see https://github.com/tmux-python/tmuxp/issues/326
+    start_directory: "./backend"
+    layout: even-vertical
+    shell_command_before:
+      - workon celery
+    panes:
+      - shell_command:
+        - docker start some-rabbit
+        - python run.py
+        focus: true
+      - ls **/*.py | entr celery -A app:celery worker -Q hipri --loglevel=info
+  - window_name: frontend
+    start_directory: "./frontend"
+    panes:
+        - npm run build
+  - window_name: zsh
+    panes:
+        - blank

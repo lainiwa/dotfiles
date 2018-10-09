@@ -25,6 +25,7 @@
     ~/.config/ranger/rc.conf: ranger/rc.conf
     ~/.config/ranger/scope.sh: ranger/scope.sh
     ~/.config/ranger/rifle.conf: ranger/rifle.conf
+    ~/.tmuxp:
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
