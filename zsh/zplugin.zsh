@@ -13,7 +13,9 @@ zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/com
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh'
 
 zplugin ice as"command" pick"v"; zplugin light rupa/v
-zplugin ice as"command" pick"diff-so-fancy"; zplugin light so-fancy/diff-so-fancy
+
+# zplugin ice as"command" pick"diff-so-fancy"; zplugin light so-fancy/diff-so-fancy
+zplugin ice as"program" pick"bin/git-dsf"; zplugin light zdharma/zsh-diff-so-fancy
 
 zplugin light supercrabtree/k                        # ls -lh + git helpers
 zplugin light soimort/translate-shell
