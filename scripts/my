@@ -401,7 +401,7 @@ ip() {
 # Save a document to first available pastebin service.
 #   Optional: encrypt with gpg;
 #             insert to clipboard.
-# Requires: mktemp, cp, mv, gpg, xlicp
+# Requires: mktemp, cp, mv, gpg, xclip
 pastebin() {
     local tmp_file_input
     tmp_file_input=$(mktemp /tmp/XXXXXXXX)
@@ -518,6 +518,19 @@ install_tar_gz_from_web() {
 install_package() {
     x=$1
     case $x in
+        'cgo')
+            local tmp_dir
+            tmp_dir=$(mktemp -d /tmp/XXXXXXXX)
+            trap "cd -; sudo rm -r '$tmp_dir'" EXIT
+            cd "$tmp_dir"
+            git clone 'https://github.com/kieselsteini/cgo.git' .
+            sudo checkinstall -D \
+                              --install=no \
+                              --default \
+                              --pkgname 'cgo' \
+                              --pkgversion '1.0'
+            sudo apt install ./cgo_*.deb
+            ;;
         'tomb')
             local url
             local version
@@ -546,6 +559,45 @@ install_package() {
         *)
             exit 1
     esac
+}
+
+
+#################################################
+# UPGRADE SYSTEM
+#
+# Requires: apt, git, zsh
+fullUpgrade() {
+    # Update apt packages
+    sudo apt update
+    sudo apt upgrade --yes
+    sudo apt autoremove --yes
+    # Update dotfiles
+    git --git-dir="${HOME}/.dotfiles/.git/" pull origin master
+    ~/.dotfiles/install
+    # Update zsh modules
+    zsh -c "\
+        source ~/.zshrc;\
+        zplugin self-update;\
+        zplugin update --all;\
+    "
+}
+
+
+#################################################
+# CHECK SELF DEPENDENCIES
+#
+# Print which dependencies are missing.
+# Requires: grep, sed, tr, sort, dpkg
+selfCheck() {
+    local selfPath=$0
+    grep '^# Requires: ' < "$selfPath" |
+        sed -e 's/^# Requires: //g' -e 's/, / /g' |
+        tr ' ' '\n' |
+        sort -u |
+        while read -r cmd; do
+            (check_dependencies "$cmd") || true
+        done |
+        sed '/^\s*$/d'
 }
 
 
