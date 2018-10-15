@@ -518,6 +518,13 @@ install_tar_gz_from_web() {
 install_package() {
     x=$1
     case $x in
+        'autobench')
+            local link
+            link=$(lynx -listonly -nonumbers -dump 'http://www.xenoclast.org/autobench/' |
+                       grep '\.deb$' |
+                       head -n1)
+            install_deb_from_web "$link"
+            ;;
         'remarkable')
             local link
             link=$(lynx -listonly -nonumbers -dump 'https://remarkableapp.github.io/linux/download.html' |
