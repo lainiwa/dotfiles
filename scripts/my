@@ -518,6 +518,12 @@ install_tar_gz_from_web() {
 install_package() {
     x=$1
     case $x in
+        'remarkable')
+            local link
+            link=$(lynx -listonly -nonumbers -dump 'https://remarkableapp.github.io/linux/download.html' |
+                       grep '\.deb$')
+            install_deb_from_web "$link"
+            ;;
         'cgo')
             local tmp_dir
             tmp_dir=$(mktemp -d /tmp/XXXXXXXX)
