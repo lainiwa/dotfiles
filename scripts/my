@@ -7,24 +7,6 @@ set -o nounset   # exit on undeclared variable
 
 
 #################################################
-# CHECK IF A LIST OF DEPENDENCIES IS PRESENT
-#
-# Args: list of dependencies to check
-# exits with exit code =1 if no such
-#     command or package found.
-# Requires: dpkg
-check_dependencies() {
-    for dependency in "$@"; do
-        if ! builtin type "$dependency" &>/dev/null \
-        && ! dpkg --list | awk '{print $2}' | grep "^$dependency$" &>/dev/null; then
-            builtin printf "%s\n" "'$dependency' not found"
-            exit 1
-        fi
-    done
-}
-
-
-#################################################
 # INSTALL A .DEB PACKAGE VIA URL
 #
 # Args: .deb url
@@ -597,20 +579,68 @@ fullUpgrade() {
 
 
 #################################################
-# CHECK SELF DEPENDENCIES
+# CHECK IF A LIST OF DEPENDENCIES IS PRESENT
 #
-# Print which dependencies are missing.
-# Requires: grep, sed, tr, sort, dpkg
-selfCheck() {
+# Args: list of dependencies to check
+# exits with exit code =1 if no such
+#     command or package found.
+# Requires: dpkg
+check_dependencies() {
+    for dependency in "$@"; do
+        if ! builtin type "$dependency" &>/dev/null \
+        && ! dpkg --list | awk '{print $2}' | grep "^$dependency$" &>/dev/null; then
+            builtin printf "%s\n" "'$dependency' not found"
+            exit 1
+        fi
+    done
+}
+
+
+#################################################
+# CHECK DEPENDENCIES
+#
+# Args: depsType of (self|posix|non-posix|check)
+#   self - list dependencies of `my` script
+#   posix - list dependencies required by POSIX
+#   non-posix - list dependencies of `my` script, which are not POSIX
+#   check - list dependencies of `my` script, which are not currently installed
+#
+# Function to work with dependencies.
+# Requires: grep, sed, tr, sort, curl, comm, dpkg
+dependencies() {
     local selfPath=$0
-    grep '^# Requires: ' < "$selfPath" |
-        sed -e 's/^# Requires: //g' -e 's/, / /g' |
-        tr ' ' '\n' |
-        sort -u |
-        while read -r cmd; do
-            (check_dependencies "$cmd") || true
-        done |
-        sed '/^\s*$/d'
+    local depsType=$1
+    case $depsType in
+        'self')  # Dependencies found in current file
+            grep '^# Requires: ' < "$selfPath" |
+                sed -e 's/^# Requires: //g' -e 's/, / /g' |
+                tr ' ' '\n' |
+                sort -u
+            ;;
+        'posix')  # POSIX utils
+            curl -s 'http://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html' |
+                grep '<li>' |
+                sed -e 's/.*">//g' -e 's/<.*//g'
+            ;;
+        'non-posix')  # Non-POSIX dependencies
+            comm -23 <(dependencies self) \
+                     <(dependencies posix)
+            ;;
+        'check')  # Notify if some dependency is missing
+            local flag=
+            dependencies non-posix |
+                while read -r cmd; do
+                    if ! builtin type "$cmd" &>/dev/null \
+                    && ! dpkg --list | awk '{print $2}' | grep "^$cmd$" &>/dev/null; then
+                        printf "%s\n" "'$cmd' not found"
+                        flag=1
+                    fi
+                done
+                [ -n "$flag" ] && exit 1
+            ;;
+        *)
+            exit 1
+    esac
 }
 
 
