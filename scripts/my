@@ -7,22 +7,6 @@ set -o nounset   # exit on undeclared variable
 
 
 #################################################
-# INSTALL A .DEB PACKAGE VIA URL
-#
-# Args: .deb url
-# Downloads package into temporary file and
-#     installs it. Cleans up on exit.
-# Requires: mktemp, wget, sudo
-install_deb_from_web() {
-    local lnk=$1
-    local tmp_file; tmp_file=$(mktemp /tmp/XXXXXXXX.deb)
-    builtin trap "rm '$tmp_file'" EXIT
-    wget --output-document="$tmp_file" "$lnk"
-    sudo apt install --yes "$tmp_file"
-}
-
-
-#################################################
 # SHOW INSTALLED PACKAGES WITH THEIR DESCRIPTION
 #
 # Source: https://askubuntu.com/questions/2389
@@ -459,28 +443,50 @@ pastebin() {
 
 
 #################################################
-# INSTALL .TAR.GZ FILE BY URL LINK
+# INSTALL PACKAGE BY URL
 #
 # Args: url_link
 #       string of requirements e.g. 'zsh,sudo,gnupg'
 #       package name
 #       package version
-# Download an application in tar.gz archive,
-#     create a package and install it.
-# Requires: mktemp, cd, wget, tar, sudo, checkinstall, apt
-install_tar_gz_from_web() {
+#       command to run before running make
+# Download an application, create a package and install it.
+# Requires: mktemp, cd, git, wget, tar, sudo, checkinstall, apt
+install_from_web() {
     local lnk=$1
     local requires=$2
     local pkgname=$3
     local pkgversion=$4
+    local run_script=$5
+
     # Create temporary directory for package source files
     # and schedule it's autoclean
     local tmp_dir
     tmp_dir=$(mktemp -d /tmp/XXXXXXXX)
     trap "cd -; sudo rm -r '$tmp_dir'" EXIT
     cd "$tmp_dir"
-    # Download and unpack .tar.gz
-    wget -O- "$lnk" | tar -xzvf - --strip-components=1
+
+    # Download git repository
+    if [[ $lnk =~ .*\.git$ ]]; then
+        git clone "$lnk" .
+    # ... or download and unpack .tar.gz
+    elif [[ $lnk =~ .*\.tar\.gz$ ]]; then
+        wget --output-document=- "$lnk" |
+            tar --extract --gzip --file=- --strip-components=1
+    # ... or download and install .deb. Then exit
+    elif [[ $lnk =~ .*\.deb$ ]]; then
+        wget --output-document="./package.deb" "$lnk"
+        sudo apt install --quiet "./package.deb"
+        exit 0
+    # ... or print error message
+    else
+        echo "This is a link to wtf?" >&2
+        exit 1
+    fi
+
+    # Run custom script before compiling with make
+    eval "$run_script"
+
     # Create a .deb package
     sudo checkinstall -D \
                       --install=no \
@@ -488,6 +494,7 @@ install_tar_gz_from_web() {
                       --requires "$requires" \
                       --pkgname "$pkgname" \
                       --pkgversion "$pkgversion" | cat
+
     # Install .deb package with all dependencies
     sudo apt install ./"${pkgname}"_*.deb
 }
@@ -503,28 +510,17 @@ install_package() {
         'autobench')
             local link
             link=$(lynx -listonly -nonumbers -dump 'http://www.xenoclast.org/autobench/' |
-                       grep '\.deb$' |
-                       head -n1)
-            install_deb_from_web "$link"
+                       grep '\.deb$' | head -n 1)
+            install_from_web "$link" '' '' '' ''
             ;;
         'remarkable')
             local link
             link=$(lynx -listonly -nonumbers -dump 'https://remarkableapp.github.io/linux/download.html' |
                        grep '\.deb$')
-            install_deb_from_web "$link"
+            install_from_web "$link" '' '' '' ''
             ;;
         'cgo')
-            local tmp_dir
-            tmp_dir=$(mktemp -d /tmp/XXXXXXXX)
-            trap "cd -; sudo rm -r '$tmp_dir'" EXIT
-            cd "$tmp_dir"
-            git clone 'https://github.com/kieselsteini/cgo.git' .
-            sudo checkinstall -D \
-                              --install=no \
-                              --default \
-                              --pkgname 'cgo' \
-                              --pkgversion '1.0'
-            sudo apt install ./cgo_*.deb
+            install_from_web 'https://github.com/kieselsteini/cgo.git' '' 'cgo' '1.0' ''
             ;;
         'tomb')
             local url
@@ -532,24 +528,32 @@ install_package() {
             url=$(lynx -listonly -nonumbers -dump 'https://files.dyne.org/tomb/' |
                     grep '^https://files.dyne.org/tomb/Tomb-.*.tar.gz$')
             version=$(echo "$url" | sed -e 's/.*Tomb-\(.*\).tar.gz/\1/')
-            install_tar_gz_from_web "$url" 'zsh,sudo,gnupg,cryptsetup,pinentry-curses' 'tomb' "$version"
+            install_from_web "$url" 'zsh,sudo,gnupg,cryptsetup,pinentry-curses' 'tomb' "$version" ''
             ;;
         'tor-browser')
             local url
             url=$(lynx -listonly -nonumbers -dump 'https://github.com/TheTorProject/gettorbrowser/releases/latest' |
                     grep 'linux64.*_en-US.tar.xz$')
-            mkdir -p "$HOME/opt/tor-browser/"
-            wget -O- "$url" | tar -xJf - -C "$HOME/opt/tor-browser/" --strip-components=2
-            ln -s "$HOME/opt/tor-browser/start-tor-browser" "$HOME/bin/tor-browser"
+            mkdir --parents "$HOME/opt/tor-browser/"
+            wget --output-document=- "$url" |
+                tar --extract --xz --file=- --directory="$HOME/opt/tor-browser/" --strip-components=2
+            ln --symbolic "$HOME/opt/tor-browser/start-tor-browser" "$HOME/bin/tor-browser" 2>/dev/null || true
             ;;
-        'ricochet')
-            local releases
+        'vte-ng')
             local url
-            releases=$(lynx -listonly -nonumbers -dump 'https://ricochet.im/' |grep 'releases/.*/$')
-            url=$(lynx -listonly -nonumbers -dump "$releases" |grep 'x86_64.tar.bz2$')
-            mkdir -p "$HOME/opt/"
-            wget -O- "$url" | tar -C "$HOME/opt/" -xjf -
-            ln -s "$HOME/opt/ricochet/ricochet" "$HOME/bin/"
+            local version
+            url=$(lynx -listonly -nonumbers -dump 'https://github.com/thestinger/vte-ng/releases' |
+                    grep '[0-9]\+.tar.gz$' | head -n 1)
+            version=$(echo "$url" | sed -e 's/.*\/\(.*\).tar.gz/\1/')
+            install_from_web "$url" '' 'vte-ng' "$version" './autogen.sh'
+            ;;
+        'dfc')
+            local url
+            local version
+            url=$(lynx -listonly -nonumbers -dump 'https://github.com/Rolinh/dfc/releases' |
+                    grep 'https://github.com/.*[0-9]\+.tar.gz' | head -n 1)
+            version=$(echo "$url" | sed -e 's/.*\/v\(.*\).tar.gz/\1/')
+            install_from_web "$url" '' 'dfc' "$version" ''
             ;;
         *)
             exit 1
