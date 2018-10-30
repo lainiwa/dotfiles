@@ -1,4 +1,5 @@
 
+# Install `zplugin` if not installed
 if [ ! -d "$HOME/.zplugin" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
 fi
@@ -7,15 +8,16 @@ source "$HOME/.zplugin/bin/zplugin.zsh"
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 
+
+# Install `fzf`
 zplugin ice from"gh-r" as"command";         zplugin light junegunn/fzf-bin
 zplugin ice as"command" pick"bin/fzf-tmux"; zplugin light junegunn/fzf
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh'   # because no way(?) to src two files at once
 zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh'
 
 zplugin ice as"command" pick"v"; zplugin light rupa/v
-
-# zplugin ice as"command" pick"diff-so-fancy"; zplugin light so-fancy/diff-so-fancy
 zplugin ice as"program" pick"bin/git-dsf"; zplugin light zdharma/zsh-diff-so-fancy
+zplugin ice pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
 
 zplugin light supercrabtree/k                        # ls -lh + git helpers
 zplugin light soimort/translate-shell
@@ -34,14 +36,8 @@ zplugin light zsh-users/zsh-completions              # Additional completion def
 zplugin light zsh-users/zsh-autosuggestions          # slow!
 zplugin light zsh-users/zsh-syntax-highlighting      # Syntax highlighting bundle
 zplugin light zsh-users/zsh-history-substring-search # Crtl+R search now highlited
-# zplugin light zlsun/solarized-man
-# zplugin light MichaelAquilina/zsh-you-should-use
-# zplugin light Tarrasch/zsh-functional
-# zplugin light Tarrasch/zsh-autoenv
-# zplugin light leophys/zsh-plugin-fzf-finder          # similar to zsh-fuzzy-search-and-edit
-# zplugin light changyuheng/fz                         # lets z+[Tab] and zz+[Tab]. Doesn't integrate well with autosuggestions
-
-zplugin ice pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
+zplugin light changyuheng/fz                         # lets z+[Tab] and zz+[Tab]. Doesn't integrate well with autosuggestions
+                                                     # but there is hope: https://github.com/changyuheng/fz/pull/15
 
 # tonyseek/oh-my-zsh-virtualenv-prompt
 PS1='%B%F{green}$(virtualenv_prompt_info)'$PS1

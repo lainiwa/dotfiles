@@ -27,6 +27,3 @@ PS2="%_> "
 RPS1="%B%F{yellow}%(?..(%?%))%f%b"
 
 unset -f _is_ssh
-
-
-
