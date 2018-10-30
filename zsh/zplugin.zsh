@@ -17,7 +17,8 @@ zplugin snippet 'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key
 
 zplugin ice as"command" pick"v"; zplugin light rupa/v
 zplugin ice as"program" pick"bin/git-dsf"; zplugin light zdharma/zsh-diff-so-fancy
-zplugin ice pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
+# stoped working after zplugin update (?)
+# zplugin ice pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
 
 zplugin light supercrabtree/k                        # ls -lh + git helpers
 zplugin light soimort/translate-shell
