@@ -68,3 +68,13 @@ autoload -Uz run-help-sudo
 
 # Unset function so it would not be available is shell
 unset -f _1st_found
+
+# Choose binary in $PATH with fzf
+insert_binary_from_path() {
+    cmd=$(print -rl -- ${(ko)commands} | fzf --height 40% --layout=reverse)
+    # cmd="adasdd"
+    LBUFFER=${LBUFFER}${cmd}
+    zle redisplay
+}
+zle -N insert_binary_from_path
+bindkey '^[d' insert_binary_from_path  # Alt+d
