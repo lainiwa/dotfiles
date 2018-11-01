@@ -40,6 +40,8 @@ zplugin light zsh-users/zsh-history-substring-search # Crtl+R search now highlit
 zplugin light changyuheng/fz                         # lets z+[Tab] and zz+[Tab]. Doesn't integrate well with autosuggestions
                                                      # but there is hope: https://github.com/changyuheng/fz/pull/15
 
+# zplugin light lainiwa/pastebin
+
 # tonyseek/oh-my-zsh-virtualenv-prompt
 PS1='%B%F{green}$(virtualenv_prompt_info)'$PS1
 
@@ -60,8 +62,9 @@ export EDITOR="${EDITOR:-vim}"
 # zsh-users/zsh-syntax-highlighting
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-# Caused compinit to spaun warning when 'sudo -s'
-# autoload -Uz compinit
-# compinit
+# Install completions
+autoload -Uz compinit
+compinit -i  # if not `-i` spauns warning when 'sudo -s'
 
-zplugin cdreplay -q # -q is for quiet
+# Execute compdefs provided by rest of plugins
+zplugin cdreplay -q
