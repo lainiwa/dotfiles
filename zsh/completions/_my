@@ -1,5 +1,6 @@
 #compdef _my my
 
+
 _my() {
     local line
 
@@ -37,14 +38,56 @@ _my() {
         loudly)
             _hello_loudly
         ;;
-        quietly)
-            _hello_quietly
+        save_4chan_thread_imgs)
+            _save_4chan_thread_imgs
+        ;;
+        screenshot)
+            _screenshot
         ;;
         pastebin)
             _pastebin
         ;;
+        install_package)
+            _install_package
+        ;;
+        dependencies)
+            _dependencies
+        ;;
     esac
 }
+
+
+_set_bg() {
+    :
+}
+
+
+_save_4chan_thread_imgs() {
+    local line
+
+    _arguments -C \
+        "1: :(a c w m cgl cm f n jp v vg vp vr co g tv k o an tg sp asp sci his int out toy i po p ck ic wg lit mu fa 3 gd diy wsg qst biz trv fit x adv lgbt mlp news wsr vip b r9k pol bant soc s4s s hc hm h e u d y t hr gif aco r)" \
+        "2: :(123 234)"
+        "*::arg:->args"
+
+}
+
+
+_screenshot() {
+    local -a commands
+    commands=(
+      'full:Shoot whole screen'
+      'select:Select an area with mouse to shoot'
+      'focused:Shoot focused window'
+    )
+
+    if (( CURRENT == 2 )); then
+      _describe -t commands 'commands' commands
+    fi
+
+    return 0
+}
+
 
 _pastebin() {
     local line
@@ -64,5 +107,43 @@ _pastebin() {
         ;;
     esac
 }
+
+
+_install_package() {
+    local -a commands
+    commands=(
+      'autobench:HTTP benchmark tool'
+      'remarkable:Markdown graphical editor'
+      'cgo:Console non-curses gopher client'
+      'tomb:Encrypt files'
+      'tor-browser:A tor browser from git releases'
+      'vte-ng:Enhanced vte terminal widget'
+      'dfc:Report file system space usage information'
+    )
+
+    if (( CURRENT == 2 )); then
+      _describe -t commands 'commands' commands
+    fi
+
+    return 0
+}
+
+
+_dependencies() {
+    local -a commands
+    commands=(
+      'self:Dependencies found in current file'
+      'posix:POSIX utils'
+      'non-posix:Non-POSIX dependencies'
+      'check:Notify if some dependency is missing'
+    )
+
+    if (( CURRENT == 2 )); then
+      _describe -t commands 'commands' commands
+    fi
+
+    return 0
+}
+
 
 _my "$@"
