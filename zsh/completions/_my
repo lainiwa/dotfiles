@@ -1,0 +1,68 @@
+#compdef _my my
+
+_my() {
+    local line
+
+    _arguments -C \
+        "-h[Show help information]" \
+        "--h[Show help information]" \
+        "1: :(show_installed \
+              disks \
+              current_layout_indicator \
+              i3_exit_menu \
+              fix_zsh_history \
+              random_reddit_image \
+              set_bg \
+              save_4chan_thread_imgs \
+              transfer \
+              most_used_commands \
+              history_hours_freq \
+              weather \
+              hr \
+              cclip \
+              screenshot \
+              serveo \
+              jqv \
+              curl_first_ok \
+              ip \
+              pastebin \
+              install_from_web \
+              install_package \
+              fullUpgrade \
+              check_dependencies \
+              dependencies)" \
+        "*::arg:->args"
+
+    case $line[1] in
+        loudly)
+            _hello_loudly
+        ;;
+        quietly)
+            _hello_quietly
+        ;;
+        pastebin)
+            _pastebin
+        ;;
+    esac
+}
+
+_pastebin() {
+    local line
+
+    _arguments -C \
+            "-h[Show help information]" \
+        "--help[Show help information]" \
+             "-x[Insert download URL into clipboard]" \
+        "--xclip[Insert download URL into clipboard]" \
+               "-e[Ecrypt file with GPG]" \
+        "--encrypt[Ecrypt file with GPG]" \
+        "*::arg:->args"
+
+    case $line[1] in
+        *)
+            _files
+        ;;
+    esac
+}
+
+_my "$@"

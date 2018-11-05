@@ -40,7 +40,8 @@ zplugin light zsh-users/zsh-history-substring-search # Crtl+R search now highlit
 zplugin light changyuheng/fz                         # lets z+[Tab] and zz+[Tab]. Doesn't integrate well with autosuggestions
                                                      # but there is hope: https://github.com/changyuheng/fz/pull/15
 
-# zplugin light lainiwa/pastebin
+# zplugin light lainiwa/pastebin  # experimenting with my extention
+zplugin ice as"completion"; zplugin snippet "${HOME}/.zsh/completions/_my"  # flag `-f` for developing mode
 
 # tonyseek/oh-my-zsh-virtualenv-prompt
 PS1='%B%F{green}$(virtualenv_prompt_info)'$PS1
