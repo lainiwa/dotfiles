@@ -35,9 +35,6 @@ _my() {
         "*::arg:->args"
 
     case $line[1] in
-        loudly)
-            _hello_loudly
-        ;;
         save_4chan_thread_imgs)
             _save_4chan_thread_imgs
         ;;
@@ -62,14 +59,36 @@ _set_bg() {
 }
 
 
+_save_4chan_thread_imgs_helper() {
+    curl --silent 'http://www.4chan.org/' |
+        grep "<a href=" |
+        sed "s/<li/\\n<li/g" |
+        grep '^<li.*boardlink' |
+        sed -e 's|.*org/\(.*\)/"|\1|' \
+            -e 's|class="boardlink">||' \
+            -e 's|</a></li>||' \
+            -e 's|\ |:|'
+}
+
 _save_4chan_thread_imgs() {
-    local line
+    local -a commands
+    IFS=$'\n' commands=($(
+        curl --silent 'http://www.4chan.org/' |
+            grep "<a href="                   |  # grep lines with anchors
+            sed "s/<li/\\n<li/g"              |  # place <li>...</li> on a separate lines
+            grep '^<li.*boardlink'            |  # filter list items with anchors leading to boards
+            sed -e 's|.*org/\(.*\)/"|\1|'     |  # cut everything before board name
+            sed -e 's|class="boardlink">||'   |  # remove unnecessary html
+            sed -e 's|</a></li>||'            |  # now we have a "a Anime &amp; Manga" kind of lines
+            sed -e 's|\ |:|'                  |  # fit autocompletion format command:description
+            sed -e 's|\&amp;|\&|'                # resolve ampersands
+    ))
 
-    _arguments -C \
-        "1: :(a c w m cgl cm f n jp v vg vp vr co g tv k o an tg sp asp sci his int out toy i po p ck ic wg lit mu fa 3 gd diy wsg qst biz trv fit x adv lgbt mlp news wsr vip b r9k pol bant soc s4s s hc hm h e u d y t hr gif aco r)" \
-        "2: :(123 234)"
-        "*::arg:->args"
+    if (( CURRENT == 2 )); then
+      _describe -t commands 'commands' commands
+    fi
 
+    return 0
 }
 
 
