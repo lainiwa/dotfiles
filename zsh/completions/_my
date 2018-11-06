@@ -59,17 +59,6 @@ _set_bg() {
 }
 
 
-_save_4chan_thread_imgs_helper() {
-    curl --silent 'http://www.4chan.org/' |
-        grep "<a href=" |
-        sed "s/<li/\\n<li/g" |
-        grep '^<li.*boardlink' |
-        sed -e 's|.*org/\(.*\)/"|\1|' \
-            -e 's|class="boardlink">||' \
-            -e 's|</a></li>||' \
-            -e 's|\ |:|'
-}
-
 _save_4chan_thread_imgs() {
     local -a commands
     IFS=$'\n' commands=($(
