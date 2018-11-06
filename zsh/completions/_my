@@ -63,8 +63,6 @@ _save_4chan_thread_imgs() {
     local -a commands
     IFS=$'\n' commands=($(
         curl --silent 'http://www.4chan.org/' |
-            grep "<a href="                   |  # grep lines with anchors
-            sed "s/<li/\\n<li/g"              |  # place <li>...</li> on a separate lines
             grep '^<li.*boardlink'            |  # filter list items with anchors leading to boards
             sed -e 's|.*org/\(.*\)/"|\1|'     |  # cut everything before board name
             sed -e 's|class="boardlink">||'   |  # remove unnecessary html
