@@ -35,6 +35,9 @@ _my() {
         "*::arg:->args"
 
     case $line[1] in
+        set_bg)
+            _set_bg
+        ;;
         save_4chan_thread_imgs)
             _save_4chan_thread_imgs
         ;;
@@ -55,7 +58,17 @@ _my() {
 
 
 _set_bg() {
-    :
+    local line
+
+    _arguments -C \
+        "1: :(disk reddit)" \
+        "*::arg:->args"
+
+    case $line[1] in
+        *)
+            _files
+        ;;
+    esac
 }
 
 
