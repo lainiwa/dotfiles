@@ -10,17 +10,18 @@ autoload -Uz _zplugin
 
 
 # Install `fzf`
-zplugin ice from"gh-r" as"command";         zplugin light junegunn/fzf-bin
-zplugin ice as"command" pick"bin/fzf-tmux"; zplugin light junegunn/fzf
+zplugin ice from"gh-r" as"command";                                       zplugin light junegunn/fzf-bin
+zplugin ice as"command" pick"bin/fzf-tmux";                               zplugin light junegunn/fzf
 zplugin ice multisrc"shell/{completion,key-bindings}.zsh" id-as"fzf-zsh"; zplugin light junegunn/fzf
 
-zplugin ice as"command" pick"v"; zplugin light rupa/v
-zplugin ice as"program" pick"bin/git-dsf"; zplugin light zdharma/zsh-diff-so-fancy
+zplugin ice as"command" pick"v";            zplugin light rupa/v
+zplugin ice as"command" pick"bin/git-dsf";  zplugin light zdharma/zsh-diff-so-fancy
+zplugin ice if'[[ -n "$commands[gawk]" ]]'; zplugin light soimort/translate-shell
 # stoped working after zplugin update (?)
 # zplugin ice pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
 
+
 zplugin light supercrabtree/k                        # ls -lh + git helpers
-zplugin light soimort/translate-shell
 zplugin light mafredri/zsh-async
 zplugin light seletskiy/zsh-fuzzy-search-and-edit    # Ctrl+P
 zplugin light hcgraf/zsh-sudo                        # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
