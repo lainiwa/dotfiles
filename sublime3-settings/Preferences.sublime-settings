@@ -2,7 +2,7 @@
 	"always_show_minimap_viewport": true,
 	"create_window_at_startup": false,
 	"drag_text": false,
-	"font_size": 16,
+	"font_size": 15,
 	"highlight_line": true,
 	"ignored_packages":
 	[
