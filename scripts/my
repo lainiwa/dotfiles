@@ -371,6 +371,23 @@ ip() {
 
 
 #################################################
+# SHOW WORLD MAP IN CONSOLE
+#
+# Requires: telnet
+map() {
+    telnet mapscii.me
+}
+
+
+#################################################
+# SPEEDTEST
+#
+# Requires: curl, python
+speedtest() {
+    curl -s 'https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py' | python -
+}
+
+#################################################
 # SAVE DOCUMENT TO PASTEBIN-LIKE SERVICE
 #
 # Args: [-h|--help] [-x|--xclip] [-e|--encrypt] [input_file]

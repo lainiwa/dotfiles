@@ -26,6 +26,8 @@ _my() {
               jqv \
               curl_first_ok \
               ip \
+              map \
+              speedtest \
               pastebin \
               install_from_web \
               install_package \
