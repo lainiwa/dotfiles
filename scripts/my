@@ -354,7 +354,17 @@ curl_first_ok() {
 # RETURN CURRENT EXTERNAL IP ADDRESS
 #
 ip() {
-    sites=('ifconfig.co' 'canihazip.com/s' 'ipinfo.io/ip' 'icanhazip.com' 'curlmyip.net' 'ipecho.net/plain' 'ifcfg.me' 'ip-addr.es')
+    sites=('ifconfig.co'
+           'canihazip.com/s'
+           'ipinfo.io/ip'
+           'icanhazip.com'
+           'curlmyip.net'
+           'ipecho.net/plain'
+           'ifcfg.me'
+           'ip-addr.es'
+           'ident.me'
+           'ipaddr.site'
+        )
     ip=$(curl_first_ok "${sites[@]}")
     echo "$ip"
 }
