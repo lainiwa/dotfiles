@@ -387,6 +387,19 @@ speedtest() {
     curl -s 'https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py' | python -
 }
 
+
+#################################################
+# SHOW PACKAGE DEPENDENCIES AS A GRAPH
+#
+# Requires: apt-rdepends, graphviz, feh
+graph_dependencies() {
+    local package=$1
+    apt-rdepends --dotty "${package}" |
+        dot -Tpng |
+        feh --auto-zoom --scale-down -
+}
+
+
 #################################################
 # SAVE DOCUMENT TO PASTEBIN-LIKE SERVICE
 #

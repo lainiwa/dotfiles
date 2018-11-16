@@ -28,6 +28,7 @@ _my() {
               ip \
               map \
               speedtest \
+              graph_dependencies \
               pastebin \
               install_from_web \
               install_package \
