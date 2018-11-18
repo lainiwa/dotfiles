@@ -69,12 +69,20 @@ if [ "$preview_images" = "True" ] && [ "$DISPLAY" ]; then
         # Image preview for video, disabled by default.:
         video/*)
             ffmpegthumbnailer -i "$path" -o "$cached" -s 0 && exit 6 || exit 1;;
-        pdf)
-            try evince-thumbnailer -s 1000 "$path" "$cached" && exit 6;;
     esac
 fi
 
 case "$extension" in
+    # ipynb)
+    #     jupyter notebooks
+    #     try jupyter nbconvert --to markdown --stdout "$path" |
+    #         pdftotext -l 10 -nopgbrk -q "/dev/stdin" - && \
+    #         dtfe 0 f || exit 1;;
+    pdf)
+        if [ "$preview_images" = "True" ] && [ "$DISPLAY" ]; then
+            try evince-thumbnailer -s 1000 "$path" "$cached" && exit 6
+        fi
+        ;;
     # Archive extensions:
     a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
     rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)
