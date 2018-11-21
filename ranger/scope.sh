@@ -80,6 +80,7 @@ case "$extension" in
     #         dtfe 0 f || exit 1;;
     pdf)
         if [ "$preview_images" = "True" ] && [ "$DISPLAY" ]; then
+            try gs -q -dNOPAUSE -dBATCH -sDEVICE=jpeg -sOutputFile="$cached" -dLastPage=1 -r100 "$path" && exit 6
             try evince-thumbnailer -s 1000 "$path" "$cached" && exit 6
         fi
         ;;
