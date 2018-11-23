@@ -688,4 +688,61 @@ dependencies() {
 }
 
 
+#################################################
+# SHOW BOOKS IN ALLITEBOOKS.COM
+#
+# Args: search string, page number (optional)
+#
+# Requires: curl, grep, sed, paste
+allitebooks() {
+    local searchStr=${1/\ /\+}
+    local page=${2:-1}
+    # Download html
+    local html
+    html=$(curl -s "http://www.allitebooks.com/page/${page}/?s=${searchStr}")
+    # Exit if no more items
+    if echo "$html" | grep --quiet '<h1 class="page-title">No Posts Found.</h1>'; then
+        exit 0
+    fi
+    # Grab all titles from page
+    local titles
+    titles=$(echo "$html" |
+                grep '<h2 class="entry-title">' |
+                sed 's|.*rel="bookmark">\(.*\)</a></h2>|\1|g')
+    # Grab links
+    local links
+    links=$(echo "$html" |
+                grep '<h2 class="entry-title">' |
+                sed 's|.*<a href="\(.*\)" .*|\1|g')
+    # Grab books descriptions
+    local descriptions
+    descriptions=$(echo "$html" |
+                    grep --after-context=1 '<div class="entry-summary">' |
+                    grep '<p>' |
+                    sed 's|.*<p>\(.*\)</p>|\1|g' |
+                    sed -e 's|&#8230;|...|g' \
+                        -e "s|&#8217;|\'|g" \
+                        -e 's|&#8211;|-|g' \
+                        -e 's|&#8220;|"|g' \
+                        -e 's|&#8221;|"|g')
+
+    # Merge titles and descriptions
+    if [ -t 1 ] ; then
+        # If no redirect
+        paste --delimiters='\n' \
+            <(echo "$titles"       | sed "s/^\(.*\)$/$(tput bold)$(tput setaf 1)title: $(tput setaf 2)\1$(tput sgr 0)/") \
+            <(echo "$links"        | sed "s/^/$(tput bold)$(tput setaf 1)link: $(tput sgr 0)/") \
+            <(echo "$descriptions" | sed "s/^/$(tput bold)$(tput setaf 1)description: $(tput sgr 0)/")
+    else
+        # If redirected to pipe or stream
+        paste --delimiters='\n' \
+            <(echo "$titles"       | sed "s/^\(.*\)$/title: \1/") \
+            <(echo "$links"        | sed "s/^/link: /") \
+            <(echo "$descriptions" | sed "s/^/description: /")
+    fi
+    # Move to next page
+    allitebooks "${searchStr}" "$(( page + 1 ))"
+}
+
+
 "$@"

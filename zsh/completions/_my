@@ -34,7 +34,8 @@ _my() {
               install_package \
               fullUpgrade \
               check_dependencies \
-              dependencies)" \
+              dependencies \
+              allitebooks)" \
         "*::arg:->args"
 
     case $line[1] in
