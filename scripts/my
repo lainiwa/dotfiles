@@ -390,6 +390,7 @@ speedtest() {
 
 #################################################
 # SHOW PACKAGE DEPENDENCIES AS A GRAPH
+# Args: package name
 #
 # Requires: apt-rdepends, graphviz, feh
 graph_dependencies() {

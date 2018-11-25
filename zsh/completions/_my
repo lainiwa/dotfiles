@@ -35,7 +35,8 @@ _my() {
               fullUpgrade \
               check_dependencies \
               dependencies \
-              allitebooks)" \
+              allitebooks \
+            )" \
         "*::arg:->args"
 
     case $line[1] in
@@ -47,6 +48,9 @@ _my() {
         ;;
         screenshot)
             _screenshot
+        ;;
+        graph_dependencies)
+            _graph_dependencies
         ;;
         pastebin)
             _pastebin
@@ -103,6 +107,18 @@ _screenshot() {
       'select:Select an area with mouse to shoot'
       'focused:Shoot focused window'
     )
+
+    if (( CURRENT == 2 )); then
+      _describe -t commands 'commands' commands
+    fi
+
+    return 0
+}
+
+
+_graph_dependencies() {
+    local -a commands
+    commands=( $(dpkg --get-selections | sed 's/\t.*//') )
 
     if (( CURRENT == 2 )); then
       _describe -t commands 'commands' commands
