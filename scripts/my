@@ -747,4 +747,19 @@ allitebooks() {
 }
 
 
+#################################################
+# RUN JRNL WITH VIM INPUT
+#
+# Args: date (can be multiple words)
+#
+# Requires: vipe, jrnl
+ijrnl() {
+    local text
+    text=$(: | vipe)
+    # The next line could be written in python pseudocode as
+    # jrnl(**args[:-1], arg[-1]+':', text)
+    jrnl "${@:1:$#-1}" "${!#}:" "${text}"
+}
+
+
 "$@"

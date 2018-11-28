@@ -36,6 +36,7 @@ _my() {
               check_dependencies \
               dependencies \
               allitebooks \
+              ijrnl \
             )" \
         "*::arg:->args"
 
