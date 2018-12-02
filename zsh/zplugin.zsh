@@ -10,9 +10,10 @@ autoload -Uz _zplugin
 
 
 # Install `fzf`
-zplugin ice from"gh-r" as"command";                                       zplugin light junegunn/fzf-bin
-zplugin ice as"command" pick"bin/fzf-tmux";                               zplugin light junegunn/fzf
-zplugin ice multisrc"shell/{completion,key-bindings}.zsh" id-as"fzf-zsh"; zplugin light junegunn/fzf
+zplugin ice from"gh-r" as"command";         zplugin light junegunn/fzf-bin
+zplugin ice as"command" pick"bin/fzf-tmux"; zplugin light junegunn/fzf
+zplugin ice multisrc"shell/{completion,key-bindings}.zsh" id-as"fzf-zsh" pick"/dev/null";
+                                            zplugin light junegunn/fzf
 
 zplugin ice as"command" pick"v";            zplugin light rupa/v
 zplugin ice as"command" pick"bin/git-dsf";  zplugin light zdharma/zsh-diff-so-fancy
