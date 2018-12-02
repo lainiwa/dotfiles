@@ -32,7 +32,9 @@ alias -g NE="2> /dev/null"
 alias -g NUL="> /dev/null 2>&1"
 
 # Set grc alias for available commands.
-for cmd in $(grep '^# ' /etc/grc.conf | cut --fields=2 --delimiter=" "); do
+[[ -f /etc/grc.conf ]]           && grc_conf='/etc/grc.conf'
+[[ -f /usr/local/etc/grc.conf ]] && grc_conf='/usr/local/etc/grc.conf'
+for cmd in $(grep '^# ' "$grc_conf" | cut -f 2 -d ' '); do
     if (( $+commands[$cmd] )) &&  [ "$cmd" != "ls" ]; then
       alias $cmd="grc --colour=auto $cmd"
     fi
