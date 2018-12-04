@@ -25,13 +25,8 @@
     ~/.config/ranger/rc.conf: ranger/rc.conf
     ~/.config/ranger/scope.sh: ranger/scope.sh
     ~/.config/ranger/rifle.conf: ranger/rifle.conf
+    ~/.config/torrench: torrench
     ~/.tmuxp:
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
-    # -
-    #     command:
-    #         mkdir -p "$HOME/.grc/" &&
-    #         wget -qO- 'https://fossies.org/linux/privat/grc-1.11.1.tar.gz' |
-    #         tar -xzf- -C "$HOME/.grc/" --strip-components=2 grc-1.11.1/colourfiles
-    #     description: Installing grc profiles
