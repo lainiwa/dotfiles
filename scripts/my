@@ -508,7 +508,7 @@ install_from_web() {
     cd "$tmp_dir"
 
     # Download git repository
-    if [[ $lnk =~ .*\.git$ ]]; then
+    if [[ $lnk =~ .*\.git$ || $lnk =~ https://git\..* || $lnk =~ http://git\..* ]]; then
         git clone "$lnk" .
     # ... or download and unpack .tar.gz
     elif [[ $lnk =~ .*\.tar\.gz$ ]]; then
@@ -596,6 +596,9 @@ install_package() {
                     grep 'https://github.com/.*[0-9]\+.tar.gz' | head -n 1)
             version=$(echo "$url" | sed -e 's/.*\/v\(.*\).tar.gz/\1/')
             install_from_web "$url" '' 'dfc' "$version" ''
+            ;;
+        'sent')
+            install_from_web 'https://git.suckless.org/sent' 'libx11-dev,farbfeld' 'sent' '1.0' ''
             ;;
         *)
             exit 1
