@@ -96,7 +96,9 @@ case "$extension" in
     doc)
         try antiword "$path" && dtfe 0 f || exit 1;;
     docx)
-        try docx2txt "$path" - && dtfe 0 || exit 1;;
+        try pandoc -f docx -t plain "$path" -o - && dtfe 0
+        try docx2txt "$path" - && dtfe 0
+        exit 1;;
     # PDF documents:
     pdf)
         try pdftotext -l 10 -nopgbrk -q "$path" - && \
