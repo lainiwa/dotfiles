@@ -59,8 +59,9 @@ dtfe() {
 if [ "$preview_images" = "True" ] && [ "$DISPLAY" ]; then
     case "$mimetype" in
         # Image previews for SVG files, disabled by default.
-        ###image/svg+xml)
-        ###   convert "$path" "$cached" && exit 6 || exit 1;;
+        # image/svg+xml)
+            # convert -size 1024x1024 "$path" png:"$cached" && exit 6 || exit 1;;
+          # convert "$path" "$cached" && exit 6 || exit 1;;
         # Image previews for image files. w3mimgdisplay will be called for all
         # image files (unless overriden as above), but might fail for
         # unsupported types.
@@ -73,11 +74,6 @@ if [ "$preview_images" = "True" ] && [ "$DISPLAY" ]; then
 fi
 
 case "$extension" in
-    # ipynb)
-    #     jupyter notebooks
-    #     try jupyter nbconvert --to markdown --stdout "$path" |
-    #         pdftotext -l 10 -nopgbrk -q "/dev/stdin" - && \
-    #         dtfe 0 f || exit 1;;
     pdf)
         if [ "$preview_images" = "True" ] && [ "$DISPLAY" ]; then
             try gs -q -dNOPAUSE -dBATCH -sDEVICE=jpeg -sOutputFile="$cached" -dLastPage=1 -r100 "$path" && exit 6
