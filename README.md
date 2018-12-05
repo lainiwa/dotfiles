@@ -18,3 +18,13 @@ This configures the following set of tools:
 * [tmux](https://wiki.archlinux.org/index.php/Tmux) and [tmuxp](https://github.com/tmux-python/tmuxp)
 * [urxvt](https://wiki.archlinux.org/index.php/rxvt-unicode)
 * [zsh](https://wiki.archlinux.org/index.php/Zsh) and [zplugin](https://github.com/zdharma/zplugin)
+
+
+## Dependencies
+I am storing all functions I'm using in a single bash file `scripts/my`,
+calling them in a manner `my function_name [arg1 [arg2 [...]]]`.
+It has a special function to check if dependencies for all functions are installed: just call `my dependencies check`. It has other options also, which you might check by either looking at source code, or using autocompletion.
+
+All dependencies are available on ubuntu via apt.
+
+You might also want to install some additional software to fully utilize preview facilities of ranger file manager. Have a look at `ranger/scope.sh` to see what might be sensible to install.
