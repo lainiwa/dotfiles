@@ -159,6 +159,8 @@ _install_package() {
       'tor-browser:A tor browser from git releases'
       'vte-ng:Enhanced vte terminal widget'
       'dfc:Report file system space usage information'
+      'sent:Simple plaintext presentation tool'
+      'docker-compose:Tool for defining and running multi-container Docker applications'
     )
 
     if (( CURRENT == 2 )); then

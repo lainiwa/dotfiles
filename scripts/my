@@ -600,6 +600,14 @@ install_package() {
         'sent')
             install_from_web 'https://git.suckless.org/sent' 'libx11-dev,farbfeld' 'sent' '1.0' ''
             ;;
+        'docker-compose')
+            local lnk
+            lnk=$(lynx -dump -nonumbers -listonly 'https://github.com/docker/compose/releases/' |
+                    grep "docker-compose-$(uname -s)-$(uname -m)$" |
+                    sed 1q)
+            sudo curl --location "${lnk}" --output '/usr/local/bin/docker-compose'
+            sudo chmod +x '/usr/local/bin/docker-compose'
+            ;;
         *)
             exit 1
     esac
