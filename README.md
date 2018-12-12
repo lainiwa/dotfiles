@@ -18,6 +18,7 @@ This configures the following set of tools:
 * [tmux](https://wiki.archlinux.org/index.php/Tmux) and [tmuxp](https://github.com/tmux-python/tmuxp)
 * [urxvt](https://wiki.archlinux.org/index.php/rxvt-unicode)
 * [zsh](https://wiki.archlinux.org/index.php/Zsh) and [zplugin](https://github.com/zdharma/zplugin)
+* [torrench](https://github.com/kryptxy/torrench)
 
 
 ## Dependencies
