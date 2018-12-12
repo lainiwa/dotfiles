@@ -21,7 +21,10 @@ zplugin ice if'[[ -n "$commands[gawk]" ]]'; zplugin light soimort/translate-shel
 # stoped working after zplugin update (?)
 # zplugin ice pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
 
-zplugin ice as"completion" mv"gist.zsh -> _gist" id-as"gist"; zplugin snippet "${HOME}/.local/share/gist/gist.zsh"
+zplugin ice as"completion" if"[ -f '${HOME}/.zsh/completions/_my' ]" id-as"my";
+    zplugin snippet "${HOME}/.zsh/completions/_my"  # flag `-f` for developing mode
+zplugin ice as"completion" if"[ -f '${HOME}/.local/share/gist/gist.zsh' ]" id-as"gist" mv"gist.zsh -> _gist";
+    zplugin snippet "${HOME}/.local/share/gist/gist.zsh"
 
 zplugin light supercrabtree/k                        # ls -lh + git helpers
 zplugin light mafredri/zsh-async
@@ -42,8 +45,6 @@ zplugin light zsh-users/zsh-history-substring-search # Crtl+R search now highlit
 zplugin light changyuheng/fz                         # lets z+[Tab] and zz+[Tab]. Doesn't integrate well with autosuggestions
                                                      # but there is hope: https://github.com/changyuheng/fz/pull/15
 
-# zplugin light lainiwa/pastebin  # experimenting with my extention
-zplugin ice as"completion" id-as"my"; zplugin snippet "${HOME}/.zsh/completions/_my"  # flag `-f` for developing mode
 
 # tonyseek/oh-my-zsh-virtualenv-prompt
 PS1='%B%F{green}$(virtualenv_prompt_info)'$PS1
