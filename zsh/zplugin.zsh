@@ -28,9 +28,9 @@ zplugin ice as"completion" if"[ -f '${HOME}/.local/share/gist/gist.zsh' ]" id-as
 
 # Install a number of plugins,
 # which require setting `ice` options
-zplugin ice as"command" pick"v";                zplugin light rupa/v
-zplugin ice as"command" pick"bin/git-dsf";      zplugin light zdharma/zsh-diff-so-fancy
-# zplugin ice             pick"manydots-magic";   zplugin light knu/zsh-manydots-magic
+zplugin ice as"command"   pick"v";              zplugin light rupa/v
+zplugin ice as"command"   pick"bin/git-dsf";    zplugin light zdharma/zsh-diff-so-fancy
+zplugin ice lucid wait"0" pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
 zplugin ice if'[[ -n "$commands[gawk]" ]]';     zplugin light soimort/translate-shell
 
 
