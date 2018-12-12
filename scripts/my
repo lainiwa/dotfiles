@@ -608,6 +608,14 @@ install_package() {
             sudo curl --location "${lnk}" --output '/usr/local/bin/docker-compose'
             sudo chmod +x '/usr/local/bin/docker-compose'
             ;;
+        'grv')
+            local lnk
+            lnk=$(lynx -dump -nonumbers -listonly 'https://github.com/rgburke/grv/releases' |
+                    grep 'grv_.*_linux64$' |
+                    sed 1q)
+            wget --output-document="${HOME}/bin/grv" "${lnk}"
+            chmod u+x "${HOME}/bin/grv"
+            ;;
         *)
             exit 1
     esac
