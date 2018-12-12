@@ -18,8 +18,8 @@ zplugin ice multisrc"shell/{completion,key-bindings}.zsh" id-as"fzf-zsh" pick"/d
 zplugin ice as"command" pick"v";            zplugin light rupa/v
 zplugin ice as"command" pick"bin/git-dsf";  zplugin light zdharma/zsh-diff-so-fancy
 zplugin ice if'[[ -n "$commands[gawk]" ]]'; zplugin light soimort/translate-shell
-# stoped working after zplugin update (?)
-# zplugin ice pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
+
+zplugin ice pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
 
 zplugin ice as"completion" if"[ -f '${HOME}/.zsh/completions/_my' ]" id-as"my";
     zplugin snippet "${HOME}/.zsh/completions/_my"  # flag `-f` for developing mode
