@@ -97,7 +97,6 @@ _save_4chan_thread_imgs() {
 
     if (( CURRENT == 2 )); then
         _describe -t commands 'commands' commands
-        echo "${line[2]}" >> ~/tmp/tmp.log
     fi
 
     local board
