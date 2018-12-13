@@ -63,6 +63,8 @@ _my() {
             _dependencies
         ;;
     esac
+
+
 }
 
 
@@ -94,8 +96,29 @@ _save_4chan_thread_imgs() {
     ))
 
     if (( CURRENT == 2 )); then
-      _describe -t commands 'commands' commands
+        _describe -t commands 'commands' commands
     fi
+
+    if (( CURRENT == 3 )) &&
+        command -v hxnormalize >/dev/null 2>&1 &&  # require html-xml-utils
+        command -v hxselect >/dev/null 2>&1;       #
+    then
+        local board
+        local html
+        local threads
+        local titles
+        board="${line[2]}"
+        html=$(curl --silent --location "http://boards.4channel.org/${board}/")
+        threads=$(echo "${html}" | lynx -dump -nonumbers -listonly -stdin |
+            grep 'thread/[0-9]*$' | sed 's|.*thread/||g')
+        titles=$(echo "${html}" | hxnormalize -x | tr -d '\n' |
+            hxselect -c -s '\n' '.postInfo .subject')
+        IFS=$'\n' commands=($(
+            paste -d ':' <(echo "${threads}") <(echo "${titles}")
+        ))
+        _describe -t commands 'commands' commands
+    fi
+
 
     return 0
 }
