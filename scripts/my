@@ -12,7 +12,7 @@ set -o nounset   # exit on undeclared variable
 # Source: https://askubuntu.com/questions/2389
 #         https://stackoverflow.com/a/20639730
 #         https://stackoverflow.com/a/22439016
-# Requires: apropos, sed, zgrep, grep, cut, tr, nl, sort, awk, uniq, xargs, bash, dpkg
+# Requires: apropos, sed, zgrep, grep, cut, tr, nl, sort, awk, uniq, xargs, bash, apt
 show_installed() {
     local red='\033[0;31m'
     local nc='\033[0m'
@@ -28,7 +28,7 @@ show_installed() {
     # leave only unique
     nl | sort --unique --key=2 | sort --numeric-sort | cut --fields=2- |
     # print if only package found in system
-    sort <(dpkg --list | awk '{print $2}') <(cat) | uniq --repeated |
+    sort <(apt list --installed 2>/dev/null | sed 's|^\([^/]*\)/.*|\1|g') <(cat) | uniq --repeated |
     # print apropos for package, if available
     while builtin read -r package; do
         description="$(apropos "$package" 2>/dev/null |
