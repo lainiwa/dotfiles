@@ -769,6 +769,7 @@ allitebooks() {
 #################################################
 # RUN JRNL WITH VIM INPUT
 #
+#
 # Args: date (can be multiple words)
 #
 # Requires: vipe, jrnl
@@ -780,5 +781,30 @@ ijrnl() {
     jrnl "${@:1:$#-1}" "${!#}:" "${text}"
 }
 
+
+#################################################
+# INSTALL MISSING PYTHON LIBRARIES AND POPULATE REQUIREMENTS.TXT
+#
+# Does not run outside of virtual environment.
+# Args: command to run app with
+#       (ex.: fill_requirements_txt python main.py)
+#
+# Requires: tail, grep, sed, pip
+fill_requirements_txt() {
+    if [ -z "${VIRTUAL_ENV+x}" ]; then
+        echo 'Not inside virtual environment!' >&2
+        exit 1
+    else
+        local last_line
+        local module
+        last_line=$(eval "$@" 2>&1 | tail -n 1) || true
+        if grep "ModuleNotFoundError: No module named '.*'" <(echo "${last_line}") >/dev/null; then
+            module=$(echo "${last_line}" | sed "s|ModuleNotFoundError: No module named '\(.*\)'|\1|")
+            pip install "${module}"
+            echo "${module}" >> requirements.txt
+            fill_requirements_txt "$@"
+        fi
+    fi
+}
 
 "$@"

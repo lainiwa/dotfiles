@@ -37,6 +37,7 @@ _my() {
               dependencies \
               allitebooks \
               ijrnl \
+              fill_requirements_txt \
             )" \
         "*::arg:->args"
 
