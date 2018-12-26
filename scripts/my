@@ -310,6 +310,10 @@ screenshot() {
         [ "$mode" = 'select'  ] && scrot "$save_path" --select
         [ "$mode" = 'focused' ] && scrot "$save_path" --focused
 
+    else
+        echo "No imagemagick's import or scrot installed"
+        exit 1
+
     fi
 
     printf '%s' "${save_path}" | my cclip
