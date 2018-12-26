@@ -291,17 +291,28 @@ cclip() {
 # MAKE A SCREENSHOT
 #
 # Args: mode (full|selected|focused)
-# Save a screenshot and insert path to image
-#     into buffer
-# Requires: scrot
+# Save a screenshot
+#     using either imagemagick's import or scrot
+#     and insert path to image into buffer
+# Requires: date, import, xdtool, scrot
 screenshot() {
     local mode=$1
-    local save_path="$HOME/0files/imgs/screenshots/%s_%H%M_%d.%m.%Y_\$wx\$h.png"
-    local xclip_cmd="printf \$f | my cclip"
+    local save_path
+    save_path="$HOME/0files/imgs/screenshots/$(date '+%s_%Y.%m.%d_%H:%M:%S').png"
 
-    [ "$mode" = 'full'    ] && scrot --multidisp "$save_path" --exec "$xclip_cmd"
-    [ "$mode" = 'select'  ] && scrot --select    "$save_path" --exec "$xclip_cmd"
-    [ "$mode" = 'focused' ] && scrot --focused   "$save_path" --exec "$xclip_cmd"
+    if command -v import >/dev/null; then
+        [ "$mode" = 'full'    ] && import "${save_path}" -window root
+        [ "$mode" = 'select'  ] && import "${save_path}"
+        [ "$mode" = 'focused' ] && import "${save_path}" -window "$(xdotool getwindowfocus -f)"
+
+    elif command -v scrot >/dev/null; then
+        [ "$mode" = 'full'    ] && scrot "$save_path" --multidisp
+        [ "$mode" = 'select'  ] && scrot "$save_path" --select
+        [ "$mode" = 'focused' ] && scrot "$save_path" --focused
+
+    fi
+
+    printf '%s' "${save_path}" | my cclip
 }
 
 
