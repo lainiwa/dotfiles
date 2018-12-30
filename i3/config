@@ -204,3 +204,5 @@ bindsym $mod+Shift+Tab workspace prev
 
 # set keyboard layouts
 exec setxkbmap -option grp:switch,grp:alt_shift_toggle us,ru
+# swap Caps Lock and Escape keys
+# exec setxkbmap -option caps:swapescape
