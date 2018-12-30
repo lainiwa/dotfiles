@@ -30,4 +30,11 @@
     ~/.xinitrc:
 
 - shell:
+    -
+        command: mkdir --parents "${HOME}/.urxvt/ext"
+        description: Create folder for urxvt extensions
+    -
+        command: wget --output-document="${HOME}/.urxvt/ext/resize-font"
+                      'https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font'
+        description: Copy urxvt resize-font extension
     - [git submodule update --init --recursive, Installing submodules]
