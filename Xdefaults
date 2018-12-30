@@ -50,9 +50,17 @@ URxvt.keysym.Control-Right: \033[1;5C
 
 
 !! CLICKABLE URLS
-URxvt.perl-ext-common : default,matcher
+URxvt.perl-ext-common : default,matcher,resize-font
 URxvt.url-launcher    : xdg-open
 URxvt.matcher.button  : 1
 ! Open from keyboard
 URxvt.keysym.C-Delete: perl:matcher:last
 URxvt.keysym.M-Delete: perl:matcher:list
+
+!! DISABLE CTRL+SHIFT
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+!! CTRL+SHIFT+UP/DOWN TO RESIZE FONT ON THE FLY
+URxvt.keysym.C-Shift-Down:  resize-font:smaller
+URxvt.keysym.C-Shift-Up:    resize-font:bigger
