@@ -5,4 +5,5 @@
 /usr/bin/VBoxClient --draganddrop      || true
 
 exec i3
+#exec dwm
 
