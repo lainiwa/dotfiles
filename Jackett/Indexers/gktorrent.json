@@ -1,0 +1,20 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "http://www.gktorrent.net/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "__cfduid=db72c54aabac9b11797f5a23947e4cbc81546622998; cf_clearance=82ed5b16893481cd1846e9132c0a8d4147838651-1546623004-31536000-150"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": "Exception (gktorrent): Got redirected to another domain. Try changing the indexer URL to http://www.gktorrent.net/. Updated site link, please try again.: Parse error"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://www.tokyotosho.info/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "__cfduid=d3d6423f983c05ed72604cebde227f0e21546622783; lastvisit=1546634679; lastvisit_session=1546623064"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  },
+  {
+    "id": "typeid",
+    "type": "inputstring",
+    "name": "Type Id",
+    "value": null
+  }
+]

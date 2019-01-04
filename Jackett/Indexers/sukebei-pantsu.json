@@ -1,0 +1,50 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://sukebei.pantsu.cat/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "__cfduid=d265c16264764d398940f8aa61f9e089c1546622783; csrf_token=/2SV5VfwFAa4mlyUomQfY76cD5/38PGIlK0tD8EJ7BY=; EU_Cookie=true"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  },
+  {
+    "id": "category",
+    "type": "inputselect",
+    "name": "Category",
+    "value": "_",
+    "options": {
+      "_": "All categories",
+      "1_": "Art",
+      "1_1": "Art - Anime",
+      "1_2": "Art - Doujinshi",
+      "1_3": "Art - Games",
+      "1_4": "Art - Manga",
+      "1_5": "Art - Pictures",
+      "2_": "Real Life",
+      "2_1": "Real Life - Photobooks and Pictures",
+      "2_2": "Real Life - Videos"
+    }
+  },
+  {
+    "id": "filter",
+    "type": "inputselect",
+    "name": "Filter",
+    "value": "0",
+    "options": {
+      "0": "Show all",
+      "1": "Filter Remakes",
+      "2": "Trusted",
+      "3": "A+"
+    }
+  }
+]

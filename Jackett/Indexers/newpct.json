@@ -1,0 +1,32 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "http://descargas2020.com/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "PHPSESSID=01rdmq0ctud3lngavnbf517fr4"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  },
+  {
+    "id": "includeoriginalversionsinsearchresults",
+    "type": "inputbool",
+    "name": "Include original versions in search results",
+    "value": false
+  },
+  {
+    "id": "onlyfullmatchmovies",
+    "type": "inputbool",
+    "name": "Only full match movies",
+    "value": true
+  }
+]

@@ -28,6 +28,7 @@
     ~/.config/torrench: torrench
     ~/.tmuxp:
     ~/.xinitrc:
+    ~/.config/Jackett: Jackett
 
 - shell:
     -

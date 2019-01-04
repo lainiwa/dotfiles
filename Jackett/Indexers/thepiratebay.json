@@ -1,0 +1,37 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://thepiratebay.org/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": ""
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": "Exception (thepiratebay): Request to https://thepiratebay.org/recent failed (Error 522) - The tracker seems to be down.: Request to https://thepiratebay.org/recent failed (Error 522) - The tracker seems to be down."
+  },
+  {
+    "id": "orderresults",
+    "type": "inputselect",
+    "name": "Order results",
+    "value": "99",
+    "options": {
+      "99": "Default",
+      "8": "Seeders",
+      "3": "Time"
+    }
+  },
+  {
+    "id": "proxies",
+    "type": "displayinfo",
+    "name": "Proxies",
+    "value": "The Pirate Bay is currently only reachable via TOR. But you can try to use an unofficial proxy from <a href=\"https://piratebayproxy.info/\" target=\"_blank\">piratebayproxy.info</a>."
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://anidex.info/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "__cfduid=d7d08ca929c67ae1982bacab2da5b53481546622992; PHPSESSID=ddppraeqja1uqakg2nigf5dgri"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  },
+  {
+    "id": "categoryid",
+    "type": "inputstring",
+    "name": "Category Id",
+    "value": null
+  },
+  {
+    "id": "categoryidnote",
+    "type": "displayinfo",
+    "name": "Category Id Note",
+    "value": "You can filter your searches by using any of the following category numbers (comma delimited):<br>1 :Anime - Sub<br>2 :Anime - Raw<br>3 :Anime - Dub<br>4 :LA - Sub<br>5 :LA - Raw<br>6 :Light Novel<br>7 :Manga - TLed<br>8 :Manga - Raw<br>9 :♫ - Lossy<br>10 :♫ - Lossless<br>11 :♫ - Video<br>12 :Games<br>13 :Applications<br>14 :Pictures<br>15 :Adult Video<br>16 :Other"
+  },
+  {
+    "id": "languageid",
+    "type": "inputstring",
+    "name": "Language Id",
+    "value": null
+  }
+]

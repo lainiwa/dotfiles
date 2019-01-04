@@ -1,0 +1,20 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://www.skytorrents.to/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "__cfduid=ddd65f912421ddf2ef3e4168ac66ed1211546634748; PHPSESSID=djn73r9q3jo2dq9jbtlv1rrq96; flash=; cf_clearance=335abd1c7aee5a34e29cf2d2ac29b27b98d7f53b-1546634753-1800-150"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  }
+]

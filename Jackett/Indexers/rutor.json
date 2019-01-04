@@ -1,0 +1,37 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "http://rutor.info/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": ""
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  },
+  {
+    "id": "searchmethod",
+    "type": "inputselect",
+    "name": "Search Method",
+    "value": "0",
+    "options": {
+      "0": "Full Phrase",
+      "1": "All Words",
+      "2": "Any Words"
+    }
+  },
+  {
+    "id": "anoteaboutrutor",
+    "type": "displayinfo",
+    "name": "A note about RuTor",
+    "value": "RuTor does not display categories in its search results page. This definition is probably only suitable for Jackett Dashboard Manual searches."
+  }
+]

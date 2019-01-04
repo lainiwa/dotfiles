@@ -1,0 +1,20 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://extratorrent.ag/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "__cfduid=d3eea4e76b080bfe856cac811918efb1b1546622782; PHPSESSID=25a4imfd51i031hq8dht8m6ue0"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": "Exception (extratorrent-ag): Sequence contains no matching element: Sequence contains no matching element"
+  }
+]

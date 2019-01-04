@@ -1,0 +1,55 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://nyaa.pantsu.cat/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "__cfduid=dae797fdb8e172f72bec9b5e3ca3f9c531546622992; csrf_token=Mnbp/0zm1/NmVTzisTQ5eVUKE6lFVeWvy0zFIZKyWEQ=; EU_Cookie=true"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  },
+  {
+    "id": "category",
+    "type": "inputselect",
+    "name": "Category",
+    "value": "_",
+    "options": {
+      "_": "All categories",
+      "3_": "Anime",
+      "3_12": "Anime - Anime Music Video",
+      "3_5": "Anime - English-translated",
+      "3_13": "Anime - Non-English-translated",
+      "3_6": "Anime - Raw",
+      "2_": "Audio",
+      "2_3": "Audio - Lossless",
+      "2_4": "Audio - Lossy",
+      "4_": "Literature",
+      "4_7": "Literature - English-translated",
+      "4_14": "Literature - Raw",
+      "1_": "Software",
+      "1_1": "Software - Applications",
+      "1_2": "Software - Games"
+    }
+  },
+  {
+    "id": "filter",
+    "type": "inputselect",
+    "name": "Filter",
+    "value": "0",
+    "options": {
+      "0": "Show all",
+      "1": "Filter Remakes",
+      "2": "Trusted",
+      "3": "A+"
+    }
+  }
+]

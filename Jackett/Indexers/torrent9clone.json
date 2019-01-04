@@ -1,0 +1,45 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://www.torrents9.pw/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "__cfduid=d95eebe1134b5288e30c14b366aa1b31b1546622993; cf_clearance=e49e6bd125c74fab2a2ee5eb455648dd0663e77a-1546622998-31536000-150"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": "Exception (torrent9clone): Got redirected to another domain. Try changing the indexer URL to http://www.torrent9.ch/.: Parse error"
+  },
+  {
+    "id": "categoryfilter",
+    "type": "inputselect",
+    "name": "Category Filter",
+    "value": "/",
+    "options": {
+      "/": "All",
+      "/films/": "Movies",
+      "/films-french/": "Movies/French",
+      "/films-vostfr/": "Movies/VOSTFR",
+      "/films-dvdrip-x264/": "Movies/DVDRIP .x264",
+      "/720p/": "Movies/BluRay 720p",
+      "/1080p/": "Movies/BluRay 1080p",
+      "/series/": "TV/Series",
+      "/series-vostfr/": "TV/VOSTFR",
+      "/series-francaise/": "TV/French",
+      "/series-dvdrip/": "TV/DVDRIP",
+      "/spectacles/": "Shows",
+      "/musique/": "Music",
+      "/ebook/": "Ebooks",
+      "/logiciels/": "Software",
+      "/jeux-pc/": "PC Games",
+      "/jeux-consoles/": "Console Games"
+    }
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://rarbg.to/"
+  },
+  {
+    "id": "url",
+    "type": "inputstring",
+    "name": "Url",
+    "value": "https://torrentapi.org/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "__cfduid=db058b6ebb575fc264c6cb0d029f4df5e1546635243"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  }
+]

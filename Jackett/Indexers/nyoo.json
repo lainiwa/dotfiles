@@ -1,0 +1,20 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://nyoo.moe/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": ""
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": "Exception (nyoo): Request to https://nyoo.moe/search?page=search&q= failed (Error GatewayTimeout) - The tracker seems to be down.: Request to https://nyoo.moe/search?page=search&q= failed (Error GatewayTimeout) - The tracker seems to be down."
+  }
+]
