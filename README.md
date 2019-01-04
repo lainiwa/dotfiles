@@ -18,7 +18,7 @@ This configures the following set of tools:
 * [tmux](https://wiki.archlinux.org/index.php/Tmux) and [tmuxp](https://github.com/tmux-python/tmuxp)
 * [urxvt](https://wiki.archlinux.org/index.php/rxvt-unicode)
 * [zsh](https://wiki.archlinux.org/index.php/Zsh) and [zplugin](https://github.com/zdharma/zplugin)
-* [torrench](https://github.com/kryptxy/torrench)
+* [torrench](https://github.com/kryptxy/torrench) and [jackett](https://github.com/Jackett/Jackett)
 
 
 ## Dependencies
@@ -29,3 +29,21 @@ It has a special function to check if dependencies for all functions are install
 All dependencies are available on ubuntu via apt.
 
 You might also want to install some additional software to fully utilize preview facilities of ranger file manager. Have a look at `ranger/scope.sh` to see what might be sensible to install.
+
+## Jackett
+Jackett is a torrent tracker scraper. It runs a web-UI on a `localhost:9117`.
+To run it in a docker container do
+```sh
+docker run -ti --rm \
+           --name=jackett \
+           -v "${HOME}/.config/Jackett/Indexers":/config/Jackett/Indexers:ro \
+           -v "${HOME}/Downloads":/downloads \
+           -e PGID="$(id -g)" \
+           -e PUID="$(id -u)" \
+           -e TZ="$(cat /etc/timezone)" \
+           -v /etc/localtime:/etc/localtime:ro \
+           -p 9117:9117 \
+           linuxserver/jackett
+```
+
+For explanation, see jackett's [docker hub](https://hub.docker.com/r/linuxserver/jackett/).
