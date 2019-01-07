@@ -59,9 +59,8 @@ dtfe() {
 if [ "$preview_images" = "True" ] && [ "$DISPLAY" ]; then
     case "$mimetype" in
         # Image previews for SVG files, disabled by default.
-        # image/svg+xml)
-            # convert -size 1024x1024 "$path" png:"$cached" && exit 6 || exit 1;;
-          # convert "$path" "$cached" && exit 6 || exit 1;;
+        image/svg*)
+            convert -size 1024x1024 "$path" png:"$cached" && exit 6 || exit 1;;
         # Image previews for image files. w3mimgdisplay will be called for all
         # image files (unless overriden as above), but might fail for
         # unsupported types.
