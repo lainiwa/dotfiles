@@ -54,3 +54,7 @@ unset -f __rt__
 
 # Remove colors
 alias -g NOC='| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"'
+
+
+# npm-exec binary_name, to run localy installed nodejs binary
+alias npm-exec='PATH=$(npm bin):$PATH'
