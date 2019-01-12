@@ -50,7 +50,7 @@ URxvt.keysym.Control-Right: \033[1;5C
 
 
 !! CLICKABLE URLS
-URxvt.perl-ext-common : default,matcher,resize-font
+URxvt.perl-ext-common : default,matcher,vtwheel,resize-font
 URxvt.url-launcher    : xdg-open
 URxvt.matcher.button  : 1
 ! Open from keyboard

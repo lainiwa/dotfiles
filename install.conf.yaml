@@ -38,4 +38,8 @@
         command: wget --output-document="${HOME}/.urxvt/ext/resize-font"
                       'https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font'
         description: Copy urxvt resize-font extension
+    -
+        command: wget --output-document="${HOME}/.urxvt/ext/vtwheel"
+                      'https://raw.githubusercontent.com/pkkolos/urxvt-scripts/master/vtwheel'
+        description: Copy urxvt vtwheel extension
     - [git submodule update --init --recursive, Installing submodules]
