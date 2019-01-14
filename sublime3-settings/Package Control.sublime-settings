@@ -10,11 +10,11 @@
 		"HTML-CSS-JS Prettify",
 		"MarkdownEditing",
 		"Package Control",
-		"Python Flake8 Lint",
 		"rainbow_csv",
 		"SideBarEnhancements",
 		"SublimeLinter",
 		"SublimeLinter-clang",
+		"SublimeLinter-flake8",
 		"SublimeLinter-shellcheck"
 	]
 }
