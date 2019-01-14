@@ -53,6 +53,8 @@ zplugin light zsh-users/zsh-syntax-highlighting      # Syntax highlighting
 zplugin light zsh-users/zsh-history-substring-search # Crtl+R search highlited
 zplugin light changyuheng/fz                         # lets z+[Tab] and zz+[Tab]. Doesn't integrate well with autosuggestions
                                                      # but there is hope: https://github.com/changyuheng/fz/pull/15
+zplugin light mdumitru/fancy-ctrl-z                  # Run `fg` command to return
+                                                     # to foregrounded (Ctrl+Z'd) vim
 
 
 # Setting appropriate variables
