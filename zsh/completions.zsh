@@ -24,6 +24,9 @@ function _pip_completion {
 }
 compctl -K _pip_completion pip3
 
+# Select completions with arrows
+zstyle ':completion:*' menu select
+
 # Fuzzy match mistyped completions.
 # builtin zstyle ':completion:*' completer _complete _match _approximate
 # builtin zstyle ':completion:*:match:*' original only
