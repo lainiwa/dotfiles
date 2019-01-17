@@ -18,10 +18,11 @@ alias mkdir='mkdir -pv'
 alias tree='tree -C'
 alias U='unbuffer '
 
-alias -g H="| head"
+alias -g H="| sed 11q"  # (:
 alias -g T="| tail"
 
 alias -g G="| grep"
+alias -g S="| sed"
 
 alias -g L="| less"
 alias -g LR="| less -R"  # less with colors support
@@ -29,7 +30,7 @@ alias -g LR="| less -R"  # less with colors support
 alias -g C='| column -t'
 
 alias -g NE="2> /dev/null"
-alias -g NUL="> /dev/null 2>&1"
+alias -g NUL="&> /dev/null"
 
 # Set grc alias for available commands.
 [[ -f /etc/grc.conf ]]           && grc_conf='/etc/grc.conf'
@@ -49,7 +50,6 @@ mkcd() { mkdir -- "$1" && cd -P -- "$1" ; }
 # Example: echo $PATH TRN :
 __rt__() { tr "$2" "$1" ; }
 alias -g TRN='| __rt__ "\n" '
-unset -f __rt__
 
 
 # Remove colors

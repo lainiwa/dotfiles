@@ -55,6 +55,8 @@ zplugin light changyuheng/fz                         # lets z+[Tab] and zz+[Tab]
                                                      # but there is hope: https://github.com/changyuheng/fz/pull/15
 zplugin light mdumitru/fancy-ctrl-z                  # Run `fg` command to return
                                                      # to foregrounded (Ctrl+Z'd) vim
+zplugin light viko16/gitcd.plugin.zsh
+zplugin light momo-lab/zsh-abbrev-alias
 
 
 # Setting appropriate variables
@@ -78,6 +80,18 @@ export EDITOR="${EDITOR:-vim}"
 
 # zsh-users/zsh-syntax-highlighting
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+# momo-lab/zsh-abbrev-alias
+alias |  # extract global aliases into 'NAME\tVALUE' strings
+grep "^[A-Z]*='|" | sed "s/^\(.*\)='|\(.*\)'$/\1\t\2/g" |
+while read -r tuple; do
+    IFS=$'\t' read -r short long <<< "${tuple}"
+    # make alias expandable, if it doesn't start from dunder function
+    # and is not too long
+    if [[ ! "${long}" =~ ^\ *_ && ${#long} -le 10 ]]; then
+        abbrev-alias -g "${short}"="|${long}"
+    fi
+done
 
 
 # Load completions
