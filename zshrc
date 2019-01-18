@@ -44,9 +44,7 @@ setopt interactive_comments extended_glob autocd complete_aliases
 
 
 # Set key bindings (Ctrl+V Key to see key code)
-# bindkey -e
-bindkey "^A" vi-beginning-of-line # Ctrl+A
-bindkey "^E"       vi-end-of-line # Ctrl+E
+bindkey -e
 bindkey "^[[1;5C"    forward-word # Ctrl+Right
 bindkey "^[[1;5D"   backward-word # Ctrl+Left
 bindkey ";2A"          up-history # Shift+Up
