@@ -25,7 +25,6 @@ zplugin ice as"completion" if"[ -f '${HOME}/.zsh/completions/_my' ]" id-as"my";
 zplugin ice as"completion" if"[ -f '${HOME}/.local/share/gist/gist.zsh' ]" id-as"gist" mv"gist.zsh -> _gist";
     zplugin snippet "${HOME}/.local/share/gist/gist.zsh"
 
-
 # Install a number of plugins,
 # which require setting `ice` options
 zplugin ice as"command"   pick"v";              zplugin light rupa/v

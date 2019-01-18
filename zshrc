@@ -17,7 +17,7 @@ export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export PAGER=$(_1st_found most less more)
 export EDITOR=$(_1st_found emacs vim vi)
 # Set a virtualenvwrapper path, if not already set (resolves tmux nesting issue)
-export VIRTUALENVWRAPPER_PYTHON="${VIRTUALENVWRAPPER_PYTHON:-$(which $(_1st_found python3.6 python3.5 python3))}"
+export VIRTUALENVWRAPPER_PYTHON="${VIRTUALENVWRAPPER_PYTHON:-$(which "$(_1st_found python3.6 python3.5 python3)")}"
 # Node Version Manager (NVM) direcory
 export NVM_DIR="$HOME/.nvm"
 
@@ -72,8 +72,7 @@ unset -f _1st_found
 # Choose binary in $PATH with fzf
 insert_binary_from_path() {
     cmd=$(print -rl -- ${(ko)commands} | fzf --height 40% --layout=reverse)
-    # cmd="adasdd"
-    LBUFFER=${LBUFFER}${cmd}
+    LBUFFER="${LBUFFER}${cmd}"
     zle redisplay
 }
 zle -N insert_binary_from_path

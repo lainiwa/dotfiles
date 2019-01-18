@@ -1,7 +1,7 @@
 
-HISTFILE=~/.zsh_history
-HISTSIZE=10000000
-SAVEHIST=10000000
+export HISTFILE=~/.zsh_history
+export HISTSIZE=10000000
+export SAVEHIST=10000000
 
 setopt HIST_VERIFY
 setopt EXTENDED_HISTORY      # save each command's beginning timestamp and the duration to the history file
