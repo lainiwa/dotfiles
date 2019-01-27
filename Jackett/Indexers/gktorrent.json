@@ -3,7 +3,7 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "http://www.gktorrent.net/"
+    "value": "http://www.gktorrent.bz/"
   },
   {
     "id": "cookieheader",
