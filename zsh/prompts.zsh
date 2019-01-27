@@ -1,9 +1,6 @@
 
 setopt PROMPT_SUBST # allow expansion in prompts
 
-autoload -U promptinit # initialize the prompt system promptinit
-promptinit
-
 # https://github.com/agkozak/agkozak-zsh-theme
 _is_ssh() {
     [[ -n "${SSH_CONNECTION-}${SSH_CLIENT-}${SSH_TTY-}" ]]
