@@ -257,10 +257,14 @@ weather() {
     # weather graph
     finger telaviv~160@graph.no |
         head --lines=-1
+
     # empty line
     builtin echo
+
     # in pictures and texts
-    curl --silent --ipv4 --header "Accept-Language: en" wttr.in/Tel_Aviv |
+    local lang='en'
+    [[ "$LANG" =~ .*\.UTF-8 ]] && lang=${LANG:0:2}
+    curl --silent --ipv4 --header "Accept-Language: ${lang}" wttr.in |
         head --lines=-1
 }
 
@@ -300,15 +304,15 @@ screenshot() {
     local save_path
     save_path="$HOME/0files/imgs/screenshots/$(date '+%s_%Y.%m.%d_%H:%M:%S').png"
 
-    if command -v import >/dev/null; then
-        [ "$mode" = 'full'    ] && import "${save_path}" -window root
-        [ "$mode" = 'select'  ] && import "${save_path}"
-        [ "$mode" = 'focused' ] && import "${save_path}" -window "$(xdotool getwindowfocus -f)"
-
-    elif command -v scrot >/dev/null; then
+    if command -v scrot >/dev/null; then
         [ "$mode" = 'full'    ] && scrot "$save_path" --multidisp
         [ "$mode" = 'select'  ] && scrot "$save_path" --select
         [ "$mode" = 'focused' ] && scrot "$save_path" --focused
+
+    elif command -v import >/dev/null; then
+        [ "$mode" = 'full'    ] && import "${save_path}" -window root
+        [ "$mode" = 'select'  ] && import "${save_path}"
+        [ "$mode" = 'focused' ] && import "${save_path}" -window "$(xdotool getwindowfocus -f)"
 
     else
         echo "No imagemagick's import or scrot installed"
@@ -630,6 +634,26 @@ install_package() {
                     sed 1q)
             wget --output-document="${HOME}/bin/grv" "${lnk}"
             chmod u+x "${HOME}/bin/grv"
+            ;;
+        'icecat')
+            local release_lnks
+            local highest_version
+            local release_lnk
+            release_lnks=$(lynx -dump -nonumbers -listonly 'http://mirror.rackdc.com/gnu/gnuzilla/')
+            highest_version=$(echo "${release_lnks}" |
+                sed 's|.*/\(.*\)/$|\1|g' |
+                sort --general-numeric-sort --reverse |
+                sed 1q)
+            release_lnk=$(echo "${release_lnks}" | grep ".*/${highest_version}/$")
+
+            local archive_lnks
+            local lnk
+            archive_lnks=$(lynx -dump -nonumbers -listonly "${release_lnk}")
+            lnk=$(echo "${archive_lnks}" | grep '.*linux.*x86_64.*bz2$')
+
+            wget --output-document=- "${lnk}" |
+                tar --extract --bzip2 --file=- --directory="$HOME/opt/"
+            ln --symbolic "$HOME/opt/icecat/icecat" "$HOME/bin/icecat" 2>/dev/null || true
             ;;
         *)
             exit 1
