@@ -35,11 +35,13 @@ alias -g NUL="&> /dev/null"
 # Set grc alias for available commands.
 [[ -f /etc/grc.conf ]]           && grc_conf='/etc/grc.conf'
 [[ -f /usr/local/etc/grc.conf ]] && grc_conf='/usr/local/etc/grc.conf'
-for cmd in $(grep '^# ' "$grc_conf" | cut -f 2 -d ' '); do
-    if (( $+commands[$cmd] )) &&  [ "$cmd" != "ls" ]; then
-      alias $cmd="grc --colour=auto $cmd"
-    fi
-done
+if [ ! -z "$grc_conf" ]; then
+    for cmd in $(grep '^# ' "$grc_conf" | cut -f 2 -d ' '); do
+        if (( $+commands[$cmd] )) &&  [ "$cmd" != "ls" ]; then
+            alias $cmd="grc --colour=auto $cmd"
+        fi
+    done
+fi
 
 
 # Create directory and cd to it
