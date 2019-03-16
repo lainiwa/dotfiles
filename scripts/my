@@ -846,4 +846,36 @@ fill_requirements_txt() {
     fi
 }
 
+
+#################################################
+# SHOW ONLINE STATUS OF VK PROFILE
+#
+# Does not require API access.
+# Args: url name or id
+#       (ex.: `vk_online_status 123456789` or `vk_online_status namedprofile`)
+#
+# Requires: curl, grep cut, rev
+vk_online_status() {
+    local vk_id=$1
+    if [ -z "${vk_id##[0-9]*}" ]; then
+        vk_id="id${vk_id}"
+    fi
+
+    local html
+    html=$(curl --silent --location --header 'Accept-Language: en' "https://m.vk.com/${vk_id}")
+
+    local line
+    line=$(echo "${html}" | grep 'class="pp_last_activity_text"')
+
+    local info
+    if [[ $line =~ "pp_last_activity_offline_text" ]]; then
+        info=$(echo "${line}" | cut -c97- | rev | cut -c39- | rev)
+    else
+        info=$(echo "${line}" | cut -c53- | rev | cut -c8- | rev)
+    fi
+
+    echo "${info}"
+}
+
+
 "$@"
