@@ -867,11 +867,14 @@ vk_online_status() {
     local line
     line=$(echo "${html}" | grep 'class="pp_last_activity_text"')
 
+    local no_mobile
+    no_mobile=$(echo "${line}" | sed 's|<b class=".*"></b>||')
+
     local info
     if [[ $line =~ "pp_last_activity_offline_text" ]]; then
-        info=$(echo "${line}" | cut -c97- | rev | cut -c39- | rev)
+        info=$(echo "${no_mobile}" | cut -c97- | rev | cut -c15- | rev)
     else
-        info=$(echo "${line}" | cut -c53- | rev | cut -c8- | rev)
+        info=$(echo "${no_mobile}" | cut -c53- | rev | cut -c8- | rev)
     fi
 
     echo "${info}"
