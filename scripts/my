@@ -854,7 +854,7 @@ fill_requirements_txt() {
 # Args: url name or id
 #       (ex.: `vk_online_status 123456789` or `vk_online_status namedprofile`)
 #
-# Requires: curl, grep cut, rev
+# Requires: curl, grep cut, rev, sed
 vk_online_status() {
     local vk_id=$1
     if [ -z "${vk_id##[0-9]*}" ]; then
