@@ -3,43 +3,84 @@
         create: true
         relink: true
 
+
 - clean: ['~']
+
 
 - link:
     #~/.dotfiles: ''
-    ~/.tmux.conf: tmux.conf
     #~/.vim: vim
     #~/.vimrc: vimrc
-    ~/.zsh:
-    ~/.zshrc:
-        force: true
-    ~/.i3:
     ~/scripts:
-    ~/.Xdefaults:
-    ~/.config/sublime-text-3/Packages/User/Anaconda.sublime-settings:        sublime3-settings/Anaconda.sublime-settings
-    ~/.config/sublime-text-3/Packages/User/Markdown.sublime-settings:        sublime3-settings/Markdown.sublime-settings
-    ~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings: sublime3-settings/Package Control.sublime-settings
+    # Zsh
+    ~/.zsh:
+        if: command -v zsh >/dev/null
+    ~/.zshrc:
+        if: command -v zsh >/dev/null
+        force: true
+    # Tmux
+    ~/.tmux.conf:
+        if: command -v tmux >/dev/null
+        path: tmux.conf
+    ~/.tmuxp:
+        if: command -v tmuxp >/dev/null
+        path: tmuxp
+    # Sublime
+    ~/.config/sublime-text-3/Packages/User/Anaconda.sublime-settings:
+        if: command -v subl >/dev/null
+        path: sublime3-settings/Anaconda.sublime-settings
+    ~/.config/sublime-text-3/Packages/User/Markdown.sublime-settings:
+        if: command -v subl >/dev/null
+        path: sublime3-settings/Markdown.sublime-settings
+    ~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings:
+        if: command -v subl >/dev/null
+        path: sublime3-settings/Package Control.sublime-settings
     ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings:
+        if: command -v subl >/dev/null
         path: sublime3-settings/Preferences.sublime-settings
         force: true
-    ~/.config/ranger/rc.conf: ranger/rc.conf
-    ~/.config/ranger/scope.sh: ranger/scope.sh
-    ~/.config/ranger/rifle.conf: ranger/rifle.conf
-    ~/.config/torrench: torrench
-    ~/.tmuxp:
+    # Ranger
+    ~/.config/ranger/rc.conf:
+        if: command -v ranger >/dev/null
+        path: ranger/rc.conf
+    ~/.config/ranger/scope.sh:
+        if: command -v ranger >/dev/null
+        path: ranger/scope.sh
+    ~/.config/ranger/rifle.conf:
+        if: command -v ranger >/dev/null
+        path: ranger/rifle.conf
+    # X11
+    ~/.i3:
+        if: command -v i3 >/dev/null
+    ~/.Xdefaults:
+        if: command -v urxvt >/dev/null
     ~/.xinitrc:
-    ~/.config/Jackett: Jackett
+        if: command -v startx >/dev/null
+    # Torrents
+    ~/.config/torrench:
+        if: command -v torrench >/dev/null
+        path: torrench
+    ~/.config/Jackett:
+        if: command -v docker >/dev/null
+        path: Jackett
+
 
 - shell:
     -
-        command: mkdir --parents "${HOME}/.urxvt/ext"
+        command: command -v urxvt >/dev/null &&
+                 mkdir --parents "${HOME}/.urxvt/ext" ||
+                 true
         description: Create folder for urxvt extensions
     -
-        command: wget --output-document="${HOME}/.urxvt/ext/resize-font"
-                      'https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font'
+        command: command -v urxvt >/dev/null &&
+                 wget --output-document="${HOME}/.urxvt/ext/resize-font"
+                      'https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font' ||
+                 true
         description: Copy urxvt resize-font extension
     -
-        command: wget --output-document="${HOME}/.urxvt/ext/vtwheel"
-                      'https://raw.githubusercontent.com/pkkolos/urxvt-scripts/master/vtwheel'
+        command: command -v urxvt >/dev/null &&
+                 wget --output-document="${HOME}/.urxvt/ext/vtwheel"
+                      'https://raw.githubusercontent.com/pkkolos/urxvt-scripts/master/vtwheel' ||
+                 true
         description: Copy urxvt vtwheel extension
     - [git submodule update --init --recursive, Installing submodules]
