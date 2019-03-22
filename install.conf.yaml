@@ -15,6 +15,8 @@
     # Zsh
     ~/.zsh:
         if: command -v zsh >/dev/null
+    ~/.zprofile:
+        if: command -v zsh >/dev/null
     ~/.zshrc:
         if: command -v zsh >/dev/null
         force: true
@@ -66,6 +68,7 @@
 
 
 - shell:
+    # Urxvt
     -
         command: command -v urxvt >/dev/null &&
                  mkdir --parents "${HOME}/.urxvt/ext" ||
@@ -83,4 +86,7 @@
                       'https://raw.githubusercontent.com/pkkolos/urxvt-scripts/master/vtwheel' ||
                  true
         description: Copy urxvt vtwheel extension
-    - [git submodule update --init --recursive, Installing submodules]
+    # Update dotbot
+    -
+        command: git submodule update --init --recursive
+        description: Installing submodules
