@@ -1,1 +1,1 @@
-[[ ! $DISPLAY && $XDG_VTNR -eq 1 && $(id --group) -ne 0 ]] && exec startx
+[[ ! $DISPLAY && $(tty) = /dev/tty1 && $(id --group) -ne 0 ]] && exec startx
