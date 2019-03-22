@@ -29,6 +29,7 @@ export NVM_DIR="${HOME}/.nvm"
 #     NVM script and its completions
 #     virtualenvwrapper
 #     zsh settings
+#     command-not-found functionality
 for file in "${NVM_DIR}/nvm.sh" \
             "${NVM_DIR}/bash_completion" \
             "$(which virtualenvwrapper.sh)" \
