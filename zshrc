@@ -22,23 +22,24 @@ export EDITOR=$(_1st_found emacs vim vi)
 # Set a virtualenvwrapper path, if not already set (resolves tmux nesting issue)
 export VIRTUALENVWRAPPER_PYTHON="${VIRTUALENVWRAPPER_PYTHON:-$(which "$(_1st_found python3.6 python3.5 python3)")}"
 # Node Version Manager (NVM) direcory
-export NVM_DIR="$HOME/.nvm"
+export NVM_DIR="${HOME}/.nvm"
 
 
 # Try to source:
 #     NVM script and its completions
 #     virtualenvwrapper
 #     zsh settings
-for file in "$NVM_DIR/nvm.sh" \
-            "$NVM_DIR/bash_completion" \
+for file in "${NVM_DIR}/nvm.sh" \
+            "${NVM_DIR}/bash_completion" \
             "$(which virtualenvwrapper.sh)" \
-            "$HOME/.zsh/prompts.zsh" \
-            "$HOME/.zsh/aliases.zsh" \
-            "$HOME/.zsh/set_history.zsh" \
-            "$HOME/.zsh/zplugin.zsh" \
-            "$HOME/.zsh/completions.zsh"
+            "${HOME}/.zsh/prompts.zsh" \
+            "${HOME}/.zsh/aliases.zsh" \
+            "${HOME}/.zsh/set_history.zsh" \
+            "${HOME}/.zsh/zplugin.zsh" \
+            "${HOME}/.zsh/completions.zsh" \
+            "${HOME}/.zsh/other/command-not-found.zsh"
 do
-    [ -s "$file" ] && source "$file"
+    [ -s "${file}" ] && source "${file}"
 done
 
 

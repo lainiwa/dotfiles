@@ -38,7 +38,7 @@ zplugin light supercrabtree/k                        # ls -lh + git helpers
 zplugin light mafredri/zsh-async
 zplugin light seletskiy/zsh-fuzzy-search-and-edit    # Ctrl+P
 zplugin light hcgraf/zsh-sudo                        # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
-zplugin light Tarrasch/zsh-command-not-found         # Guess what to install when running an unknown command.
+# zplugin light Tarrasch/zsh-command-not-found         # Guess what to install when running an unknown command.
 zplugin light tonyseek/oh-my-zsh-virtualenv-prompt   # I use virtualenv_prompt_info() from here.
 zplugin light bric3/nice-exit-code                   # Maps exit status code to human readable string.
 zplugin light sindresorhus/pretty-time-zsh           # Used in prompt to convert seconds to human-readable format.
