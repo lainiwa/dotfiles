@@ -18,6 +18,11 @@ zplugin ice multisrc"shell/{completion,key-bindings}.zsh" id-as"fzf-zsh" pick"/d
                                             zplugin light junegunn/fzf
 
 
+# Install `cloc` binary if not installed via package manager already
+zplugin ice if'[[ -z "$commands[cloc]" ]]' from"gh-r" as"command" bpick"*pl" mv"cloc-* -> cloc";
+    zplugin light AlDanial/cloc
+
+
 # Install completions for `my` script and for python-gist
 # (use `-f` flag to force completion installation)
 zplugin ice as"completion" if"[ -f '${HOME}/.zsh/completions/_my' ]" id-as"my";
@@ -38,14 +43,12 @@ zplugin light supercrabtree/k                        # ls -lh + git helpers
 zplugin light mafredri/zsh-async
 zplugin light seletskiy/zsh-fuzzy-search-and-edit    # Ctrl+P
 zplugin light hcgraf/zsh-sudo                        # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
-# zplugin light Tarrasch/zsh-command-not-found         # Guess what to install when running an unknown command.
 zplugin light tonyseek/oh-my-zsh-virtualenv-prompt   # I use virtualenv_prompt_info() from here.
 zplugin light bric3/nice-exit-code                   # Maps exit status code to human readable string.
 zplugin light sindresorhus/pretty-time-zsh           # Used in prompt to convert seconds to human-readable format.
 zplugin light popstas/zsh-command-time               # Print time after program finishes. I use it in right prompt.
 zplugin light rupa/z                                 # Looks like autojump
 zplugin light andrewferrier/fzf-z                    # ctrl+g to choose from most frecent folders
-zplugin light chrissicool/zsh-256color
 zplugin light zsh-users/zsh-completions              # Additional completion definitions for Zsh.
 zplugin light zsh-users/zsh-autosuggestions          # slow!
 zplugin light zsh-users/zsh-syntax-highlighting      # Syntax highlighting
