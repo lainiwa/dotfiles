@@ -1,30 +1,31 @@
 # Lainiwa's dotfiles
 
 ## Installation
-My dotfiles use [dotbot](https://github.com/anishathalye/dotbot). This tool lets you install your dotfiles as easy as:
+Clone the repository into appropriate folder and call `install` script:
 ```sh
 if [ ! -d ~/.dotfiles ]; then
     git clone git@github.com:lainiwa/dotfiles.git ~/.dotfiles
 fi
 ~/.dotfiles/install
 ```
+This installs config files for only the tools you have installed on your system.
 
-## Tools list
+## Stuff I use
 This configures the following set of tools:
 
-* [i3](https://i3wm.org/) and [py3status](https://github.com/ultrabug/py3status)
-* [ranger](https://github.com/ranger/ranger)
-* [Sublime Text 3](https://www.sublimetext.com/3)
-* [tmux](https://wiki.archlinux.org/index.php/Tmux) and [tmuxp](https://github.com/tmux-python/tmuxp)
-* [urxvt](https://wiki.archlinux.org/index.php/rxvt-unicode)
-* [zsh](https://wiki.archlinux.org/index.php/Zsh) and [zplugin](https://github.com/zdharma/zplugin)
-* [torrench](https://github.com/kryptxy/torrench) and [jackett](https://github.com/Jackett/Jackett)
+* Dotfiles bootstrapper: [dotbot](https://github.com/anishathalye/dotbot)
+* Window manager and status bar: [i3](https://i3wm.org/) and [py3status](https://github.com/ultrabug/py3status)
+* File manager: [ranger](https://github.com/ranger/ranger)
+* Text editor: [Sublime Text 3](https://www.sublimetext.com/3)
+* Terminal multiplexer: [tmux](https://wiki.archlinux.org/index.php/Tmux) and [tmuxp](https://github.com/tmux-python/tmuxp)
+* Terminal: [urxvt](https://wiki.archlinux.org/index.php/rxvt-unicode)
+* Shell and plugin manager: [zsh](https://wiki.archlinux.org/index.php/Zsh) and [zplugin](https://github.com/zdharma/zplugin)
+* Torrenting: [torrench](https://github.com/kryptxy/torrench) and [jackett](https://github.com/Jackett/Jackett)
 
 
-## Dependencies
-I am storing all functions I'm using in a single bash file `scripts/my`,
-calling them in a manner `my function_name [arg1 [arg2 [...]]]`.
-It has a special function to check if dependencies for all functions are installed: just call `my dependencies check`. It has other options also, which you might check by either looking at source code, or using autocompletion.
+## `my` scripts and dependencies
+I am storing all functions I'm using in a single bash file `scripts/my`.
+Among them there is a special function to check if dependencies for all functions are installed: just call `my dependencies check`. It has other options also, which you might check by either looking at source code, or using autocompletion.
 
 All dependencies are available on ubuntu via apt.
 
