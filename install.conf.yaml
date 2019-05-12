@@ -68,25 +68,25 @@
 
 
 - shell:
-    # Urxvt
+    # Urxvt extensions
     -
+        description: Create folder for urxvt extensions
         command: command -v urxvt >/dev/null &&
                  mkdir --parents "${HOME}/.urxvt/ext" ||
                  true
-        description: Create folder for urxvt extensions
     -
+        description: Copy urxvt resize-font extension
         command: command -v urxvt >/dev/null &&
                  wget --output-document="${HOME}/.urxvt/ext/resize-font"
                       'https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font' ||
                  true
-        description: Copy urxvt resize-font extension
     -
+        description: Copy urxvt vtwheel extension
         command: command -v urxvt >/dev/null &&
                  wget --output-document="${HOME}/.urxvt/ext/vtwheel"
                       'https://raw.githubusercontent.com/pkkolos/urxvt-scripts/master/vtwheel' ||
                  true
-        description: Copy urxvt vtwheel extension
     # Update dotbot
     -
-        command: git submodule update --init --recursive
         description: Installing submodules
+        command: git submodule update --init --recursive
