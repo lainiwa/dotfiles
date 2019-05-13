@@ -10,7 +10,6 @@ _1st_found() {
     done
 }
 
-export TERM='rxvt-unicode-256color'
 # What characters are considered to be a part of a word
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # Pager and editor

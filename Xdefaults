@@ -64,3 +64,6 @@ URxvt.iso14755_52: false
 !! CTRL+SHIFT+UP/DOWN TO RESIZE FONT ON THE FLY
 URxvt.keysym.C-Shift-Down:  resize-font:smaller
 URxvt.keysym.C-Shift-Up:    resize-font:bigger
+
+!! $TERM variable
+URxvt.termName: rxvt-unicode-256color
