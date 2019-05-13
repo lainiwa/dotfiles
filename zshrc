@@ -10,10 +10,7 @@ _1st_found() {
     done
 }
 
-# Fix "unknown" $TERM
-if [[ $TERM == 'rxvt-unicode-256color' ]]; then
-    export TERM=rxvt-256color
-fi
+export TERM='rxvt-unicode-256color'
 # What characters are considered to be a part of a word
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # Pager and editor
@@ -28,11 +25,13 @@ export NVM_DIR="${HOME}/.nvm"
 # Try to source:
 #     NVM script and its completions
 #     virtualenvwrapper
+#     nix package manager
 #     zsh settings
 #     command-not-found functionality
 for file in "${NVM_DIR}/nvm.sh" \
             "${NVM_DIR}/bash_completion" \
             "$(which virtualenvwrapper.sh)" \
+            "/etc/profile.d/nix.sh" \
             "${HOME}/.zsh/prompts.zsh" \
             "${HOME}/.zsh/aliases.zsh" \
             "${HOME}/.zsh/set_history.zsh" \
@@ -83,3 +82,8 @@ insert_binary_from_path() {
 }
 zle -N insert_binary_from_path
 bindkey '^[d' insert_binary_from_path  # Alt+d
+
+# Add poweroff, ifconfig etc in $PATH
+if [[ $PATH =~ (:|^)/sbin(:|$) ]]; then
+    export PATH=$PATH:/sbin
+fi
