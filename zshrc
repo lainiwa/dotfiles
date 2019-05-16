@@ -81,8 +81,3 @@ insert_binary_from_path() {
 }
 zle -N insert_binary_from_path
 bindkey '^[d' insert_binary_from_path  # Alt+d
-
-# Add poweroff, ifconfig etc in $PATH
-if [[ $PATH =~ (:|^)/sbin(:|$) ]]; then
-    export PATH=$PATH:/sbin
-fi
