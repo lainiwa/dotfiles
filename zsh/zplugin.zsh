@@ -23,6 +23,12 @@ zplugin ice if'[[ -z "$commands[cloc]" ]]' from"gh-r" as"command" bpick"*pl" mv"
     zplugin light AlDanial/cloc
 
 
+# Install `ffsend`
+# TODO: add zsh completions when appear
+#       in the repo: https://github.com/timvisee/ffsend/tree/master/contrib/completions
+zplugin ice from"gh-r" as"command" bpick"*-static" mv"* -> ffsend";
+    zplugin light timvisee/ffsend
+
 # Install completions for `my` script and for python-gist
 # (use `-f` flag to force completion installation)
 zplugin ice as"completion" if"[ -f '${HOME}/.zsh/completions/_my' ]" id-as"my";
@@ -37,6 +43,15 @@ zplugin ice as"command"   pick"bin/git-dsf";    zplugin light zdharma/zsh-diff-s
 zplugin ice lucid wait"0" pick"manydots-magic"; zplugin light knu/zsh-manydots-magic
 zplugin ice if'[[ -n "$commands[gawk]" ]]';     zplugin light soimort/translate-shell
 
+# Nix, NixOS and NixOps completions
+zplugin ice if"[ -d /nix ]"; zplugin light spwhitt/nix-zsh-completions
+
+# commandcd
+# zplugin ice as'completion'; zplugin snippet 'https://raw.githubusercontent.com/shyiko/commacd/master/commacd.sh'
+
+zplugin ice as"completion"; zplugin snippet OMZ::plugins/cargo/_cargo  # cargo
+zplugin ice as"completion"; zplugin snippet OMZ::plugins/rust/_rust    # rustc
+zplugin light pkulev/zsh-rustup-completion  # rustup
 
 # Install all other plugins
 zplugin light supercrabtree/k                        # ls -lh + git helpers
