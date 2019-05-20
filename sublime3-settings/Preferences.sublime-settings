@@ -1,5 +1,6 @@
 {
 	"always_show_minimap_viewport": true,
+	"auto_complete": true,
 	"create_window_at_startup": false,
 	"drag_text": false,
 	"font_size": 15,
@@ -7,6 +8,7 @@
 	"ignored_packages":
 	[
 		"Markdown",
+		"Rust",
 		"Vintage"
 	],
 	"show_encoding": true,

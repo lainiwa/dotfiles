@@ -8,13 +8,16 @@
 		"Anaconda",
 		"FindKeyConflicts",
 		"HTML-CSS-JS Prettify",
+		"LSP",
 		"MarkdownEditing",
 		"Package Control",
 		"rainbow_csv",
+		"Rust Enhanced",
 		"SideBarEnhancements",
 		"SublimeLinter",
 		"SublimeLinter-clang",
 		"SublimeLinter-flake8",
-		"SublimeLinter-shellcheck"
+		"SublimeLinter-shellcheck",
+		"TabNine"
 	]
 }
