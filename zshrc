@@ -30,7 +30,6 @@ export NVM_DIR="${HOME}/.nvm"
 for file in "${NVM_DIR}/nvm.sh" \
             "${NVM_DIR}/bash_completion" \
             "$(which virtualenvwrapper.sh)" \
-            "/etc/profile.d/nix.sh" \
             "${HOME}/.zsh/prompts.zsh" \
             "${HOME}/.zsh/aliases.zsh" \
             "${HOME}/.zsh/set_history.zsh" \
