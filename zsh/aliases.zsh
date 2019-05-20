@@ -50,7 +50,7 @@ mkcd() { mkdir -- "$1" && cd -P -- "$1" ; }
 
 # Alias for altering some symbol with newline
 # Example: echo $PATH TRN :
-__rt__() { tr "$2" "$1" ; }
+__rt__() { tr -- "$2" "$1" ; }
 alias -g TRN='| __rt__ "\n" '
 
 
