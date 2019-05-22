@@ -1,3 +1,4 @@
+zmodload zsh/zprof
 
 # Return first installed util.
 # Example: `_1st_found most less more`.
@@ -29,7 +30,6 @@ export NVM_DIR="${HOME}/.nvm"
 #     command-not-found functionality
 for file in "${NVM_DIR}/nvm.sh" \
             "${NVM_DIR}/bash_completion" \
-            "$(which virtualenvwrapper.sh)" \
             "${HOME}/.zsh/prompts.zsh" \
             "${HOME}/.zsh/aliases.zsh" \
             "${HOME}/.zsh/set_history.zsh" \
