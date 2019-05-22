@@ -13,33 +13,35 @@ autoload -Uz _zplugin
 
 # Function to make configuration less verbose
 turbo0()   { zplugin ice wait"0" lucid "${@}"; }
+turbo1()   { zplugin ice wait"1" lucid "${@}"; }
 zload()    { zplugin load              "${@}"; }
 zsnippet() { zplugin snippet           "${@}"; }
 
 
 # Install `fzf` bynary with completions
-turbo0 as"command" from"gh-r";         zload junegunn/fzf-bin
-turbo0 as"command" pick"bin/fzf-tmux"; zload junegunn/fzf
+turbo1 as"command" from"gh-r";         zload junegunn/fzf-bin
+turbo1 as"command" pick"bin/fzf-tmux"; zload junegunn/fzf
 turbo0 multisrc"shell/{completion,key-bindings}.zsh" \
         id-as"junegunn/fzf_completions" pick"/dev/null"
     zload junegunn/fzf
 
 
 # Fuzzy movement and directory choosing
+# Possible alternatives: agkozak/zsh-z (changyuheng/fz stops working)
 turbo0; zload rupa/z               # autojump command
 turbo0; zload andrewferrier/fzf-z  # choose from most frecent folders with `Ctrl+g`
 turbo0; zload changyuheng/fz       # lets z+[Tab] and zz+[Tab]
 
 
 # Install `ffsend` binary with completions
-turbo0 as"command" from"gh-r" bpick"*-static" mv"* -> ffsend";
+turbo1 as"command" from"gh-r" bpick"*-static" mv"* -> ffsend";
     zload timvisee/ffsend
 turbo0 as'completion' id-as'timvisee/ffsend_completions'
     zsnippet 'https://raw.githubusercontent.com/timvisee/ffsend/master/contrib/completions/_ffsend'
 
 
 # Install `cloc` binary (if not already installed via package manager)
-turbo0 if'[[ -z "$commands[cloc]" ]]' as"command" from"gh-r" bpick"*pl" mv"cloc-* -> cloc";
+turbo1 if'[[ -z "$commands[cloc]" ]]' as"command" from"gh-r" bpick"*pl" mv"cloc-* -> cloc";
     zload AlDanial/cloc
 
 
@@ -53,18 +55,18 @@ turbo0 as"completion" if"[ -f '${HOME}/.local/share/gist/gist.zsh' ]" id-as"gist
 
 # Install a number of plugins,
 # which require setting `ice` options
-turbo0 as"command"   pick"v";              zload rupa/v
-turbo0 as"command"   pick"bin/git-dsf";    zload zdharma/zsh-diff-so-fancy
-turbo0 pick"manydots-magic";               zload knu/zsh-manydots-magic
-turbo0 if'[[ -n "$commands[gawk]" ]]';     zload soimort/translate-shell
+turbo1 as"command"   pick"v";              zload rupa/v
+turbo1 as"command"   pick"bin/git-dsf";    zload zdharma/zsh-diff-so-fancy
+turbo1 pick"manydots-magic";               zload knu/zsh-manydots-magic
+turbo1 if'[[ -n "$commands[gawk]" ]]';     zload soimort/translate-shell
 
 
 # Install all other plugins
-turbo0; zload supercrabtree/k                # ls -lh + git helpers
-turbo0; zload hcgraf/zsh-sudo                # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
-turbo0; zload mdumitru/fancy-ctrl-z          # Run `fg` command to return
+turbo1; zload supercrabtree/k                # ls -lh + git helpers
+turbo1; zload hcgraf/zsh-sudo                # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
+turbo1; zload mdumitru/fancy-ctrl-z          # Run `fg` command to return
                                                     #     to foregrounded (Ctrl+Z'd) vim
-turbo0; zload viko16/gitcd.plugin.zsh
+turbo1; zload viko16/gitcd.plugin.zsh
 
 
 # Autosuggestions
@@ -110,7 +112,7 @@ export PS1='%B%F{green}$(virtualenv_prompt_info)'${PS1}
 
 
 # Print command exit code as a human-readable string
-# (`cedi/meaningful-error-codes` might be an alternative)
+# Possible alternatives: cedi/meaningful-error-codes
 zload bric3/nice-exit-code
 export RPS1='%B%F{red}$(nice_exit_code)%f%b'
 
