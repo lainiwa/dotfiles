@@ -1,4 +1,5 @@
 zmodload zsh/zprof
+bindkey -e
 
 # Return first installed util.
 # Example: `_1st_found most less more`.
