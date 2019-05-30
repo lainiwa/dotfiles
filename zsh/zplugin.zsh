@@ -20,10 +20,11 @@ autoload -Uz _zplugin
 
 turbo0()   { zplugin ice wait"0" lucid             "${@}"; }
 turbo1()   { zplugin ice wait"1" lucid             "${@}"; }
+turbo2()   { zplugin ice wait"2" lucid             "${@}"; }
 zcommand() { zplugin ice wait"1" lucid as"command" "${@}"; }
 zload()    { zplugin load                          "${@}"; }
 zsnippet() { zplugin snippet                       "${@}"; }
-zsource()  { turbo0 if'[[ -n "${1}" ]]'; zplugin snippet "${1}"; }
+zsource()  { turbo2 if'[[ -n "${1}" ]]'; zplugin snippet "${1}"; }
 
 
 #################################################################
