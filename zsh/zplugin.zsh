@@ -67,7 +67,7 @@ turbo0 multisrc"shell/{completion,key-bindings}.zsh" \
     zload junegunn/fzf
 
 # Fuzzy movement and directory choosing
-turbo0; zload rupa/z               # autojump command
+turbo1; zload rupa/z               # autojump command
 turbo0; zload andrewferrier/fzf-z  # Pick from most frecent folders with `Ctrl+g`
 turbo0; zload changyuheng/fz       # lets z+[Tab] and zz+[Tab]
 
