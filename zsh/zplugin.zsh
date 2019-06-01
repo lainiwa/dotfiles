@@ -18,12 +18,12 @@ autoload -Uz _zplugin
 # FUNCTIONS TO MAKE CONFIGURATION LESS VERBOSE
 #
 
-turbo0()   { zplugin ice wait"0" lucid             "${@}"; }
-turbo1()   { zplugin ice wait"1" lucid             "${@}"; }
-turbo2()   { zplugin ice wait"2" lucid             "${@}"; }
-zcommand() { zplugin ice wait"1" lucid as"command" "${@}"; }
-zload()    { zplugin load                          "${@}"; }
-zsnippet() { zplugin snippet                       "${@}"; }
+turbo0()   { zplugin ice wait"0a" lucid             "${@}"; }
+turbo1()   { zplugin ice wait"0b" lucid             "${@}"; }
+turbo2()   { zplugin ice wait"0c" lucid             "${@}"; }
+zcommand() { zplugin ice wait"0b" lucid as"command" "${@}"; }
+zload()    { zplugin load                           "${@}"; }
+zsnippet() { zplugin snippet                        "${@}"; }
 zsource()  { turbo2 if'[[ -n "${1}" ]]'; zplugin snippet "${1}"; }
 
 
@@ -128,7 +128,7 @@ zcommand pick"bin/git-dsf";            zload zdharma/zsh-diff-so-fancy
 turbo1 if'[[ -n "$commands[gawk]" ]]'; zload soimort/translate-shell
 
 # `...` ==> `../..`
-turbo1 pick"manydots-magic";           zload knu/zsh-manydots-magic
+# turbo2 pick"manydots-magic";           zload knu/zsh-manydots-magic
 
 # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
 turbo1; zload hcgraf/zsh-sudo
@@ -157,7 +157,7 @@ zplugin ice as"completion" if"[ -f '${HOME}/.zsh/completions/_my' ]" id-as"my";
 turbo0 as"completion" if"[ -f '${HOME}/.local/share/gist/gist.zsh' ]" id-as"gist" mv"gist.zsh -> _gist";
     zsnippet "${HOME}/.local/share/gist/gist.zsh"
 
-turbo1; zsource "${HOME}/.local/bin/virtualenvwrapper.sh"
+zsource "${HOME}/.local/bin/virtualenvwrapper_lazy.sh"
 
 
 #################################################################
