@@ -88,6 +88,14 @@
                  wget --output-document="${HOME}/.urxvt/ext/vtwheel"
                       'https://raw.githubusercontent.com/pkkolos/urxvt-scripts/master/vtwheel' ||
                  true
+    # Sublime Text 3 package control
+    -
+        description: Install Sublime Text 3 package manager
+        command: command -v subl >/dev/null &&
+                 mkdir --parents "${HOME}/.config/sublime-text-3/Installed Packages/" &&
+                 mkdir --parents "${HOME}/.config/sublime-text-3/Packages/User" &&
+                 wget --directory-prefix "${HOME}/.config/sublime-text-3/Installed Packages/"
+                      'https://packagecontrol.io/Package Control.sublime-package'
     # Update dotbot
     -
         description: Installing submodules
