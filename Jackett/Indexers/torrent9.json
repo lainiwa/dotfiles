@@ -3,7 +3,7 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://www.torrent9.uno/"
+    "value": "https://wwv.torrent9.lol/"
   },
   {
     "id": "cookieheader",
@@ -16,17 +16,5 @@
     "type": "hiddendata",
     "name": "LastError",
     "value": null
-  },
-  {
-    "id": "username",
-    "type": "inputstring",
-    "name": "Username",
-    "value": null
-  },
-  {
-    "id": "password",
-    "type": "inputstring",
-    "name": "Password",
-    "value": ""
   }
 ]

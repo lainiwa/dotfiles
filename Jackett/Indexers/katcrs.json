@@ -3,7 +3,7 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "http://kickasstvshow.host/"
+    "value": "http://kickasstvshow.club/"
   },
   {
     "id": "cookieheader",

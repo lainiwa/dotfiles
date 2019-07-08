@@ -3,13 +3,13 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://ilcorsaronero.cc/"
+    "value": "https://ilcorsaronero.pizza/"
   },
   {
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": ""
+    "value": "__cfduid=d511ff7e5ee92082176ea6b881a0d7ec91560867299"
   },
   {
     "id": "lasterror",

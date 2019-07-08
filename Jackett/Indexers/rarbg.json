@@ -15,12 +15,18 @@
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__cfduid=d0294b4649fa07da0e70b5d6c769ad9ac1548519531"
+    "value": "__cfduid=dc6c555faf47ccc91267403c778f47adb1560867299"
   },
   {
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
     "value": null
+  },
+  {
+    "id": "generatetorrentdownloadlinkadditionallytomagnet(notrecommendedduetoddosprotection).",
+    "type": "inputbool",
+    "name": "Generate torrent download link additionally to magnet (not recommended due to DDoS protection).",
+    "value": false
   }
 ]
