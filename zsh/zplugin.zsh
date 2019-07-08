@@ -24,7 +24,6 @@ turbo2()   { zplugin ice wait"0c" lucid             "${@}"; }
 zcommand() { zplugin ice wait"0b" lucid as"command" "${@}"; }
 zload()    { zplugin load                           "${@}"; }
 zsnippet() { zplugin snippet                        "${@}"; }
-zsource()  { turbo2 if'[[ -n "${1}" ]]'; zplugin snippet "${1}"; }
 
 
 #################################################################
@@ -67,7 +66,8 @@ turbo0 multisrc"shell/{completion,key-bindings}.zsh" \
     zload junegunn/fzf
 
 # Fuzzy movement and directory choosing
-turbo1; zload rupa/z               # autojump command
+turbo1 atclone"touch '${HOME}/.z'"
+    zload rupa/z                   # autojump command
 turbo0; zload andrewferrier/fzf-z  # Pick from most frecent folders with `Ctrl+g`
 turbo0; zload changyuheng/fz       # lets z+[Tab] and zz+[Tab]
 
@@ -83,6 +83,11 @@ turbo0 as"command" if'[[ -z "$commands[fzy]" ]]' \
 turbo0 silent; zload aperezdc/zsh-fzy
 bindkey '\ec' fzy-cd-widget
 bindkey '^T'  fzy-file-widget
+
+# Slmenu (non-fuzzy actually)
+turbo0 as"command" if'[[ -z "$commands[slmenu]" ]]' \
+       make"!PREFIX=$ZPFX install" pick"$ZPFX/bin/slmenu*"
+    zload lharding/slmenu
 
 # Fuzzy search by `Ctrl+P` a file and open in `$EDITOR`
 # Implements it's own fuzzy search
@@ -107,12 +112,16 @@ turbo0 as'completion' id-as'timvisee/ffsend_completions'
 zcommand if'[[ -z "$commands[cloc]" ]]' from"gh-r" bpick"*pl" mv"cloc-* -> cloc";
     zload AlDanial/cloc
 
+# Install timelapse screen recorder
+zcommand from"gh-r" mv'tl-* -> tl' if'[[ -n $DISPLAY ]]'
+    zload ryanmjacobs/tl
+
 
 #################################################################
 # INSTALL `k` COMMAND AND GENERATE COMPLITIONS
 #
 turbo0; zload RobSis/zsh-completion-generator
-turbo1 atclone"gencomp k; ZPLGM[COMPINIT_OPTS]='-i' zpcompinit" atpull'%atclone'
+turbo0 atload"gencomp k"
     zload supercrabtree/k
 alias l='k -h'
 
@@ -128,7 +137,7 @@ zcommand pick"bin/git-dsf";            zload zdharma/zsh-diff-so-fancy
 turbo1 if'[[ -n "$commands[gawk]" ]]'; zload soimort/translate-shell
 
 # `...` ==> `../..`
-# turbo2 pick"manydots-magic";           zload knu/zsh-manydots-magic
+turbo2 pick"manydots-magic";           zload knu/zsh-manydots-magic
 
 # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
 turbo1; zload hcgraf/zsh-sudo
@@ -140,9 +149,6 @@ turbo1; zload mdumitru/fancy-ctrl-z
 turbo1; zload lainiwa/gitcd
 export GITCD_TRIM=1
 export GITCD_HOME=${HOME}/tmp
-
-# Colorize man pages
-turbo0; zload ael-code/zsh-colored-man-pages
 
 
 #################################################################
@@ -156,8 +162,6 @@ zplugin ice as"completion" if"[ -f '${HOME}/.zsh/completions/_my' ]" id-as"my";
 
 turbo0 as"completion" if"[ -f '${HOME}/.local/share/gist/gist.zsh' ]" id-as"gist" mv"gist.zsh -> _gist";
     zsnippet "${HOME}/.local/share/gist/gist.zsh"
-
-zsource "${HOME}/.local/bin/virtualenvwrapper_lazy.sh"
 
 
 #################################################################

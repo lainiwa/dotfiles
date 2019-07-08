@@ -1,5 +1,16 @@
-zmodload zsh/zprof
+# zmodload zsh/zprof
+
+# Set key bindings (Ctrl+V Key to see key code)
 bindkey -e
+bindkey "^A" vi-beginning-of-line # Ctrl+A
+bindkey "^E"       vi-end-of-line # Ctrl+E
+bindkey "^[[1;5C"    forward-word # Ctrl+Right
+bindkey "^[[1;5D"   backward-word # Ctrl+Left
+bindkey ";2A"          up-history # Shift+Up
+bindkey ";2B"        down-history # Shift+Down
+bindkey "^[[5~"        up-history # PageUp
+bindkey "^[[6~"      down-history # PageDown
+
 
 # Return first installed util.
 # Example: `_1st_found most less more`.
@@ -29,6 +40,7 @@ export NVM_DIR="${HOME}/.nvm"
 #     nix package manager
 #     zsh settings
 #     command-not-found functionality
+#     python's virtualenvwrapper
 for file in "${NVM_DIR}/nvm.sh" \
             "${NVM_DIR}/bash_completion" \
             "${HOME}/.zsh/prompts.zsh" \
@@ -36,7 +48,8 @@ for file in "${NVM_DIR}/nvm.sh" \
             "${HOME}/.zsh/set_history.zsh" \
             "${HOME}/.zsh/zplugin.zsh" \
             "${HOME}/.zsh/completions.zsh" \
-            "${HOME}/.zsh/other/command-not-found.zsh"
+            "${HOME}/.zsh/other/command-not-found.zsh" \
+            "${HOME}/.local/bin/virtualenvwrapper_lazy.sh"
 do
     [ -s "${file}" ] && source "${file}"
 done
@@ -44,18 +57,6 @@ done
 
 # Set some options
 setopt interactive_comments extended_glob autocd complete_aliases
-
-
-# Set key bindings (Ctrl+V Key to see key code)
-# bindkey -e
-bindkey "^A" vi-beginning-of-line # Ctrl+A
-bindkey "^E"       vi-end-of-line # Ctrl+E
-bindkey "^[[1;5C"    forward-word # Ctrl+Right
-bindkey "^[[1;5D"   backward-word # Ctrl+Left
-bindkey ";2A"          up-history # Shift+Up
-bindkey ";2B"        down-history # Shift+Down
-bindkey "^[[5~"        up-history # PageUp
-bindkey "^[[6~"      down-history # PageDown
 
 
 # Automatically list directory contents on `cd`.
