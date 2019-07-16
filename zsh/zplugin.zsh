@@ -116,6 +116,10 @@ zcommand if'[[ -z "$commands[cloc]" ]]' from"gh-r" bpick"*pl" mv"cloc-* -> cloc"
 zcommand from"gh-r" mv'tl-* -> tl' if'[[ -n $DISPLAY ]]'
     zload ryanmjacobs/tl
 
+# Git curses inteface
+turbo1 from"gh-r" bpick"^grv_v*_linux64$" mv"* -> grv"
+    zload rgburke/grv
+
 
 #################################################################
 # INSTALL `k` COMMAND AND GENERATE COMPLITIONS
@@ -149,6 +153,12 @@ turbo1; zload mdumitru/fancy-ctrl-z
 turbo1; zload lainiwa/gitcd
 export GITCD_TRIM=1
 export GITCD_HOME=${HOME}/tmp
+
+# Adds `git open`
+turbo1; zload paulirish/git-open
+
+# Colored mans
+turbo1; zload ael-code/zsh-colored-man-pages
 
 
 #################################################################
