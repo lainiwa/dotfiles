@@ -11,4 +11,6 @@
     "anaconda_linting_behaviour": "load-save",
     // Set this to false to turn pep8 checking off completely.
     "pep8": false,
+    "complete_parameters": true,
+    "complete_all_parameters": true,
 }
