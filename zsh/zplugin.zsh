@@ -113,7 +113,7 @@ zcommand if'[[ -z "$commands[cloc]" ]]' from"gh-r" bpick"*pl" mv"cloc-* -> cloc"
     zload AlDanial/cloc
 
 # Install timelapse screen recorder
-zcommand from"gh-r" mv'tl-* -> tl' if'[[ -n $DISPLAY ]]'
+zcommand from"gh-r" mv'tl-* -> tl' if'[[ -n "$commands[X]" ]]'
     zload ryanmjacobs/tl
 
 # Git curses inteface
