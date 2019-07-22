@@ -3,7 +3,7 @@
 # not all options (see git [TAB])
 
 # additional completions
-compdef _gnu_generic tr lsb_release
+# compdef _gnu_generic tr lsb_release
 
 # Suggestions descriptions.
 builtin zstyle ':completion:*:corrections'  format ' %F{green}-- %d (errors: %e) --%f'
