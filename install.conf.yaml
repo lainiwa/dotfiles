@@ -96,14 +96,16 @@
                  mkdir --parents "${HOME}/.config/sublime-text-3/Installed Packages/" &&
                  mkdir --parents "${HOME}/.config/sublime-text-3/Packages/User" &&
                  wget --directory-prefix "${HOME}/.config/sublime-text-3/Installed Packages/"
-                      'https://packagecontrol.io/Package Control.sublime-package'
+                      'https://packagecontrol.io/Package Control.sublime-package' ||
+                 true
     # Plugin manager for vim (vim-plug) and install plugins
     -
         description: Install vim-plug and vim plugins
         command: command -v vim >/dev/null &&
                  curl -fLo ~/.vim/autoload/plug.vim --create-dirs
                      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim &&
-                 vim +PlugInstall +qall!
+                 vim +PlugInstall +qall! ||
+                 true
     # Update dotbot
     -
         description: Installing submodules
