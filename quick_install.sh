@@ -18,3 +18,6 @@ fi
 
 # Execute installer
 ~/.dotfiles/install
+
+# Eagerly load zsh plugins
+zsh -i -c -- '-zplg-scheduler burst || true'

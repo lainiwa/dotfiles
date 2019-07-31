@@ -1,14 +1,21 @@
 # Lainiwa's dotfiles
 
+
 ## Installation
-Clone the repository into appropriate folder and call `install` script:
+Use no hassle installation script:
 ```sh
-if [ ! -d ~/.dotfiles ]; then
-    git clone git@github.com:lainiwa/dotfiles.git ~/.dotfiles
-fi
+curl 'https://raw.githubusercontent.com/lainiwa/dotfiles/master/quick_install.sh' | sh 
+```
+
+... or (if the idea of piping `curl` to shell interpreter offends you) go with this snippet:
+```sh
+git clone https://github.com/lainiwa/dotfiles.git ~/.dotfiles
 ~/.dotfiles/install
 ```
-This installs config files for only the tools you have installed on your system.
+The `zsh` plugins will be installed on your nex log in to `zsh`.
+
+Anyway, this would install config files for only the tools you have installed on your system.
+
 
 ## Stuff I use
 This configures the following set of tools:
