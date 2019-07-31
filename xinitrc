@@ -8,12 +8,14 @@
 if command -v i3 >/dev/null; then
     exec i3
 
-else
+elif command -v dwm >/dev/null; then
     while true; do
         xsetroot -name "$( date +"%F %R" )"
         sleep 1m
     done &
-
     exec dwm
+
+else
+    echo 'ERROR: No i3 or dwm found!'
 
 fi
