@@ -597,6 +597,13 @@ install_package() {
     x=$1
 
     case $x in
+        'kiss')
+            link=$(lynx -listonly -nonumbers -dump 'https://github.com/kisslinux/kiss/releases/latest' |
+                    grep '\.tar\.gz$')
+            wget --output-document=- "${link}" |
+                tar --extract --gzip --file=- --directory="${HOME}/bin/" --strip-components=1
+            git clone 'https://github.com/kisslinux/repo.git' "${HOME}/packages"
+            ;;
         'sent')
             install_from_web 'https://git.suckless.org/sent' 'libx11-dev,farbfeld,libxft-dev' 'sent' '1.0' ''
             ;;
