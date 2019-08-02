@@ -1,5 +1,13 @@
 # zmodload zsh/zprof
 
+# Connect to tmux automatically
+# if running in Simple Terminal
+if command -v tmux &>/dev/null && [[ -z "${TMUX}" && ${TERM} =~ st* ]]; then
+    tmux attach -t default || tmux new -s default
+    exit
+fi
+
+
 # Set key bindings (Ctrl+V Key to see key code)
 bindkey -e
 bindkey "^A" vi-beginning-of-line # Ctrl+A
