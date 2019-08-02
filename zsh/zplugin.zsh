@@ -71,30 +71,31 @@ turbo1 atclone"touch '${HOME}/.z'"
 turbo0; zload andrewferrier/fzf-z  # Pick from most frecent folders with `Ctrl+g`
 turbo0; zload changyuheng/fz       # lets z+[Tab] and zz+[Tab]
 
+
 # Like `z` command, but opens a file in vim based on frecency
 zcommand pick"v"; zload rupa/v
 
-# Install `fzy` fuzzy finder, if not yet present in the system
-# Also install helper scripts for tmux and dwtm
-turbo0 as"command" if'[[ -z "$commands[fzy]" ]]' \
-       make"!PREFIX=$ZPFX install" atclone"cp contrib/fzy-* $ZPFX/bin/" pick"$ZPFX/bin/fzy*"
-    zload jhawthorn/fzy
-# Install fzy-using widgets
-turbo0 silent; zload aperezdc/zsh-fzy
-bindkey '\ec' fzy-cd-widget
-bindkey '^T'  fzy-file-widget
+# # Install `fzy` fuzzy finder, if not yet present in the system
+# # Also install helper scripts for tmux and dwtm
+# turbo0 as"command" if'[[ -z "$commands[fzy]" ]]' \
+#        make"!PREFIX=${ZPFX} install" atclone"cp contrib/fzy-* ${ZPFX}/bin/" pick"${ZPFX}/bin/fzy*"
+#     zload jhawthorn/fzy
+# # Install fzy-using widgets
+# turbo0 silent; zload aperezdc/zsh-fzy
+# bindkey '\ec' fzy-cd-widget
+# bindkey '^T'  fzy-file-widget
 
-# Slmenu (non-fuzzy actually)
-turbo0 as"command" if'[[ -z "$commands[slmenu]" ]]' \
-       make"!PREFIX=$ZPFX install" pick"$ZPFX/bin/slmenu*"
-    zload lharding/slmenu
+# # Slmenu (non-fuzzy actually)
+# turbo0 as"command" if'[[ -z "$commands[slmenu]" ]]' \
+#        make"!PREFIX=${ZPFX} install" pick"${ZPFX}/bin/slmenu*"
+#     zload lharding/slmenu
 
-# Fuzzy search by `Ctrl+P` a file and open in `$EDITOR`
-# Implements it's own fuzzy search
-turbo0; zload mafredri/zsh-async
-turbo0; zload seletskiy/zsh-fuzzy-search-and-edit
-bindkey '^P' fuzzy-search-and-edit
-export EDITOR=${EDITOR:-vim}
+# # Fuzzy search by `Ctrl+P` a file and open in `$EDITOR`
+# # Implements it's own fuzzy search
+# turbo0; zload mafredri/zsh-async
+# turbo0; zload seletskiy/zsh-fuzzy-search-and-edit
+# bindkey '^P' fuzzy-search-and-edit
+# export EDITOR=${EDITOR:-vim}
 
 
 #################################################################
