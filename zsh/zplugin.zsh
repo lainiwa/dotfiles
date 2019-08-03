@@ -75,6 +75,11 @@ turbo0; zload changyuheng/fz       # lets z+[Tab] and zz+[Tab]
 # Like `z` command, but opens a file in vim based on frecency
 zcommand pick"v"; zload rupa/v
 
+# # Install `pick` fuzzy finder, if not yet present in the system
+# turbo0 as"command" if'[[ -z "$commands[pick]" ]]' \
+#     atclone"PREFIX=${ZPFX} ./configure" atpull"%atclone" make"install"
+#     zload mptre/pick
+
 # # Install `fzy` fuzzy finder, if not yet present in the system
 # # Also install helper scripts for tmux and dwtm
 # turbo0 as"command" if'[[ -z "$commands[fzy]" ]]' \
