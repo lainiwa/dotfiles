@@ -439,17 +439,17 @@ hr() {
 ip() {
     requires curl
 
-    sites=('ifconfig.co'
-           'canihazip.com/s'
-           'ipinfo.io/ip'
-           'icanhazip.com'
-           'curlmyip.net'
-           'ipecho.net/plain'
-           'ip-addr.es'
-           'ident.me'
-           'ipaddr.site'
+    ip_sites=( 'ifconfig.co'
+            'canihazip.com/s'
+            'ipinfo.io/ip'
+            'icanhazip.com'
+            'curlmyip.net'
+            'ipecho.net/plain'
+            'ip-addr.es'
+            'ident.me'
+            'ipaddr.site'
         )
-    for site in "${sites[@]}"; do
+    for site in "${ip_sites[@]}"; do
         data=$(curl --max-time 1 --write-out '\n%{http_code}' --silent "${site}" || true)
         if [[ ${data##*$'\n'} == 200 ]]; then
             data=(${data[@]})
