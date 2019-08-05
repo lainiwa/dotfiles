@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 set -o errexit   # exit on fail
 set -o pipefail  # catch errors in pipelines
@@ -792,12 +792,16 @@ pastebin() {
 requires() {
     # Run only if debug variable set
     if [[ -n "${MY_DEBUG:-}" ]]; then
+        not_installed=''
         for dependency in "${@}"; do
             if ! command -v "${dependency}" > /dev/null; then
-                printf "No required dependency installed: %s\n" "${dependency}"
-                exit 127
+                not_installed="${not_installed} ${dependency}"
             fi
         done
+        if [[ ! -z "${not_installed}" ]]; then
+            printf "No required dependencies installed: %s\n" "${not_installed}"
+            exit 127
+        fi
         exit 0
     fi
 }
@@ -808,7 +812,7 @@ requires() {
 #
 check_dependencies() {
     # Get functions defined in this file
-    declare -f | grep '^.*\s()' | cut -f 1 -d ' ' |
+    declare -f | grep '^[a-zA-Z0-9_]*\s()' | cut -f 1 -d ' ' |
     # Drop functions we do not want to check
     grep -v -e 'check_dependencies' -e 'requires' |
     # Check each of the rest functions' dependencies
