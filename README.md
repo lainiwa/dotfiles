@@ -4,7 +4,7 @@
 ## Installation
 Use no hassle installation [script](quick_install.sh):
 ```sh
-curl 'https://raw.githubusercontent.com/lainiwa/dotfiles/master/quick_install.sh' | sh 
+sh -c "$(curl 'https://raw.githubusercontent.com/lainiwa/dotfiles/master/quick_install.sh')"
 ```
 
 ... or (if the idea of piping `curl` to shell interpreter offends you) go with this snippet:
