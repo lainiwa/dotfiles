@@ -75,33 +75,6 @@ turbo0; zload changyuheng/fz       # lets z+[Tab] and zz+[Tab]
 # Like `z` command, but opens a file in vim based on frecency
 zcommand pick"v"; zload rupa/v
 
-# # Install `pick` fuzzy finder, if not yet present in the system
-# turbo0 as"command" if'[[ -z "$commands[pick]" ]]' \
-#     atclone"PREFIX=${ZPFX} ./configure" atpull"%atclone" make"install"
-#     zload mptre/pick
-
-# # Install `fzy` fuzzy finder, if not yet present in the system
-# # Also install helper scripts for tmux and dwtm
-# turbo0 as"command" if'[[ -z "$commands[fzy]" ]]' \
-#        make"!PREFIX=${ZPFX} install" atclone"cp contrib/fzy-* ${ZPFX}/bin/" pick"${ZPFX}/bin/fzy*"
-#     zload jhawthorn/fzy
-# # Install fzy-using widgets
-# turbo0 silent; zload aperezdc/zsh-fzy
-# bindkey '\ec' fzy-cd-widget
-# bindkey '^T'  fzy-file-widget
-
-# # Slmenu (non-fuzzy actually)
-# turbo0 as"command" if'[[ -z "$commands[slmenu]" ]]' \
-#        make"!PREFIX=${ZPFX} install" pick"${ZPFX}/bin/slmenu*"
-#     zload lharding/slmenu
-
-# # Fuzzy search by `Ctrl+P` a file and open in `$EDITOR`
-# # Implements it's own fuzzy search
-# turbo0; zload mafredri/zsh-async
-# turbo0; zload seletskiy/zsh-fuzzy-search-and-edit
-# bindkey '^P' fuzzy-search-and-edit
-# export EDITOR=${EDITOR:-vim}
-
 
 #################################################################
 # INSTALL NON-PLUGIN COMMANDS
@@ -162,9 +135,6 @@ export GITCD_HOME=${HOME}/tmp
 
 # Adds `git open`
 turbo1; zload paulirish/git-open
-
-# Colored mans
-turbo1; zload ael-code/zsh-colored-man-pages
 
 
 #################################################################
