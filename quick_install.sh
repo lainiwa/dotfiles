@@ -3,6 +3,9 @@ set -o errexit   # exit on fail
 set -o nounset   # exit on undeclared variable
 set -o xtrace    # trace execution
 
+# Create ~/.ssh if not exists
+mkdir -p ~/.ssh
+
 # Add github's host key to known_hosts (if not yet)
 if ! grep github.com ~/.ssh/known_hosts; then
     ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
