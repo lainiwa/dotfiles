@@ -1,16 +1,9 @@
 # zmodload zsh/zprof
 
 # Connect to tmux automatically
-# if running in Simple Terminal
-if command -v tmux &>/dev/null && [[ -z "${TMUX}" && ${TERM} =~ st* ]]; then
-    tmux attach -t default || tmux new -s default
-    exit
-fi
-
-
-# Connect to tmux automatically
-# if running in mosh
-if [[ "$(ps -p $PPID -o comm=)" == 'mosh-server' ]]; then
+# if running in Simple Terminal or through Mosh
+if command -v tmux &>/dev/null &&
+    [[ -z "${TMUX}" && ${TERM} =~ st* || "$(ps -p $PPID -o comm=)" == 'mosh-server' ]]; then
     tmux attach -t default || tmux new -s default
     exit
 fi
