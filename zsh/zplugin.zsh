@@ -81,10 +81,10 @@ zcommand pick"v"; zload rupa/v
 #
 
 # Install `ffsend` (a Firefox Send client) statically-linked binary
-zcommand from"gh-r" bpick"*-static" mv"* -> ffsend";
+zcommand if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' from"gh-r" bpick"^ffsend-v*-linux-x64-static$" mv"* -> ffsend";
     zload timvisee/ffsend
 # Install `ffsend` completions
-turbo0 as'completion' id-as'timvisee/ffsend_completions'
+turbo0 if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' as'completion' id-as'timvisee/ffsend_completions'
     zsnippet 'https://raw.githubusercontent.com/timvisee/ffsend/master/contrib/completions/_ffsend'
 
 # Install `cloc` (code summary) binary if not already installed via package manager
@@ -96,7 +96,7 @@ zcommand from"gh-r" mv'tl-* -> tl' if'[[ -n "$commands[X]" ]]'
     zload ryanmjacobs/tl
 
 # Git curses inteface
-turbo1 from"gh-r" bpick"^grv_v*_linux64$" mv"* -> grv"
+turbo1 if'[[ $(uname -s) == Linux ]]' from"gh-r" bpick"^grv_v*_linux64$" mv"* -> grv"
     zload rgburke/grv
 
 
