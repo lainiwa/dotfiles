@@ -15,6 +15,5 @@ _add_to_path "${HOME}/.local/bin"
 _add_to_path "${HOME}/scripts"
 _add_to_path "${HOME}/.cargo/bin"
 _add_to_path "${HOME}/.cabal/bin"
-_add_to_path "${HOME}/.kiss/usr/bin"
 
 unset -f _add_to_path
