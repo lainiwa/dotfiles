@@ -18,15 +18,3 @@ _add_to_path "${HOME}/.cabal/bin"
 _add_to_path "${HOME}/.kiss/usr/bin"
 
 unset -f _add_to_path
-
-
-# The location to install packages (Optional).
-# Default: /
-export KISS_ROOT="${HOME}/.kiss"
-
-# Repositories to use (Required).
-# Colon separated like '$PATH'.
-# Repositories will be search in order.
-# Default: ''
-export KISS_PATH="${HOME}/packages/core:${HOME}/packages/extra:${HOME}/packages/xorg:${HOME}/packages/public"
-
