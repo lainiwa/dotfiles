@@ -15,5 +15,7 @@ _add_to_path "${HOME}/.local/bin"
 _add_to_path "${HOME}/scripts"
 _add_to_path "${HOME}/.cargo/bin"
 _add_to_path "${HOME}/.cabal/bin"
+export GOPATH="${HOME}/go"
+_add_to_path "${GOPATH}/bin"
 
 unset -f _add_to_path
