@@ -1,3 +1,5 @@
+[![Build Status](http://172.104.236.217:8010/badges/runtests.svg)](http://172.104.236.217:8010)
+
 # Lainiwa's dotfiles
 
 
