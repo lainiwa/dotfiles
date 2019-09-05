@@ -406,8 +406,8 @@ ip() {
     for site in "${ip_sites[@]}"; do
         data=$(curl --max-time 1 --write-out '\n%{http_code}' --silent "${site}" || true)
         if [[ ${data##*$'\n'} == 200 ]]; then
-            data_arr=(${data[@]})
-            echo "${data_arr[0]}"
+            read -r ip < <(echo "${data}")
+            echo "${ip}"
             break
         fi
     done
@@ -743,8 +743,7 @@ pastebin() {
       site=${sites[${form}]}
       data=$(curl --write-out '\n%{http_code}' --silent --form "${form}" "${site}" < "${tmp_file_input}" || true)
       if [[ ${data##*$'\n'} == 200 ]]; then
-          data=(${data[@]})
-          lnk=${data[0]}
+          read -r lnk < <(echo "${data}")
           echo "Download link: $(tput bold)${lnk}$(tput sgr0)"
           break
       fi
@@ -777,7 +776,7 @@ requires() {
                 not_installed="${not_installed} ${dependency}"
             fi
         done
-        if [[ ! -z "${not_installed}" ]]; then
+        if [[ -n "${not_installed}" ]]; then
             printf "No required dependencies installed: %s\n" "${not_installed}"
             exit 127
         fi
