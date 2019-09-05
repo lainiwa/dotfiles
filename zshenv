@@ -10,6 +10,7 @@ _add_to_path() {
     fi
 }
 _add_to_path "/sbin"
+_add_to_path "/snap/bin"
 _add_to_path "${HOME}/bin"
 _add_to_path "${HOME}/.local/bin"
 _add_to_path "${HOME}/scripts"
