@@ -7,6 +7,16 @@ set -o nounset   # exit on undeclared variable
 
 
 #################################################
+# LIST AVAILABLE `$TERM` VARIABLES
+#
+list_available_terms() {
+    infocmp -D | while read -r dir_with_terminals ; do
+       find "${dir_with_terminals}" -type f -mindepth 2 -exec basename {} \;
+    done
+}
+
+
+#################################################
 # GET TEXT FROM PREFERRED EDITOR
 #
 # Get user input with $EDITOR and
@@ -276,6 +286,7 @@ serveo() {
     while true; do
         ssh -R "80:localhost:${port}" serveo.net
         # Break if normally exit, or exit by Ctrl+C
+        # shellcheck disable=SC2181
         if [[ $? == 255 || $? == 0 ]]; then
             break
         else
@@ -304,63 +315,6 @@ fullUpgrade() {
         zplugin self-update;\
         zplugin update --all;\
     "
-}
-
-
-#################################################
-# SHOW BOOKS IN ALLITEBOOKS.COM
-#
-# ARGUMENTS: search string, page number (optional)
-# TODO: rewrite in python
-#
-allitebooks() {
-    requires curl grep sed paste
-
-    searchStr=${1/\ /\+}
-    page=${2:-1}
-    lnk="http://www.allitebooks.com/page/${page}/?s=${searchStr}"
-
-    # Download html
-    html=$(wget --quiet --output-document=- "${lnk}")
-    # Exit if no more items
-    if [[ ${html} == *'<h1 class="page-title">No Posts Found.</h1>'* ]]; then
-        exit 0
-    fi
-    # Grab all titles from page
-    titles=$(echo "$html" |
-                grep '<h2 class="entry-title">' |
-                sed 's|.*rel="bookmark">\(.*\)</a></h2>|\1|g')
-    # Grab links
-    links=$(echo "$html" |
-                grep '<h2 class="entry-title">' |
-                sed 's|.*<a href="\(.*\)" .*|\1|g')
-    # Grab books descriptions
-    descriptions=$(echo "$html" |
-                    grep --after-context=1 '<div class="entry-summary">' |
-                    grep '<p>' |
-                    sed 's|.*<p>\(.*\)</p>|\1|g' |
-                    sed -e 's|&#8230;|...|g' \
-                        -e "s|&#8217;|\'|g" \
-                        -e 's|&#8211;|-|g' \
-                        -e 's|&#8220;|"|g' \
-                        -e 's|&#8221;|"|g')
-
-    # Merge titles and descriptions
-    if [ -t 1 ] ; then
-        # If no redirect
-        paste --delimiters='\n' \
-            <(echo "$titles"       | sed "s/^\(.*\)$/$(tput bold)$(tput setaf 1)title: $(tput setaf 2)\1$(tput sgr 0)/") \
-            <(echo "$links"        | sed "s/^/$(tput bold)$(tput setaf 1)link: $(tput sgr 0)/") \
-            <(echo "$descriptions" | sed "s/^/$(tput bold)$(tput setaf 1)description: $(tput sgr 0)/")
-    else
-        # If redirected to pipe or stream
-        paste --delimiters='\n' \
-            <(echo "$titles"       | sed "s/^\(.*\)$/title: \1/") \
-            <(echo "$links"        | sed "s/^/link: /") \
-            <(echo "$descriptions" | sed "s/^/description: /")
-    fi
-    # Move to next page
-    allitebooks "${searchStr}" "$(( page + 1 ))"
 }
 
 
@@ -452,8 +406,8 @@ ip() {
     for site in "${ip_sites[@]}"; do
         data=$(curl --max-time 1 --write-out '\n%{http_code}' --silent "${site}" || true)
         if [[ ${data##*$'\n'} == 200 ]]; then
-            data=(${data[@]})
-            echo "${data[0]}"
+            data_arr=(${data[@]})
+            echo "${data_arr[0]}"
             break
         fi
     done
@@ -589,6 +543,30 @@ install_from_web() {
 
 
 #################################################
+# REMOVE A SOFTWARE
+#
+remove_package() {
+    requires lynx grep sed tar ln
+
+    x=$1
+
+    case $x in
+        'kiss')
+            rm -rf "${HOME}/bin/kiss" \
+                   "${HOME}/packages" \
+                   "${HOME}/.kiss" || true
+            ;;
+        'tor-browser')
+            unlink "${HOME}/bin/tor-browser" || true
+            rm -rf "${HOME}/opt/tor-browser/" || true
+            ;;
+        *)
+            exit 1
+    esac
+}
+
+
+#################################################
 # INSTALL A SOFTWARE
 #
 install_package() {
@@ -602,7 +580,8 @@ install_package() {
                     grep '\.tar\.gz$')
             wget --output-document=- "${link}" |
                 tar --extract --gzip --file=- --directory="${HOME}/bin/" --strip-components=1
-            git clone 'https://github.com/kisslinux/repo.git' "${HOME}/packages"
+            mkdir "${HOME}/packages"
+            git clone 'https://github.com/kisslinux/repo.git' "${HOME}/packages/kisslinux_repo"
             ;;
         'sent')
             install_from_web 'https://git.suckless.org/sent' 'libx11-dev,farbfeld,libxft-dev' 'sent' '1.0' ''
@@ -778,8 +757,8 @@ pastebin() {
     # Copy link to the clipboard if possible
     if [[ ${flag_xclip} ]]; then
         if ! type xclip &>/dev/null; then
-            echo 'No xclip found in $PATH. Check if it is installed.'
-            echo 'Link was NOT copied to the clipboard.'
+            echo "No xclip found in \$PATH. Check if it is installed."
+            echo "Link was NOT copied to the clipboard."
         fi
         printf "%s" "${lnk}" | xclip -selection clipboard
     fi
