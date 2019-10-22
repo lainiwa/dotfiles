@@ -3,13 +3,13 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "http://www.mejortorrent.org/"
+    "value": "https://www.mejortorrentt.org/"
   },
   {
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": ""
+    "value": "__cfduid=d836c8a83d3327054b4e35b8eb1ca5acf1564013587"
   },
   {
     "id": "lasterror",

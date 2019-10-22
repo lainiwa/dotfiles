@@ -3,13 +3,13 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "http://descargas2020.com/"
+    "value": "https://descargas2020.org/"
   },
   {
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "PHPSESSID=01rdmq0ctud3lngavnbf517fr4"
+    "value": "PHPSESSID=01rdmq0ctud3lngavnbf517fr4; __cfduid=dee952ee6f7b7748d70eec27d4a68c8011562734079"
   },
   {
     "id": "lasterror",

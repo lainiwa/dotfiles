@@ -9,18 +9,12 @@
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "katsearch=7c22043420c9cafd63ef9bd6d29aeeda; KATSSESS_ID70AT8=lhu11o3v4lkj22h1g9rj3rcgheddm5ao"
+    "value": "katsearch=7c22043420c9cafd63ef9bd6d29aeeda; KATSSESS_ID70AT8=lhu11o3v4lkj22h1g9rj3rcgheddm5ao; katsecalert=73685d7f7b77a1d0c46ad047362dbb0f"
   },
   {
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": null
-  },
-  {
-    "id": "cookie",
-    "type": "inputstring",
-    "name": "Cookie",
     "value": null
   }
 ]

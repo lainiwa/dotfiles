@@ -9,7 +9,7 @@
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__ddg_=26646"
+    "value": "__ddg_=32D796620DC6B020DC1B0508938393EAEBE71648"
   },
   {
     "id": "lasterror",
@@ -47,6 +47,14 @@
       "3_1": "Literature - English-translated",
       "3_2": "Literature - Non-English-translated",
       "3_3": "Literature - Lossy",
+      "4_0": "Live Action",
+      "4_1": "Live Action - English",
+      "4_2": "Live Action - Idol/PV",
+      "4_3": "Live Action - Non-English",
+      "4_4": "Live Action - Raw",
+      "5_0": "Pictures",
+      "5_1": "Pictures  - Graphics",
+      "5_2": "Pictures  - Photos",
       "6_0": "Software",
       "6_1": "Software - Applications",
       "6_2": "Software - Games"

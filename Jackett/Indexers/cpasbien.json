@@ -3,13 +3,13 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://www.cpabien.link/"
+    "value": "https://www.cpasbien.lol/"
   },
   {
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__cfduid=d022f87c06fb9ccf654f69d48c8b5ecbd1546622992; PHPSESSID=0u9i1hlsle17edlh8b0u6ueag2"
+    "value": "__cfduid=d022f87c06fb9ccf654f69d48c8b5ecbd1546622992; PHPSESSID=0u9i1hlsle17edlh8b0u6ueag2; cf_clearance=cac72ab409daef02d0e6c05e5e79895fe02b6474-1569757672-31536000-150"
   },
   {
     "id": "lasterror",
