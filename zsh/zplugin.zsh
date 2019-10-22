@@ -1,29 +1,31 @@
 
+
 #################################################################
-# INSTALL `zplugin` AND LOAD IT
+# INSTALL zplugin AND LOAD IT
 #
 
-# Install `zplugin` if not installed
+# Install zplugin if not installed
 if [ ! -d "${HOME}/.zplugin" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+    zplugin self-update
 fi
 
-# Load `zplugin`
+# Load zplugin
 source "${HOME}/.zplugin/bin/zplugin.zsh"
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 
+# Compile the zplugin`s binary module, if not yet compiled
+if [[ ! -f "${ZPLGM[BIN_DIR]}/zmodules/Src/zdharma/zplugin.so" ]]; then
+    zplugin module build
+fi
 
-#################################################################
-# FUNCTIONS TO MAKE CONFIGURATION LESS VERBOSE
-#
+# Load zplugin's binary module (`zpmod -h` for help)
+module_path+=( "${ZPLGM[BIN_DIR]}/zmodules/Src" )
+zmodload zdharma/zplugin
 
-turbo0()   { zplugin ice wait"0a" lucid             "${@}"; }
-turbo1()   { zplugin ice wait"0b" lucid             "${@}"; }
-turbo2()   { zplugin ice wait"0c" lucid             "${@}"; }
-zcommand() { zplugin ice wait"0b" lucid as"command" "${@}"; }
-zload()    { zplugin load                           "${@}"; }
-zsnippet() { zplugin snippet                        "${@}"; }
+# Install an extension for zplugin for managing "shims"
+zplugin load zplugin/z-a-bin-gem-node
 
 
 #################################################################
@@ -34,20 +36,29 @@ zsnippet() { zplugin snippet                        "${@}"; }
 # eagerly.
 #
 
-# Print python virtual environment name in prompt
-zload tonyseek/oh-my-zsh-virtualenv-prompt
-export PS1='%B%F{green}$(virtualenv_prompt_info)'${PS1}
+# Python virtual environment name
+AGKOZAK_CUSTOM_PROMPT='%B%F{green}$(virtualenv_prompt_info)'
+# Username and hostname
+AGKOZAK_CUSTOM_PROMPT+='%(!.%S%B.%B%F{yellow})%n%1v%(!.%b%s.%f%b) '
+# Path
+AGKOZAK_CUSTOM_PROMPT+=$'%B%F{green}%2v%f%b '
+# Prompt character
+AGKOZAK_CUSTOM_PROMPT+='%B%F{red}%(4V.:.%#)%f%b '
 
-# Print command exit code as a human-readable string
-zload bric3/nice-exit-code
-export RPS1='%B%F{red}$(nice_exit_code)%f%b'
+# Git status
+AGKOZAK_CUSTOM_RPROMPT='%(3V.%F{yellow}%3v%f.)'
+# Exit status
+AGKOZAK_CUSTOM_RPROMPT+=' %B%F{red}$(nice_exit_code)%f%b'
+# Execution time
+ZSH_COMMAND_TIME_MIN_SECONDS=1
+ZSH_COMMAND_TIME_MSG=''
+AGKOZAK_CUSTOM_RPROMPT+=' %B%F{green}$([[ -n ${ZSH_COMMAND_TIME} ]] && pretty-time ${ZSH_COMMAND_TIME})%f%b'
 
-# Add execution time to right prompt
-zload sindresorhus/pretty-time-zsh
-zload popstas/zsh-command-time
-export ZSH_COMMAND_TIME_MIN_SECONDS=1
-export ZSH_COMMAND_TIME_MSG=''
-export RPS1=${RPS1}' %B%F{green}$([[ -n ${ZSH_COMMAND_TIME} ]] && pretty-time ${ZSH_COMMAND_TIME})%f%b'
+zplugin load tonyseek/oh-my-zsh-virtualenv-prompt
+zplugin load bric3/nice-exit-code
+zplugin ice compile"*.zsh"; zplugin load sindresorhus/pretty-time-zsh
+zplugin load popstas/zsh-command-time
+zplugin ice compile"lib/*.zsh"; zplugin load agkozak/agkozak-zsh-prompt
 
 
 #################################################################
@@ -57,23 +68,27 @@ export RPS1=${RPS1}' %B%F{green}$([[ -n ${ZSH_COMMAND_TIME} ]] && pretty-time ${
 # and key bindings.
 #
 
-# Install `fzf` bynary and tmux helper script
-zcommand from"gh-r";         zload junegunn/fzf-bin
-zcommand pick"bin/fzf-tmux"; zload junegunn/fzf
-# Create and bind multiple widgets using fzf
-turbo0 multisrc"shell/{completion,key-bindings}.zsh" \
-        id-as"junegunn/fzf_completions" pick"/dev/null"
-    zload junegunn/fzf
+# fzf binary only
+zplugin ice from"gh-r" sbin"fzf"
+zplugin load junegunn/fzf-bin
 
-# Fuzzy movement and directory choosing
-turbo1 atclone"touch '${HOME}/.z'"
-    zload rupa/z                   # autojump command
-turbo0; zload andrewferrier/fzf-z  # Pick from most frecent folders with `Ctrl+g`
-turbo0; zload changyuheng/fz       # lets z+[Tab] and zz+[Tab]
+# fzf-tmux script, completions for many programs (e.g. kill <TAB>)
+# and key bindings
+zplugin ice multisrc"shell/{completion,key-bindings}.zsh" \
+    id-as"junegunn/fzf_completions" pick"/dev/null" \
+    sbin"bin/fzf-tmux"
+zplugin load junegunn/fzf
 
+# Pure zsh port of rupa/z
+zplugin load agkozak/zsh-z
 
-# Like `z` command, but opens a file in vim based on frecency
-zcommand pick"v"; zload rupa/v
+# Pick from most frecent folders with `Ctrl+g`
+# Relies on z script
+zplugin load andrewferrier/fzf-z
+
+# Fast open file in vim
+zplugin ice fbin"v"
+zplugin load rupa/v
 
 
 #################################################################
@@ -81,32 +96,36 @@ zcommand pick"v"; zload rupa/v
 #
 
 # Install `ffsend` (a Firefox Send client) statically-linked binary
-zcommand if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' from"gh-r" bpick"^ffsend-v*-linux-x64-static$" mv"* -> ffsend";
-    zload timvisee/ffsend
-# Install `ffsend` completions
-turbo0 if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' as'completion' id-as'timvisee/ffsend_completions'
-    zsnippet 'https://raw.githubusercontent.com/timvisee/ffsend/master/contrib/completions/_ffsend'
+zplugin ice if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' \
+    from"gh-r" bpick"^ffsend-v*-linux-x64-static$" \
+    mv"ffsend-v* -> ffsend" fbin"ffsend"
+zplugin load timvisee/ffsend
 
-# Install `cloc` (code summary) binary if not already installed via package manager
-zcommand if'[[ -z "$commands[cloc]" ]]' from"gh-r" bpick"*pl" mv"cloc-* -> cloc";
-    zload AlDanial/cloc
+# Install `ffsend` completions
+zplugin ice if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' \
+    as'completion' id-as'timvisee/ffsend_completions' \
+    atpull'zplugin creinstall -q .'
+zplugin snippet 'https://raw.githubusercontent.com/timvisee/ffsend/master/contrib/completions/_ffsend'
 
 # Install timelapse screen recorder
-zcommand from"gh-r" mv'tl-* -> tl' if'[[ -n "$commands[X]" ]]'
-    zload ryanmjacobs/tl
+zplugin ice from"gh-r" mv'tl-* -> tl' fbin'tl' if'[[ -n "$commands[X]" ]]'
+zplugin load ryanmjacobs/tl
 
-# Git curses inteface
-turbo1 if'[[ $(uname -s) == Linux ]]' from"gh-r" bpick"^grv_v*_linux64$" mv"* -> grv"
-    zload rgburke/grv
+# Git curses interface
+zplugin ice as'command' if'[[ $(uname -s) == Linux ]]' \
+    from"gh-r" bpick"^grv_v*_linux64$" mv"grv_v* -> grv"
+zplugin load rgburke/grv
 
 
 #################################################################
 # INSTALL `k` COMMAND AND GENERATE COMPLITIONS
 #
-turbo0; zload RobSis/zsh-completion-generator
-turbo0 atload"gencomp k"
-    zload supercrabtree/k
-alias l='k -h'
+# zload RobSis/zsh-completion-generator
+
+# zplugin ice atload"gencomp k"
+# zload supercrabtree/k
+
+# # alias l='k -h'
 
 
 #################################################################
@@ -114,40 +133,37 @@ alias l='k -h'
 #
 
 # Add `git dsf` command to git
-zcommand pick"bin/git-dsf";            zload zdharma/zsh-diff-so-fancy
+zplugin ice has"git" as"program" pick"bin/git-dsf"
+zplugin load zdharma/zsh-diff-so-fancy
 
 # Add command-line online translator
-turbo1 if'[[ -n "$commands[gawk]" ]]'; zload soimort/translate-shell
+zplugin ice has"gawk"
+zplugin load soimort/translate-shell
 
-# `...` ==> `../..`
-turbo2 pick"manydots-magic";           zload knu/zsh-manydots-magic
+# # `...` ==> `../..`
+# turbo2 pick"manydots-magic";           zload knu/zsh-manydots-magic
 
 # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
-turbo1; zload hcgraf/zsh-sudo
+zplugin load hcgraf/zsh-sudo
 
 # Run `fg` command to return to foregrounded (Ctrl+Z'd) vim
-turbo1; zload mdumitru/fancy-ctrl-z
+zplugin load mdumitru/fancy-ctrl-z
 
 # Install gitcd function to clone git repository and cd into it
-turbo1; zload lainiwa/gitcd
-export GITCD_TRIM=1
-export GITCD_HOME=${HOME}/tmp
+GITCD_HOME=${HOME}/tmp
+GITCD_TRIM=1
+zplugin load lainiwa/gitcd
 
 # Adds `git open`
-turbo1; zload paulirish/git-open
+zplugin load paulirish/git-open
 
+# Get gitignore template with `gi` command
+zplugin load voronkovich/gitignore.plugin.zsh
 
-#################################################################
-# INSTALL/SOURCE LOCAL STUFF
-#
-
-# Install completions for `my` script and for python-gist
-# (use `-f` flag to force completion installation)
-zplugin ice as"completion" if"[ -f '${HOME}/.zsh/completions/_my' ]" id-as"my";
-    zsnippet "${HOME}/.zsh/completions/_my"
-
-turbo0 as"completion" if"[ -f '${HOME}/.local/share/gist/gist.zsh' ]" id-as"gist" mv"gist.zsh -> _gist";
-    zsnippet "${HOME}/.local/share/gist/gist.zsh"
+# Install completions for pyenv, if present in $PATH
+zplugin ice has'pyenv' id-as'pyenv' atpull'%atclone' \
+    atclone"pyenv init - --no-rehash > pyenv.plugin.zsh; zcompile pyenv.plugin.zsh"
+zplugin load zdharma/null
 
 
 #################################################################
@@ -155,27 +171,20 @@ turbo0 as"completion" if"[ -f '${HOME}/.local/share/gist/gist.zsh' ]" id-as"gist
 #
 
 # Additional completion definitions
-turbo0 blockf
-zload zsh-users/zsh-completions
+zplugin ice blockf atclone'zplugin creinstall -q .' atpull'%atclone'
+zplugin load zsh-users/zsh-completions
 
 # History search by `Ctrl+R`
-turbo1; zload zdharma/history-search-multi-word
+zplugin ice compile'{hsmw-*,test/*}'
+zplugin load zdharma/history-search-multi-word
+
+# Autosuggestions
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+zplugin ice compile'{src/*.zsh,src/strategies/*}' atload'_zsh_autosuggest_start'
+zplugin load zsh-users/zsh-autosuggestions
 
 # Syntax highlighting
 # (compinit without `-i` spawns warning on `sudo -s`)
-turbo0 atinit"ZPLGM[COMPINIT_OPTS]='-i' zpcompinit; zpcdreplay"
-    zload zdharma/fast-syntax-highlighting
-
-# Autosuggestions
-# Note: should go _after_ syntax highlighting plugin
-turbo0 atload"_zsh_autosuggest_start"; zload zsh-users/zsh-autosuggestions
-export ZSH_AUTOSUGGEST_USE_ASYNC=1
-export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-
-
-#################################################################
-# REMOVE TEMPORARY FUNCTIONS
-#
-unset -f turbo0
-unset -f zload
-unset -f zsnippet
+# zplugin ice atinit"ZPLGM[COMPINIT_OPTS]='-i' zpcompinit; zpcdreplay"
+zplugin load zdharma/fast-syntax-highlighting

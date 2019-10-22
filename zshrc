@@ -1,12 +1,18 @@
+
 # zmodload zsh/zprof
 
-# Connect to tmux automatically
-# if running in Simple Terminal or through Mosh
-if command -v tmux &>/dev/null &&
-    [[ -z "${TMUX}" && ${TERM} =~ st* || "$(ps -p $PPID -o comm=)" == 'mosh-server' ]]; then
-    tmux attach -t default || tmux new -s default
-    exit
-fi
+# Mass rename
+autoload -U zmv                                                                                  127:CNOTFOUND 1s
+alias mmv='noglob zmv -W'
+
+# # Connect to tmux automatically
+# # if running in Simple Terminal or through Mosh
+# # pstree -p -s $$ | grep tmux:
+# if command -v tmux &>/dev/null &&
+#     [[ -z "${TMUX}" && ${TERM} =~ st* || "$(ps -p $PPID -o comm=)" == 'mosh-server' ]]; then
+#     tmux attach -t default || tmux new -s default
+#     exit
+# fi
 
 
 # Set key bindings (Ctrl+V Key to see key code)
@@ -46,20 +52,18 @@ export NVM_DIR="${HOME}/.nvm"
 
 # Try to source:
 #     NVM script and its completions
-#     virtualenvwrapper
+#     python's virtualenvwrapper
 #     nix package manager
 #     zsh settings
 #     command-not-found functionality
-#     python's virtualenvwrapper
 for file in "${NVM_DIR}/nvm.sh" \
             "${NVM_DIR}/bash_completion" \
-            "${HOME}/.zsh/prompts.zsh" \
             "${HOME}/.zsh/aliases.zsh" \
             "${HOME}/.zsh/set_history.zsh" \
             "${HOME}/.zsh/zplugin.zsh" \
             "${HOME}/.zsh/completions.zsh" \
-            "${HOME}/.zsh/other/command-not-found.zsh" \
-            "${HOME}/.local/bin/virtualenvwrapper_lazy.sh"
+            "${HOME}/.zsh/other/command-not-found.zsh"
+            # "${HOME}/.local/bin/virtualenvwrapper_lazy.sh"
 do
     [ -s "${file}" ] && source "${file}"
 done
@@ -92,3 +96,6 @@ insert_binary_from_path() {
 }
 zle -N insert_binary_from_path
 bindkey '^[d' insert_binary_from_path  # Alt+d
+
+
+# zprof

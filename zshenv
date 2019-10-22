@@ -18,5 +18,8 @@ _add_to_path "${HOME}/.cargo/bin"
 _add_to_path "${HOME}/.cabal/bin"
 export GOPATH="${HOME}/go"
 _add_to_path "${GOPATH}/bin"
+export PYENV_ROOT="${HOME}/.pyenv"
+_add_to_path "${PYENV_ROOT}/bin"
+_add_to_path "${HOME}/.poetry/bin"
 
 unset -f _add_to_path
