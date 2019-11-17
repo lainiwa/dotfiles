@@ -9,6 +9,8 @@ alias ll='ls -l'
 alias la='ls -A'
 alias lal='ls -Al'
 
+alias gl='git log --oneline --graph --decorate --all'
+
 # Colorize `grep`s
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
