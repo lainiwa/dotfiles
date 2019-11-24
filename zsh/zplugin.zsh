@@ -140,9 +140,6 @@ zplugin load zdharma/zsh-diff-so-fancy
 zplugin ice has"gawk"
 zplugin load soimort/translate-shell
 
-# # `...` ==> `../..`
-# turbo2 pick"manydots-magic";           zload knu/zsh-manydots-magic
-
 # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
 zplugin load hcgraf/zsh-sudo
 
@@ -188,3 +185,7 @@ zplugin load zsh-users/zsh-autosuggestions
 # (compinit without `-i` spawns warning on `sudo -s`)
 # zplugin ice atinit"ZPLGM[COMPINIT_OPTS]='-i' zpcompinit; zpcdreplay"
 zplugin load zdharma/fast-syntax-highlighting
+
+# `...` ==> `../..`
+zplugin ice lucid wait"0b" pick"manydots-magic"
+zplugin load knu/zsh-manydots-magic
