@@ -102,9 +102,7 @@ zplugin ice if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' \
 zplugin load timvisee/ffsend
 
 # Install `ffsend` completions
-zplugin ice if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' \
-    as'completion' id-as'timvisee/ffsend_completions' \
-    atpull'zplugin creinstall -q .'
+zplugin ice if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' as'completion'
 zplugin snippet 'https://raw.githubusercontent.com/timvisee/ffsend/master/contrib/completions/_ffsend'
 
 # Install timelapse screen recorder
