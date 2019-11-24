@@ -183,7 +183,7 @@ zplugin load zsh-users/zsh-autosuggestions
 
 # Syntax highlighting
 # (compinit without `-i` spawns warning on `sudo -s`)
-# zplugin ice atinit"ZPLGM[COMPINIT_OPTS]='-i' zpcompinit; zpcdreplay"
+zplugin ice wait'0' lucid atinit"ZPLGM[COMPINIT_OPTS]='-i' zpcompinit; zpcdreplay"
 zplugin load zdharma/fast-syntax-highlighting
 
 # `...` ==> `../..`
