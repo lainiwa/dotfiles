@@ -202,6 +202,19 @@ zplugin ice has'rustup' id-as'rustup' atpull'%atclone' \
     "
 zplugin load zdharma/null
 
+
+zplugin ice from"gh-r" mv"exa* -> exa" sbin"exa" \
+    atinit"
+        alias ls='exa --color=auto --header --git'
+        alias la='ls -a'
+        alias lal='ls -al'
+    "
+zplugin load ogham/exa
+
+zplugin ice as'completion' mv"*.zsh -> _exa"
+zplugin snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
+
+
 #################################################################
 # IMPORTANT PLUGINS
 #
