@@ -157,6 +157,20 @@ zplugin load paulirish/git-open
 # Get gitignore template with `gi` command
 zplugin load voronkovich/gitignore.plugin.zsh
 
+# Git-extras
+zplugin ice as"program" \
+    pick"${ZPFX}/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=${ZPFX}"
+zplugin light tj/git-extras
+
+# Gitflow commands and completions
+zplugin ice as"command" make"install prefix=${ZPFX}"
+zplugin load nvie/gitflow
+zplugin load bobthecow/git-flow-completion
+
+# Completions for docker-compose
+zplugin ice wait'0' lucid has'docker-compose' as"completion" atpull'zplugin creinstall -q .'
+zplugin snippet https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose
+
 # Install completions for pyenv, if present in $PATH
 zplugin ice has'pyenv' id-as'pyenv' atpull'%atclone' \
     atclone"pyenv init - --no-rehash > pyenv.plugin.zsh; zcompile pyenv.plugin.zsh"
