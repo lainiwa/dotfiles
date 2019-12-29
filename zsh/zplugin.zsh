@@ -114,6 +114,14 @@ zplugin ice as'command' if'[[ $(uname -s) == Linux ]]' \
     from"gh-r" bpick"^grv_v*_linux64$" mv"grv_v* -> grv"
 zplugin load rgburke/grv
 
+# Install twtxt (zplugin automatically installs completions/_txtnish)
+zplugin ice as"command" make"PREFIX=${ZPFX}"
+zplugin load mdom/txtnish
+
+# Install fff and it's man page
+zplugin ice as"command" make"PREFIX=${ZPFX} install"
+zplugin load dylanaraps/fff
+
 
 #################################################################
 # INSTALL `k` COMMAND AND GENERATE COMPLITIONS
@@ -213,6 +221,14 @@ zplugin load ogham/exa
 
 zplugin ice as'completion' mv"*.zsh -> _exa"
 zplugin snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
+
+# Install Nix package manager completions
+zplugin ice has'nix'
+zplugin load spwhitt/nix-zsh-completions
+
+# Install Guix package manager completions
+zplugin ice has'guix' as'completion'
+zplugin snippet 'https://git.savannah.gnu.org/cgit/guix.git/plain/etc/completion/zsh/_guix'
 
 
 #################################################################
