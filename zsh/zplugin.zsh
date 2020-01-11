@@ -221,6 +221,8 @@ zplugin ice from"gh-r" mv"exa* -> exa" sbin"exa" \
     "
 zplugin load ogham/exa
 
+
+# Completions for ls substitute - exa
 zplugin ice as'completion' mv"*.zsh -> _exa"
 zplugin snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
 
