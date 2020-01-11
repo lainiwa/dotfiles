@@ -40,3 +40,6 @@ _add_to_path "${GUIX_PROFILE}/sbin"
 _add_to_path "${HOME}/.config/guix/current/bin"
 
 unset -f _add_to_path
+
+
+export HOSTALIASES="${HOME}/.hosts"
