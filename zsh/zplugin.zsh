@@ -226,6 +226,11 @@ zplugin snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/comp
 
 zplugin ice from"gh-r" bpick"broot" fbin"broot -> br"
 zplugin load Canop/broot
+
+# Completions for buku bookmark manager
+zplugin ice has'buku' as'completion'
+zplugin snippet 'https://raw.githubusercontent.com/jarun/Buku/master/auto-completion/zsh/_buku'
+
 # Install Nix package manager completions
 zplugin ice has'nix'
 zplugin load spwhitt/nix-zsh-completions
