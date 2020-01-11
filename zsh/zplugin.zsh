@@ -167,6 +167,8 @@ zplugin load voronkovich/gitignore.plugin.zsh
 zplugin ice as"program" \
     pick"${ZPFX}/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=${ZPFX}"
 zplugin light tj/git-extras
+zplugin ice as"completion"
+zplugin snippet 'https://raw.githubusercontent.com/tj/git-extras/master/etc/git-extras-completion.zsh'
 
 # Gitflow commands and completions
 zplugin ice as"command" make"install prefix=${ZPFX}"
