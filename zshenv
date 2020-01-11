@@ -32,7 +32,7 @@ if [[ -f "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]]; then
 fi
 # Guix
 export GUIX_PROFILE="${HOME}/.guix-profile"
-source "${GUIX_PROFILE}/etc/profile"
+# source "${GUIX_PROFILE}/etc/profile"
 export GUIX_LOCPATH="${GUIX_PROFILE}/lib/locale"
 export GUIX_GTK3_PATH="${GUIX_PROFILE}/lib/gtk-3.0${GUIX_GTK3_PATH:+:}${GUIX_GTK3_PATH}"
 _add_to_path "${GUIX_PROFILE}/bin"
