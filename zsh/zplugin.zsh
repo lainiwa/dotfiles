@@ -221,6 +221,11 @@ zplugin ice from"gh-r" mv"exa* -> exa" sbin"exa" \
     "
 zplugin load ogham/exa
 
+zplugin ice as'completion' mv"*.zsh -> _gist" atpull'%atclone' \
+    atclone"
+        zplugin creinstall -q %SNIPPETS/https--raw.githubusercontent.com--jdowner--gist--alpha--share/gist.zsh
+    "
+zplugin snippet 'https://raw.githubusercontent.com/jdowner/gist/alpha/share/gist.zsh'
 
 # Completions for ls substitute - exa
 zplugin ice as'completion' mv"*.zsh -> _exa"
