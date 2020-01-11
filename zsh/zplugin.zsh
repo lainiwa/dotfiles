@@ -177,7 +177,7 @@ zplugin load bobthecow/git-flow-completion
 
 # Completions for docker-compose
 zplugin ice wait'0' lucid has'docker-compose' as"completion" atpull'zplugin creinstall -q .'
-zplugin snippet https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose
+zplugin snippet 'https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose'
 
 
 #################################################################
