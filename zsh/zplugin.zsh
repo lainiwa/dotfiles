@@ -224,6 +224,8 @@ zplugin load ogham/exa
 zplugin ice as'completion' mv"*.zsh -> _exa"
 zplugin snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
 
+zplugin ice from"gh-r" bpick"broot" fbin"broot -> br"
+zplugin load Canop/broot
 # Install Nix package manager completions
 zplugin ice has'nix'
 zplugin load spwhitt/nix-zsh-completions
