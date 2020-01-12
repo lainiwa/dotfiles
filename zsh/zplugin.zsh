@@ -95,6 +95,10 @@ zplugin load rupa/v
 # INSTALL NON-PLUGIN COMMANDS
 #
 
+# Broot aka br - a tree file viewer
+zplugin ice from"gh-r" bpick"broot" fbin"broot -> br"
+zplugin load Canop/broot
+
 # Install `ffsend` (a Firefox Send client) statically-linked binary
 zplugin ice if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' \
     from"gh-r" bpick"^ffsend-v*-linux-x64-static$" \
@@ -230,9 +234,6 @@ zplugin snippet 'https://raw.githubusercontent.com/jdowner/gist/alpha/share/gist
 # Completions for ls substitute - exa
 zplugin ice as'completion' mv"*.zsh -> _exa"
 zplugin snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
-
-zplugin ice from"gh-r" bpick"broot" fbin"broot -> br"
-zplugin load Canop/broot
 
 # Completions for buku bookmark manager
 zplugin ice has'buku' as'completion'
