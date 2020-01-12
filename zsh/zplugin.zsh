@@ -87,7 +87,7 @@ zplugin load agkozak/zsh-z
 zplugin load andrewferrier/fzf-z
 
 # Fast open file in vim
-zplugin ice fbin"v"
+zplugin ice has'bash' fbin"v"
 zplugin load rupa/v
 
 
@@ -96,7 +96,7 @@ zplugin load rupa/v
 #
 
 # Broot aka br - a tree file viewer
-zplugin ice from"gh-r" bpick"broot" fbin"broot -> br"
+zplugin ice if'[[ $(uname -s) == Linux ]]' from"gh-r" bpick"broot" fbin"broot -> br"
 zplugin load Canop/broot
 
 # Install `ffsend` (a Firefox Send client) statically-linked binary
@@ -110,7 +110,7 @@ zplugin ice if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' as'completi
 zplugin snippet 'https://raw.githubusercontent.com/timvisee/ffsend/master/contrib/completions/_ffsend'
 
 # Install timelapse screen recorder
-zplugin ice from"gh-r" mv'tl-* -> tl' fbin'tl' if'[[ -n "$commands[X]" ]]'
+zplugin ice from"gh-r" mv'tl-* -> tl' fbin'tl' has'X'
 zplugin load ryanmjacobs/tl
 
 # Git curses interface
@@ -217,7 +217,7 @@ zplugin ice has'rustup' id-as'rustup' atpull'%atclone' \
 zplugin load zdharma/null
 
 
-zplugin ice from"gh-r" mv"exa* -> exa" sbin"exa" \
+zplugin ice if'[[ $(uname -s) == Linux ]]' from"gh-r" mv"exa* -> exa" sbin"exa" \
     atinit"
         alias ls='exa --color=auto --header --git'
         alias la='ls -a'
