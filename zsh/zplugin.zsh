@@ -245,7 +245,7 @@ zplugin ice as'completion' mv"*.zsh -> _exa"
 zplugin snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
 
 # Completions for buku bookmark manager
-zplugin ice has'buku' as'completion'
+zplugin ice as'completion' has'buku'
 zplugin snippet 'https://raw.githubusercontent.com/jarun/Buku/master/auto-completion/zsh/_buku'
 
 # Install Nix package manager completions
@@ -253,7 +253,7 @@ zplugin ice has'nix'
 zplugin load spwhitt/nix-zsh-completions
 
 # Install Guix package manager completions
-zplugin ice has'guix' as'completion'
+zplugin ice as'completion' has'guix'
 zplugin snippet 'https://git.savannah.gnu.org/cgit/guix.git/plain/etc/completion/zsh/_guix'
 
 
