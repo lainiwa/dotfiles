@@ -27,6 +27,10 @@ zmodload zdharma/zplugin
 # Install an extension for zplugin for managing "shims"
 zplugin load zplugin/z-a-bin-gem-node
 
+# Install extension for zplugin for running tests on plugin load
+zplugin load zdharma/z-p-test
+zstyle :zplugin:annex:test quiet 0
+
 
 #################################################################
 # PROMPT SETTINGS
