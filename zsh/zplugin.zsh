@@ -190,10 +190,6 @@ zplugin ice as"command" make"install prefix=${ZPFX}"
 zplugin load nvie/gitflow
 zplugin load bobthecow/git-flow-completion
 
-# Completions for docker-compose
-zplugin ice wait'0' lucid has'docker-compose' as"completion" atpull'zplugin creinstall -q .'
-zplugin snippet 'https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose'
-
 
 #################################################################
 # COMPLETIONS FOR ALREADY INSTALLED BINARIES
@@ -255,6 +251,10 @@ zplugin load spwhitt/nix-zsh-completions
 # Install Guix package manager completions
 zplugin ice as'completion' has'guix'
 zplugin snippet 'https://git.savannah.gnu.org/cgit/guix.git/plain/etc/completion/zsh/_guix'
+
+# Completions for docker-compose
+zplugin ice as"completion" has'docker-compose'
+zplugin snippet 'https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose'
 
 
 #################################################################
