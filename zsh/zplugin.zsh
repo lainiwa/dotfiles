@@ -56,9 +56,9 @@ AGKOZAK_CUSTOM_RPROMPT+=' %B%F{green}$([[ -n ${ZSH_COMMAND_TIME} ]] && pretty-ti
 
 zplugin load tonyseek/oh-my-zsh-virtualenv-prompt
 zplugin load bric3/nice-exit-code
-zplugin ice compile"*.zsh"; zplugin load sindresorhus/pretty-time-zsh
+zplugin load sindresorhus/pretty-time-zsh
 zplugin load popstas/zsh-command-time
-zplugin ice compile"lib/*.zsh"; zplugin load agkozak/agkozak-zsh-prompt
+zplugin load agkozak/agkozak-zsh-prompt
 
 
 #################################################################
@@ -197,7 +197,7 @@ zplugin snippet 'https://github.com/docker/compose/blob/master/contrib/completio
 
 # Install completions for pyenv, if present in $PATH
 zplugin ice has'pyenv' id-as'pyenv' atpull'%atclone' \
-    atclone"pyenv init - --no-rehash > pyenv.plugin.zsh; zcompile pyenv.plugin.zsh"
+    atclone"pyenv init - --no-rehash > pyenv.plugin.zsh"
 zplugin load zdharma/null
 
 # Install completions for poetry, if present in $PATH
@@ -207,7 +207,6 @@ zplugin ice has'poetry' id-as'poetry' atpull'%atclone' \
         mkdir src/ &&
         poetry completions zsh > src/_poetry &&
         echo fpath+=\"\${0:h}/src\" > poetry.plugin.zsh &&
-        zplugin creinstall -q .
     "
 zplugin load zdharma/null
 
@@ -219,7 +218,6 @@ zplugin ice has'rustup' id-as'rustup' atpull'%atclone' \
         rustup completions zsh cargo > src/_cargo &&
         rustup completions zsh rustup > src/_rustup &&
         echo fpath+=\"\${0:h}/src\" > rustup.plugin.zsh &&
-        zplugin creinstall -q .
     "
 zplugin load zdharma/null
 
@@ -264,13 +262,12 @@ zplugin ice blockf atclone'zplugin creinstall -q .' atpull'%atclone'
 zplugin load zsh-users/zsh-completions
 
 # History search by `Ctrl+R`
-zplugin ice compile'{hsmw-*,test/*}'
 zplugin load zdharma/history-search-multi-word
 
 # Autosuggestions
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-zplugin ice compile'{src/*.zsh,src/strategies/*}' atload'_zsh_autosuggest_start'
+zplugin ice atload'_zsh_autosuggest_start'
 zplugin load zsh-users/zsh-autosuggestions
 
 # Syntax highlighting
