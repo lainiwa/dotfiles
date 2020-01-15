@@ -172,18 +172,15 @@ zplugin load paulirish/git-open
 zplugin load voronkovich/gitignore.plugin.zsh
 
 # Git-extras
-zplugin ice as"program" \
-    pick"${ZPFX}/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=${ZPFX}" atpull"%atclone" \
-    if'[[ $(uname -s) == FreeBSD && -n $commands[gmake] || $(uname -s) == Linux ]]' \
-    atclone'
-        if [[ $(uname -s) == FreeBSD ]]; then
-            tmp_dir=$(mktemp -d -t ge-XXXXXXXXXX);
-            ln -s $(which gmake) $tmp_dir/make
-            export OLD_PATH=$PATH
-            export PATH=$tmp_dir:$PATH                                                                                                                    180         fi                                                                                                                                                181     '
-zplugin load tj/git-extras
-zplugin ice as"completion"
-zplugin snippet 'https://raw.githubusercontent.com/tj/git-extras/master/etc/git-extras-completion.zsh'
+# zplugin ice as"program" \
+#     pick"${ZPFX}/bin/git-*" make"PREFIX=${ZPFX}"
+# zplugin load tj/git-extras
+
+# zplugin ice as'completion' src"etc/git-extras-completion.zsh" id-as"extracomp"
+# zplugin load tj/git-extras
+
+# zplugin ice pick"git-extras-completion.zsh"
+# zplugin snippet 'https://raw.githubusercontent.com/tj/git-extras/master/etc/git-extras-completion.zsh'
 
 # Gitflow commands and completions
 zplugin ice as"command" make"install prefix=${ZPFX}"
