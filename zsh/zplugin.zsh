@@ -253,6 +253,11 @@ zplugin snippet 'https://git.savannah.gnu.org/cgit/guix.git/plain/etc/completion
 zplugin ice as"completion" has'docker-compose'
 zplugin snippet 'https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose'
 
+# Colorize ls/exa output based on file type
+zplugin ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
+    atpull'%atclone' pick"clrs.zsh" nocompile'!'
+zplugin load trapd00r/LS_COLORS
+
 
 #################################################################
 # IMPORTANT PLUGINS
