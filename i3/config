@@ -204,5 +204,10 @@ bindsym $mod+Shift+Tab workspace prev
 
 # set keyboard layouts
 exec setxkbmap -option grp:switch,grp:alt_shift_toggle us,ru
+# `xmodmap -pke | egrep -e '(Caps_Lock|Escape)'`
+#     -->  Caps_Lock=66 Escape=9
+# exec xmodmap -e "keycode 66 = Escape"
+# exec xmodmap -e "keycode  9 = Caps_Lock"
+
 # swap Caps Lock and Escape keys
 # exec setxkbmap -option caps:swapescape

@@ -33,27 +33,27 @@
     # Sublime
     ~/.config/sublime-text-3/Packages/User/Anaconda.sublime-settings:
         if: command -v subl >/dev/null
-        path: sublime3-settings/Anaconda.sublime-settings
+        path: config/sublime3-settings/Anaconda.sublime-settings
     ~/.config/sublime-text-3/Packages/User/Markdown.sublime-settings:
         if: command -v subl >/dev/null
-        path: sublime3-settings/Markdown.sublime-settings
+        path: config/sublime3-settings/Markdown.sublime-settings
     ~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings:
         if: command -v subl >/dev/null
-        path: sublime3-settings/Package Control.sublime-settings
+        path: config/sublime3-settings/Package Control.sublime-settings
     ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings:
         if: command -v subl >/dev/null
-        path: sublime3-settings/Preferences.sublime-settings
+        path: config/sublime3-settings/Preferences.sublime-settings
         force: true
     # Ranger
     ~/.config/ranger/rc.conf:
         if: command -v ranger >/dev/null
-        path: ranger/rc.conf
+        path: config/ranger/rc.conf
     ~/.config/ranger/scope.sh:
         if: command -v ranger >/dev/null
-        path: ranger/scope.sh
+        path: config/ranger/scope.sh
     ~/.config/ranger/rifle.conf:
         if: command -v ranger >/dev/null
-        path: ranger/rifle.conf
+        path: config/ranger/rifle.conf
     # X11
     ~/.i3:
         if: command -v i3 >/dev/null
@@ -64,10 +64,10 @@
     # Torrents
     ~/.config/torrench:
         if: command -v torrench >/dev/null
-        path: torrench
+        path: config/torrench
     ~/.config/Jackett:
         if: command -v docker >/dev/null
-        path: Jackett
+        path: config/Jackett
 
 
 - shell:
