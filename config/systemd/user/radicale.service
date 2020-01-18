@@ -1,0 +1,10 @@
+[Unit]
+Description=A simple CalDAV (calendar) and CardDAV (contact) server
+
+[Service]
+ExecStart=/usr/bin/env radicale
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+
