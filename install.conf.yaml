@@ -68,7 +68,10 @@
     ~/.config/Jackett:
         if: command -v docker >/dev/null
         path: config/Jackett
-
+    # Systemd
+    ~/.config/systemd/user:
+        path: config/systemd/user
+        if: command -v systemctl >/dev/null
 
 - shell:
     # Urxvt extensions
