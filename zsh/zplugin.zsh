@@ -54,8 +54,8 @@ AGKOZAK_CUSTOM_RPROMPT='%(3V.%F{yellow}%3v%f.)'
 # Exit status
 AGKOZAK_CUSTOM_RPROMPT+=' %B%F{red}$(nice_exit_code)%f%b'
 # Execution time
-ZSH_COMMAND_TIME_MIN_SECONDS=1
-ZSH_COMMAND_TIME_MSG=''
+export ZSH_COMMAND_TIME_MIN_SECONDS=1
+export ZSH_COMMAND_TIME_MSG=''
 AGKOZAK_CUSTOM_RPROMPT+=' %B%F{green}$([[ -n ${ZSH_COMMAND_TIME} ]] && pretty-time ${ZSH_COMMAND_TIME})%f%b'
 
 zplugin load tonyseek/oh-my-zsh-virtualenv-prompt
@@ -161,8 +161,8 @@ zplugin load hcgraf/zsh-sudo
 zplugin load mdumitru/fancy-ctrl-z
 
 # Install gitcd function to clone git repository and cd into it
-GITCD_HOME=${HOME}/tmp
-GITCD_TRIM=1
+export GITCD_HOME=${HOME}/tmp
+export GITCD_TRIM=1
 zplugin load lainiwa/gitcd
 
 # Adds `git open`
@@ -271,8 +271,8 @@ zplugin load zsh-users/zsh-completions
 zplugin load zdharma/history-search-multi-word
 
 # Autosuggestions
-ZSH_AUTOSUGGEST_USE_ASYNC=1
-ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 zplugin ice atload'_zsh_autosuggest_start'
 zplugin load zsh-users/zsh-autosuggestions
 
