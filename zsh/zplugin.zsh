@@ -159,8 +159,8 @@ zinit ice has"git" as"program" pick"bin/git-dsf"
 zinit load zdharma/zsh-diff-so-fancy
 
 # Add command-line online translator
-# zinit ice has"gawk"
-# zinit load soimort/translate-shell
+zinit ice has"gawk"
+zinit load soimort/translate-shell
 
 # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
 zinit load hcgraf/zsh-sudo
