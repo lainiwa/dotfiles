@@ -226,6 +226,13 @@ zinit ice has'rustup' id-as'rustup' atpull'%atclone' \
     "
 zinit load zdharma/null
 
+# Substitute cat with bat
+zinit ice if'[[ $(uname -s) == Linux ]]' from"gh-r" sbin"bat" \
+    mv'bat-*/bat -> bat' \
+    bpick"bat-v*-x86_64-unknown-linux-gnu*" \
+    atload"alias cat=bat"
+zinit load sharkdp/bat
+
 # Exa - ls replacement
 zinit ice if'[[ $(uname -s) == Linux ]]' from"gh-r" mv"exa* -> exa" sbin"exa" \
     atinit"
