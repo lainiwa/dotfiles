@@ -206,7 +206,7 @@ zinit ice has'pyenv' id-as'pyenv' atpull'%atclone' \
 zinit load zdharma/null
 
 # Install completions for poetry, if present in $PATH
-zinit ice has'poetry' id-as'poetry' atpull'%atclone' \
+zinit ice has'poetry' id-as'poetry' \
     blockf atpull'%atclone' \
     atclone"
         mkdir src/ &&
@@ -216,7 +216,7 @@ zinit ice has'poetry' id-as'poetry' atpull'%atclone' \
 zinit load zdharma/null
 
 # Install completions for rustup and cargo, if rustup is in $PATH
-zinit ice has'rustup' id-as'rustup' atpull'%atclone' \
+zinit ice has'rustup' id-as'rustup' \
     blockf atpull'%atclone' \
     atclone"
         mkdir src/ &&
