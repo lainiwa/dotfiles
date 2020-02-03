@@ -30,8 +30,8 @@ zmodload zdharma/zplugin
 zinit load zinit-zsh/z-a-bin-gem-node
 
 # Install extension for zinit for running tests on plugin load
-# zinit load zdharma/z-p-test
-# zstyle :zinit:annex:test quiet 0
+zinit load zinit-zsh/z-a-test
+zstyle :zinit:annex:test quiet 0
 
 
 #################################################################
