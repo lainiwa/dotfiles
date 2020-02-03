@@ -104,6 +104,16 @@ zinit load rupa/v
 # INSTALL NON-PLUGIN COMMANDS
 #
 
+# Rclone - rsync for cloud drives
+zinit ice if'[[ $(uname -s) == Linux ]]' \
+    from"gh-r" bpick"*-linux-amd64.zip" \
+    sbin"rclone-*/rclone" atpull'%atclone' \
+    atclone"
+        rclone-*/rclone genautocomplete zsh _rclone &&
+        cp rclone-*/*.1 ${ZPFX}/share/man/man1/
+    " \
+    src"_rclone"
+zinit load rclone/rclone
 
 # Hub - a command to work with github + alias + completions + man
 zinit ice from"gh-r" bpick"hub-linux-amd64*" atpull'%atclone' \
