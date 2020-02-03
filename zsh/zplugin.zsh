@@ -115,6 +115,34 @@ zinit ice if'[[ $(uname -s) == Linux ]]' \
     src"_rclone"
 zinit load rclone/rclone
 
+# Substitute cat with bat
+zinit ice if'[[ $(uname -s) == Linux ]]' \
+    from"gh-r" bpick"bat-v*-x86_64-unknown-linux-gnu*" \
+    sbin"bat" \
+    mv'bat-*/bat -> bat' \
+    atload"alias cat=bat"
+zinit load sharkdp/bat
+
+# Exa - ls replacement
+zinit ice if'[[ $(uname -s) == Linux ]]' \
+    from"gh-r" mv"exa* -> exa" sbin"exa" \
+    atinit"
+        alias ls='exa --color=auto --header --git'
+        alias la='ls -a'
+        alias lal='ls -al'
+        alias lt='exa --tree'
+    "
+zinit load ogham/exa
+
+# Completions for ls substitute - exa
+zinit ice as'completion' mv"*.zsh -> _exa"
+zinit snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
+
+# Man pages for exa
+zinit ice id-as"ogham/exa_man" pick"/dev/null" atpull'%atclone' \
+    atclone"cp contrib/man/*.1 ${ZPFX}/share/man/man1/"
+zinit load ogham/exa
+
 # Hub - a command to work with github + alias + completions + man
 zinit ice from"gh-r" bpick"hub-linux-amd64*" atpull'%atclone' \
     atclone"
@@ -256,31 +284,6 @@ zinit ice has'rustup' id-as'rustup' \
         echo fpath+=\"\${0:h}/src\" > rustup.plugin.zsh &&
     "
 zinit load zdharma/null
-
-# Substitute cat with bat
-zinit ice if'[[ $(uname -s) == Linux ]]' from"gh-r" sbin"bat" \
-    mv'bat-*/bat -> bat' \
-    bpick"bat-v*-x86_64-unknown-linux-gnu*" \
-    atload"alias cat=bat"
-zinit load sharkdp/bat
-
-# Exa - ls replacement
-zinit ice if'[[ $(uname -s) == Linux ]]' from"gh-r" mv"exa* -> exa" sbin"exa" \
-    atinit"
-        alias ls='exa --color=auto --header --git'
-        alias la='ls -a'
-        alias lal='ls -al'
-    "
-zinit load ogham/exa
-
-# Completions for ls substitute - exa
-zinit ice as'completion' mv"*.zsh -> _exa"
-zinit snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
-
-# Man pages for exa
-zinit ice id-as"ogham/exa_man" pick"/dev/null" atpull'%atclone' \
-    atclone"cp contrib/man/*.1 ${ZPFX}/share/man/man1/"
-zinit load ogham/exa
 
 zinit ice as'completion' mv"*.zsh -> _gist" atpull'%atclone' \
     atclone"
