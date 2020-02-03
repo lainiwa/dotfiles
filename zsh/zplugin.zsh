@@ -155,6 +155,9 @@ zinit load dylanaraps/fff
 # OTHER PLUGINS
 #
 
+# Rename tmux pane to current folder's basename
+zinit load trystan2k/zsh-tab-title
+
 # Add `git dsf` command to git
 zinit ice has"git" as"program" pick"bin/git-dsf"
 zinit load zdharma/zsh-diff-so-fancy
