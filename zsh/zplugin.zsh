@@ -91,6 +91,7 @@ zinit load agkozak/zsh-z
 
 # Pick from most frecent folders with `Ctrl+g`
 # Relies on z script
+export ZSHZ_OWNER=$(basename "${HOME}")
 zinit load andrewferrier/fzf-z
 
 # Fast open file in vim
