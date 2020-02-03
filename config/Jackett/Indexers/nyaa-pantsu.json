@@ -3,13 +3,13 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://nyaa.pantsu.cat/"
+    "value": "https://nyaa.net/"
   },
   {
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__cfduid=dae797fdb8e172f72bec9b5e3ca3f9c531546622992; csrf_token=Mnbp/0zm1/NmVTzisTQ5eVUKE6lFVeWvy0zFIZKyWEQ=; EU_Cookie=true; csrf_token=HtVyN2Z2e/Sg8voQqgSxTOlQkcfTA1waFa5boJAWtsA=; csrf_token=X+q51UUkOwi28sHuvx9VOMMHIA0xOdpMDNimJ5kDtLc=; csrf_token=B2F5YlCO/RgN9rEav8HZ58t2eFyZbVuym/tm80ZIxpk=; csrf_token=PhETDaQLywuxOSqfpzRNlBxKoaCgzY8fk2sWFk50VwQ=; csrf_token=4tBEid7RQCeKKB5IE5PxwFtg1F+W3DVEaQGuYV8o38w=; csrf_token=db0z26c4fYS59loqhsVUqpNzsAeJI7Z6K/DvkaQy3RQ="
+    "value": "__cfduid=dae797fdb8e172f72bec9b5e3ca3f9c531546622992; csrf_token=Mnbp/0zm1/NmVTzisTQ5eVUKE6lFVeWvy0zFIZKyWEQ=; EU_Cookie=true; csrf_token=HtVyN2Z2e/Sg8voQqgSxTOlQkcfTA1waFa5boJAWtsA=; csrf_token=X+q51UUkOwi28sHuvx9VOMMHIA0xOdpMDNimJ5kDtLc=; csrf_token=B2F5YlCO/RgN9rEav8HZ58t2eFyZbVuym/tm80ZIxpk=; csrf_token=PhETDaQLywuxOSqfpzRNlBxKoaCgzY8fk2sWFk50VwQ=; csrf_token=4tBEid7RQCeKKB5IE5PxwFtg1F+W3DVEaQGuYV8o38w=; csrf_token=db0z26c4fYS59loqhsVUqpNzsAeJI7Z6K/DvkaQy3RQ=; csrf_token=DL7613AYvqEtwkwp2JawYWQ0rBh0ylLTekFZoDCu7SY=; csrf_token=qLr3dODEZ0EaxUNfNjB//JIyZbMh0gjOr8xFY+/UVwo=; csrf_token=XYG9Hw5ileXrTTdcyw6PRH/eMmJJx8cHbi3CDkQRdTw=; csrf_token=dTee5+VqIuYdq715iNBG8rWq90Djl/uOcrhq7c4cVA8="
   },
   {
     "id": "lasterror",
@@ -34,22 +34,41 @@
       "2_4": "Audio - Lossy",
       "4_": "Literature",
       "4_7": "Literature - English-translated",
-      "4_14": "Literature - Raw",
+      "4_14": "Literature - Non-English-translated",
+      "4_8": "Literature - Raw",
       "1_": "Software",
       "1_1": "Software - Applications",
-      "1_2": "Software - Games"
+      "1_2": "Software - Games",
+      "5_": "Live Action",
+      "5_10": "Live Action - Trailers",
+      "5_9": "Live Action - English subtitled",
+      "5_18": "Live Action - Non-English subtitled",
+      "5_11": "Live Action - Raw",
+      "6_": "Pictures",
+      "6_15": "Pictures - Graphics",
+      "6_16": "Pictures - Photos"
     }
   },
   {
-    "id": "filter",
+    "id": "sortrequestedfromsite",
     "type": "inputselect",
-    "name": "Filter",
-    "value": "0",
+    "name": "Sort requested from site",
+    "value": "2",
     "options": {
-      "0": "Show all",
-      "1": "Filter Remakes",
-      "2": "Trusted",
-      "3": "A+"
+      "2": "created",
+      "5": "seeders",
+      "4": "size",
+      "1": "title"
+    }
+  },
+  {
+    "id": "orderrequestedfromsite",
+    "type": "inputselect",
+    "name": "Order requested from site",
+    "value": "false",
+    "options": {
+      "false": "desc",
+      "true": "asc"
     }
   }
 ]

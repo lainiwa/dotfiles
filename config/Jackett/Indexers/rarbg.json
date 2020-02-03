@@ -15,13 +15,24 @@
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__cfduid=d243b7426ae309d3b8cb1c980a20887f01571412863"
+    "value": "__cfduid=da994b0e6c1672a305d544f9fbb325e8e1580308541"
   },
   {
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
     "value": null
+  },
+  {
+    "id": "sortrequestedfromsite",
+    "type": "inputselect",
+    "name": "Sort requested from site",
+    "value": "last",
+    "options": {
+      "last": "created",
+      "seeders": "seeders",
+      "leechers": "leechers"
+    }
   },
   {
     "id": "generatetorrentdownloadlinkadditionallytomagnet(notrecommendedduetoddosprotection).",
