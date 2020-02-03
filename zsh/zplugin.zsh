@@ -311,11 +311,6 @@ zinit snippet 'https://github.com/docker/compose/blob/master/contrib/completion/
 zinit ice as"completion" has"khal" mv'__khal -> _khal'
 zinit snippet 'https://github.com/pimutils/khal/raw/master/misc/__khal'
 
-# Colorize ls/exa output based on file type
-zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
-    atpull'%atclone' pick"clrs.zsh" nocompile'!'
-zinit load trapd00r/LS_COLORS
-
 
 #################################################################
 # IMPORTANT PLUGINS
