@@ -199,6 +199,11 @@ zinit ice as"command" make"install prefix=${ZPFX}"
 zinit load nvie/gitflow
 zinit load bobthecow/git-flow-completion
 
+# Colorize ls/exa output based on file type
+zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
+    atpull'%atclone' pick"clrs.zsh" nocompile'!'
+zinit load trapd00r/LS_COLORS
+
 
 #################################################################
 # COMPLETIONS FOR ALREADY INSTALLED BINARIES
