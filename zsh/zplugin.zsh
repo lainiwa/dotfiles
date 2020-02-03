@@ -104,6 +104,18 @@ zinit load rupa/v
 # INSTALL NON-PLUGIN COMMANDS
 #
 
+
+# Hub - a command to work with github + alias + completions + man
+zinit ice from"gh-r" bpick"hub-linux-amd64*" atpull'%atclone' \
+    atclone"
+        cd hub-* &&
+        PREFIX=${ZPFX} ./install
+    " \
+    mv"hub-*/etc/hub.zsh_completion -> _hub" \
+    as"completion" pick"_hub" \
+    atload"alias git=hub"
+zinit load github/hub
+
 # Broot aka br - a tree file viewer
 zinit ice if'[[ $(uname -s) == Linux ]]' from"gh-r" bpick"broot" fbin"broot -> br"
 zinit load Canop/broot
