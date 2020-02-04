@@ -104,6 +104,10 @@ zinit load rupa/v
 # INSTALL NON-PLUGIN COMMANDS
 #
 
+# Gdown - downloader for google drive
+zinit ice as'command' mv'gdown.pl -> gdown' pick'gdown'
+zinit load circulosmeos/gdown.pl
+
 # Rclone - rsync for cloud drives
 zinit ice if'[[ $(uname -s) == Linux ]]' \
     from"gh-r" bpick"*-linux-amd64.zip" \
