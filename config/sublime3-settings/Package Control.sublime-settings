@@ -6,7 +6,9 @@
 	"installed_packages":
 	[
 		"Anaconda",
+		"EditorConfig",
 		"FindKeyConflicts",
+		"GitGutter",
 		"HTML-CSS-JS Prettify",
 		"LSP",
 		"MarkdownEditing",
