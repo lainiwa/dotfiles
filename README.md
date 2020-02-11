@@ -4,19 +4,30 @@
 
 
 ## Installation
+
+### Automatic installation
+
 Use no hassle installation [script](quick_install.sh):
 ```sh
 sh -c "$(curl 'https://raw.githubusercontent.com/lainiwa/dotfiles/master/quick_install.sh')"
 ```
 
-... or (if the idea of piping `curl` to shell interpreter offends you) go with this snippet:
+### Manual (rather semi-automatic) installation
+
+Get the repo
 ```sh
 git clone https://github.com/lainiwa/dotfiles.git ~/.dotfiles
-~/.dotfiles/install
-zsh -i -c -- '-zplg-scheduler burst || true'
 ```
 
-Either of these would install config files for only the tools you have installed on your system.
+Bootstrap the configs (create soft links to the configs) in the repo
+```sh
+~/.dotfiles/install
+```
+
+Eagerly load plugins for Z-shell
+```sh
+zsh -i -c -- '-zplg-scheduler burst || true'
+```
 
 
 ## Stuff I use
