@@ -3,9 +3,9 @@ _add_to_path() {
     local dir=$1
     if [[ -d ${dir} && ! ${PATH} =~ (:|^)${dir}(:|$) ]]; then
         if [[ ${dir} =~ ^/home ]]; then
-            export PATH=${dir}:${PATH}
+            export PATH=${dir}${PATH:+:}${PATH}
         else
-            export PATH=${PATH}:${dir}
+            export PATH=${PATH}${PATH:+:}${dir}
         fi
     fi
 }
