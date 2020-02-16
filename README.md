@@ -39,7 +39,7 @@ This configures the following set of tools:
 * **Text editor:** [Sublime Text 3](https://www.sublimetext.com/3)
 * **Terminal multiplexer:** [tmux](https://wiki.archlinux.org/index.php/Tmux) and [tmuxp](https://github.com/tmux-python/tmuxp)
 * **Terminal:** [urxvt](https://wiki.archlinux.org/index.php/rxvt-unicode)
-* **Shell and plugin manager:** [zsh](https://wiki.archlinux.org/index.php/Zsh) and [zplugin](https://github.com/zdharma/zplugin)
+* **Shell and plugin manager:** [zsh](https://wiki.archlinux.org/index.php/Zsh) and [zinit (formerly `zplugin`)](https://github.com/zdharma/zinit)
 * **Torrenting:** [torrench](https://github.com/kryptxy/torrench) and [jackett](https://github.com/Jackett/Jackett)
 
 
