@@ -38,6 +38,7 @@ if [[ -f ${GUIX_PROFILE}/etc/profile ]]; then
 fi
 export GUIX_LOCPATH="${GUIX_PROFILE}/lib/locale"
 export GUIX_GTK3_PATH="${GUIX_PROFILE}/lib/gtk-3.0${GUIX_GTK3_PATH:+:}${GUIX_GTK3_PATH}"
+export GUIX_PACKAGE_PATH=${HOME}/.dotfiles/guix-packages
 _add_to_path "${GUIX_PROFILE}/bin"
 _add_to_path "${GUIX_PROFILE}/sbin"
 _add_to_path "${HOME}/.config/guix/current/bin"
