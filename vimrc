@@ -13,3 +13,6 @@ Plug 'terryma/vim-multiple-cursors'
 
 " Initialize plugin system
 call plug#end()
+
+set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
+
