@@ -22,6 +22,7 @@ _add_to_path "${HOME}/.cabal/bin"
 export GOPATH="${HOME}/go"
 _add_to_path "${GOPATH}/bin"
 _add_to_path "${HOME}/.go/bin"
+_add_to_path "/usr/local/go/bin"
 # Python
 export PYENV_ROOT="${HOME}/.pyenv"
 _add_to_path "${PYENV_ROOT}/bin"
