@@ -28,9 +28,9 @@ export PYENV_ROOT="${HOME}/.pyenv"
 _add_to_path "${PYENV_ROOT}/bin"
 _add_to_path "${HOME}/.poetry/bin"
 # Nix
-if [[ -f "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]]; then
-    source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
-fi
+#if [[ -f "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]]; then
+#    source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+#fi
 # Guix
 export GUIX_PROFILE="${HOME}/.guix-profile"
 if [[ -f ${GUIX_PROFILE}/etc/profile ]]; then
