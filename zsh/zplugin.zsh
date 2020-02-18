@@ -315,6 +315,11 @@ zinit snippet 'https://github.com/docker/compose/blob/master/contrib/completion/
 zinit ice as"completion" has"khal" mv'__khal -> _khal'
 zinit snippet 'https://github.com/pimutils/khal/raw/master/misc/__khal'
 
+# TODO: check has gawk
+zinit ice as"completion" has"beet" atpull'%atclone' \
+    atclone"perl -pi -e 's/awk/gawk/g' _beet"
+zinit snippet 'https://raw.githubusercontent.com/beetbox/beets/master/extra/_beet'
+
 
 #################################################################
 # IMPORTANT PLUGINS
