@@ -1,6 +1,8 @@
 
 # zmodload zsh/zprof
 
+export FPATH=${HOME}/.zsh/completions:${FPATH}
+
 # Mass rename
 autoload -U zmv                                                                                  127:CNOTFOUND 1s
 alias mmv='noglob zmv -W'
