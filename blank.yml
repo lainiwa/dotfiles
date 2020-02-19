@@ -1,0 +1,26 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Install dependencies
+      run: |
+        sudo apt install equivs
+    
+    - name: Build meta packages
+      run: |
+        equivs-build ./metapackages/
+        
+    - name: Upload pyenv-deps metapackage artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: pyenv-deps
+        path: ./*.deb
+        
