@@ -10,6 +10,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Run shellcheck on `my` script
+      run: |
+        shellcheck scripts/my
+
     # - name: Install dependencies
     #   run: |
     #     sudo apt install equivs
