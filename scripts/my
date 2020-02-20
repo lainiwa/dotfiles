@@ -1,20 +1,18 @@
 #!/usr/bin/env bash
 
-set -o errexit   # exit on fail
-set -o pipefail  # catch errors in pipelines
-set -o nounset   # exit on undeclared variable
+set -o errexit  # exit on fail
+set -o pipefail # catch errors in pipelines
+set -o nounset  # exit on undeclared variable
 # set -o xtrace    # trace execution
-
 
 #################################################
 # LIST AVAILABLE `$TERM` VARIABLES
 #
 list_available_terms() {
-    infocmp -D | while read -r dir_with_terminals ; do
-       find "${dir_with_terminals}" -type f -mindepth 2 -exec basename {} \;
-    done
+	infocmp -D | while read -r dir_with_terminals; do
+		find "${dir_with_terminals}" -type f -mindepth 2 -exec basename {} \;
+	done
 }
-
 
 #################################################
 # GET TEXT FROM PREFERRED EDITOR
@@ -23,20 +21,19 @@ list_available_terms() {
 #     spit it to stdout.
 #
 editor_to_stdout() {
-    requires cat
+	requires cat
 
-    tmp_file=$(mktemp)
-    trap 'rm -rf ${tmp_file}' EXIT
+	tmp_file=$(mktemp)
+	trap 'rm -rf ${tmp_file}' EXIT
 
-    ${EDITOR} "${tmp_file}"
+	${EDITOR} "${tmp_file}"
 
-    if [ -s "${tmp_file}" ]; then
-         cat "${tmp_file}"
-    else
-         exit 1
-    fi
+	if [ -s "${tmp_file}" ]; then
+		cat "${tmp_file}"
+	else
+		exit 1
+	fi
 }
-
 
 #################################################
 # WEATHER FORECAST
@@ -45,48 +42,45 @@ editor_to_stdout() {
 #    a graph and pictures with texts.
 #
 weather() {
-    requires finger head curl
+	requires finger head curl
 
-    # weather graph
-    finger moscow~160@graph.no |
-        head --lines=-1
+	# weather graph
+	finger moscow~160@graph.no |
+		head --lines=-1
 
-    # empty line to divide graph and images weather representations
-    printf '\n'
+	# empty line to divide graph and images weather representations
+	printf '\n'
 
-    # get preferred language (default: 'en')
-    if [[ ${LANG} =~ .*\.UTF-8 ]]; then
-        lang=${LANG:0:2}
-    else
-        lang='en'
-    fi
+	# get preferred language (default: 'en')
+	if [[ ${LANG} =~ .*\.UTF-8 ]]; then
+		lang=${LANG:0:2}
+	else
+		lang='en'
+	fi
 
-    # get weather in ASCII pics
-    curl --silent --ipv4 --header "Accept-Language: ${lang}" wttr.in |
-        head --lines=-1
+	# get weather in ASCII pics
+	curl --silent --ipv4 --header "Accept-Language: ${lang}" wttr.in |
+		head --lines=-1
 }
-
 
 #################################################
 # SHOW WORLD MAP IN CONSOLE
 #
 map() {
-    requires telnet
+	requires telnet
 
-    telnet mapscii.me
+	telnet mapscii.me
 }
-
 
 #################################################
 # SPEEDTEST
 #
 speedtest() {
-    requires curl python
+	requires curl python
 
-    curl --silent 'https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py' |
-        python -
+	curl --silent 'https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py' |
+		python -
 }
-
 
 #################################################
 # SHOW PACKAGE DEPENDENCIES AS A GRAPH
@@ -94,15 +88,14 @@ speedtest() {
 # ARGUMENTS: package name
 #
 graph_dependencies() {
-    requires apt-rdepends dot feh
+	requires apt-rdepends dot feh
 
-    package=$1
+	package=$1
 
-    apt-rdepends --dotty "${package}" |
-        dot -Tpng |
-        feh --auto-zoom --scale-down -
+	apt-rdepends --dotty "${package}" |
+		dot -Tpng |
+		feh --auto-zoom --scale-down -
 }
-
 
 #################################################
 # SHOW INFO ON DISKS
@@ -111,19 +104,18 @@ graph_dependencies() {
 #   and eport disk space usage
 #
 disks() {
-    requires lsblk df
+	requires lsblk df
 
-    printf '╓───── m o u n t . p o i n t s              \n'
-    printf '╙────────────────────────────────────── ─ ─ \n'
-    lsblk --all
+	printf '╓───── m o u n t . p o i n t s              \n'
+	printf '╙────────────────────────────────────── ─ ─ \n'
+	lsblk --all
 
-    printf '                                            \n'
+	printf '                                            \n'
 
-    printf '╓───── d i s k . u s a g e                  \n'
-    printf '╙────────────────────────────────────── ─ ─ \n'
-    df --human-readable
+	printf '╓───── d i s k . u s a g e                  \n'
+	printf '╙────────────────────────────────────── ─ ─ \n'
+	df --human-readable
 }
-
 
 #################################################
 # PRINT CURRENT KEYBOARD LAYOUT (US/RU)
@@ -131,16 +123,15 @@ disks() {
 # Source: https://unix.stackexchange.com/a/28347
 #
 current_layout_indicator() {
-    requires xset grep cut
+	requires xset grep cut
 
-    led=$(xset -q | grep --after-context=0 'LED' | cut --characters=59-67)
+	led=$(xset -q | grep --after-context=0 'LED' | cut --characters=59-67)
 
-    case ${led} in
-       '00000000') printf 'US\n' ;;
-                *) printf 'RU\n' ;;
-    esac
+	case ${led} in
+	'00000000') printf 'US\n' ;;
+	*) printf 'RU\n' ;;
+	esac
 }
-
 
 #################################################
 # SHOW INSTALLED PACKAGES WITH THEIR DESCRIPTION
@@ -150,43 +141,42 @@ current_layout_indicator() {
 #         https://stackoverflow.com/a/22439016
 #
 show_installed() {
-    requires comm apt-mark sort gzip zgrep grep cut tr apt sed apropos
+	requires comm apt-mark sort gzip zgrep grep cut tr apt sed apropos
 
-    packages_1=$(comm -23 \
-                    <(apt-mark showmanual | sort -u) \
-                    <(gzip -dc /var/log/installer/initial-status.gz | sort -u))
+	packages_1=$(comm -23 \
+		<(apt-mark showmanual | sort -u) \
+		<(gzip -dc /var/log/installer/initial-status.gz | sort -u))
 
-    packages_2=$(zgrep 'Commandline: apt' /var/log/apt/history.log{,.*.gz} |  # print apt history
-                    grep --extended-regexp 'apt(|-get) install' |  # filter installations
-                    cut --delimiter=' ' --fields=4- |  # show only stuff after "apt(-get) install"
-                    tr '\ ' '\n' |  # split if multiple packages
-                    grep '^[[:alpha:]]')  # filter out flags
+	packages_2=$(zgrep 'Commandline: apt' /var/log/apt/history.log{,.*.gz} | # print apt history
+		grep --extended-regexp 'apt(|-get) install' |                           # filter installations
+		cut --delimiter=' ' --fields=4- |                                       # show only stuff after "apt(-get) install"
+		tr '\ ' '\n' |                                                          # split if multiple packages
+		grep '^[[:alpha:]]')                                                    # filter out flags
 
-    packages=$(comm -12 \
-                    <(echo "${packages_1}" | sort -u) \
-                    <(echo "${packages_2}" | sort -u) | tr -d '\t')
+	packages=$(comm -12 \
+		<(echo "${packages_1}" | sort -u) \
+		<(echo "${packages_2}" | sort -u) | tr -d '\t')
 
-    all_installed=$(apt list --installed 2>/dev/null |  # info on installed packages
-                        sed 's|^\([^/]*\)/.*|\1|g' |  # only packages names
-                        sort -u)
+	all_installed=$(apt list --installed 2>/dev/null | # info on installed packages
+		sed 's|^\([^/]*\)/.*|\1|g' |                      # only packages names
+		sort -u)
 
-    manually_installed=$(comm -12 \
-                            <(echo "${packages}") \
-                            <(echo "${all_installed}"))
+	manually_installed=$(comm -12 \
+		<(echo "${packages}") \
+		<(echo "${all_installed}"))
 
-    red='\033[0;31m'  # red color print
-    nc='\033[0m'  # no/reset color
+	red='\033[0;31m' # red color print
+	nc='\033[0m'     # no/reset color
 
-    # print apropos for each package, if available
-    echo "${manually_installed}" |
-        while read -r package; do
-            description=$(apropos --exact "${package}" 2> /dev/null |
-                            sed -n -e "s/^.*- //p" -e 1q ||
-                          true)
-            printf "${red}%s${nc} - %s\n" "${package}" "${description}"
-        done
+	# print apropos for each package, if available
+	echo "${manually_installed}" |
+		while read -r package; do
+			description=$(apropos --exact "${package}" 2>/dev/null |
+				sed -n -e "s/^.*- //p" -e 1q ||
+				true)
+			printf "${red}%s${nc} - %s\n" "${package}" "${description}"
+		done
 }
-
 
 #################################################
 # DOWNLOAD ALL ATTACHMENTS FROM 4CHAN THREAD
@@ -195,20 +185,19 @@ show_installed() {
 # Download all attachments found in 4chan thread
 #
 save_4chan_thread_imgs() {
-    requires mkdir lynx grep uniq xargs wget
+	requires mkdir lynx grep uniq xargs wget
 
-    pagename="${1}_${2}"
-    # Create folder for downloading; fail if already downloaded/exists
-    mkdir "$pagename"
-    # Get all links on the thread page
-    lynx -listonly -nonumbers -dump "http://boards.4chan.org/${1}/thread/${2}/" |
-    # Filter links pointing to jpg images
-    grep '.jpg$' | uniq |
-    # Asynchronously download images into the folder
-    xargs -I{} --max-args=1 --max-procs=8 \
-        wget --no-verbose --directory-prefix="$pagename" "{}"
+	pagename="${1}_${2}"
+	# Create folder for downloading; fail if already downloaded/exists
+	mkdir "$pagename"
+	# Get all links on the thread page
+	lynx -listonly -nonumbers -dump "http://boards.4chan.org/${1}/thread/${2}/" |
+		# Filter links pointing to jpg images
+		grep '.jpg$' | uniq |
+		# Asynchronously download images into the folder
+		xargs -I{} --max-args=1 --max-procs=8 \
+			wget --no-verbose --directory-prefix="$pagename" "{}"
 }
-
 
 #################################################
 # MAKE A SCREENSHOT
@@ -219,32 +208,31 @@ save_4chan_thread_imgs() {
 #     and insert path to image into buffer
 #
 screenshot() {
-    requires date xclip
+	requires date xclip
 
-    mode=${1}
-    save_path="${HOME}/0files/imgs/screenshots/$(date '+%s_%Y.%m.%d_%H:%M:%S').png"
+	mode=${1}
+	save_path="${HOME}/0files/imgs/screenshots/$(date '+%s_%Y.%m.%d_%H:%M:%S').png"
 
-    if command -v scrot >/dev/null; then
-        [ "${mode}" = 'full'    ] && scrot "${save_path}" --multidisp
-        [ "${mode}" = 'select'  ] && scrot "${save_path}" --select
-        [ "${mode}" = 'focused' ] && scrot "${save_path}" --focused
+	if command -v scrot >/dev/null; then
+		[ "${mode}" = 'full' ] && scrot "${save_path}" --multidisp
+		[ "${mode}" = 'select' ] && scrot "${save_path}" --select
+		[ "${mode}" = 'focused' ] && scrot "${save_path}" --focused
 
-    elif command -v import >/dev/null && command -v xdotool >/dev/null; then
-        [ "${mode}" = 'full'    ] && import "${save_path}" -window root
-        [ "${mode}" = 'select'  ] && import "${save_path}"
-        [ "${mode}" = 'focused' ] && import "${save_path}" -window "$(xdotool getwindowfocus -f)"
+	elif command -v import >/dev/null && command -v xdotool >/dev/null; then
+		[ "${mode}" = 'full' ] && import "${save_path}" -window root
+		[ "${mode}" = 'select' ] && import "${save_path}"
+		[ "${mode}" = 'focused' ] && import "${save_path}" -window "$(xdotool getwindowfocus -f)"
 
-    else
-        echo "No imagemagick's import or scrot installed"
-        exit 1
+	else
+		echo "No imagemagick's import or scrot installed"
+		exit 1
 
-    fi
+	fi
 
-    printf '%s' "${save_path}" |
-        xclip -in -selection primary -filter |
-        xclip -in -selection clipboard
+	printf '%s' "${save_path}" |
+		xclip -in -selection primary -filter |
+		xclip -in -selection clipboard
 }
-
 
 #################################################
 # DOWNLOAD RANDOM IMAGE FROM /R/WALLPAPER
@@ -254,23 +242,22 @@ screenshot() {
 # Returns non-zero exit code on fail.
 #
 random_reddit_image() {
-    requires mktemp lynx grep shuf xargs
+	requires mktemp lynx grep shuf xargs
 
-    tmp_file=$(mktemp /tmp/XXXXXXXX.jpg)
+	tmp_file=$(mktemp /tmp/XXXXXXXX.jpg)
 
-    post_link=$(lynx -listonly -nonumbers -dump 'https://www.reddit.com/r/wallpaper/' |
-                    grep 'wallpaper/comments/' |
-                    sort -u |
-                    shuf -n 1)
+	post_link=$(lynx -listonly -nonumbers -dump 'https://www.reddit.com/r/wallpaper/' |
+		grep 'wallpaper/comments/' |
+		sort -u |
+		shuf -n 1)
 
-    img_link=$(lynx -listonly -nonumbers -dump "${post_link}" |
-                grep 'i\.redd\.it')
+	img_link=$(lynx -listonly -nonumbers -dump "${post_link}" |
+		grep 'i\.redd\.it')
 
-    wget --quiet --output-document="${tmp_file}" "${img_link}"
+	wget --quiet --output-document="${tmp_file}" "${img_link}"
 
-    echo "${tmp_file}"
+	echo "${tmp_file}"
 }
-
 
 #################################################
 # SHARE TCP PORT VIA SERVEO.NET
@@ -279,44 +266,42 @@ random_reddit_image() {
 # Reconnect to serveo.net on ssh disconnect.
 #
 serveo() {
-    requires ssh sleep
+	requires ssh sleep
 
-    port=$1
+	port=$1
 
-    while true; do
-        ssh -R "80:localhost:${port}" serveo.net
-        # Break if normally exit, or exit by Ctrl+C
-        # shellcheck disable=SC2181
-        if [[ $? == 255 || $? == 0 ]]; then
-            break
-        else
-            sleep 1
-        fi
-    done
+	while true; do
+		ssh -R "80:localhost:${port}" serveo.net
+		# Break if normally exit, or exit by Ctrl+C
+		# shellcheck disable=SC2181
+		if [[ $? == 255 || $? == 0 ]]; then
+			break
+		else
+			sleep 1
+		fi
+	done
 }
-
 
 #################################################
 # UPGRADE SYSTEM
 #
 fullUpgrade() {
-    requires sudo apt git zsh
+	requires sudo apt git zsh
 
-    # Update apt packages
-    sudo apt update
-    sudo apt upgrade --yes
-    sudo apt autoremove --yes
-    # Update dotfiles
-    git --git-dir="${HOME}/.dotfiles/.git/" pull origin master
-    ~/.dotfiles/install
-    # Update zsh modules
-    zsh -c "\
+	# Update apt packages
+	sudo apt update
+	sudo apt upgrade --yes
+	sudo apt autoremove --yes
+	# Update dotfiles
+	git --git-dir="${HOME}/.dotfiles/.git/" pull origin master
+	~/.dotfiles/install
+	# Update zsh modules
+	zsh -c "\
         source ~/.zshrc;\
         zplugin self-update;\
         zplugin update --all;\
     "
 }
-
 
 #################################################
 # SET BACKGROUND IMAGE
@@ -329,18 +314,17 @@ fullUpgrade() {
 #     tried to be applied, until success.
 #
 set_bg() {
-    requires feh
+	requires feh
 
-    if [[ $1 =~ .(\.png|\.jpg|\.jpeg) ]]; then
-        feh --bg-scale "$1" && exit 0
-    elif [[ $1 == 'reddit' ]]; then
-        feh --bg-scale "$(random_reddit_image)" && exit 0
-    elif [[ $1 == 'disk' ]]; then
-        feh --bg-scale --randomize --recursive "${HOME}/0files/imgs/wallpapers" && exit 0
-    fi
-    set_bg_1 "${@:2}"
+	if [[ $1 =~ .(\.png|\.jpg|\.jpeg) ]]; then
+		feh --bg-scale "$1" && exit 0
+	elif [[ $1 == 'reddit' ]]; then
+		feh --bg-scale "$(random_reddit_image)" && exit 0
+	elif [[ $1 == 'disk' ]]; then
+		feh --bg-scale --randomize --recursive "${HOME}/0files/imgs/wallpapers" && exit 0
+	fi
+	set_bg_1 "${@:2}"
 }
-
 
 #################################################
 # LOGOUT PROMPT FOR I3 AND DMENU
@@ -350,18 +334,17 @@ set_bg() {
 # Source: https://github.com/bookercodes/dotfiles/blob/ubuntu/.i3/scripts/exit_menu
 #
 i3_exit_menu() {
-    requires dmenu i3-msg
+	requires dmenu i3-msg
 
-    while true; do
-        select=$(
-            printf "NO\nYES" |
-            dmenu -fn style=bold:pixelsize=22 -i -p "Are you sure you want to logout?"
-        )
-        [[ ${select} = "NO" ]] && exit 0
-        [[ ${select} = "YES" ]] && i3-msg exit
-    done
+	while true; do
+		select=$(
+			printf "NO\nYES" |
+				dmenu -fn style=bold:pixelsize=22 -i -p "Are you sure you want to logout?"
+		)
+		[[ ${select} = "NO" ]] && exit 0
+		[[ ${select} = "YES" ]] && i3-msg exit
+	done
 }
-
 
 #################################################
 # FIX CORRUPTED ZSH HISTORY FILE
@@ -369,66 +352,62 @@ i3_exit_menu() {
 # Backup copy is placed into ~/.zsh_history_bad
 #
 fix_zsh_history() {
-    requires mv strings zsh
+	requires mv strings zsh
 
-    mv "${HOME}/.zsh_history" "${HOME}/.zsh_history_bad"
-    strings "${HOME}/.zsh_history_bad" > "${HOME}/.zsh_history"
-    zsh -c 'fc -R "${HOME}/.zsh_history"'
+	mv "${HOME}/.zsh_history" "${HOME}/.zsh_history_bad"
+	strings "${HOME}/.zsh_history_bad" >"${HOME}/.zsh_history"
+	zsh -c 'fc -R "${HOME}/.zsh_history"'
 }
-
 
 #################################################
 # FULL SCREEN HORIZONTAL LINE
 #
 hr() {
-    requires tr
+	requires tr
 
-    printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' '-'
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' '-'
 }
-
 
 #################################################
 # RETURN CURRENT EXTERNAL IP ADDRESS
 #
 ip() {
-    requires curl
+	requires curl
 
-    ip_sites=( 'ifconfig.co'
-            'canihazip.com/s'
-            'ipinfo.io/ip'
-            'icanhazip.com'
-            'curlmyip.net'
-            'ipecho.net/plain'
-            'ip-addr.es'
-            'ident.me'
-            'ipaddr.site'
-        )
-    for site in "${ip_sites[@]}"; do
-        data=$(curl --max-time 1 --write-out '\n%{http_code}' --silent "${site}" || true)
-        if [[ ${data##*$'\n'} == 200 ]]; then
-            read -r ip < <(echo "${data}")
-            echo "${ip}"
-            break
-        fi
-    done
+	ip_sites=('ifconfig.co'
+		'canihazip.com/s'
+		'ipinfo.io/ip'
+		'icanhazip.com'
+		'curlmyip.net'
+		'ipecho.net/plain'
+		'ip-addr.es'
+		'ident.me'
+		'ipaddr.site'
+	)
+	for site in "${ip_sites[@]}"; do
+		data=$(curl --max-time 1 --write-out '\n%{http_code}' --silent "${site}" || true)
+		if [[ ${data##*$'\n'} == 200 ]]; then
+			read -r ip < <(echo "${data}")
+			echo "${ip}"
+			break
+		fi
+	done
 }
-
 
 #################################################
 # FULL SYSTEM CLEANUP
 #
 fullClean() {
-    requires sudo apt journalctl
+	requires sudo apt journalctl
 
-    # Remove non-needed packages
-    sudo apt autoremove
-    # Cleanup local repo
-    sudo apt clean
-    # Clean logs
-    sudo journalctl --rotate
-    sudo journalctl --vacuum-time=1s
+	# Remove non-needed packages
+	sudo apt autoremove
+	# Cleanup local repo
+	sudo apt clean
+	# Clean logs
+	sudo journalctl --rotate
+	sudo journalctl --vacuum-time=1s
 }
-
 
 #################################################
 # UPLOAD FILE TO TRANSFER.SH
@@ -437,32 +416,31 @@ fullClean() {
 # Uploads file and prints download link
 #
 transfer() {
-    requires curl sed tty
+	requires curl sed tty
 
-    tmp_file=$(mktemp /tmp/transfer_XXXXXXXX)
-    trap 'rm ${tmp_file}' EXIT
+	tmp_file=$(mktemp /tmp/transfer_XXXXXXXX)
+	trap 'rm ${tmp_file}' EXIT
 
-    # Help. In case no arguments specified
-    if [[ $# == 0 ]]; then
-        echo "No arguments specified. Usage:"
-        echo "$ transfer /tmp/test.md"
-        echo "$ cat /tmp/test.md | transfer test.md"
-        exit 1
-    fi
+	# Help. In case no arguments specified
+	if [[ $# == 0 ]]; then
+		echo "No arguments specified. Usage:"
+		echo "$ transfer /tmp/test.md"
+		echo "$ cat /tmp/test.md | transfer test.md"
+		exit 1
+	fi
 
-    # Upload either from file or stdin
-    if tty -s; then
-        basefile=$(basename "${1}" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
-        curl --progress-bar --upload-file "${1}" "https://transfer.sh/${basefile}" >> "${tmp_file}"
-    else
-        curl --progress-bar --upload-file "-" "https://transfer.sh/${1}" >> "${tmp_file}"
-    fi
+	# Upload either from file or stdin
+	if tty -s; then
+		basefile=$(basename "${1}" | sed -e 's/[^a-zA-Z0-9._-]/-/g')
+		curl --progress-bar --upload-file "${1}" "https://transfer.sh/${basefile}" >>"${tmp_file}"
+	else
+		curl --progress-bar --upload-file "-" "https://transfer.sh/${1}" >>"${tmp_file}"
+	fi
 
-    # Print download link
-    cat "${tmp_file}"
-    echo
+	# Print download link
+	cat "${tmp_file}"
+	echo
 }
-
 
 #################################################
 # PRINT MOST FREQUENTLY USED COMMANDS
@@ -470,17 +448,16 @@ transfer() {
 # Also prints how much each command is used.
 #
 most_used_commands() {
-    requires zsh awk grep column sort nl head
+	requires zsh awk grep column sort nl head
 
-    zsh --login -c "HISTFILE=~/.zsh_history; HISTSIZE=999999999; fc -R; history 0" |
-        awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' |
-        grep -v "./"         |
-        column -c3 -s " " -t |
-        sort -nr             |
-        nl                   |
-        head -n30
+	zsh --login -c "HISTFILE=~/.zsh_history; HISTSIZE=999999999; fc -R; history 0" |
+		awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' |
+		grep -v "./" |
+		column -c3 -s " " -t |
+		sort -nr |
+		nl |
+		head -n30
 }
-
 
 #################################################
 # INSTALL PACKAGE BY URL
@@ -494,177 +471,175 @@ most_used_commands() {
 # Download an application, create a package and install it.
 #
 install_from_web() {
-    requires mktemp cd git wget tar sudo checkinstall apt
+	requires mktemp cd git wget tar sudo checkinstall apt
 
-    lnk=$1
-    dependencies=$2
-    pkgname=$3
-    pkgversion=$4
-    run_script=$5
+	lnk=$1
+	dependencies=$2
+	pkgname=$3
+	pkgversion=$4
+	run_script=$5
 
-    # Create temporary directory for package source files
-    # and schedule it's autoclean
-    tmp_dir=$(mktemp -d /tmp/XXXXXXXX)
-    trap 'cd -; sudo rm -r ${tmp_dir}' EXIT
-    cd "${tmp_dir}"
+	# Create temporary directory for package source files
+	# and schedule it's autoclean
+	tmp_dir=$(mktemp -d /tmp/XXXXXXXX)
+	trap 'cd -; sudo rm -r ${tmp_dir}' EXIT
+	cd "${tmp_dir}"
 
-    # Download git repository
-    if [[ ${lnk} =~ .*\.git$ || ${lnk} =~ https://git\..* || ${lnk} =~ http://git\..* ]]; then
-        git clone "${lnk}" .
-    # ... or download and unpack .tar.gz
-    elif [[ ${lnk} =~ .*\.tar\.gz$ ]]; then
-        wget --output-document=- "${lnk}" |
-            tar --extract --gzip --file=- --strip-components=1
-    # ... or download and install .deb. Then exit
-    elif [[ ${lnk} =~ .*\.deb$ ]]; then
-        wget --output-document="./package.deb" "${lnk}"
-        sudo apt install --quiet "./package.deb"
-        exit 0
-    # ... or print error message
-    else
-        echo "This is a link to wtf?" >&2
-        exit 1
-    fi
+	# Download git repository
+	if [[ ${lnk} =~ .*\.git$ || ${lnk} =~ https://git\..* || ${lnk} =~ http://git\..* ]]; then
+		git clone "${lnk}" .
+	# ... or download and unpack .tar.gz
+	elif [[ ${lnk} =~ .*\.tar\.gz$ ]]; then
+		wget --output-document=- "${lnk}" |
+			tar --extract --gzip --file=- --strip-components=1
+	# ... or download and install .deb. Then exit
+	elif [[ ${lnk} =~ .*\.deb$ ]]; then
+		wget --output-document="./package.deb" "${lnk}"
+		sudo apt install --quiet "./package.deb"
+		exit 0
+	# ... or print error message
+	else
+		echo "This is a link to wtf?" >&2
+		exit 1
+	fi
 
-    # Run custom script before compiling with make
-    eval "${run_script}"
+	# Run custom script before compiling with make
+	eval "${run_script}"
 
-    # Create a .deb package
-    sudo checkinstall -D \
-                      --install=no \
-                      --default \
-                      --requires "${dependencies}" \
-                      --pkgname "${pkgname}" \
-                      --pkgversion "${pkgversion}" | cat
+	# Create a .deb package
+	sudo checkinstall -D \
+		--install=no \
+		--default \
+		--requires "${dependencies}" \
+		--pkgname "${pkgname}" \
+		--pkgversion "${pkgversion}" | cat
 
-    # Install .deb package with all dependencies
-    sudo apt install ./"${pkgname}"_*.deb
+	# Install .deb package with all dependencies
+	sudo apt install ./"${pkgname}"_*.deb
 }
-
 
 #################################################
 # REMOVE A SOFTWARE
 #
 remove_package() {
-    requires lynx grep sed tar ln
+	requires lynx grep sed tar ln
 
-    x=$1
+	x=$1
 
-    case $x in
-        'kiss')
-            rm -rf "${HOME}/bin/kiss" \
-                   "${HOME}/packages" \
-                   "${HOME}/.kiss" || true
-            ;;
-        'tor-browser')
-            unlink "${HOME}/bin/tor-browser" || true
-            rm -rf "${HOME}/opt/tor-browser/" || true
-            ;;
-        *)
-            exit 1
-    esac
+	case $x in
+	'kiss')
+		rm -rf "${HOME}/bin/kiss" \
+			"${HOME}/packages" \
+			"${HOME}/.kiss" || true
+		;;
+	'tor-browser')
+		unlink "${HOME}/bin/tor-browser" || true
+		rm -rf "${HOME}/opt/tor-browser/" || true
+		;;
+	*)
+		exit 1
+		;;
+	esac
 }
-
 
 #################################################
 # INSTALL A SOFTWARE
 #
 install_package() {
-    requires lynx grep sed tar ln
+	requires lynx grep sed tar ln
 
-    x=$1
+	x=$1
 
-    case $x in
-        'kiss')
-            link=$(lynx -listonly -nonumbers -dump 'https://github.com/kisslinux/kiss/releases/latest' |
-                    grep '\.tar\.gz$')
-            wget --output-document=- "${link}" |
-                tar --extract --gzip --file=- --directory="${HOME}/bin/" --strip-components=1
-            mkdir "${HOME}/packages"
-            git clone 'https://github.com/kisslinux/repo.git' "${HOME}/packages/kisslinux_repo"
-            ;;
-        'sent')
-            install_from_web 'https://git.suckless.org/sent' 'libx11-dev,farbfeld,libxft-dev' 'sent' '1.0' ''
-            ;;
-        'autobench')
-            link=$(lynx -listonly -nonumbers -dump 'http://www.xenoclast.org/autobench/' |
-                    grep '\.deb$' | sed -n 1p)
-            install_from_web "$link" '' '' '' ''
-            ;;
-        'cgo')
-            install_from_web 'https://github.com/kieselsteini/cgo.git' '' 'cgo' '1.0' ''
-            ;;
+	case $x in
+	'kiss')
+		link=$(lynx -listonly -nonumbers -dump 'https://github.com/kisslinux/kiss/releases/latest' |
+			grep '\.tar\.gz$')
+		wget --output-document=- "${link}" |
+			tar --extract --gzip --file=- --directory="${HOME}/bin/" --strip-components=1
+		mkdir "${HOME}/packages"
+		git clone 'https://github.com/kisslinux/repo.git' "${HOME}/packages/kisslinux_repo"
+		;;
+	'sent')
+		install_from_web 'https://git.suckless.org/sent' 'libx11-dev,farbfeld,libxft-dev' 'sent' '1.0' ''
+		;;
+	'autobench')
+		link=$(lynx -listonly -nonumbers -dump 'http://www.xenoclast.org/autobench/' |
+			grep '\.deb$' | sed -n 1p)
+		install_from_web "$link" '' '' '' ''
+		;;
+	'cgo')
+		install_from_web 'https://github.com/kieselsteini/cgo.git' '' 'cgo' '1.0' ''
+		;;
 
-        'remarkable')
-            link=$(lynx -listonly -nonumbers -dump 'https://remarkableapp.github.io/linux/download.html' |
-                       grep '\.deb$')
-            install_from_web "$link" '' '' '' ''
-            pip3 install --user pygtkspellcheck
-            ;;
-        'tor-browser')
-            url=$(lynx -listonly -nonumbers -dump 'https://github.com/TheTorProject/gettorbrowser/releases/latest' |
-                    grep 'linux64.*_en-US.tar.xz$')
-            mkdir --parents "${HOME}/opt/tor-browser/"
-            wget --output-document=- "$url" |
-                tar --extract --xz --file=- --directory="${HOME}/opt/tor-browser/" --strip-components=2
-            ln --symbolic "${HOME}/opt/tor-browser/start-tor-browser" "${HOME}/bin/tor-browser" 2>/dev/null || true
-            ;;
-        'vte-ng')
-            url=$(lynx -listonly -nonumbers -dump 'https://github.com/thestinger/vte-ng/releases' |
-                    grep '[0-9]\+.tar.gz$' | head -n 1)
-            version=$(echo "$url" | sed -e 's/.*\/\(.*\).tar.gz/\1/')
-            install_from_web "$url" '' 'vte-ng' "$version" './autogen.sh'
-            ;;
-        'grv')
-            lnk=$(lynx -dump -nonumbers -listonly 'https://github.com/rgburke/grv/releases' |
-                    grep 'grv_.*_linux64$' |
-                    sed 1q)
-            wget --output-document="${HOME}/bin/grv" "${lnk}"
-            chmod u+x "${HOME}/bin/grv"
-            ;;
-        'icecat')
-            release_lnks=$(lynx -dump -nonumbers -listonly 'http://mirror.rackdc.com/gnu/gnuzilla/')
-            highest_version=$(echo "${release_lnks}" |
-                sed 's|.*/\(.*\)/$|\1|g' |
-                sort --general-numeric-sort --reverse |
-                sed 1q)
-            release_lnk=$(echo "${release_lnks}" | grep ".*/${highest_version}/$")
+	'remarkable')
+		link=$(lynx -listonly -nonumbers -dump 'https://remarkableapp.github.io/linux/download.html' |
+			grep '\.deb$')
+		install_from_web "$link" '' '' '' ''
+		pip3 install --user pygtkspellcheck
+		;;
+	'tor-browser')
+		url=$(lynx -listonly -nonumbers -dump 'https://github.com/TheTorProject/gettorbrowser/releases/latest' |
+			grep 'linux64.*_en-US.tar.xz$')
+		mkdir --parents "${HOME}/opt/tor-browser/"
+		wget --output-document=- "$url" |
+			tar --extract --xz --file=- --directory="${HOME}/opt/tor-browser/" --strip-components=2
+		ln --symbolic "${HOME}/opt/tor-browser/start-tor-browser" "${HOME}/bin/tor-browser" 2>/dev/null || true
+		;;
+	'vte-ng')
+		url=$(lynx -listonly -nonumbers -dump 'https://github.com/thestinger/vte-ng/releases' |
+			grep '[0-9]\+.tar.gz$' | head -n 1)
+		version=$(echo "$url" | sed -e 's/.*\/\(.*\).tar.gz/\1/')
+		install_from_web "$url" '' 'vte-ng' "$version" './autogen.sh'
+		;;
+	'grv')
+		lnk=$(lynx -dump -nonumbers -listonly 'https://github.com/rgburke/grv/releases' |
+			grep 'grv_.*_linux64$' |
+			sed 1q)
+		wget --output-document="${HOME}/bin/grv" "${lnk}"
+		chmod u+x "${HOME}/bin/grv"
+		;;
+	'icecat')
+		release_lnks=$(lynx -dump -nonumbers -listonly 'http://mirror.rackdc.com/gnu/gnuzilla/')
+		highest_version=$(echo "${release_lnks}" |
+			sed 's|.*/\(.*\)/$|\1|g' |
+			sort --general-numeric-sort --reverse |
+			sed 1q)
+		release_lnk=$(echo "${release_lnks}" | grep ".*/${highest_version}/$")
 
-            archive_lnks=$(lynx -dump -nonumbers -listonly "${release_lnk}")
-            lnk=$(echo "${archive_lnks}" | grep '.*linux.*x86_64.*bz2$')
+		archive_lnks=$(lynx -dump -nonumbers -listonly "${release_lnk}")
+		lnk=$(echo "${archive_lnks}" | grep '.*linux.*x86_64.*bz2$')
 
-            wget --output-document=- "${lnk}" |
-                tar --extract --bzip2 --file=- --directory="${HOME}/opt/"
-            ln --symbolic "${HOME}/opt/icecat/icecat" "${HOME}/bin/icecat" 2>/dev/null || true
-            ;;
-        *)
-            exit 1
-    esac
+		wget --output-document=- "${lnk}" |
+			tar --extract --bzip2 --file=- --directory="${HOME}/opt/"
+		ln --symbolic "${HOME}/opt/icecat/icecat" "${HOME}/bin/icecat" 2>/dev/null || true
+		;;
+	*)
+		exit 1
+		;;
+	esac
 }
-
 
 #################################################
 # RUN JACKETT - A TORRENTS TORRENT SCRAPER
 #
 jackett() {
-    requires docker
+	requires docker
 
-    downloads_dir=${HOME}/Downloads
-    mkdir --parents "${downloads_dir}"
+	downloads_dir=${HOME}/Downloads
+	mkdir --parents "${downloads_dir}"
 
-    docker run \
-        -ti --rm \
-        --name=jackett \
-        -v "${HOME}/.config/Jackett/Indexers":/config/Jackett/Indexers:rw \
-        -v "${downloads_dir}":/downloads \
-        -e PGID="$(id -g)" \
-        -e PUID="$(id -u)" \
-        -e TZ="$(cat /etc/timezone)" \
-        -v /etc/localtime:/etc/localtime:ro \
-        -p 9117:9117 \
-        linuxserver/jackett
+	docker run \
+		-ti --rm \
+		--name=jackett \
+		-v "${HOME}/.config/Jackett/Indexers":/config/Jackett/Indexers:rw \
+		-v "${downloads_dir}":/downloads \
+		-e PGID="$(id -g)" \
+		-e PUID="$(id -u)" \
+		-e TZ="$(cat /etc/timezone)" \
+		-v /etc/localtime:/etc/localtime:ro \
+		-p 9117:9117 \
+		linuxserver/jackett
 }
-
 
 #################################################
 # SAVE DOCUMENT TO PASTEBIN-LIKE SERVICE
@@ -675,132 +650,134 @@ jackett() {
 #             insert to clipboard.
 #
 pastebin() {
-    requires mktemp cp mv gpg xclip
+	requires mktemp cp mv gpg xclip
 
-    tmp_file_input=$(mktemp /tmp/XXXXXXXX)
-    trap 'rm ${tmp_file_input}' EXIT
+	tmp_file_input=$(mktemp /tmp/XXXXXXXX)
+	trap 'rm ${tmp_file_input}' EXIT
 
-    ifile='/dev/stdin';
-    flag_xclip='';
-    flag_gpg='';
+	ifile='/dev/stdin'
+	flag_xclip=''
+	flag_gpg=''
 
-    # If no arguments provided - just quit
-    if [[ $# == 0 ]]; then
-        echo "No arguments provided."
-        echo "Use pastebin --help to see available options."
-        exit
-    fi
+	# If no arguments provided - just quit
+	if [[ $# == 0 ]]; then
+		echo "No arguments provided."
+		echo "Use pastebin --help to see available options."
+		exit
+	fi
 
-    # Parsing arguments
-    while true; do
-        # If no arguments left break the loop
-        [[ "$#" == 0 ]] && break
-        # Parse current argument
-        case "$1" in
-            -h | --help )
-                echo "pastebin [-h|--help] [-x|--xclip] [-e|--encrypt] [input_file]"
-                echo
-                echo "Provide either stdin stream or an input file option."
-                echo "Use --xclip flag to copy link to the clipboard."
-                echo "Use --encrypt to encrypt file before upload via gpg."
-                exit ;;
-            -x | --xclip )
-                flag_xclip=true
-                shift ;;
-            -e | --encrypt )
-                flag_gpg=true
-                shift ;;
-            -* )
-                echo "Unrecognized option."
-                exit 1 ;;
-            * )
-                if ! tty -s; then
-                    echo "Provide either stdin stream OR file argument."
-                    exit 1
-                fi
-                ifile=$1
-                shift ;;
-        esac
-    done
+	# Parsing arguments
+	while true; do
+		# If no arguments left break the loop
+		[[ "$#" == 0 ]] && break
+		# Parse current argument
+		case "$1" in
+		-h | --help)
+			echo "pastebin [-h|--help] [-x|--xclip] [-e|--encrypt] [input_file]"
+			echo
+			echo "Provide either stdin stream or an input file option."
+			echo "Use --xclip flag to copy link to the clipboard."
+			echo "Use --encrypt to encrypt file before upload via gpg."
+			exit
+			;;
+		-x | --xclip)
+			flag_xclip=true
+			shift
+			;;
+		-e | --encrypt)
+			flag_gpg=true
+			shift
+			;;
+		-*)
+			echo "Unrecognized option."
+			exit 1
+			;;
+		*)
+			if ! tty -s; then
+				echo "Provide either stdin stream OR file argument."
+				exit 1
+			fi
+			ifile=$1
+			shift
+			;;
+		esac
+	done
 
-    # Copy input file to a temporary file
-    cp -- "${ifile}" "${tmp_file_input}"
+	# Copy input file to a temporary file
+	cp -- "${ifile}" "${tmp_file_input}"
 
-    # Encrypt file and replace with encrypted version
-    if [[ ${flag_gpg} ]]; then
-        gpg --symmetric --armor "${tmp_file_input}"
-        mv "${tmp_file_input}.asc" "${tmp_file_input}"
-    fi
+	# Encrypt file and replace with encrypted version
+	if [[ ${flag_gpg} ]]; then
+		gpg --symmetric --armor "${tmp_file_input}"
+		mv "${tmp_file_input}.asc" "${tmp_file_input}"
+	fi
 
-    # # Upload file and print download link
-    declare -A sites=(
-        ["sprunge=<-"]='http://sprunge.us'
-        ["f:1=<-"]='http://ix.io'
-        ["clbin=<-"]='https://clbin.com'
-        # ["c=<-"]='https://ptpb.pw/?u=1'
-    )
-    for form in "${!sites[@]}"; do
-      site=${sites[${form}]}
-      data=$(curl --write-out '\n%{http_code}' --silent --form "${form}" "${site}" < "${tmp_file_input}" || true)
-      if [[ ${data##*$'\n'} == 200 ]]; then
-          read -r lnk < <(echo "${data}")
-          echo "Download link: $(tput bold)${lnk}$(tput sgr0)"
-          break
-      fi
-    done
+	# # Upload file and print download link
+	declare -A sites=(
+		["sprunge=<-"]='http://sprunge.us'
+		["f:1=<-"]='http://ix.io'
+		["clbin=<-"]='https://clbin.com'
+		# ["c=<-"]='https://ptpb.pw/?u=1'
+	)
+	for form in "${!sites[@]}"; do
+		site=${sites[${form}]}
+		data=$(curl --write-out '\n%{http_code}' --silent --form "${form}" "${site}" <"${tmp_file_input}" || true)
+		if [[ ${data##*$'\n'} == 200 ]]; then
+			read -r lnk < <(echo "${data}")
+			echo "Download link: $(tput bold)${lnk}$(tput sgr0)"
+			break
+		fi
+	done
 
-    # Print gpg usage help, so that user could decrypt document easily
-    if [[ ${flag_gpg} ]]; then
-        echo "Get file with: $(tput bold)curl ${lnk} | gpg --decrypt -$(tput sgr0)"
-    fi
-    # Copy link to the clipboard if possible
-    if [[ ${flag_xclip} ]]; then
-        if ! type xclip &>/dev/null; then
-            echo "No xclip found in \$PATH. Check if it is installed."
-            echo "Link was NOT copied to the clipboard."
-        fi
-        printf "%s" "${lnk}" | xclip -selection clipboard
-    fi
+	# Print gpg usage help, so that user could decrypt document easily
+	if [[ ${flag_gpg} ]]; then
+		echo "Get file with: $(tput bold)curl ${lnk} | gpg --decrypt -$(tput sgr0)"
+	fi
+	# Copy link to the clipboard if possible
+	if [[ ${flag_xclip} ]]; then
+		if ! type xclip &>/dev/null; then
+			echo "No xclip found in \$PATH. Check if it is installed."
+			echo "Link was NOT copied to the clipboard."
+		fi
+		printf "%s" "${lnk}" | xclip -selection clipboard
+	fi
 }
-
 
 #################################################
 # CHECK IF ALL REQUIREMENTS ARE MET
 #
 requires() {
-    # Run only if debug variable set
-    if [[ -n "${MY_DEBUG:-}" ]]; then
-        not_installed=''
-        for dependency in "${@}"; do
-            if ! command -v "${dependency}" > /dev/null; then
-                not_installed="${not_installed} ${dependency}"
-            fi
-        done
-        if [[ -n "${not_installed}" ]]; then
-            printf "No required dependencies installed: %s\n" "${not_installed}"
-            exit 127
-        fi
-        exit 0
-    fi
+	# Run only if debug variable set
+	if [[ -n "${MY_DEBUG:-}" ]]; then
+		not_installed=''
+		for dependency in "${@}"; do
+			if ! command -v "${dependency}" >/dev/null; then
+				not_installed="${not_installed} ${dependency}"
+			fi
+		done
+		if [[ -n "${not_installed}" ]]; then
+			printf "No required dependencies installed: %s\n" "${not_installed}"
+			exit 127
+		fi
+		exit 0
+	fi
 }
-
 
 #################################################
 # CHECK WHAT REQUIREMENTS OF WHAT FUNCTIONS ARE MISSING
 #
 check_dependencies() {
-    # Get functions defined in this file
-    declare -f | grep '^[a-zA-Z0-9_]*\s()' | cut -f 1 -d ' ' |
-    # Drop functions we do not want to check
-    grep -v -e 'check_dependencies' -e 'requires' |
-    # Check each of the rest functions' dependencies
-    while IFS= read -r func; do
-        if ! MY_DEBUG=1 my "${func}" &>/dev/null; then
-            echo "Testing ${func}() failed:"
-            MY_DEBUG=1 my "${func}" || true
-        fi
-    done
+	# Get functions defined in this file
+	declare -f | grep '^[a-zA-Z0-9_]*\s()' | cut -f 1 -d ' ' |
+		# Drop functions we do not want to check
+		grep -v -e 'check_dependencies' -e 'requires' |
+		# Check each of the rest functions' dependencies
+		while IFS= read -r func; do
+			if ! MY_DEBUG=1 my "${func}" &>/dev/null; then
+				echo "Testing ${func}() failed:"
+				MY_DEBUG=1 my "${func}" || true
+			fi
+		done
 }
-
 
 "$@"
