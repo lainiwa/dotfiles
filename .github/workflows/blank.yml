@@ -10,21 +10,21 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: |
-        sudo apt install equivs
+    # - name: Install dependencies
+    #   run: |
+    #     sudo apt install equivs
 
-    - name: Build meta packages
-      run: |
-        equivs-build ./metapackages/
-        mkdir ./metapackages-bin/
-        mv ./*deb ./metapackages-bin/
+    # - name: Build meta packages
+    #   run: |
+    #     equivs-build ./metapackages/
+    #     mkdir ./metapackages-bin/
+    #     mv ./*deb ./metapackages-bin/
 
-    - name: Upload binaries to release
-      uses: svenstaro/upload-release-action@v1-release
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./metapackages-bin/*.deb
-        tag: ${{ github.ref }}
-        overwrite: true
-        file_glob: true
+    # - name: Upload binaries to release
+    #   uses: svenstaro/upload-release-action@v1-release
+    #   with:
+    #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+    #     file: ./metapackages-bin/*.deb
+    #     tag: ${{ github.ref }}
+    #     overwrite: true
+    #     file_glob: true
