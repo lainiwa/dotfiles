@@ -559,23 +559,10 @@ install_package() {
         mkdir "${HOME}/packages"
         git clone 'https://github.com/kisslinux/repo.git' "${HOME}/packages/kisslinux_repo"
         ;;
-    'sent')
-        install_from_web 'https://git.suckless.org/sent' 'libx11-dev,farbfeld,libxft-dev' 'sent' '1.0' ''
-        ;;
     'autobench')
         link=$(lynx -listonly -nonumbers -dump 'http://www.xenoclast.org/autobench/' |
             grep '\.deb$' | sed -n 1p)
         install_from_web "$link" '' '' '' ''
-        ;;
-    'cgo')
-        install_from_web 'https://github.com/kieselsteini/cgo.git' '' 'cgo' '1.0' ''
-        ;;
-
-    'remarkable')
-        link=$(lynx -listonly -nonumbers -dump 'https://remarkableapp.github.io/linux/download.html' |
-            grep '\.deb$')
-        install_from_web "$link" '' '' '' ''
-        pip3 install --user pygtkspellcheck
         ;;
     'tor-browser')
         url=$(lynx -listonly -nonumbers -dump 'https://github.com/TheTorProject/gettorbrowser/releases/latest' |
@@ -585,33 +572,12 @@ install_package() {
             tar --extract --xz --file=- --directory="${HOME}/opt/tor-browser/" --strip-components=2
         ln --symbolic "${HOME}/opt/tor-browser/start-tor-browser" "${HOME}/bin/tor-browser" 2>/dev/null || true
         ;;
-    'vte-ng')
-        url=$(lynx -listonly -nonumbers -dump 'https://github.com/thestinger/vte-ng/releases' |
-            grep '[0-9]\+.tar.gz$' | head -n 1)
-        version=$(echo "$url" | sed -e 's/.*\/\(.*\).tar.gz/\1/')
-        install_from_web "$url" '' 'vte-ng' "$version" './autogen.sh'
-        ;;
     'grv')
         lnk=$(lynx -dump -nonumbers -listonly 'https://github.com/rgburke/grv/releases' |
             grep 'grv_.*_linux64$' |
             sed 1q)
         wget --output-document="${HOME}/bin/grv" "${lnk}"
         chmod u+x "${HOME}/bin/grv"
-        ;;
-    'icecat')
-        release_lnks=$(lynx -dump -nonumbers -listonly 'http://mirror.rackdc.com/gnu/gnuzilla/')
-        highest_version=$(echo "${release_lnks}" |
-            sed 's|.*/\(.*\)/$|\1|g' |
-            sort --general-numeric-sort --reverse |
-            sed 1q)
-        release_lnk=$(echo "${release_lnks}" | grep ".*/${highest_version}/$")
-
-        archive_lnks=$(lynx -dump -nonumbers -listonly "${release_lnk}")
-        lnk=$(echo "${archive_lnks}" | grep '.*linux.*x86_64.*bz2$')
-
-        wget --output-document=- "${lnk}" |
-            tar --extract --bzip2 --file=- --directory="${HOME}/opt/"
-        ln --symbolic "${HOME}/opt/icecat/icecat" "${HOME}/bin/icecat" 2>/dev/null || true
         ;;
     *)
         exit 1
