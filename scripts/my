@@ -9,6 +9,8 @@ set -o nounset  # exit on undeclared variable
 # LIST AVAILABLE `$TERM` VARIABLES
 #
 list_available_terms() {
+    requires infocmp
+
     infocmp -D | while read -r dir_with_terminals; do
         find "${dir_with_terminals}" -type f -mindepth 2 -exec basename {} \;
     done
