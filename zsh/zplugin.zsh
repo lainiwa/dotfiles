@@ -11,6 +11,11 @@ if [[ ! -f ${HOME}/.zinit/bin/zinit.zsh ]]; then
     mkdir -p "${HOME}/.zinit/polaris/share/man/man1/"
 fi
 
+# Setup zinit
+declare -A ZINIT
+ZINIT[ZCOMPDUMP_PATH]="${HOME}/.cache/zinit/.zcompdump"
+ZINIT[COMPINIT_OPTS]='-i'  # without `-i` spawns warning on `sudo -s`
+
 # Load zinit
 source "${HOME}/.zinit/bin/zinit.zsh"
 # autoload -Uz _zinit
