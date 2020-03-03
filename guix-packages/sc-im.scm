@@ -25,23 +25,26 @@
                (base32
                 "0xi0n9qzby012y2j7hg4fgcwyly698sfi4i9gkvy0q682jihprbk"))))
     (build-system gnu-build-system)
+    (native-inputs
+      `(
+        ("bison" ,bison)
+        ("which" ,which)
+        ("pkg-config" ,pkg-config)))
     (inputs
       `(("ncurses" ,ncurses)
-        ("bison" ,bison)
         ("libxml2" ,libxml2)
         ("libxlsxwriter" ,libxlsxwriter)
-        ("which" ,which)
         ("gnuplot" ,gnuplot)
-        ("pkg-config" ,pkg-config)
         ("libzip" ,libzip)))
     (arguments
          '(#:phases (modify-phases %standard-phases (delete 'configure))
           #:tests? #f
-          #:make-flags (list "CC=gcc" "--directory=src" (string-append "prefix=" %output))))
+          #:make-flags (list
+            "CC=gcc" "--directory=src" (string-append "prefix=" %output))))
     (home-page "https://github.com/andmarti1424/sc-im/")
-    (synopsis "Spreadsheet Calculator Improvised -- An ncurses spreadsheet program for terminal")
-    (description "SC-IM is a spreadsheet program
-that is based on SC (http://ibiblio.org/pub/Linux/apps/financial/spreadsheet/sc-7.16.tar.gz).
+    (synopsis "Spreadsheet Calculator Improvised")
+    (description "SC-IM is a spreadsheet program that is based on SC
+(http://ibiblio.org/pub/Linux/apps/financial/spreadsheet/sc-7.16.tar.gz).
 SC original authors are James Gosling and Mark Weiser,
 and mods were later added by Chuck Martin.")
     (license license:bsd-4)))
