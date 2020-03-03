@@ -330,8 +330,7 @@ zinit ice atload'_zsh_autosuggest_start'
 zinit load zsh-users/zsh-autosuggestions
 
 # Syntax highlighting
-# (compinit without `-i` spawns warning on `sudo -s`)
-zinit ice wait'0' lucid atinit"ZINIT[COMPINIT_OPTS]='-i' zpcompinit; zpcdreplay"
+zinit ice wait'0' lucid atinit"zpcompinit; zpcdreplay"
 zinit load zdharma/fast-syntax-highlighting
 
 # `...` ==> `../..`
