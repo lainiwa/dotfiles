@@ -92,11 +92,12 @@ zinit ice multisrc"shell/{completion,key-bindings}.zsh" \
 zinit load junegunn/fzf
 
 # Pure zsh port of rupa/z
+export ZSHZ_DATA="${HOME}/.cache/.z"
+export ZSHZ_OWNER=$(basename "${HOME}")
 zinit load agkozak/zsh-z
 
 # Pick from most frecent folders with `Ctrl+g`
 # Relies on z script
-export ZSHZ_OWNER=$(basename "${HOME}")
 zinit load andrewferrier/fzf-z
 
 # Fast open file in vim
