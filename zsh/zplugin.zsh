@@ -132,26 +132,6 @@ zinit ice if'[[ $(uname -s) == Linux ]]' \
     atload"alias cat=bat"
 zinit load sharkdp/bat
 
-# Exa - ls replacement
-zinit ice if'[[ $(uname -s) == Linux ]]' \
-    from"gh-r" mv"exa* -> exa" sbin"exa" \
-    atinit"
-        alias ls='exa --color=auto --header --git'
-        alias la='ls -a'
-        alias lal='ls -al'
-        alias lt='exa --tree'
-    "
-zinit load ogham/exa
-
-# Completions for ls substitute - exa
-zinit ice as'completion' mv"*.zsh -> _exa"
-zinit snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
-
-# Man pages for exa
-zinit ice id-as"ogham/exa_man" pick"/dev/null" atpull'%atclone' \
-    atclone"cp contrib/man/*.1 ${ZPFX}/share/man/man1/"
-zinit load ogham/exa
-
 # Hub - a command to work with github + alias + completions + man
 zinit ice from"gh-r" bpick"hub-linux-amd64*" atpull'%atclone' \
     atclone"
@@ -267,6 +247,10 @@ zinit load trapd00r/LS_COLORS
 #################################################################
 # COMPLETIONS FOR ALREADY INSTALLED BINARIES
 #
+
+# Completions for ls substitute - exa
+zinit ice as'completion' mv"*.zsh -> _exa"
+zinit snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
 
 # Install completions for pyenv, if present in $PATH
 zinit ice has'pyenv' id-as'pyenv' atpull'%atclone' \
