@@ -114,17 +114,6 @@ zinit load rupa/v
 zinit ice as'command' mv'gdown.pl -> gdown' pick'gdown'
 zinit load circulosmeos/gdown.pl
 
-# Rclone - rsync for cloud drives
-zinit ice if'[[ $(uname -s) == Linux ]]' \
-    from"gh-r" bpick"*-linux-amd64.zip" \
-    sbin"rclone-*/rclone" atpull'%atclone' \
-    atclone"
-        rclone-*/rclone genautocomplete zsh _rclone &&
-        cp rclone-*/*.1 ${ZPFX}/share/man/man1/
-    " \
-    src"_rclone"
-zinit load rclone/rclone
-
 # Substitute cat with bat
 zinit ice if'[[ $(uname -s) == Linux ]]' \
     from"gh-r" bpick"bat-v*-x86_64-unknown-linux-gnu*" \
@@ -256,6 +245,18 @@ zinit snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/comple
 # Install completions for pyenv, if present in $PATH
 zinit ice has'pyenv' id-as'pyenv' atpull'%atclone' \
     atclone"pyenv init - --no-rehash > pyenv.plugin.zsh"
+zinit load zdharma/null
+
+# Completions for rclone
+# (zsh completions available only from older vertsions)
+zinit ice has'rclone' id-as'rclone' \
+    if"rclone genautocomplete zsh --help | grep -q 'rclone genautocomplete zsh'" \
+    blockf atpull'%atclone' \
+    atclone"
+        mkdir src/ &&
+        rclone genautocomplete zsh src/_rclone &&
+        echo fpath+=\"\${0:h}/src\" > rclone.plugin.zsh &&
+    "
 zinit load zdharma/null
 
 # Install completions for poetry, if present in $PATH
