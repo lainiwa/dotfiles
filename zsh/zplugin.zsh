@@ -300,7 +300,7 @@ zinit snippet 'https://git.savannah.gnu.org/cgit/guix.git/plain/etc/completion/z
 
 # Completions for docker-compose
 zinit ice as"completion" has'docker-compose'
-zinit snippet 'https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose'
+zinit snippet 'https://github.com/docker/compose/raw/master/contrib/completion/zsh/_docker-compose'
 
 # Completions for khal - a CLI calendar
 zinit ice as"completion" has"khal" mv'__khal -> _khal'
