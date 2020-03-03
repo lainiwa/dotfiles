@@ -6,9 +6,9 @@
 
 # Install zinit if not installed
 if [[ ! -f ${HOME}/.zinit/bin/zinit.zsh ]]; then
-    mkdir -p "${HOME}/.zinit"
+    mkdir --parents "${HOME}/.zinit"
     git clone "https://github.com/zdharma/zinit" "${HOME}/.zinit/bin"
-    mkdir -p "${HOME}/.zinit/polaris/share/man/man1/"
+    mkdir --parents "${HOME}/.zinit/polaris/share/man/man"{1,2,3,4,5,6,7,8,9}
 fi
 
 # Setup zinit
