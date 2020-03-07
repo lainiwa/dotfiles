@@ -5,6 +5,77 @@ set -o pipefail # catch errors in pipelines
 set -o nounset  # exit on undeclared variable
 # set -o xtrace    # trace execution
 
+pornhub() {
+    requires youtube-dl jq
+
+    local save_dir=${HOME}/.pornhub
+    mkdir --parents -- "${save_dir}"
+
+    local subcommand=${1}
+
+    if [[ ${subcommand} = 'add' ]]; then
+        # Find out link to video
+        if [[ ${2} =~ ^[[:alnum:]]*$ ]]; then
+            local link="https://www.pornhub.com/view_video.php?viewkey=${2}"
+        elif [[ ${2} =~ ^"https://www.pornhub.com/view_video.php?viewkey=".* ]]; then
+            local link=${2}
+        else
+            echo 'Wrong id or link' >&2
+            exit 1
+        fi
+        # Download metadata
+        local json
+        local video_id
+        json=$(youtube-dl --dump-single-json "${link}")
+        video_id=$(jq --raw-output '.id' <<<"${json}")
+        echo "${json}" >"${save_dir}/${video_id}.json"
+    fi
+
+    if [[ ${subcommand} = 'del' ]]; then
+        local video_id=$2
+        rm --verbose "${save_dir}/${video_id}.json"
+    fi
+
+    if [[ ${subcommand} = 'search' ]]; then
+        # Categories we want to search
+        local search_cmd=${*:2}
+        search_cmd=${search_cmd// /$'\n'}
+        # How much the video matches the categories we search
+        local ratings
+        ratings=$(for file in "${save_dir}/"*.json; do
+            # Categories listed in current file
+            local search_file
+            search_file=$(jq --raw-output '.categories | .[]' "${file}")
+            search_file=${search_file// /_}
+            search_file=${search_file,,}
+            # Get intersection of categories we search
+            # and categories we have listed in file
+            local search_inter
+            search_inter=$(
+                comm -12 <(sort <<<"${search_file}") \
+                    <(sort <<<"${search_cmd}")
+            )
+            # Calculate video rating; skip if 0
+            local rating
+            if [[ -z "${search_inter}" ]]; then
+                continue
+            else
+                rating=$(wc -l <<<"${search_inter}")
+            fi
+            # Derive video identificator from file name
+            local video_id
+            video_id=$(basename "${file}" .json)
+            # Print link to the video along with it's rating
+            printf "%i %s %s\n" \
+                "${rating}" \
+                "https://www.pornhub.com/view_video.php?viewkey=${video_id}" \
+                "$(jq '.title' "${file}")"
+        done)
+        # Print links to videos sorted by rating
+        sort --reverse --key=1 --numeric-sort <<<"${ratings}"
+    fi
+}
+
 #################################################
 # LIST AVAILABLE `$TERM` VARIABLES
 #

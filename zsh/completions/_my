@@ -6,7 +6,8 @@ _my() {
     _arguments -C \
         "-h[Show help information]" \
         "--h[Show help information]" \
-        "1: :(show_installed \
+        "1: :(pornhub \
+              show_installed \
               disks \
               current_layout_indicator \
               i3_exit_menu \
@@ -41,6 +42,9 @@ _my() {
         "*::arg:->args"
 
     case $line[1] in
+    pornhub)
+        _pornhub
+        ;;
     set_bg)
         _set_bg
         ;;
@@ -64,6 +68,45 @@ _my() {
         ;;
     esac
 
+}
+
+_pornhub() {
+    local -a commands
+    commands=(
+        'add:Remember a video'
+        'del:Forget a video'
+        'search:Filter by categories'
+    )
+
+    if ((CURRENT == 2)); then
+        _describe -t commands 'commands' commands
+    fi
+
+    if ((CURRENT >= 3)); then
+        case $line[2] in
+        # 'add')
+        #     _describe -t commands 'commands' commands
+        #     ;;
+        'del')
+            IFS=$'\n' commands=($(for file in ~/.pornhub/*.json; do
+                printf "%s:%s\n" \
+                    "$(basename "${file}" .json)" \
+                    "$(jq --raw-output '.title' "${file}")"
+            done))
+            _describe -t commands 'remembered videos' commands
+            ;;
+        'search')
+            local categories
+            categories=$(for file in ~/.pornhub/*.json; do
+                jq --raw-output '.categories | .[]' "${file}"
+            done | sort | uniq)
+            categories=${categories// /_}
+            categories=${categories:l}
+            IFS=$'\n' commands=($(echo "${categories}"))
+            _describe -t commands 'categories' commands
+            ;;
+        esac
+    fi
 }
 
 _set_bg() {
