@@ -60,7 +60,7 @@ export NVM_DIR="${HOME}/.nvm"
 #     command-not-found functionality
 for file in "${NVM_DIR}/nvm.sh" \
             "${NVM_DIR}/bash_completion" \
-            "${HOME}/.zsh/zplugin.zsh" \
+            "${HOME}/.zsh/antibody.zsh" \
             "${HOME}/.zsh/aliases.zsh" \
             "${HOME}/.zsh/set_history.zsh" \
             "${HOME}/.zsh/completions.zsh" \
