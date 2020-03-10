@@ -30,7 +30,7 @@ alias mkdir='mkdir -pv'
 alias tree='tree -C'
 alias U='unbuffer '
 
-alias -g H="| sed 11q"  # (:
+alias -g H="| head"
 alias -g T="| tail"
 
 alias -g G="| grep"
