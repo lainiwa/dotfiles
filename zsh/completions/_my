@@ -125,39 +125,25 @@ _set_bg() {
 
 _save_4chan_thread_imgs() {
     local -a commands
-    IFS=$'\n' commands=($(
-        curl --silent 'http://www.4chan.org/' |
-            grep '^<li.*boardlink' |          # filter list items with anchors leading to boards
-            sed -e 's|.*org/\(.*\)/"|\1|' |   # cut everything before board name
-            sed -e 's|class="boardlink">||' | # remove unnecessary html
-            sed -e 's|</a></li>||' |          # now we have a "a Anime &amp; Manga" kind of lines
-            sed -e 's|\ |:|' |                # fit autocompletion format command:description
-            sed -e 's|\&amp;|\&|'             # resolve ampersands
-    ))
 
     if ((CURRENT == 2)); then
-        _describe -t commands 'commands' commands
+        local boards_json
+        boards_json=$(curl --silent 'https://a.4cdn.org/boards.json')
+        IFS=$'\n' commands=($(
+            jq --raw-output '.boards | .[] | [.board, ":", .title] | add' <<<"${boards_json}"
+        ))
+        _describe -t commands 'boards' commands
     fi
 
-    local board
-    local html
-    local threads
-    local titles
-    if ((CURRENT == 3)) &&
-        command -v hxnormalize >/dev/null 2>&1 && # require html-xml-utils
-        command -v hxselect >/dev/null 2>&1; then #
-        if [[ "${board}" != "${line[2]}" ]]; then
-            board="${line[2]}"
-            html=$(curl --silent --location "http://boards.4channel.org/${board}/")
-            threads=$(echo "${html}" | lynx -dump -nonumbers -listonly -stdin |
-                grep 'thread/[0-9]*$' | sed 's|.*thread/||g')
-            titles=$(echo "${html}" | hxnormalize -x | tr -d '\n' |
-                hxselect -c -s '\n' '.postInfo .subject')
-            IFS=$'\n' commands=($(
-                paste -d ':' <(echo "${threads}") <(echo "${titles}")
-            ))
-        fi
-        _describe -t commands 'commands' commands
+    if ((CURRENT == 3)); then
+        local board=${line[2]}
+        local catalog_json
+        catalog_json=$(curl --silent "https://a.4cdn.org/${board}/catalog.json")
+        IFS=$'\n' commands=($(
+            jq --raw-output '.[] | .threads | .[] | [(.no|tostring), if .sub then ":" else "" end, .sub] | add' <<<"${catalog_json}" |
+            perl -MHTML::Entities -pe 'decode_entities($_);'
+        ))
+        _describe -t commands 'threads' commands
     fi
 
     return 0
