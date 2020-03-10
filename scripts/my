@@ -22,7 +22,7 @@ pornhub() {
     requires youtube-dl jq
 
     local save_dir=${HOME}/.pornhub
-    mkdir --parents -- "${save_dir}"
+    command mkdir --parents -- "${save_dir}"
 
     local subcommand=${1}
 
@@ -39,14 +39,14 @@ pornhub() {
         # Download metadata
         local json
         local video_id
-        json=$(youtube-dl --dump-single-json "${link}")
-        video_id=$(jq --raw-output '.id' <<<"${json}")
+        json=$(command youtube-dl --dump-single-json -- "${link}")
+        video_id=$(command jq --raw-output '.id' <<<"${json}")
         echo "${json}" >"${save_dir}/${video_id}.json"
     fi
 
     if [[ ${subcommand} = 'del' ]]; then
         local video_id=$2
-        rm --verbose "${save_dir}/${video_id}.json"
+        command rm --verbose -- "${save_dir}/${video_id}.json"
     fi
 
     if [[ ${subcommand} = 'search' ]]; then
@@ -58,34 +58,35 @@ pornhub() {
         ratings=$(for file in "${save_dir}/"*.json; do
             # Categories listed in current file
             local search_file
-            search_file=$(jq --raw-output '.categories | .[]' "${file}")
+            search_file=$(command jq --raw-output '.categories | .[]' -- "${file}")
             search_file=${search_file// /_}
             search_file=${search_file,,}
             # Get intersection of categories we search
             # and categories we have listed in file
             local search_inter
             search_inter=$(
-                comm -12 <(sort <<<"${search_file}") \
-                    <(sort <<<"${search_cmd}")
+                command comm -12 \
+                    <(command sort <<<"${search_file}") \
+                    <(command sort <<<"${search_cmd}")
             )
             # Calculate video rating; skip if 0
             local rating
             if [[ -z "${search_inter}" ]]; then
                 continue
             else
-                rating=$(wc -l <<<"${search_inter}")
+                rating=$(command wc --lines <<<"${search_inter}")
             fi
             # Derive video identificator from file name
             local video_id
-            video_id=$(basename "${file}" .json)
+            video_id=$(command basename -- "${file}" .json)
             # Print link to the video along with it's rating
-            printf "%i %s %s\n" \
+            builtin printf "%i %s %s\n" \
                 "${rating}" \
                 "https://www.pornhub.com/view_video.php?viewkey=${video_id}" \
-                "$(jq '.title' "${file}")"
+                "$(command jq '.title' -- "${file}")"
         done)
         # Print links to videos sorted by rating
-        sort --reverse --key=1 --numeric-sort <<<"${ratings}"
+        command sort --reverse --key=1 --numeric-sort <<<"${ratings}"
     fi
 }
 
