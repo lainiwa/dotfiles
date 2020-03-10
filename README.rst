@@ -1,3 +1,5 @@
+.. image:: https://github.com/lainiwa/dotfiles/workflows/CI/badge.svg
+    :target: https://github.com/lainiwa/dotfiles/actions?query=workflow%3ACI
 
 ==================
 Lainiwa's dotfiles
