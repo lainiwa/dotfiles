@@ -101,7 +101,7 @@ antibody bundle <<- EOF
     #voronkovich/gitignore.plugin.zsh
 
     zsh-users/zsh-completions
-    zdharma/history-search-multi-word
+    robobenklein/zdharma-history-search-multi-word
     zsh-users/zsh-autosuggestions
     zsh-users/zsh-syntax-highlighting
 
