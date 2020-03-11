@@ -95,6 +95,7 @@ antibody bundle <<- EOF
     # Adds git open
     paulirish/git-open
 
+    bobthecow/git-flow-completion
     spwhitt/nix-zsh-completions
 
     # Get gitignore template with gi command
