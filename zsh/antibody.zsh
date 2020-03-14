@@ -77,6 +77,12 @@ if [[ ! -d $SOURCEABLES_DIR ]]; then
     if (( ${+commands[pyenv]} )); then
         pyenv init - --no-rehash > pyenv.zsh
     fi
+    if (( ${+commands[pip]} )); then
+        pip completion --zsh > pip.zsh
+    fi
+    if (( ${+commands[pip3]} )); then
+        pip3 completion --zsh > pip3.zsh
+    fi
     if (( ${+commands[dircolors]} )); then
         dircolors --bourne-shell \
             <(curl --silent 'https://raw.githubusercontent.com/trapd00r/LS_COLORS/master/LS_COLORS') \
