@@ -182,7 +182,7 @@ bar {
 
 bindsym $mod+Shift+x exec i3lock -c 000000
 
-exec --no-startup-id exec my set_bg disk
+exec_always --no-startup-id my set_bg disk
 
 exec --no-startup-id i3-msg "workspace $ws1; exec i3-sensible-terminal"
 exec --no-startup-id i3-msg "workspace $ws2; exec subl"
