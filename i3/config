@@ -202,12 +202,13 @@ bindsym $mod+Shift+p exec passmenu
 bindsym       $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
 
-# set keyboard layouts
-exec setxkbmap -option grp:switch,grp:alt_shift_toggle us,ru
-# `xmodmap -pke | egrep -e '(Caps_Lock|Escape)'`
-#     -->  Caps_Lock=66 Escape=9
-# exec xmodmap -e "keycode 66 = Escape"
-# exec xmodmap -e "keycode  9 = Caps_Lock"
-
-# swap Caps Lock and Escape keys
-# exec setxkbmap -option caps:swapescape
+# XKB Settings:
+# * drop all previous settings first
+# * swap left control and caps lock
+# * alt+shift for language toggle
+# exec_always --no-startup-id setxkbmap -option
+exec_always --no-startup-id sh -c '\
+        setxkbmap -option &&\
+        setxkbmap -option ctrl:nocaps &&\
+        setxkbmap -option grp:switch,grp:toggle us,ru \
+'
