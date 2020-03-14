@@ -1,6 +1,6 @@
 
 # Colorize and humanify `ls`
-if [[ "$(uname -s)" == "FreeBSD" ]]; then
+if [[ $(uname -s) == FreeBSD ]]; then
     alias ls='ls -h -G'
 else
     alias ls='ls -h --color=auto'
@@ -30,19 +30,19 @@ alias mkdir='mkdir -pv'
 alias tree='tree -C'
 alias U='unbuffer '
 
-alias -g H="| head"
-alias -g T="| tail"
+alias -g H='| head'
+alias -g T='| tail'
 
-alias -g G="| grep"
-alias -g S="| sed"
+alias -g G='| grep'
+alias -g S='| sed'
 
-alias -g L="| less"
-alias -g LR="| less -R"  # less with colors support
+alias -g L='| less'
+alias -g LR='| less -R'  # less with colors support
 
 alias -g C='| column -t'
 
-alias -g NE="2> /dev/null"
-alias -g NUL="&> /dev/null"
+alias -g NE='2> /dev/null'
+alias -g NUL='&> /dev/null'
 
 # Set grc alias for available commands.
 [[ -f /etc/grc.conf ]]           && grc_conf='/etc/grc.conf'

@@ -13,7 +13,7 @@ builtin zstyle ':completion:*:warnings'     format ' %F{red}-- no matches found 
 builtin zstyle ':completion:*'              format ' %F{yellow}-- %d --%f'
 
 # Select completions with arrows
-zstyle ':completion:*' menu select
+builtin zstyle ':completion:*' menu select
 
 # Fuzzy match mistyped completions.
 # builtin zstyle ':completion:*' completer _complete _match _approximate
@@ -22,4 +22,3 @@ zstyle ':completion:*' menu select
 
 # Increase the number of errors based on the length of the typed word.
 # builtin zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
-

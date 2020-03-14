@@ -1,5 +1,5 @@
 
-export HISTFILE=~/.zsh_history
+export HISTFILE=${HOME}/.zsh_history
 export HISTSIZE=10000000
 export SAVEHIST=10000000
 
@@ -8,4 +8,4 @@ setopt EXTENDED_HISTORY      # save each command's beginning timestamp and the d
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt INC_APPEND_HISTORY    # this is default, but set for share_history
-setopt SHARE_HISTORY         # Share history file amongst all Zsh sessions
+setopt SHARE_HISTORY         # share history file amongst all Zsh sessions
