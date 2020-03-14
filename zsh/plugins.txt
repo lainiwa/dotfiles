@@ -1,0 +1,41 @@
+    romkatv/zsh-prompt-benchmark
+    # prompt
+    tonyseek/oh-my-zsh-virtualenv-prompt
+    bric3/nice-exit-code
+    sindresorhus/pretty-time-zsh
+    popstas/zsh-command-time
+    agkozak/agkozak-zsh-prompt
+    # romkatv/powerlevel10k
+
+    agkozak/zsh-z
+    andrewferrier/fzf-z
+
+    # Rename tmux pane to current folder's basename
+    trystan2k/zsh-tab-title
+
+    # Add command-line online translator
+    soimort/translate-shell
+
+    # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
+    hcgraf/zsh-sudo
+
+    # Run fg command to return to foregrounded (Ctrl+Z'd) vim
+    mdumitru/fancy-ctrl-z
+
+    lainiwa/gitcd
+
+    # Adds git open
+    paulirish/git-open
+
+    bobthecow/git-flow-completion
+    spwhitt/nix-zsh-completions
+
+    # Get gitignore template with gi command
+    #voronkovich/gitignore.plugin.zsh
+
+    zsh-users/zsh-completions
+    robobenklein/zdharma-history-search-multi-word
+    zsh-users/zsh-autosuggestions
+    zsh-users/zsh-syntax-highlighting
+
+    ankaan/zsh-manydots-magic
