@@ -9,8 +9,9 @@ ZSH_CACHE_DIR=${HOME}/.cache/zsh
 COMPLETIONS_DIR=${ZSH_CACHE_DIR}/completions
 SOURCEABLES_DIR=${ZSH_CACHE_DIR}/sourceables
 
+
 # Python virtual environment name
-AGKOZAK_CUSTOM_PROMPT='%B%F{green}$(virtualenv_prompt_info)'
+AGKOZAK_CUSTOM_PROMPT='%(10V.%B%F{green}(%10v)%f%b.)'
 # Username and hostname
 AGKOZAK_CUSTOM_PROMPT+='%(!.%S%B.%B%F{yellow})%n%1v%(!.%b%s.%f%b) '
 # Path
@@ -18,13 +19,15 @@ AGKOZAK_CUSTOM_PROMPT+=$'%B%F{green}%2v%f%b '
 # Prompt character
 AGKOZAK_CUSTOM_PROMPT+='%B%F{red}%(4V.:.%#)%f%b '
 # Git status
+AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' 'S')
 AGKOZAK_CUSTOM_RPROMPT='%(3V.%F{yellow}%3v%f.)'
 # Exit status
-AGKOZAK_CUSTOM_RPROMPT+=' %B%F{red}$(nice_exit_code)%f%b'
+AGKOZAK_CUSTOM_RPROMPT+=' %(?..%B%F{red}(%?%)%f%b)'
 # Execution time
-export ZSH_COMMAND_TIME_MIN_SECONDS=1
-export ZSH_COMMAND_TIME_MSG=''
-AGKOZAK_CUSTOM_RPROMPT+=' %B%F{green}$([[ -n ${ZSH_COMMAND_TIME} ]] && pretty-time ${ZSH_COMMAND_TIME})%f%b'
+AGKOZAK_CMD_EXEC_TIME=1
+AGKOZAK_CUSTOM_RPROMPT+=' %B%F{green}%9v%f%b'
+
+
 # Zsh-z configuration
 export ZSHZ_DATA=${HOME}/.cache/.z
 export ZSHZ_OWNER=${HOME:t}

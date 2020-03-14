@@ -1,11 +1,6 @@
     romkatv/zsh-prompt-benchmark
     # prompt
-    tonyseek/oh-my-zsh-virtualenv-prompt
-    bric3/nice-exit-code
-    sindresorhus/pretty-time-zsh
-    popstas/zsh-command-time
     agkozak/agkozak-zsh-prompt
-    # romkatv/powerlevel10k
 
     agkozak/zsh-z
     andrewferrier/fzf-z
