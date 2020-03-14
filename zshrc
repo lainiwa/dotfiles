@@ -28,10 +28,10 @@ bindkey "^[[6~"      down-history # PageDown
 # What characters are considered to be a part of a word
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # Pager and editor
-export PAGER=$(_1st_found most less more)
-export EDITOR=$(_1st_found emacs vim vi)
+export PAGER=less
+export EDITOR=vim
 # Set a virtualenvwrapper path, if not already set (resolves tmux nesting issue)
-export VIRTUALENVWRAPPER_PYTHON="${VIRTUALENVWRAPPER_PYTHON:-$(which "$(_1st_found python3.6 python3.5 python3)")}"
+export VIRTUALENVWRAPPER_PYTHON="${VIRTUALENVWRAPPER_PYTHON:-python3}"
 export VIRTUALENV_PYTHON="${VIRTUALENVWRAPPER_PYTHON}"
 # Node Version Manager (NVM) direcory
 export NVM_DIR="${HOME}/.nvm"
