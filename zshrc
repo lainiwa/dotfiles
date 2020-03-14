@@ -38,22 +38,22 @@ export NVM_DIR="${HOME}/.nvm"
 
 
 # Try to source:
-#     NVM script and its completions
-#     python's virtualenvwrapper
-#     nix package manager
-#     zsh settings
-#     command-not-found functionality
-for file in "${NVM_DIR}/nvm.sh" \
-            "${NVM_DIR}/bash_completion" \
-            "${HOME}/.zsh/antibody.zsh" \
-            "${HOME}/.zsh/aliases.zsh" \
-            "${HOME}/.zsh/set_history.zsh" \
-            "${HOME}/.zsh/completions.zsh" \
-            "${HOME}/.zsh/other/command-not-found.zsh"
-            # "${HOME}/.local/bin/virtualenvwrapper_lazy.sh"
-do
+for file (
+    # NVM script and its completions
+    "${NVM_DIR}/nvm.sh"
+    "${NVM_DIR}/bash_completion"
+    # zsh settings
+    "${HOME}/.zsh/antibody.zsh"
+    "${HOME}/.zsh/aliases.zsh"
+    "${HOME}/.zsh/set_history.zsh"
+    "${HOME}/.zsh/completions.zsh"
+    # command-not-found functionality
+    "${HOME}/.zsh/other/command-not-found.zsh"
+    # python's virtualenvwrapper
+    # "${HOME}/.local/bin/virtualenvwrapper_lazy.sh"
+    # nix package manager
+)
     [ -s "${file}" ] && source "${file}"
-done
 
 
 # Set some options
