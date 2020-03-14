@@ -31,7 +31,7 @@ export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export PAGER=less
 export EDITOR=vim
 # Set a virtualenvwrapper path, if not already set (resolves tmux nesting issue)
-export VIRTUALENVWRAPPER_PYTHON="${VIRTUALENVWRAPPER_PYTHON:-python3}"
+export VIRTUALENVWRAPPER_PYTHON=${VIRTUALENVWRAPPER_PYTHON:-$(which python3)}
 export VIRTUALENV_PYTHON="${VIRTUALENVWRAPPER_PYTHON}"
 # Node Version Manager (NVM) direcory
 export NVM_DIR="${HOME}/.nvm"
