@@ -25,17 +25,6 @@ bindkey "^[[5~"        up-history # PageUp
 bindkey "^[[6~"      down-history # PageDown
 
 
-# Return first installed util.
-# Example: `_1st_found most less more`.
-_1st_found() {
-    for cmd in "$@"; do
-        if type "$cmd" &>/dev/null; then
-            printf "%s" "${cmd}"
-            break
-        fi
-    done
-}
-
 # What characters are considered to be a part of a word
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # Pager and editor
@@ -83,8 +72,6 @@ autoload -Uz run-help-sudo
 bindkey '^[h' run-help  # Esc+h
 
 
-# Unset function so it would not be available is shell
-unset -f _1st_found
 
 # Choose binary in $PATH with fzf
 insert_binary_from_path() {
