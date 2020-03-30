@@ -59,6 +59,7 @@ fi
 # Create directory and cd to it
 mkcd() { mkdir -- "$1" && cd -P -- "$1" ; }
 
+alias tmp='cd $(mktemp -d)'
 
 # Alias for altering some symbol with newline
 # Example: echo $PATH TRN :
