@@ -10,7 +10,7 @@ alias la='ls -A'
 alias lal='ls -Al'
 
 # Substitute ls with exa
-if command -v exa &>/dev/null; then
+if (( ${+commands[exa]} )); then
     alias ls='exa --color=auto --header --git'
     alias la='ls -a'
     alias lal='ls -al'
