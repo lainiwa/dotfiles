@@ -130,6 +130,15 @@ handle_extension() {
     esac
 }
 
+handle_image_ascii() {
+    local mimetype="${1}"
+    case "${mimetype}" in
+        image/*)
+            img2txt --gamma=0.6 --width="${PV_WIDTH}" -- "${FILE_PATH}" && exit 4
+            ;;
+    esac
+}
+
 handle_image() {
     ## Size of the preview if there are multiple options or it has to be
     ## rendered from vector graphics. If the conversion program allows
@@ -353,7 +362,11 @@ handle_fallback() {
 
 MIMETYPE="$( file --dereference --brief --mime-type -- "${FILE_PATH}" )"
 if [[ "${PV_IMAGE_ENABLED}" == 'True' ]]; then
-    handle_image "${MIMETYPE}"
+    if [[ -v DISPLAY ]]; then
+        handle_image "${MIMETYPE}"
+    else
+        handle_image_ascii "${MIMETYPE}"
+    fi
 fi
 handle_extension
 handle_mime "${MIMETYPE}"
