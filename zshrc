@@ -56,13 +56,6 @@ auto-ls () { ls; }
 [[ ${chpwd_functions[(r)auto-ls]} == auto-ls ]] || chpwd_functions=( auto-ls $chpwd_functions )
 
 
-# Run manpage on Esc+h
-autoload -Uz run-help
-autoload -Uz run-help-git
-autoload -Uz run-help-sudo
-bindkey '^[h' run-help  # Esc+h
-
-
 # Choose binary in $PATH with fzf
 insert_binary_from_path() {
     cmd=$(print -rl -- ${(ko)commands} | fzf --height 40% --layout=reverse)
