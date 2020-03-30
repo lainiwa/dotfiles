@@ -1,36 +1,33 @@
-    romkatv/zsh-prompt-benchmark
-    # prompt
-    agkozak/agkozak-zsh-prompt
+# Prompt
+romkatv/zsh-prompt-benchmark
+agkozak/agkozak-zsh-prompt
+# Z
+agkozak/zsh-z
+andrewferrier/fzf-z
+# Rename tmux pane to current folder's basename
+trystan2k/zsh-tab-title
+# Command-line online translator
+soimort/translate-shell
+# Toggles `sudo` for current/previous command on ESC-ESC.
+hcgraf/zsh-sudo
+# Run `fg` on C-Z
+mdumitru/fancy-ctrl-z
 
-    agkozak/zsh-z
-    andrewferrier/fzf-z
+lainiwa/gitcd
+lainiwa/ph-marks
 
-    # Rename tmux pane to current folder's basename
-    trystan2k/zsh-tab-title
+# Adds git open
+paulirish/git-open
+# Completions
+bobthecow/git-flow-completion
+spwhitt/nix-zsh-completions
 
-    # Add command-line online translator
-    soimort/translate-shell
+# Get gitignore template with `gi` command
+# voronkovich/gitignore.plugin.zsh
 
-    # Toggles "sudo" before the current/previous command by pressing ESC-ESC.
-    hcgraf/zsh-sudo
-
-    # Run fg command to return to foregrounded (Ctrl+Z'd) vim
-    mdumitru/fancy-ctrl-z
-
-    lainiwa/gitcd
-
-    # Adds git open
-    paulirish/git-open
-
-    bobthecow/git-flow-completion
-    spwhitt/nix-zsh-completions
-
-    # Get gitignore template with gi command
-    #voronkovich/gitignore.plugin.zsh
-
-    zsh-users/zsh-completions
-    robobenklein/zdharma-history-search-multi-word
-    zsh-users/zsh-autosuggestions
-    zsh-users/zsh-syntax-highlighting
-
-    ankaan/zsh-manydots-magic
+zsh-users/zsh-completions
+robobenklein/zdharma-history-search-multi-word
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting
+# Substitute `...` with `../..`
+ankaan/zsh-manydots-magic
