@@ -1,10 +1,6 @@
 
 # zmodload zsh/zprof
 
-# Mass rename
-autoload -U zmv                                                                                  127:CNOTFOUND 1s
-alias mmv='noglob zmv -W'
-
 
 
 # What characters are considered to be a part of a word
