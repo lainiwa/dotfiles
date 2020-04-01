@@ -11,16 +11,11 @@ if [[ ! -f ${HOME}/.zinit/bin/zinit.zsh ]]; then
     mkdir --parents "${HOME}/.zinit/polaris/share/man/man"{1,2,3,4,5,6,7,8,9}
 fi
 
-# Setup zinit
+# Setup and load zinit
 declare -A ZINIT
 ZINIT[ZCOMPDUMP_PATH]="${HOME}/.cache/zinit/.zcompdump"
 ZINIT[COMPINIT_OPTS]='-i'  # without `-i` spawns warning on `sudo -s`
-
-# Load zinit
 source "${HOME}/.zinit/bin/zinit.zsh"
-# autoload -Uz _zinit
-# (( ${+_comps} )) && _comps[zinit]=_zinit
-
 
 # Compile the zinit`s binary module, if not yet compiled
 if [[ ! -f "${ZINIT[BIN_DIR]}/zmodules/Src/zdharma/zplugin.so" ]]; then
@@ -31,12 +26,13 @@ fi
 module_path+=( "${ZINIT[BIN_DIR]}/zmodules/Src" )
 zmodload zdharma/zplugin
 
-# Install an extension for zinit for managing "shims"
-zinit load zinit-zsh/z-a-bin-gem-node
+# Add zinit extensions
+zinit load zinit-zsh/z-a-bin-gem-node  # for managing "shims"
+zinit load zinit-zsh/z-a-patch-dl  # for downloading files and applying patches
+zinit load zinit-zsh/z-a-test  # for running tests on plugin load
+# zstyle :zinit:annex:test quiet 0  # run the tests in a verbose mode
 
-# Install extension for zinit for running tests on plugin load
-zinit load zinit-zsh/z-a-test
-zstyle :zinit:annex:test quiet 0
+[[ ${OSTYPE} == *linux* ]] && is_linux=true || is_linux=false
 
 
 #################################################################
@@ -48,52 +44,40 @@ zstyle :zinit:annex:test quiet 0
 #
 
 # Python virtual environment name
-AGKOZAK_CUSTOM_PROMPT='%B%F{green}$(virtualenv_prompt_info)'
+AGKOZAK_CUSTOM_PROMPT='%(10V.%B%F{green}(%10v)%f%b.)'
 # Username and hostname
 AGKOZAK_CUSTOM_PROMPT+='%(!.%S%B.%B%F{yellow})%n%1v%(!.%b%s.%f%b) '
 # Path
 AGKOZAK_CUSTOM_PROMPT+=$'%B%F{green}%2v%f%b '
 # Prompt character
 AGKOZAK_CUSTOM_PROMPT+='%B%F{red}%(4V.:.%#)%f%b '
-
 # Git status
+AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' 'S')
 AGKOZAK_CUSTOM_RPROMPT='%(3V.%F{yellow}%3v%f.)'
 # Exit status
-AGKOZAK_CUSTOM_RPROMPT+=' %B%F{red}$(nice_exit_code)%f%b'
+AGKOZAK_CUSTOM_RPROMPT+=' %(?..%B%F{red}(%?%)%f%b)'
 # Execution time
-export ZSH_COMMAND_TIME_MIN_SECONDS=1
-export ZSH_COMMAND_TIME_MSG=''
-AGKOZAK_CUSTOM_RPROMPT+=' %B%F{green}$([[ -n ${ZSH_COMMAND_TIME} ]] && pretty-time ${ZSH_COMMAND_TIME})%f%b'
+AGKOZAK_CMD_EXEC_TIME=1
+AGKOZAK_CUSTOM_RPROMPT+=' %B%F{green}%9v%f%b'
 
-zinit load tonyseek/oh-my-zsh-virtualenv-prompt
-zinit load bric3/nice-exit-code
-zinit load sindresorhus/pretty-time-zsh
-zinit load popstas/zsh-command-time
+zinit load romkatv/zsh-prompt-benchmark
 zinit load agkozak/agkozak-zsh-prompt
 
 
 #################################################################
 # FUZZY SEARCH AND MOVEMENT
 #
-# Install a fuzzy finder (fzf/fzy) and necessary completions
-# and key bindings.
+# * fzf   - a fuzzy picker
+# * z     - fast movement through directories
+# * fzf-z - pick a recent directory (fzf+z)
+# * v     - fast open in vim
 #
 
-# fzf binary only
-zinit ice from"gh-r" sbin"fzf" id-as"junegunn/fzf_bin"
-zinit load junegunn/fzf-bin
-
-# fzf-tmux script, completions for many programs (e.g. kill <TAB>)
-# key bindings and man pages
-zinit ice multisrc"shell/{completion,key-bindings}.zsh" \
-    pick"/dev/null" \
-    sbin"bin/fzf-tmux" atpull'%atclone' \
-    atclone"cp man/man1/* ${ZPFX}/share/man/man1/"
-zinit load junegunn/fzf
+zplugin pack"binary+keys" for fzf
 
 # Pure zsh port of rupa/z
-export ZSHZ_DATA="${HOME}/.cache/.z"
-export ZSHZ_OWNER=$(basename "${HOME}")
+export ZSHZ_DATA=${HOME}/.cache/.z
+export ZSHZ_OWNER=${HOME:t}
 zinit load agkozak/zsh-z
 
 # Pick from most frecent folders with `Ctrl+g`
@@ -110,55 +94,51 @@ zinit load rupa/v
 # INSTALL NON-PLUGIN COMMANDS
 #
 
-# Gdown - downloader for google drive
-zinit ice as'command' mv'gdown.pl -> gdown' pick'gdown'
-zinit load circulosmeos/gdown.pl
+# # Gdown - downloader for google drive
+# zinit ice as'command' mv'gdown.pl -> gdown' pick'gdown'
+# zinit load circulosmeos/gdown.pl
 
-# Substitute cat with bat
-zinit ice if'[[ $(uname -s) == Linux ]]' \
-    from"gh-r" bpick"bat-v*-x86_64-unknown-linux-gnu*" \
-    sbin"bat" \
-    mv'bat-*/bat -> bat' \
-    atload"alias cat=bat"
-zinit load sharkdp/bat
+# # Substitute cat with bat
+# zinit ice if"${is_linux}" \
+#     from"gh-r" bpick"bat-v*-x86_64-unknown-linux-gnu*" \
+#     sbin"bat" \
+#     mv'bat-*/bat -> bat' \
+#     atload"alias cat=bat"
+# zinit load sharkdp/bat
 
-# Hub - a command to work with github + alias + completions + man
-zinit ice from"gh-r" bpick"hub-linux-amd64*" atpull'%atclone' \
-    atclone"
-        cd hub-* &&
-        PREFIX=${ZPFX} ./install
-    " \
-    mv"hub-*/etc/hub.zsh_completion -> _hub" \
-    as"completion" pick"_hub" \
-    atload"alias git=hub"
-zinit load github/hub
+# # Hub - a command to work with github + alias + completions + man
+# zinit ice if"${is_linux}" from"gh-r" bpick"hub-linux-amd64*" atpull'%atclone' \
+#     atclone"
+#         cd hub-* &&
+#         PREFIX=${ZPFX} ./install
+#     " \
+#     mv"hub-*/etc/hub.zsh_completion -> _hub" \
+#     as"completion" pick"_hub" \
+#     atload"alias git=hub"
+# zinit load github/hub
 
-# Broot aka br - a tree file viewer
-zinit ice if'[[ $(uname -s) == Linux ]]' from"gh-r" bpick"broot" fbin"broot -> br"
-zinit load Canop/broot
+# # Broot aka br - a tree file viewer
+# zinit ice if"${is_linux}" from"gh-r" bpick"broot" fbin"broot -> br"
+# zinit load Canop/broot
 
 # Install `ffsend` (a Firefox Send client) statically-linked binary
-zinit ice if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' \
+zinit ice if"${is_linux}" \
     from"gh-r" bpick"^ffsend-v*-linux-x64-static$" \
     mv"ffsend-v* -> ffsend" fbin"ffsend"
 zinit load timvisee/ffsend
 
-# Install `ffsend` completions
-zinit ice if'[[ -z "$commands[ffsend]" && $(uname -s) == Linux ]]' as'completion'
-zinit snippet 'https://raw.githubusercontent.com/timvisee/ffsend/master/contrib/completions/_ffsend'
+# # Install timelapse screen recorder
+# zinit ice from"gh-r" mv'tl-* -> tl' fbin'tl' has'X'
+# zinit load ryanmjacobs/tl
+# zinit ice has'X' atpull'%atclone' \
+#     atclone"cp src/*.1 ${ZPFX}/share/man/man1/" \
+#     id-as"ryanmjacobs/tl_man" pick"/dev/null"
+# zinit load ryanmjacobs/tl
 
-# Install timelapse screen recorder
-zinit ice from"gh-r" mv'tl-* -> tl' fbin'tl' has'X'
-zinit load ryanmjacobs/tl
-zinit ice has'X' atpull'%atclone' \
-    atclone"cp src/*.1 ${ZPFX}/share/man/man1/" \
-    id-as"ryanmjacobs/tl_man" pick"/dev/null"
-zinit load ryanmjacobs/tl
-
-# Git curses interface
-zinit ice as'command' if'[[ $(uname -s) == Linux ]]' \
-    from"gh-r" bpick"^grv_v*_linux64$" mv"grv_v* -> grv"
-zinit load rgburke/grv
+# # Git curses interface
+# zinit ice as'command' if"${is_linux}" \
+#     from"gh-r" bpick"^grv_v*_linux64$" mv"grv_v* -> grv"
+# zinit load rgburke/grv
 
 # Install twtxt (zinit automatically installs completions/_txtnish)
 zinit ice as"command" make"PREFIX=${ZPFX}"
@@ -229,18 +209,15 @@ zinit load nvie/gitflow
 zinit load bobthecow/git-flow-completion
 
 # Colorize ls/exa output based on file type
-zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
-    atpull'%atclone' pick"clrs.zsh" nocompile'!'
-zinit load trapd00r/LS_COLORS
+zinit pack for ls_colors
 
 
 #################################################################
 # COMPLETIONS FOR ALREADY INSTALLED BINARIES
 #
 
-# Completions for ls substitute - exa
-zinit ice as'completion' mv"*.zsh -> _exa"
-zinit snippet 'https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh'
+# zinit atpull'%atclone' for
+#     atclone"pyenv init - --no-rehash > pyenv.plugin.zsh" zdharma/null
 
 # Install completions for pyenv, if present in $PATH
 zinit ice has'pyenv' id-as'pyenv' atpull'%atclone' \
@@ -280,41 +257,47 @@ zinit ice has'rustup' id-as'rustup' \
     "
 zinit load zdharma/null
 
-zinit ice as'completion' mv"*.zsh -> _gist" atpull'%atclone' \
-    atclone"
-        zinit creinstall -q %SNIPPETS/https--raw.githubusercontent.com--jdowner--gist--alpha--share/gist.zsh
-    "
-zinit snippet 'https://raw.githubusercontent.com/jdowner/gist/alpha/share/gist.zsh'
+# zinit ice as'completion'  atpull'%atclone' \
+#     atclone"
+#         zinit creinstall -q %SNIPPETS/https--raw.githubusercontent.com--jdowner--gist--alpha--share/gist.zsh
+#     "
+# zinit snippet ''
 
-# Completions for buku bookmark manager
-zinit ice as'completion' has'buku'
-zinit snippet 'https://raw.githubusercontent.com/jarun/Buku/master/auto-completion/zsh/_buku'
+
+GH=https://raw.githubusercontent.com
+GNU=https://git.savannah.gnu.org
+
+# Completions for
+# * docker-compose
+# * ffsend - CLI Firefox Send client
+# * buku - bookmarks manager
+# * guix - declarative package manager
+# * exa  - ls substitution
+# * gist - github gist client
+# * khal - CLI calendar
+# * beet - music organizer  # TODO: check has gawk
+#
+zinit as'completion' atpull'%atclone' for \
+    has'docker-compose' "${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose" \
+    has'ffsend'         "${GH}/timvisee/ffsend/master/contrib/completions/_ffsend" \
+    has'buku'           "${GH}/jarun/Buku/master/auto-completion/zsh/_buku" \
+    has'guix' "${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix" \
+    has'exa'  mv'* -> _exa'  "${GH}/ogham/exa/master/contrib/completions.zsh" \
+    has'gist' mv'* -> _gist' "${GH}/jdowner/gist/alpha/share/gist.zsh" \
+    has'khal' mv'* -> _khal' "${GH}/pimutils/khal/master/misc/__khal" \
+    has'beet' atclone'perl -pi -e 's/awk/gawk/g' _beet' \
+        "${GH}/beetbox/beets/master/extra/_beet"
 
 # Install Nix package manager completions
 zinit ice has'nix'
 zinit load spwhitt/nix-zsh-completions
 
-# Install Guix package manager completions
-zinit ice as'completion' has'guix'
-zinit snippet 'https://git.savannah.gnu.org/cgit/guix.git/plain/etc/completion/zsh/_guix'
-
-# Completions for docker-compose
-zinit ice as"completion" has'docker-compose'
-zinit snippet 'https://github.com/docker/compose/raw/master/contrib/completion/zsh/_docker-compose'
-
-# Completions for khal - a CLI calendar
-zinit ice as"completion" has"khal" mv'__khal -> _khal'
-zinit snippet 'https://github.com/pimutils/khal/raw/master/misc/__khal'
-
-# TODO: check has gawk
-zinit ice as"completion" has"beet" atpull'%atclone' \
-    atclone"perl -pi -e 's/awk/gawk/g' _beet"
-zinit snippet 'https://raw.githubusercontent.com/beetbox/beets/master/extra/_beet'
-
 
 #################################################################
 # IMPORTANT PLUGINS
 #
+
+zinit pack for system-completions
 
 # Additional completion definitions
 zinit ice blockf atclone'zinit creinstall -q .' atpull'%atclone'
