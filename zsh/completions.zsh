@@ -22,3 +22,24 @@ builtin zstyle ':completion:*' menu select
 
 # Increase the number of errors based on the length of the typed word.
 # builtin zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
+
+
+# Do menu-driven completion.
+# zstyle ':completion:*' menu select
+
+# Color completion for some things.
+# http://linuxshellaccount.blogspot.com/2008/12/color-completion-using-zsh-modules-on.html
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# zstyle ':completion:*' list-colors 'reply=( "=(#b)(*$VAR)(?)*=00=$color[green]=$color[bg-green]" )'
+# zstyle ':completion:*:*:*:*:hosts' list-colors '=*=30;41'
+# zstyle ':completion:*:*:*:*:users' list-colors '=*=$color[green]=$color[red]'
+# zstyle ':completion:*' list-colors ''
+
+# # formatting and messages
+# # http://www.masterzen.fr/2009/04/19/in-love-with-zsh-part-one/
+# zstyle ':completion:*' verbose yes
+# zstyle ':completion:*:descriptions' format "$fg[yellow]%B--- %d%b"
+# zstyle ':completion:*:messages' format '%d'
+# zstyle ':completion:*:warnings' format "$fg[red]No matches for:$reset_color %d"
+# zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
+# zstyle ':completion:*' group-name ''
