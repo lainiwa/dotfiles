@@ -8,6 +8,8 @@ fi
 ZSH_CACHE_DIR=${HOME}/.cache/zsh
 COMPLETIONS_DIR=${ZSH_CACHE_DIR}/completions
 SOURCEABLES_DIR=${ZSH_CACHE_DIR}/sourceables
+GH=https://raw.githubusercontent.com
+GNU=https://git.savannah.gnu.org
 
 
 # Python virtual environment name
@@ -39,17 +41,15 @@ export GITCD_TRIM=1
 if [[ ! -d $COMPLETIONS_DIR ]]; then
     # Create and enter completions directory
     mkdir --parents -- "${COMPLETIONS_DIR}"
-    pushd "${COMPLETIONS_DIR}"
+    pushd -q "${COMPLETIONS_DIR}"
     # Download completions
-    GH=https://raw.githubusercontent.com
-    wget --quiet "${GH}/ogham/exa/master/contrib/completions.zsh" --output-file=logfile
+    wget --quiet "${GH}/ogham/exa/master/contrib/completions.zsh" --output-file=exa.zsh
     wget --quiet "${GH}/jdowner/gist/alpha/share/gist.zsh" --output-file=_gist
     wget --quiet "${GH}/pimutils/khal/master/misc/__khal" --output-file=_khal
     wget --quiet "${GH}/jarun/Buku/master/auto-completion/zsh/_buku"
     wget --quiet "${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose"
     wget --quiet "${GH}/beetbox/beets/master/extra/_beet"
-    wget --quiet 'https://git.savannah.gnu.org/cgit/guix.git/plain/etc/completion/zsh/_guix'
-    unset GH
+    wget --quiet "${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
     # Generate completions for present commands
     if (( ${+commands[rclone]} )); then
         rclone genautocomplete zsh _rclone
@@ -62,7 +62,7 @@ if [[ ! -d $COMPLETIONS_DIR ]]; then
         rustup completions zsh rustup > _rustup
     fi
     # Leave completions directory
-    popd
+    popd -q
 fi
 
 fpath+=(${COMPLETIONS_DIR})
@@ -72,7 +72,7 @@ export FPATH=${HOME}/.zsh/completions:${FPATH}
 if [[ ! -d $SOURCEABLES_DIR ]]; then
     # Create and enter completions directory
     mkdir --parents -- "${SOURCEABLES_DIR}"
-    pushd "${SOURCEABLES_DIR}"
+    pushd -q "${SOURCEABLES_DIR}"
     # Generate completions for present commands
     if (( ${+commands[antibody]} )); then
         antibody bundle < ~/.zsh/plugins.txt > plugins.zsh
@@ -88,11 +88,11 @@ if [[ ! -d $SOURCEABLES_DIR ]]; then
     fi
     if (( ${+commands[dircolors]} )); then
         dircolors --bourne-shell \
-            <(curl --silent 'https://raw.githubusercontent.com/trapd00r/LS_COLORS/master/LS_COLORS') \
+            <(curl --silent "${GH}/trapd00r/LS_COLORS/master/LS_COLORS") \
             >lscolors.sh
     fi
     # Leave completions directory
-    popd
+    popd -q
 fi
 
 for sourceable in "${SOURCEABLES_DIR}"/*; do
@@ -102,6 +102,8 @@ done
 unset ZSH_CACHE_DIR
 unset COMPLETIONS_DIR
 unset SOURCEABLES_DIR
+unset GH
+unset GNU
 
 autoload -U compinit
 compinit
