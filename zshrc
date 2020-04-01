@@ -5,14 +5,20 @@
 
 # What characters are considered to be a part of a word
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-# Pager and editor
+# Pagers and editors
 export PAGER=less
+export METAMAIL_PAGER=less
+export VISUAL=vim
 export EDITOR=vim
 # Set a virtualenvwrapper path, if not already set (resolves tmux nesting issue)
 export VIRTUALENVWRAPPER_PYTHON=${VIRTUALENVWRAPPER_PYTHON:-$(which python3)}
 export VIRTUALENV_PYTHON=${VIRTUALENVWRAPPER_PYTHON}
 # Node Version Manager (NVM) direcory
 export NVM_DIR=${HOME}/.nvm
+# ZSH history
+export HISTFILE=${HOME}/.zsh_history
+export HISTSIZE=10000000
+export SAVEHIST=10000000
 
 
 # Try to source:
@@ -21,8 +27,11 @@ for file (
     "${NVM_DIR}/nvm.sh"
     "${NVM_DIR}/bash_completion"
     # zsh settings
-    "${HOME}/.zsh/antibody.zsh"
+    # "${HOME}/.zsh/antibody.zsh"
+    "${HOME}/.zsh/zplugin.zsh"
+    # "${HOME}/.zsh/zpm.zsh"
     "${HOME}/.zsh/aliases.zsh"
+    "${HOME}/.zsh/keys.zsh"
     "${HOME}/.zsh/set_history.zsh"
     "${HOME}/.zsh/completions.zsh"
     # command-not-found functionality
@@ -33,9 +42,6 @@ for file (
 )
     [ -s "${file}" ] && source "${file}"
 
-
-# Set some options
-setopt interactive_comments extended_glob autocd complete_aliases
 
 
 # Automatically list directory contents on `cd`.
