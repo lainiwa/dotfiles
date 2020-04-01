@@ -1,33 +1,41 @@
 
-# Colorize and humanify `ls`
-if [[ $(uname -s) == FreeBSD ]]; then
-    alias ls='ls -h -G'
-else
-    alias ls='ls -h --color=auto'
-fi
-alias ll='ls -l'
-alias la='ls -A'
-alias lal='ls -Al'
 
 # Substitute ls with exa
 if (( ${+commands[exa]} )); then
     alias ls='exa --color=auto --header --git'
     alias la='ls -a'
     alias lal='ls -al'
-    alias lt='exa --tree'
+    alias tree='exa --tree'
+    alias lt='tree'
+
+# Colorize and humanify `ls`
+else
+    if [[ $(uname -s) == FreeBSD ]]; then
+        alias ls='ls -h -G'
+    else
+        alias ls='ls -h --color=auto'
+    fi
+    alias ll='ls -l'
+    alias la='ls -A'
+    alias lal='ls -Al'
+    alias tree='tree -C'
+    alias lt='tree'
 fi
-
-alias gl='git log --oneline --graph --decorate --all'
-
-alias r='ranger'
 
 # Colorize `grep`s
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
+# Ignoring output
+alias -g NE='2> /dev/null'
+alias -g NUL='&> /dev/null'
+
+alias gl='git log --oneline --graph --decorate --all'
+
+alias r='ranger'
+
 alias mkdir='mkdir -pv'
-alias tree='tree -C'
 alias U='unbuffer '
 
 alias -g H='| head'
@@ -40,9 +48,6 @@ alias -g L='| less'
 alias -g LR='| less -R'  # less with colors support
 
 alias -g C='| column -t'
-
-alias -g NE='2> /dev/null'
-alias -g NUL='&> /dev/null'
 
 # Set grc alias for available commands.
 [[ -f /etc/grc.conf ]]           && grc_conf='/etc/grc.conf'
