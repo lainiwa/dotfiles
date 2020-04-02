@@ -10,10 +10,10 @@ if (( ${+commands[exa]} )); then
 
 # Colorize and humanify `ls`
 else
-    if [[ $(uname -s) == FreeBSD ]]; then
-        alias ls='ls -h -G'
-    else
+    if [[ ${OSTYPE} == *linux* ]]; then
         alias ls='ls -h --color=auto'
+    else
+        alias ls='ls -h -G'
     fi
     alias ll='ls -l'
     alias la='ls -A'
