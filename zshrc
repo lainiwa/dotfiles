@@ -17,8 +17,8 @@ export VIRTUALENV_PYTHON=${VIRTUALENVWRAPPER_PYTHON}
 export NVM_DIR=${HOME}/.nvm
 # ZSH history
 export HISTFILE=${HOME}/.zsh_history
-export HISTSIZE=10000000
-export SAVEHIST=10000000
+export HISTSIZE=1000000000
+export SAVEHIST=1000000000
 
 
 # Try to source:
