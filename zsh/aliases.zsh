@@ -76,5 +76,5 @@ alias -g TRN='| __rt__ "\n" '
 alias -g NOC='| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"'
 
 
-# `npm-exec <binary name>` to run localy installed nodejs binary
+# `npm-exec <binary name>` to run locally installed nodejs binary
 alias npm-exec='PATH=$(npm bin):$PATH'
