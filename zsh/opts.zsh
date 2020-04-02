@@ -9,7 +9,7 @@
 emulate zsh                    # restore default options just in case something messed them up
 
 # 16.2.1 Changing Directories
-# setopt AUTO_CD                 # `dirname` is equivalent to `cd dirname`
+setopt AUTO_CD                 # `dir` is equivalent to `cd dir` (useful for `cd ..`)
 setopt AUTO_PUSHD              # `cd` pushes directories to the directory stack
 
 # 16.2.2 Completion
@@ -55,6 +55,6 @@ setopt NO_BEEP
 # unsetopt CLOBBER
 
 # setopt HIST_IGNORE_ALL_DUPS
-# setopt HIST_REDUCE_BLANKS
+# setopt HIST_REDUCE_BLANKS  # Remove superfluous blanks from each command line being added to the history list.
 # setopt INC_APPEND_HISTORY    # this is default, but set for share_history
-# setopt COMPLETE_ALIASES
+# setopt COMPLETE_ALIASES   # Prevents aliases on the command line from being internally substituted before completion is attempted. The effect is to make the alias a distinct command for completion purposes.
