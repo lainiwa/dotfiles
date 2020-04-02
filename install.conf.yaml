@@ -61,6 +61,10 @@
         if: command -v urxvt >/dev/null
     ~/.xinitrc:
         if: command -v startx >/dev/null
+    # Beets
+    ~/.config/beets/config.yaml:
+        if: command -v beet >/dev/null
+        path: config/beets/config.yaml
     # Torrents
     ~/.config/torrench:
         if: command -v torrench >/dev/null

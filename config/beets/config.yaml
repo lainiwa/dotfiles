@@ -1,0 +1,270 @@
+directory: ~/music
+library: ~/data/musiclibrary.db
+
+import:
+    # move new music in instead of copying it
+    move: yes
+
+
+plugins:
+    # Autotagger Extensions
+    - chroma        # Use acoustic fingerprinting for files with missing/incorrect metadata
+    # - discogs       # Search for releases in the Discogs database
+    - fromfilename  # Guess metadata for untagged tracks from their filenames
+
+    # Metadata
+    - acousticbrainz  # Fetch various AcousticBrainz metadata
+    - edit            # Edit metadata from a text editor
+    # - embedart        # Embed album art images into files' metadata
+    # - fetchart        # Fetch album cover art from various sources
+    - lastgenre       # Fetch genres based on Last.fm tags
+    - lyrics          # Automatically fetch song lyrics
+    - mbsync          # Fetch updated metadata from MusicBrainz
+    # - replaygain      # Calculate volume normalization for players that support it
+    - scrub           # Clean extraneous metadata from music files
+
+    # Path Formats
+    # - the  # Move patterns in path formats (i.e., move "a" and "the" to the end)
+
+    # Interoperability
+    - badfiles       # Check audio file integrity
+    - play           # Play beets queries in your music player
+    # - playlist       # Use M3U playlists to query the beets library
+    # - smartplaylist  # Generate smart playlists based on beets queries
+    # - thumbnails     # Get thumbnails with the cover art on your album folders
+
+    # Miscellaneous
+    # - bpd            # A music player for beets library that emulates MPD
+    - duplicates     # List duplicate tracks or albums
+    - fuzzy          # Search albums and tracks with fuzzy string matching
+    - info           # Print music files' tags to the console
+    - spotify        # Create Spotify playlists from the Beets library
+    - types          # Declare types for flexible attributes
+    # - web            # An experimental Web-based GUI for beets
+
+    # ???
+    # - permissions
+
+
+chroma:
+    auto: true
+
+
+fromfilename:
+    auto: true
+
+
+acousticbrainz:
+    # Enable AcousticBrainz during beet import.
+    # Default: yes.
+    auto: true
+    # Download AcousticBrainz data even for tracks that already have it.
+    # Default: no.
+    force: false
+    # Which tags from the list above to set on your files.
+    # Default: [] (all)
+    tags: []
+
+
+edit:
+    # A space-separated list of item fields to include in the editor by default.
+    # Default: track title artist album
+    itemfields: track title artist album
+    # The same when editing albums (with the -a option).
+    # Default: album albumartist
+    albumfields: album albumartist
+
+
+lastgenre:
+    # Fetch genres automatically during import.
+    # Default: yes.
+    auto: true
+    # Use a canonicalization tree. Setting this to yes will use a built-in
+    # tree. You can also set it to a path, like the whitelist config value, to
+    # use your own tree.
+    # Default: no (disabled).
+    canonical: false
+    # Number of genres to fetch.
+    # Default: 1
+    count: 1
+    # A string if to use a fallback genre when no genre is found. You can use
+    # the empty string '' to reset the genre.
+    # Default: None.
+    fallback: None
+    # By default, beets will always fetch new genres, even if the files already
+    # have one. To instead leave genres in place in when they pass the
+    # whitelist, set the force option to no.
+    # Default: yes.
+    force: true
+    # Minimum popularity factor below which genres are discarded.
+    # Default: 10.
+    min_weight: 10
+    # Sort genres by the most to least specific, rather than most to least
+    # popular.
+    # Default: no.
+    prefer_specific: false
+    # Which entity to look up in Last.fm. Can be either artist, album or track.
+    # Default: album.
+    source: album
+    # A separator for multiple genres.
+    # Default: ', '.
+    separator: ', '
+    # The filename of a custom genre list, yes to use the internal whitelist,
+    # or no to consider all genres valid.
+    # Default: yes.
+    whitelist: true
+
+
+lyrics:
+    # Fetch lyrics automatically during import.
+    # Default: yes.
+    auto: false  # fails sometimes
+    # Your Bing Translation application password (to Activate On-the-Fly
+    # Translation)
+    bing_client_secret: None
+    # By default all lyrics with a language other than bing_lang_to are
+    # translated. Use a list of lang codes to restrict the set of source
+    # languages to translate.
+    # Default: []
+    bing_lang_from: []
+    # Language to translate lyrics into.
+    # Default: None.
+    bing_lang_to: None
+    # By default, the file will be left unchanged when no lyrics are found. Use the empty string '' to reset the lyrics in such a case.
+    # Default: None.
+    fallback: None
+    # By default, beets won’t fetch lyrics if the files already have ones. To instead always fetch lyrics, set the force option to yes.
+    # Default: no.
+    force: false
+    # Your Google API key (to enable the Google Custom Search backend).
+    # Default: None.
+    google_API_key: None
+    # The custom search engine to use.
+    # Default: The beets custom search engine, which gathers an updated list
+    # of sources known to be scrapeable.
+    # google_engine_ID:
+    # List of sources to search for lyrics. An asterisk * expands to all
+    # available sources.
+    # Default: google lyricwiki musixmatch genius, i.e., all the available
+    # sources. The google source will be automatically deactivated if no
+    # google_API_key is setup. Both it and the genius source will only be
+    # enabled if BeautifulSoup is installed.
+    sources: "*"
+
+
+scrub:
+    auto: true
+
+
+badfiles:
+    commands:
+        # ogg: myoggchecker --opt1 --opt2
+        flac: flac --test --warnings-as-errors --silent
+
+
+play:
+    # The command used to open the playlist.
+    # Insert $args to use the --args feature.
+    # Default: open on OS X
+    #          xdg-open on other Unixes
+    #          start on Windows
+    command: mpv --vid=no
+
+
+duplicates:
+    # List duplicate albums instead of tracks.
+    # Default: no.
+    album: false
+    # Use an arbitrary command to compute a checksum of items. This overrides
+    # the keys option the first time it is run; however, because it caches the
+    # resulting checksum as flexattrs in the database, you can use
+    # --key=name_of_the_checksumming_program --key=any_other_keys (or set the
+    # keys configuration option) the second time around.
+    # Default: ffmpeg -i {file} -f crc -.
+    checksum: "ffmpeg -i {file} -f crc -"
+    # A destination base directory into which to copy matched items.
+    # Default: none (disabled).
+    copy: none
+    # Print a count of duplicate tracks or albums in the format
+    # $albumartist - $album - $title: $count (for tracks) or
+    # $albumartist - $album: $count (for albums).
+    # Default: no.
+    count: false
+    # Removes matched items from the library and from the disk.
+    # Default: no
+    delete: false
+    # A specific format with which to print every track or album. This uses the
+    # same template syntax as beets’ path formats. The usage is inspired by,
+    # and therefore similar to, the list command.
+    # Default: format_item
+    format: format_item
+    # List every track or album that has duplicates, not just the duplicates
+    # themselves.
+    # Default: no
+    full: false
+    # Define in which track or album fields duplicates are to be searched. By
+    # default, the plugin uses the musicbrainz track and album IDs for this
+    # purpose. Using the keys option (as a YAML list in the configuration file,
+    # or as space-delimited strings in the command-line), you can extend this
+    # behavior to consider other attributes.
+    # Default: [mb_trackid, mb_albumid]
+    keys: [mb_trackid, mb_albumid]
+    # Merge duplicate items by consolidating tracks and-or metadata where
+    # possible.
+    # merge:
+    # A destination base directory into which it will move matched items.
+    # Default: none (disabled).
+    move: None
+    # Output the path instead of metadata when listing duplicates.
+    # Default: no.
+    path: false
+    # Do not report duplicate matches if some of the attributes are not defined
+    # (ie. null or empty).
+    # Default: no
+    strict: false
+    # A key=value pair. The plugin will add a new key attribute with value
+    # value as a flexattr to the database for duplicate items.
+    # Default: no.
+    tag: false
+    # Dictionary of lists of attributes keyed by items or albums to use when
+    # choosing duplicates. By default, the tie-breaking procedure favors the
+    # most complete metadata attribute set. If you would like to consider the
+    # lower bitrates as duplicates, for example,
+    # set tiebreak: items: [bitrate].
+    # Default: {}.
+    tiebreak: {}
+
+
+fuzzy:
+    # The "sensitivity" of the fuzzy match. A value of 1.0 will show only
+    # perfect matches and a value of 0.0 will match everything.
+    # Default: 0.7.
+    threshold: 0.7
+    # The character used to designate fuzzy queries. Default: ~, which may need
+    # to be escaped in some shells.
+    prefix: "~"
+
+
+types:
+    rating: int
+
+
+web:
+    # The server hostname. Set this to 0.0.0.0 to bind to all interfaces.
+    # Default: Bind to 127.0.0.1.
+    host: 127.0.0.1
+    # The server port. Default: 8337.
+    port: 8337
+    # The CORS allowed origin (see Cross-Origin Resource Sharing (CORS), below).
+    # Default: CORS is disabled.
+    cors: false
+    # Support credentials when using CORS (see Cross-Origin Resource Sharing
+    # (CORS), below).
+    # Default: CORS_SUPPORTS_CREDENTIALS is disabled.
+    cors_supports_credentials: false
+    # If true, enable reverse proxy support (see Reverse Proxy Support, below).
+    # Default: false.
+    reverse_proxy: false
+    # If true, includes paths in item objects.
+    # Default: false.
+    include_paths: false
