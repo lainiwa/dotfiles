@@ -29,7 +29,7 @@ zmodload zdharma/zplugin
 # Add zinit extensions
 zinit load zinit-zsh/z-a-bin-gem-node  # for managing "shims"
 zinit load zinit-zsh/z-a-patch-dl  # for downloading files and applying patches
-zinit load zinit-zsh/z-a-test  # for running tests on plugin load
+# zinit load zinit-zsh/z-a-test  # for running tests on plugin load
 # zstyle :zinit:annex:test quiet 0  # run the tests in a verbose mode
 
 [[ ${OSTYPE} == *linux* ]] && is_linux=true || is_linux=false
@@ -94,17 +94,15 @@ zinit load rupa/v
 # INSTALL NON-PLUGIN COMMANDS
 #
 
-# # Gdown - downloader for google drive
-# zinit ice as'command' mv'gdown.pl -> gdown' pick'gdown'
-# zinit load circulosmeos/gdown.pl
+# Install perl scripts
+# * diff-so-fancy and git-dsf commands
+# * gdown - downloader for google drive
+#
+zinit as'command' for \
+    pick"bin/git-dsf" zdharma/zsh-diff-so-fancy \
+    mv'gdown.pl -> gdown' pick'gdown' circulosmeos/gdown.pl
 
-# # Substitute cat with bat
-# zinit ice if"${is_linux}" \
-#     from"gh-r" bpick"bat-v*-x86_64-unknown-linux-gnu*" \
-#     sbin"bat" \
-#     mv'bat-*/bat -> bat' \
-#     atload"alias cat=bat"
-# zinit load sharkdp/bat
+
 
 # # Hub - a command to work with github + alias + completions + man
 # zinit ice if"${is_linux}" from"gh-r" bpick"hub-linux-amd64*" atpull'%atclone' \
@@ -118,14 +116,21 @@ zinit load rupa/v
 # zinit load github/hub
 
 # # Broot aka br - a tree file viewer
-# zinit ice if"${is_linux}" from"gh-r" bpick"broot" fbin"broot -> br"
+# zinit ice from"gh-r" if"${is_linux}" as"command" for \
+#     bpick"^broot_*.zip$" mv"build/x86_64-linux/broot -> broot"
 # zinit load Canop/broot
 
-# Install `ffsend` (a Firefox Send client) statically-linked binary
-zinit ice if"${is_linux}" \
-    from"gh-r" bpick"^ffsend-v*-linux-x64-static$" \
-    mv"ffsend-v* -> ffsend" fbin"ffsend"
-zinit load timvisee/ffsend
+# Fetch binaries when on linux
+# * ffsend - CLI Firefox Send client
+# * grv    - git curses interface
+# * bat    - substitution for cat
+#
+zinit from"gh-r" if"${is_linux}" as'command' for \
+    bpick"^ffsend-v*-linux-x64-static$" mv"ffsend-v* -> ffsend" timvisee/ffsend \
+    bpick"^grv_v*_linux64$"             mv"grv_v* -> grv"       rgburke/grv \
+    bpick"bat-v*-x86_64-unknown-linux-gnu.tar.gz" mv'bat-*/bat -> bat' \
+        pick'bat' atload"alias cat=bat" @sharkdp/bat
+
 
 # # Install timelapse screen recorder
 # zinit ice from"gh-r" mv'tl-* -> tl' fbin'tl' has'X'
@@ -135,18 +140,16 @@ zinit load timvisee/ffsend
 #     id-as"ryanmjacobs/tl_man" pick"/dev/null"
 # zinit load ryanmjacobs/tl
 
-# # Git curses interface
-# zinit ice as'command' if"${is_linux}" \
-#     from"gh-r" bpick"^grv_v*_linux64$" mv"grv_v* -> grv"
-# zinit load rgburke/grv
 
-# Install twtxt (zinit automatically installs completions/_txtnish)
-zinit ice as"command" make"PREFIX=${ZPFX}"
-zinit load mdom/txtnish
-
-# Install fff and it's man page
-zinit ice as"command" make"PREFIX=${ZPFX} install"
-zinit load dylanaraps/fff
+# Install
+# * git-flow - git subcommand
+# * txtnish  - twtxt client (zinit automatically installs completions/_txtnish)
+# * fff      - file manager
+#
+zinit as"null" for \
+    make"install prefix=${ZPFX}" nvie/gitflow \
+    make"PREFIX=${ZPFX}"         mdom/txtnish \
+    make"PREFIX=${ZPFX} install" dylanaraps/fff
 
 
 #################################################################
@@ -164,12 +167,24 @@ zinit load dylanaraps/fff
 # OTHER PLUGINS
 #
 
+
+# ZPM ecosystem plugins
+# *
+# *
+#
+zinit for zpm-zsh/clipboard
+
+# My own plugins
+# * gitcd    - git clone && cd
+# * ph-marks - pornhub bookmarks manager
+#
+export GITCD_HOME=${HOME}/tmp
+export GITCD_TRIM=1
+zinit for lainiwa/gitcd
+zinit for lainiwa/ph-marks
+
 # Rename tmux pane to current folder's basename
 zinit load trystan2k/zsh-tab-title
-
-# Add `git dsf` command to git
-zinit ice has"git" as"program" pick"bin/git-dsf"
-zinit load zdharma/zsh-diff-so-fancy
 
 # Add command-line online translator
 zinit ice has"gawk"
@@ -180,11 +195,6 @@ zinit load hcgraf/zsh-sudo
 
 # Run `fg` command to return to foregrounded (Ctrl+Z'd) vim
 zinit load mdumitru/fancy-ctrl-z
-
-# Install gitcd function to clone git repository and cd into it
-export GITCD_HOME=${HOME}/tmp
-export GITCD_TRIM=1
-zinit load lainiwa/gitcd
 
 # Adds `git open`
 zinit load paulirish/git-open
@@ -203,11 +213,6 @@ zinit load voronkovich/gitignore.plugin.zsh
 # zinit ice pick"git-extras-completion.zsh"
 # zinit snippet 'https://raw.githubusercontent.com/tj/git-extras/master/etc/git-extras-completion.zsh'
 
-# Gitflow commands and completions
-zinit ice as"command" make"install prefix=${ZPFX}"
-zinit load nvie/gitflow
-zinit load bobthecow/git-flow-completion
-
 # Colorize ls/exa output based on file type
 zinit pack for ls_colors
 
@@ -216,58 +221,23 @@ zinit pack for ls_colors
 # COMPLETIONS FOR ALREADY INSTALLED BINARIES
 #
 
-# zinit atpull'%atclone' for
-#     atclone"pyenv init - --no-rehash > pyenv.plugin.zsh" zdharma/null
-
-# Install completions for pyenv, if present in $PATH
-zinit ice has'pyenv' id-as'pyenv' atpull'%atclone' \
-    atclone"pyenv init - --no-rehash > pyenv.plugin.zsh"
-zinit load zdharma/null
-
-# Completions for rclone
-# (zsh completions available only from older vertsions)
-zinit ice has'rclone' id-as'rclone' \
-    if"rclone genautocomplete zsh --help | grep -q 'rclone genautocomplete zsh'" \
-    blockf atpull'%atclone' \
-    atclone"
-        mkdir src/ &&
-        rclone genautocomplete zsh src/_rclone &&
-        echo fpath+=\"\${0:h}/src\" > rclone.plugin.zsh &&
-    "
-zinit load zdharma/null
-
-# Install completions for poetry, if present in $PATH
-zinit ice has'poetry' id-as'poetry' \
-    blockf atpull'%atclone' \
-    atclone"
-        mkdir src/ &&
-        poetry completions zsh > src/_poetry &&
-        echo fpath+=\"\${0:h}/src\" > poetry.plugin.zsh &&
-    "
-zinit load zdharma/null
-
-# Install completions for rustup and cargo, if rustup is in $PATH
-zinit ice has'rustup' id-as'rustup' \
-    blockf atpull'%atclone' \
-    atclone"
-        mkdir src/ &&
-        rustup completions zsh cargo > src/_cargo &&
-        rustup completions zsh rustup > src/_rustup &&
-        echo fpath+=\"\${0:h}/src\" > rustup.plugin.zsh &&
-    "
-zinit load zdharma/null
-
-# zinit ice as'completion'  atpull'%atclone' \
-#     atclone"
-#         zinit creinstall -q %SNIPPETS/https--raw.githubusercontent.com--jdowner--gist--alpha--share/gist.zsh
-#     "
-# zinit snippet ''
+# Generate completions for
+# * pyenv  - python version management script
+# * poetry - python package manager
+# * cargo  - rust package manager
+# * rustup - rust toolchain installer
+#
+zinit atpull'%atclone' for \
+    has'pyenv'  id-as'pyenv'  atclone"pyenv init - --no-rehash     > pyenv.plugin.zsh" zdharma/null \
+    has'poetry' id-as'poetry' atclone"poetry completions zsh       > _poetry"          zdharma/null \
+    has'rustup' id-as'rustup' atclone"rustup completions zsh cargo > _cargo"           zdharma/null \
+    has'rustup' id-as'rustup' atclone"rustup completions zsh cargo > _rustup"          zdharma/null \
+    has'rclone' id-as'rclone' atclone"rclone genautocomplete zsh     _rclone" \
+        if"rclone genautocomplete zsh --help | grep -q 'rclone genautocomplete zsh'" zdharma/null
 
 
-GH=https://raw.githubusercontent.com
-GNU=https://git.savannah.gnu.org
 
-# Completions for
+# Download completions for
 # * docker-compose
 # * ffsend - CLI Firefox Send client
 # * buku - bookmarks manager
@@ -277,6 +247,8 @@ GNU=https://git.savannah.gnu.org
 # * khal - CLI calendar
 # * beet - music organizer  # TODO: check has gawk
 #
+GH=https://raw.githubusercontent.com
+GNU=https://git.savannah.gnu.org
 zinit as'completion' atpull'%atclone' for \
     has'docker-compose' "${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose" \
     has'ffsend'         "${GH}/timvisee/ffsend/master/contrib/completions/_ffsend" \
@@ -285,19 +257,22 @@ zinit as'completion' atpull'%atclone' for \
     has'exa'  mv'* -> _exa'  "${GH}/ogham/exa/master/contrib/completions.zsh" \
     has'gist' mv'* -> _gist' "${GH}/jdowner/gist/alpha/share/gist.zsh" \
     has'khal' mv'* -> _khal' "${GH}/pimutils/khal/master/misc/__khal" \
-    has'beet' atclone'perl -pi -e 's/awk/gawk/g' _beet' \
+    has'beet' atclone"perl -pi -e 's/awk/gawk/g' _beet" \
         "${GH}/beetbox/beets/master/extra/_beet"
+unset GH GNU
 
-# Install Nix package manager completions
-zinit ice has'nix'
-zinit load spwhitt/nix-zsh-completions
+# Completions for
+# * git-flow
+# * nix package manager
+#
+zinit for \
+    has'git-flow' bobthecow/git-flow-completion \
+    has'nix'      spwhitt/nix-zsh-completions
 
 
 #################################################################
 # IMPORTANT PLUGINS
 #
-
-zinit pack for system-completions
 
 # Additional completion definitions
 zinit ice blockf atclone'zinit creinstall -q .' atpull'%atclone'
@@ -306,15 +281,24 @@ zinit load zsh-users/zsh-completions
 # History search by `Ctrl+R`
 zinit load zdharma/history-search-multi-word
 
-# Autosuggestions
-export ZSH_AUTOSUGGEST_USE_ASYNC=1
-export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-zinit ice atload'_zsh_autosuggest_start'
-zinit load zsh-users/zsh-autosuggestions
+# # Autosuggestions
+# export ZSH_AUTOSUGGEST_USE_ASYNC=1
+# export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+# zinit ice atload'_zsh_autosuggest_start'
+# zinit load zsh-users/zsh-autosuggestions
 
-# Syntax highlighting
-zinit ice wait'0' lucid atinit"zpcompinit; zpcdreplay"
-zinit load zdharma/fast-syntax-highlighting
+# # Syntax highlighting
+# zinit ice wait'0' lucid atinit"zpcompinit; zpcdreplay"
+# zinit load zdharma/fast-syntax-highlighting
+
+zinit wait lucid for \
+ atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    zdharma/fast-syntax-highlighting \
+ blockf \
+    zsh-users/zsh-completions \
+ atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions
+
 
 # `...` ==> `../..`
 zinit ice lucid wait"0b" pick"manydots-magic"
