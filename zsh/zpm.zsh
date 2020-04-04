@@ -86,7 +86,7 @@ mkdir --parents -- "${_ZPM}/completions"
 pushd -q "${_ZPM}/completions"
 # Download completions
 [[ ! -f _exa ]] &&
-wget --quiet "${GH}/ogham/exa/master/contrib/completions.zsh" --output-document=_exa
+    wget --quiet "${GH}/ogham/exa/master/contrib/completions.zsh" --output-document=_exa
 [[ ! -f _gist ]] &&
     wget --quiet "${GH}/jdowner/gist/alpha/share/gist.zsh" --output-document=_gist
 [[ ! -f _khal ]] &&
