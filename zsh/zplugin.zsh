@@ -302,5 +302,5 @@ zinit wait lucid for \
 
 
 # `...` ==> `../..`
-zinit ice lucid wait"0b" pick"manydots-magic"
-zinit load knu/zsh-manydots-magic
+# zinit ice lucid wait"0b" pick"manydots-magic"
+zinit load lainiwa/zsh-manydots-magic
