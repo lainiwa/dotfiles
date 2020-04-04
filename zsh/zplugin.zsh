@@ -226,6 +226,7 @@ zinit pack for ls_colors
 # * poetry - python package manager
 # * cargo  - rust package manager
 # * rustup - rust toolchain installer
+# * rclone - rsync for the cloud (we check if genautocomplete subcommand is available)
 #
 zinit atpull'%atclone' for \
     has'pyenv'  id-as'pyenv'  atclone"pyenv init - --no-rehash     > pyenv.plugin.zsh" zdharma/null \
