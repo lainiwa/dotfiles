@@ -1,5 +1,4 @@
 
-
 _ZPM=${XDG_CACHE_HOME:-${HOME}/.cache}/zpm
 GH=https://raw.githubusercontent.com
 GNU=https://git.savannah.gnu.org
@@ -76,7 +75,7 @@ plugins=(
     zdharma/fast-syntax-highlighting
     zsh-users/zsh-autosuggestions,source:zsh-autosuggestions.zsh
     # Substitute `...` with `../..`
-    ankaan/zsh-manydots-magic,source:manydots-magic
+    lainiwa/zsh-manydots-magic,source:manydots-magic
 )
 zpm load "${plugins[@]}"
 
