@@ -282,23 +282,15 @@ zinit load zsh-users/zsh-completions
 # History search by `Ctrl+R`
 zinit load zdharma/history-search-multi-word
 
+# Syntax highlighting
+zinit ice atinit"zpcompinit; zpcdreplay"
+zinit load zdharma/fast-syntax-highlighting
+
 # # Autosuggestions
 # export ZSH_AUTOSUGGEST_USE_ASYNC=1
-# export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-# zinit ice atload'_zsh_autosuggest_start'
-# zinit load zsh-users/zsh-autosuggestions
-
-# # Syntax highlighting
-# zinit ice wait'0' lucid atinit"zpcompinit; zpcdreplay"
-# zinit load zdharma/fast-syntax-highlighting
-
-zinit wait lucid for \
- atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-    zdharma/fast-syntax-highlighting \
- blockf \
-    zsh-users/zsh-completions \
- atload"!_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+zinit ice blockf atload'!_zsh_autosuggest_start'
+zinit load zsh-users/zsh-autosuggestions
 
 
 # `...` ==> `../..`
