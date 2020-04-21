@@ -55,6 +55,6 @@ setopt NO_BEEP
 # unsetopt CLOBBER
 
 # setopt HIST_IGNORE_ALL_DUPS
-# setopt HIST_REDUCE_BLANKS  # Remove superfluous blanks from each command line being added to the history list.
+setopt HIST_REDUCE_BLANKS  # Remove superfluous blanks from each command line being added to the history list.
 # setopt INC_APPEND_HISTORY    # this is default, but set for share_history
 # setopt COMPLETE_ALIASES   # Prevents aliases on the command line from being internally substituted before completion is attempted. The effect is to make the alias a distinct command for completion purposes.
