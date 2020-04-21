@@ -28,7 +28,7 @@ URxvt.color14: #55FFFF
 URxvt.color7:  #AAAAAA
 URxvt.color15: #FFFFFF
 ! font
-URxvt*font:    xft:Monospace:pixelsize=16
+URxvt*font:    xft:Monospace:pixelsize=22
 
 
 !! SCROLL BAR (rxvt(default), plain, next, xterm)
