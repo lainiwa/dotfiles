@@ -8,6 +8,9 @@
 if command -v i3 >/dev/null; then
     exec i3
 
+elif command -v spectrwm >/dev/null; then
+    exec spectrwm
+
 elif command -v dwm >/dev/null; then
     while true; do
         xsetroot -name "$( date +"%F %R" )"
