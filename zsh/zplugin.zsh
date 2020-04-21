@@ -226,6 +226,7 @@ zinit pack for ls_colors
 # * poetry - python package manager
 # * cargo  - rust package manager
 # * rustup - rust toolchain installer
+# * restic - backup tool
 # * rclone - rsync for the cloud (we check if genautocomplete subcommand is available)
 #
 zinit atpull'%atclone' for \
@@ -233,10 +234,9 @@ zinit atpull'%atclone' for \
     has'poetry' id-as'poetry' atclone"poetry completions zsh       > _poetry"          zdharma/null \
     has'rustup' id-as'rustup' atclone"rustup completions zsh cargo > _cargo"           zdharma/null \
     has'rustup' id-as'rustup' atclone"rustup completions zsh cargo > _rustup"          zdharma/null \
+    has'restic' id-as'restic' atclone"restic generate --zsh-completion _restic"        zdharma/null \
     has'rclone' id-as'rclone' atclone"rclone genautocomplete zsh     _rclone" \
         if"rclone genautocomplete zsh --help | grep -q 'rclone genautocomplete zsh'" zdharma/null
-
-
 
 # Download completions for
 # * docker-compose
