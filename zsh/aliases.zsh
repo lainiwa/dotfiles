@@ -66,6 +66,9 @@ fi
 mkcd() { [[ $# == 1 ]] && mkdir --parents -- "$1" && cd -P -- "$1" ; }
 compdef _directories mkcd
 
+new() { [[ $# == 1 ]] && mkdir --parents -- "${1:h}" && touch "$1" ; }
+compdef _directories new
+
 alias tmp='cd $(mktemp -d)'
 
 # Alias for altering some symbol with newline
