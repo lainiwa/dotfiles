@@ -63,7 +63,8 @@ fi
 
 
 # Create directory and cd to it
-mkcd() { mkdir -- "$1" && cd -P -- "$1" ; }
+mkcd() { [[ $# == 1 ]] && mkdir --parents -- "$1" && cd -P -- "$1" ; }
+compdef _directories mkcd
 
 alias tmp='cd $(mktemp -d)'
 
