@@ -47,3 +47,7 @@ unset -f _add_to_path
 
 
 export HOSTALIASES="${HOME}/.hosts"
+
+if [[ -f "${HOME}/.dotfiles-private/env.zsh" ]]; then
+   source "${HOME}/.dotfiles-private/env.zsh"
+fi
