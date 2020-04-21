@@ -169,10 +169,12 @@ zinit as"null" for \
 
 
 # ZPM ecosystem plugins
-# *
-# *
+# * clipboard - adds `pbcopy`, `pbpaste` and `clip` commands
+# * undollar - strip `^$\ ` from command
 #
-zinit for zpm-zsh/clipboard
+zinit for \
+    zpm-zsh/clipboard \
+    zpm-zsh/undollar
 
 # My own plugins
 # * gitcd    - git clone && cd
