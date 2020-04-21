@@ -3,6 +3,7 @@
 # Substitute ls with exa
 if (( ${+commands[exa]} )); then
     alias ls='exa --color=auto --header --git'
+    alias ll='ls -l'
     alias la='ls -a'
     alias lal='ls -al'
     alias tree='exa --tree'
