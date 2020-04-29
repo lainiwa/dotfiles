@@ -19,12 +19,17 @@ source "${HOME}/.zinit/bin/zinit.zsh"
 
 # Compile the zinit`s binary module, if not yet compiled
 if [[ ! -f "${ZINIT[BIN_DIR]}/zmodules/Src/zdharma/zplugin.so" ]]; then
-    zinit module build
+    if [[ ! -f "${ZINIT[BIN_DIR]}/zmodules/config.log" ]]; then
+        zinit module build
+    fi
+
+else
+    # Load zinit's binary module (`zpmod -h` for help)
+    module_path+=( "${ZINIT[BIN_DIR]}/zmodules/Src" )
+    zmodload zdharma/zplugin
+
 fi
 
-# Load zinit's binary module (`zpmod -h` for help)
-module_path+=( "${ZINIT[BIN_DIR]}/zmodules/Src" )
-zmodload zdharma/zplugin
 
 # Add zinit extensions
 zinit load zinit-zsh/z-a-bin-gem-node  # for managing "shims"
