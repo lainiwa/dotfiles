@@ -35,6 +35,7 @@ _add_to_path "${HOME}/.poetry/bin"
 if [[ -f "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]]; then
    source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 fi
+export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
 
 # Guix
 export GUIX_PROFILE="${HOME}/.guix-profile"

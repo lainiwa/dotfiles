@@ -76,6 +76,10 @@
     ~/.config/systemd/user:
         path: config/systemd/user
         if: command -v systemctl >/dev/null
+    # home-manager
+    ~/.config/nixpkgs:
+        path: config/nixpkgs
+        if: command -v home-manager >/dev/null
 
 - shell:
     # Urxvt extensions
