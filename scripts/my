@@ -321,9 +321,8 @@ screenshot() {
 
     fi
 
-    printf '%s' "${save_path}" |
-        xclip -in -selection primary -filter |
-        xclip -in -selection clipboard
+    printf '%s' "${save_path}" | xclip -in -selection primary
+    xclip -selection clipboard -target image/png <"${save_path}"
 }
 
 #################################################
