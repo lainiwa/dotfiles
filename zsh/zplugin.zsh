@@ -130,11 +130,11 @@ zinit as'command' for \
 # * grv    - git curses interface
 # * bat    - substitution for cat
 #
-zinit from"gh-r" if"${is_linux}" as'command' for \
-    bpick"^ffsend-v*-linux-x64-static$" mv"ffsend-v* -> ffsend" timvisee/ffsend \
-    bpick"^grv_v*_linux64$"             mv"grv_v* -> grv"       rgburke/grv \
-    bpick"bat-v*-x86_64-unknown-linux-gnu.tar.gz" mv'bat-*/bat -> bat' \
-        pick'bat' atload"alias cat=bat" @sharkdp/bat
+# zinit from"gh-r" if"${is_linux}" as'command' for \
+#     bpick"^ffsend-v*-linux-x64-static$" mv"ffsend-v* -> ffsend" timvisee/ffsend \
+#     bpick"^grv_v*_linux64$"             mv"grv_v* -> grv"       rgburke/grv \
+#     bpick"bat-v*-x86_64-unknown-linux-gnu.tar.gz" mv'bat-*/bat -> bat' \
+#         pick'bat' atload"alias cat=bat" @sharkdp/bat
 
 
 # # Install timelapse screen recorder
