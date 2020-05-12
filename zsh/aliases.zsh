@@ -48,7 +48,7 @@ alias -g H='| head'
 alias -g T='| tail'
 
 alias -g G='| grep -i'
-alias -g GV=' | grep -iv'  # negative grep
+alias -g GV='| grep -iv'  # negative grep
 alias -g S='| sed'
 
 alias -g L='| less'
