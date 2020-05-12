@@ -23,6 +23,11 @@ else
     alias lt='tree'
 fi
 
+# Substitute cat with bat
+if (( ${+commands[bat]} )); then
+    alias cat=bat
+fi
+
 # Colorize `grep`s
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -42,13 +47,16 @@ alias U='unbuffer '
 alias -g H='| head'
 alias -g T='| tail'
 
-alias -g G='| grep'
+alias -g G='| grep -i'
+alias -g GV=' | grep -iv'  # negative grep
 alias -g S='| sed'
 
 alias -g L='| less'
 alias -g LR='| less -R'  # less with colors support
 
 alias -g C='| column -t'
+
+alias -g TOD='*(.m0)'  # today's files
 
 # Set grc alias for available commands.
 [[ -f /etc/grc.conf ]]           && grc_conf='/etc/grc.conf'
