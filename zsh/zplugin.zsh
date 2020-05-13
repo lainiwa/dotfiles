@@ -87,7 +87,7 @@ zinit load agkozak/zsh-z
 
 # Pick from most frecent folders with `Ctrl+g`
 # Relies on z script
-zinit load andrewferrier/fzf-z
+zinit if has'fzf' for andrewferrier/fzf-z
 
 # Fast open file in vim
 zinit ice has'bash' fbin"v" atpull'%atclone' \
