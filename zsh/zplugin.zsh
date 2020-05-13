@@ -78,7 +78,17 @@ zinit load agkozak/agkozak-zsh-prompt
 # * v     - fast open in vim
 #
 
-zplugin pack"binary+keys" for fzf
+# fzf binary only
+zinit ice from"gh-r" sbin"fzf" id-as"junegunn/fzf_bin"
+zinit load junegunn/fzf-bin
+
+# fzf-tmux script, completions for many programs (e.g. kill <TAB>)
+# key bindings and man pages
+zinit ice multisrc"shell/{completion,key-bindings}.zsh" \
+    pick"/dev/null" \
+    sbin"bin/fzf-tmux" atpull'%atclone' \
+    atclone"cp man/man1/* ${ZPFX}/share/man/man1/"
+zinit load junegunn/fzf
 
 # Pure zsh port of rupa/z
 export ZSHZ_DATA=${HOME}/.cache/.z
@@ -87,7 +97,7 @@ zinit load agkozak/zsh-z
 
 # Pick from most frecent folders with `Ctrl+g`
 # Relies on z script
-zinit if has'fzf' for andrewferrier/fzf-z
+zinit load andrewferrier/fzf-z
 
 # Fast open file in vim
 zinit ice has'bash' fbin"v" atpull'%atclone' \
