@@ -59,12 +59,13 @@ alias -g C='| column -t'
 alias -g TOD='*(.m0)'  # today's files
 
 # Set grc alias for available commands.
-[[ -f /etc/grc.conf ]]           && grc_conf='/etc/grc.conf'
+[[ -f /etc/grc.conf ]] && grc_conf='/etc/grc.conf'
 [[ -f /usr/local/etc/grc.conf ]] && grc_conf='/usr/local/etc/grc.conf'
-if [ ! -z "$grc_conf" ]; then
-    for cmd in $(grep '^# ' "$grc_conf" | cut -f 2 -d ' '); do
-        if (( $+commands[$cmd] )) &&  [ "$cmd" != "ls" ]; then
-            alias $cmd="grc --colour=auto $cmd"
+if [[ ! -z "${grc_conf}" ]]; then
+    grep '^# ' "${grc_conf}" | cut -f 2 -d ' ' |
+    while read -r cmd; do
+        if (( $+commands[$cmd] )) &&  [[ "ls systemctl" != *"$cmd"* ]]; then
+            eval "$cmd() { grc --colour=auto $cmd \"\$@\" }"
         fi
     done
 fi
