@@ -80,6 +80,13 @@ compdef _directories new
 
 alias tmp='cd $(mktemp -d)'
 
+
+function __COL__ {
+    grep --color -E "$1|$"
+}
+alias -g COL='| __COL__'
+
+
 # Alias for altering some symbol with newline
 # Example: echo $PATH TRN :
 __rt__() { tr -- "$2" "$1" ; }
