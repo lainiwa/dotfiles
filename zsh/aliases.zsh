@@ -41,18 +41,18 @@ alias gl='git log --oneline --graph --decorate --all'
 
 alias r='ranger'
 
-alias mkdir='mkdir -pv'
+alias mkdir='mkdir --parents --verbose'
 alias U='unbuffer '
 
 alias -g H='| head'
 alias -g T='| tail'
 
-alias -g G='| grep -i'
-alias -g GV='| grep -iv'  # negative grep
+alias -g G='| grep --ignore-case'
+alias -g GV='| grep --ignore-case --invert-match'  # negative grep
 alias -g S='| sed'
 
 alias -g L='| less'
-alias -g LR='| less -R'  # less with colors support
+alias -g LR='| less --RAW-CONTROL-CHARS'  # less with colors support
 
 alias -g C='| column -t'
 
