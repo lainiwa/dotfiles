@@ -92,3 +92,7 @@ alias -g NOC='| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"'
 
 # `npm-exec <binary name>` to run locally installed nodejs binary
 alias npm-exec='PATH=$(npm bin):$PATH'
+
+# systemd
+alias sysu='systemctl --user'
+alias joru='journalctl --user'
