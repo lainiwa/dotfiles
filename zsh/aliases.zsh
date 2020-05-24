@@ -42,7 +42,7 @@ alias gl='git log --oneline --graph --decorate --all'
 alias r='ranger'
 
 alias mkdir='mkdir --parents --verbose'
-alias U='unbuffer '
+alias U='unbuffer'
 
 alias -g H='| head'
 alias -g T='| tail'
@@ -81,7 +81,7 @@ compdef _directories new
 alias tmp='cd $(mktemp -d)'
 
 
-function __COL__ {
+__COL__() {
     grep --color -E "$1|$"
 }
 alias -g COL='| __COL__'
