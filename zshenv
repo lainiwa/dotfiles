@@ -16,6 +16,11 @@ _add_to_path "${HOME}/bin"
 _add_to_path "${HOME}/.local/bin"
 _add_to_path "${HOME}/scripts"
 
+# PostgreSQL
+export PGDATA=/usr/local/pgsql/data
+export PGUSER='postgres'
+_add_to_path "/usr/local/pgsql/bin/"
+
 # Haskell
 _add_to_path "${HOME}/.cargo/bin"
 _add_to_path "${HOME}/.cabal/bin"

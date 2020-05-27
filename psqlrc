@@ -1,0 +1,42 @@
+
+\set QUIET yes
+
+-- Print "[null]" instead of blank
+\pset null '[null]'
+-- \pset null '¤'
+
+-- Prompts
+\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
+\set PROMPT2 '[more] %R > '
+-- \set PROMPT1 '%[%033[1m%][%/] # '
+-- \set PROMPT2 '... > '
+
+
+-- Disable pager by default
+\pset pager off
+
+-- https://thoughtbot.com/blog/an-explained-psqlrc
+\set ON_ERROR_ROLLBACK interactive
+-- Auto capitalize
+\set COMP_KEYWORD_CASE upper
+-- Don't write duplicates to history
+\set HISTCONTROL ignoredups
+-- Bigger history size
+\set HISTSIZE 9999999
+-- Verbosity of error reports
+-- \set VERBOSITY verbose
+-- Use a separate history file per-database.
+-- \set HISTFILE ~/.psql_history- :DBNAME
+
+-- Show query time for all queries
+\timing on
+
+-- Auto paging (expanded format)
+\x auto
+
+-- Shortcuts
+\set version 'SELECT version();'
+\set extensions 'SELECT * FROM pg_available_extensions;'
+\set settings 'select name,setting,unit,context from pg_settings;'
+
+\unset QUIET
