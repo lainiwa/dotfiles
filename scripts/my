@@ -318,9 +318,11 @@ fullUpgrade() {
     # Update zsh modules
     zsh -c "\
         source ~/.zshrc;\
-        zplugin self-update;\
-        zplugin update --all;\
+        zinit self-update;\
+        zinit update --all;\
     "
+    # Update pipx packages
+    pipx upgrade-all
 }
 
 #################################################
