@@ -229,7 +229,12 @@ screenshot() {
     mode=${1}
     save_path="${HOME}/0files/imgs/screenshots/$(date '+%s_%Y.%m.%d_%H:%M:%S').png"
 
-    if command -v scrot >/dev/null; then
+    if command -v maim >/dev/null; then
+        [ "${mode}" = 'full' ] && maim "${save_path}"
+        [ "${mode}" = 'select' ] && maim "${save_path}" --select
+        [ "${mode}" = 'focused' ] && maim "${save_path}" --window "$(xdotool getwindowfocus -f)"
+
+    elif command -v scrot >/dev/null; then
         [ "${mode}" = 'full' ] && scrot "${save_path}" --multidisp
         [ "${mode}" = 'select' ] && scrot "${save_path}" --select
         [ "${mode}" = 'focused' ] && scrot "${save_path}" --focused
