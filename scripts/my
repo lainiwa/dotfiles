@@ -321,24 +321,27 @@ fullUpgrade() {
 #################################################
 # SET BACKGROUND IMAGE
 #
-# Args can be:
-#     a path to png|jpg|jpeg image
-#     reddit - to set image randomly from reddit
-#     disk - to set image randomly from disk
-# In case of multiple args, each is
-#     tried to be applied, until success.
-#
 set_bg() {
-    requires feh
+    requires feh display
 
-    if [[ $1 =~ .(\.png|\.jpg|\.jpeg) ]]; then
-        feh --bg-scale "$1" && exit 0
-    elif [[ $1 == 'reddit' ]]; then
-        feh --bg-scale "$(random_reddit_image)" && exit 0
-    elif [[ $1 == 'disk' ]]; then
-        feh --bg-scale --randomize --recursive "${HOME}/0files/imgs/wallpapers" && exit 0
+    if command -v feh >/dev/null; then
+        feh --bg-scale "$1"
+
+    else
+        local dimensions
+        dimensions=$(xdpyinfo |
+            grep dimensions |
+            tr --squeeze-repeats ' ' |
+            cut --delimiter=' ' --fields=3
+        )
+
+        display -resize "${dimensions}!" -window root "$1"
+
     fi
-    set_bg_1 "${@:2}"
+}
+
+set_bg_random() {
+    set_bg "$(shuf --echo --head-count=1 "${HOME}/0files/imgs/wallpapers"/*)"
 }
 
 #################################################
