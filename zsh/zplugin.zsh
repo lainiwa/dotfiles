@@ -282,10 +282,12 @@ unset GH GNU
 # Completions for
 # * git-flow
 # * nix package manager
+# * ansible
 #
 zinit for \
     has'git-flow' bobthecow/git-flow-completion \
-    has'nix'      spwhitt/nix-zsh-completions
+    has'nix'      spwhitt/nix-zsh-completions \
+    has'ansible'  nojanath/ansible-zsh-completion
 
 
 #################################################################
