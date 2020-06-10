@@ -1,0 +1,3 @@
+[read-line]
+C-w: kill-prev-word
+M-!: play-macro
