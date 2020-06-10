@@ -321,8 +321,21 @@ fullUpgrade() {
         zinit self-update;\
         zinit update --all;\
     "
-    # Update pipx packages
-    pipx upgrade-all
+    # Upgrade pipx packages
+    if command -v pipx >/dev/null; then
+        pipx upgrade-all
+    fi
+    # Upgrade nix packages
+    if command -v nix >/dev/null; then
+        nix-channel --update nixpkgs
+        nix-env -u '*'
+    fi
+    # Upgrade guix packages
+    if command -v guix >/dev/null; then
+        guix pull
+        guix package -u
+    fi
+}
 }
 
 #################################################
