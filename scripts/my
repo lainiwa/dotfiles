@@ -337,6 +337,24 @@ full_upgrade() {
         guix package -u
     fi
 }
+
+#################################################
+# FULL SYSTEM CLEANUP
+#
+full_clean() {
+    requires sudo apt journalctl
+
+    # Remove non-needed packages
+    sudo apt autoremove --yes
+    # Cleanup local repo
+    sudo apt clean
+    # Clean logs
+    sudo journalctl --rotate
+    sudo journalctl --vacuum-time=1s
+    # Garbage-collect guix
+    guix gc --delete-generations=1m
+    # Garbage-collect nix
+    nix-collect-garbage --delete-old
 }
 
 #################################################
@@ -431,21 +449,6 @@ ip() {
             break
         fi
     done
-}
-
-#################################################
-# FULL SYSTEM CLEANUP
-#
-fullClean() {
-    requires sudo apt journalctl
-
-    # Remove non-needed packages
-    sudo apt autoremove
-    # Cleanup local repo
-    sudo apt clean
-    # Clean logs
-    sudo journalctl --rotate
-    sudo journalctl --vacuum-time=1s
 }
 
 #################################################
