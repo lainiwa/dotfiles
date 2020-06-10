@@ -305,7 +305,7 @@ serveo() {
 #################################################
 # UPGRADE SYSTEM
 #
-fullUpgrade() {
+full_upgrade() {
     requires sudo apt git zsh
 
     # Update apt packages
