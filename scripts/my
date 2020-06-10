@@ -220,7 +220,7 @@ save_4chan_thread_imgs() {
 #
 # ARGUMENTS: mode (full|selected|focused)
 # Save a screenshot
-#     using either imagemagick's import or scrot
+#     using either imagemagick's import or scrot or maim
 #     and insert path to image into buffer
 #
 screenshot() {
@@ -229,7 +229,7 @@ screenshot() {
     mode=${1}
     save_path="${HOME}/0files/imgs/screenshots/$(date '+%s_%Y.%m.%d_%H:%M:%S').png"
 
-    if command -v maim >/dev/null; then
+    if command -v maim >/dev/null && command -v xdotool >/dev/null; then
         [ "${mode}" = 'full' ] && maim "${save_path}"
         [ "${mode}" = 'select' ] && maim "${save_path}" --select
         [ "${mode}" = 'focused' ] && maim "${save_path}" --window "$(xdotool getwindowfocus -f)"
@@ -245,7 +245,7 @@ screenshot() {
         [ "${mode}" = 'focused' ] && import "${save_path}" -window "$(xdotool getwindowfocus -f)"
 
     else
-        echo "No imagemagick's import or scrot installed"
+        echo "No imagemagick's import or scrot or maim installed"
         exit 1
 
     fi
