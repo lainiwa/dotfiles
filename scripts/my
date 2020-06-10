@@ -309,9 +309,10 @@ fullUpgrade() {
     requires sudo apt git zsh
 
     # Update apt packages
-    sudo apt update
-    sudo apt upgrade --yes
-    sudo apt autoremove --yes
+    sudo -- sh -c \
+        'apt update' \
+        'apt upgrade --yes' \
+        'apt autoremove --yes'
     # Update dotfiles
     git --git-dir="${HOME}/.dotfiles/.git/" pull origin master
     ~/.dotfiles/install
