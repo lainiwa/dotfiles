@@ -1,12 +1,19 @@
 
 _add_to_path() {
-    local dir=$1
+    local dir=${1}
     if [[ -d ${dir} && ! ${PATH} =~ (:|^)${dir}(:|$) ]]; then
         if [[ ${dir} =~ ^/home ]]; then
             export PATH=${dir}${PATH:+:}${PATH}
         else
             export PATH=${PATH}${PATH:+:}${dir}
         fi
+    fi
+}
+
+_try_source() {
+    local file_path=${1}
+    if [[ -f ${file_path} ]]; then
+       source "${file_path}"
     fi
 }
 
@@ -18,7 +25,7 @@ _add_to_path "${HOME}/scripts"
 
 # PostgreSQL
 export PGDATA=/usr/local/pgsql/data
-export PGUSER='postgres'
+export PGUSER=postgres
 _add_to_path "/usr/local/pgsql/bin/"
 
 # Haskell
@@ -37,29 +44,24 @@ _add_to_path "${PYENV_ROOT}/bin"
 _add_to_path "${HOME}/.poetry/bin"
 
 # Nix
-if [[ -f "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]]; then
-   source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
-fi
-export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
+_try_source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+export NIX_PATH=${HOME}/.nix-defexpr/channels${NIX_PATH:+:}${NIX_PATH}
 
 # Guix
 export GUIX_PROFILE="${HOME}/.guix-profile"
-if [[ -f ${GUIX_PROFILE}/etc/profile ]]; then
-    source "${GUIX_PROFILE}/etc/profile"
-fi
-export GUIX_LOCPATH="${GUIX_PROFILE}/lib/locale"
-export GUIX_GTK3_PATH="${GUIX_PROFILE}/lib/gtk-3.0${GUIX_GTK3_PATH:+:}${GUIX_GTK3_PATH}"
+_try_source "${GUIX_PROFILE}/etc/profile"
+export GUIX_LOCPATH=${GUIX_PROFILE}/lib/locale
+export GUIX_GTK3_PATH=${GUIX_PROFILE}/lib/gtk-3.0${GUIX_GTK3_PATH:+:}${GUIX_GTK3_PATH}
 export GUIX_PACKAGE_PATH=${HOME}/.dotfiles/guix-packages
 _add_to_path "${GUIX_PROFILE}/bin"
 _add_to_path "${GUIX_PROFILE}/sbin"
 _add_to_path "${HOME}/.config/guix/current/bin"
 
-unset -f _add_to_path
-
-
-export HOSTALIASES="${HOME}/.hosts"
+# Turn on aliases for hosts
+export HOSTALIASES=${HOME}/.hosts
 
 # Private settings
-if [[ -f "${HOME}/.dotfiles-private/env.zsh" ]]; then
-   source "${HOME}/.dotfiles-private/env.zsh"
-fi
+_try_source "${HOME}/.dotfiles-private/env.zsh"
+
+unset -f _add_to_path
+unset -f _try_source
