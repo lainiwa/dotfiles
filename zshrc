@@ -64,4 +64,11 @@ if (( ${+commands[terraform]} )); then
     complete -o nospace -C "$(which terraform)" terraform
 fi
 
+
+# opam configuration
+if [[ -r ~/.opam/opam-init/init.zsh ]]; then
+    ~/.opam/opam-init/init.zsh &>/dev/null || true
+fi
+eval "$(opam env)"
+
 # zprof
