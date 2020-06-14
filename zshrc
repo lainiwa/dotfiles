@@ -59,4 +59,9 @@ zle -N insert_binary_from_path
 bindkey '^[d' insert_binary_from_path  # Alt+d
 
 
+autoload -U +X bashcompinit && bashcompinit
+if (( ${+commands[terraform]} )); then
+    complete -o nospace -C "$(which terraform)" terraform
+fi
+
 # zprof
