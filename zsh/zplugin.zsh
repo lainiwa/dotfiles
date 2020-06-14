@@ -241,12 +241,14 @@ autoload -U +X bashcompinit
 bashcompinit
 
 # Generate completions for
-# * pyenv  - python version management script
-# * poetry - python package manager
-# * cargo  - rust package manager
-# * rustup - rust toolchain installer
-# * restic - backup tool
-# * rclone - rsync for the cloud (we check if genautocomplete subcommand is available)
+# * pyenv     - python version management script
+# * poetry    - python package manager
+# * cargo     - rust package manager
+# * rustup    - rust toolchain installer
+# * restic    - backup tool
+# * pipx      - tool for installing isolated python packages
+# * terraform - cloud infrastructure management tool
+# * rclone    - rsync for the cloud (we check if genautocomplete subcommand is available)
 #
 zinit atpull'%atclone' for \
     has'pyenv'  id-as'pyenv'  atclone"pyenv init - --no-rehash         > pyenv.plugin.zsh"    zdharma/null \
