@@ -237,6 +237,8 @@ zinit pack for ls_colors
 #################################################################
 # COMPLETIONS FOR ALREADY INSTALLED BINARIES
 #
+autoload -U +X bashcompinit
+bashcompinit
 
 # Generate completions for
 # * pyenv  - python version management script
@@ -247,12 +249,16 @@ zinit pack for ls_colors
 # * rclone - rsync for the cloud (we check if genautocomplete subcommand is available)
 #
 zinit atpull'%atclone' for \
-    has'pyenv'  id-as'pyenv'  atclone"pyenv init - --no-rehash     > pyenv.plugin.zsh" zdharma/null \
-    has'poetry' id-as'poetry' atclone"poetry completions zsh       > _poetry"          zdharma/null \
-    has'rustup' id-as'rustup' atclone"rustup completions zsh cargo > _cargo"           zdharma/null \
-    has'rustup' id-as'rustup' atclone"rustup completions zsh cargo > _rustup"          zdharma/null \
-    has'restic' id-as'restic' atclone"restic generate --zsh-completion _restic"        zdharma/null \
-    has'rclone' id-as'rclone' atclone"rclone genautocomplete zsh     _rclone" \
+    has'pyenv'  id-as'pyenv'  atclone"pyenv init - --no-rehash         > pyenv.plugin.zsh"    zdharma/null \
+    has'poetry' id-as'poetry' atclone"poetry completions zsh           > _poetry"             zdharma/null \
+    has'rustup' id-as'cargo'  atclone"rustup completions zsh cargo     > _cargo"              zdharma/null \
+    has'rustup' id-as'rustup' atclone"rustup completions zsh cargo     > _rustup"             zdharma/null \
+    has'restic' id-as'restic' atclone"restic generate --zsh-completion   _restic"             zdharma/null \
+    has'pipx'   id-as'pipx'   atclone"register-python-argcomplete pipx > pipx.plugin.zsh" \
+        has'register-python-argcomplete' zdharma/null \
+    has'terraform' id-as'terraform' \
+        atclone'<<<"complete -o nospace -C $(which terraform) terraform" > terraform.plugin.zsh' zdharma/null \
+    has'rclone' id-as'rclone' atclone"rclone genautocomplete zsh         _rclone" \
         if"rclone genautocomplete zsh --help | grep -q 'rclone genautocomplete zsh'" zdharma/null
 
 # Download completions for
