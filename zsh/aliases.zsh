@@ -1,4 +1,10 @@
 
+# Mass file move, copy, and linking
+autoload zmv
+alias zmv='noglob zmv'
+alias zcp='noglob zmv -C'
+alias zln='noglob zmv -L'
+alias zsy='noglob zmv -Ls'
 
 # Substitute ls with exa
 if (( ${+commands[exa]} )); then
