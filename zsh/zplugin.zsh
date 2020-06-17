@@ -197,8 +197,9 @@ zinit for \
 #
 export GITCD_HOME=${HOME}/tmp
 export GITCD_TRIM=1
-zinit for lainiwa/gitcd
-zinit for lainiwa/ph-marks
+zinit for \
+    lainiwa/gitcd \
+    lainiwa/ph-marks
 
 # Rename tmux pane to current folder's basename
 zinit load trystan2k/zsh-tab-title
