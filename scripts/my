@@ -442,7 +442,7 @@ ip() {
         'ipaddr.site'
     )
     for site in "${ip_sites[@]}"; do
-        data=$(curl --max-time 1 --write-out '\n%{http_code}' --silent "${site}" || true)
+        data=$(curl --ipv4 --max-time 1 --write-out '\n%{http_code}' --silent "${site}" || true)
         if [[ ${data##*$'\n'} == 200 ]]; then
             read -r ip < <(echo "${data}")
             echo "${ip}"
