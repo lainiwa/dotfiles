@@ -304,7 +304,7 @@ zinit for \
 #
 
 # Additional completion definitions
-zinit ice blockf atclone'zinit creinstall -q .' atpull'%atclone'
+zinit ice blockf #atclone'zinit creinstall -q .' atpull'%atclone'
 zinit load zsh-users/zsh-completions
 
 # History search by `Ctrl+R`
