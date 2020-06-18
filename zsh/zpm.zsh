@@ -1,10 +1,8 @@
 
 # Lacking (compared to zplugin.zsh)
 # * rupa/v
-# * bobthecow/git-flow-completion
-# * spwhitt/nix-zsh-completions
-# * nojanath/ansible-zsh-completion
 # * gdown
+# * clean does not work?
 
 
 _ZPM=${XDG_CACHE_HOME:-${HOME}/.cache}/zpm
@@ -78,6 +76,7 @@ plugins=(
     # Completions
     bobthecow/git-flow-completion
     spwhitt/nix-zsh-completions
+    nojanath/ansible-zsh-completion
     # Get gitignore template with `gi` command
     voronkovich/gitignore.plugin.zsh
     # Heavy stuff
@@ -97,6 +96,10 @@ get_comp() {
     if [[ ! -f ${_ZPM}/completions/_${name} ]]; then
         mkdir --parents -- "${_ZPM}/completions"
         wget --quiet "${url}" --output-document="${_ZPM}/completions/_${name}"
+        echo "${c[bold]}${c[green]}Download" \
+             "${c[blue]}_${name}" \
+             "${c[green]}✔" \
+             "${c[reset]}"
     fi
 }
 gen_comp() {
@@ -106,44 +109,57 @@ gen_comp() {
     if [[ ! -f ${_ZPM}/completions/_${name} ]] && (( ${+commands[${has}]} )); then
         mkdir --parents -- "${_ZPM}/completions"
         eval "${cmd}"    > "${_ZPM}/completions/_${name}"
+        echo "${c[bold]}${c[green]}Generate" \
+             "${c[blue]}_${name}" \
+             "${c[green]}✔" \
+             "${c[reset]}"
     fi
 }
-sourceable() {
+gen_zsh() {
     local cmd=${1}
     local has=${${(z)cmd}[1]}
     if [[ ! -f ${_ZPM}/sourceables/${has}.zsh ]] && (( ${+commands[${has}]} )); then
         mkdir --parents -- "${_ZPM}/sourceables"
         eval "${cmd}"    > "${_ZPM}/sourceables/${has}.zsh"
-    fi
-    if [[ -f ${_ZPM}/sourceables/${has}.zsh ]]; then
-        source "${_ZPM}/sourceables/${has}.zsh"
+        echo "${c[bold]}${c[green]}Generate" \
+             "${c[blue]}${has}.zsh" \
+             "${c[green]}✔" \
+             "${c[reset]}"
     fi
 }
+(
 # Download completions
-get_comp beet           "${GH}/beetbox/beets/master/extra/_beet"
-get_comp buku           "${GH}/jarun/Buku/master/auto-completion/zsh/_buku"
-get_comp docker-compose "${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose"
-get_comp exa            "${GH}/ogham/exa/master/contrib/completions.zsh"
-get_comp ffsend         "${GH}/timvisee/ffsend/master/contrib/completions/_ffsend"
-get_comp gist           "${GH}/jdowner/gist/alpha/share/gist.zsh"
-get_comp guix           "${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
-get_comp khal           "${GH}/pimutils/khal/master/misc/__khal"
+get_comp beet           "${GH}/beetbox/beets/master/extra/_beet" &
+get_comp buku           "${GH}/jarun/Buku/master/auto-completion/zsh/_buku" &
+get_comp docker-compose "${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose" &
+get_comp exa            "${GH}/ogham/exa/master/contrib/completions.zsh" &
+get_comp ffsend         "${GH}/timvisee/ffsend/master/contrib/completions/_ffsend" &
+get_comp gist           "${GH}/jdowner/gist/alpha/share/gist.zsh" &
+get_comp guix           "${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix" &
+get_comp khal           "${GH}/pimutils/khal/master/misc/__khal" &
 # Generate completions for present commands
-gen_comp cargo  'rustup completions zsh cargo'
-gen_comp pipx   'register-python-argcomplete pipx'
-gen_comp poetry 'poetry completions zsh'
-gen_comp rclone 'rclone genautocomplete zsh /dev/stdout'
-gen_comp restic 'restic generate --zsh-completion /dev/stdout'
-gen_comp rustup 'rustup completions zsh rustup'
-gen_comp beet   'curl --silent "${GH}/beetbox/beets/master/extra/_beet" | sed s/awk/gawk/g'
+gen_comp beet   'curl --silent "${GH}/beetbox/beets/master/extra/_beet" | sed s/awk/gawk/g' &
+gen_comp cargo  'rustup completions zsh cargo' &
+gen_comp pipx   'register-python-argcomplete pipx' &
+gen_comp poetry 'poetry completions zsh' &
+gen_comp rclone 'rclone genautocomplete zsh /dev/stdout' &
+gen_comp restic 'restic generate --zsh-completion /dev/stdout' &
+gen_comp rustup 'rustup completions zsh rustup' &
 # Generate completions for present commands
-sourceable 'pyenv init - --no-rehash'
-sourceable 'pip  completion --zsh'
-sourceable 'pip3 completion --zsh'
-sourceable 'dircolors --bourne-shell <(curl --silent "${GH}/trapd00r/LS_COLORS/master/LS_COLORS")'
+gen_zsh 'pyenv init - --no-rehash' &
+gen_zsh 'pip  completion --zsh' &
+gen_zsh 'pip3 completion --zsh' &
+gen_zsh 'dircolors --bourne-shell <(curl --silent "${GH}/trapd00r/LS_COLORS/master/LS_COLORS")' &
+gen_zsh 'terraform version >/dev/null && <<<"complete -o nospace -C $(which terraform) terraform"' &
+wait
+)
+
 autoload -U +X bashcompinit
 bashcompinit
-sourceable 'terraform version >/dev/null && <<<"complete -o nospace -C $(which terraform) terraform"'
+
+for file in "${_ZPM}/sourceables"/*sh; do
+    source "${file}"
+done
 
 
 fpath+=(${_ZPM}/completions)
