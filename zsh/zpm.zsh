@@ -80,6 +80,8 @@ plugins=(
     nojanath/ansible-zsh-completion
     lainiwa/zsh-completions
     lukechilds/zsh-better-npm-completion
+    #
+    zdharma/zsh-diff-so-fancy
     # Get gitignore template with `gi` command
     voronkovich/gitignore.plugin.zsh
     # Heavy stuff
