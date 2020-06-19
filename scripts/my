@@ -316,12 +316,19 @@ full_upgrade() {
     # Update dotfiles
     git --git-dir="${HOME}/.dotfiles/.git/" pull origin master
     ~/.dotfiles/install
-    # Update zsh modules
-    zsh -c "\
-        source ~/.zshrc;\
-        zinit self-update;\
-        zinit update --all;\
-    "
+    # Update zsh modules for zinit
+    if command -v zinit >/dev/null; then
+        zsh -i -c -- 'zinit self-update; zinit update --all'
+    fi
+    # Update zsh modules for zpm
+    if command -v zpm >/dev/null; then
+        rm -rf ~/.cache/zpm/ /tmp/zsh-${UID}
+        zsh -i -c -- ''
+    fi
+    # Update poetry
+    if command -v poetry >/dev/null; then
+        poetry self update
+    fi
     # Upgrade pipx packages
     if command -v pipx >/dev/null; then
         pipx upgrade-all
