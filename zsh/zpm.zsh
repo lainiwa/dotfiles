@@ -47,7 +47,9 @@ export ZSHZ_OWNER=${HOME:t}
 # Gitcd configuration
 export GITCD_HOME=${HOME}/tmp
 export GITCD_TRIM=1
-
+# Autosuggestions configuration
+# export ZSH_AUTOSUGGEST_USE_ASYNC=1
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
 plugins=(
     # Prompt
