@@ -1,8 +1,13 @@
 
 # Lacking (compared to zplugin.zsh)
 # * rupa/v
-# * gdown
+# * circulosmeos/gdown.pl
+# * junegunn/fzf shell/{completion,key-bindings}.zsh
 # * clean does not work?
+# * make nvie/gitflow
+# * make mdom/txtnish
+# * make dylanaraps/fff
+# * has'gawk' soimort/translate-shell
 
 
 _ZPM=${XDG_CACHE_HOME:-${HOME}/.cache}/zpm
