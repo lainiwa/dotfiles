@@ -18,12 +18,6 @@ fi
 source "${_ZPM_DIR}/zpm.zsh"
 
 
-# Refresh ZPM cache
-# if cache is older than this file
-if [[ ${0} -nt ${TMPDIR:-/tmp}/zsh-${UID} ]]; then
-    zpm clean
-fi
-
 # Python virtual environment name
 AGKOZAK_CUSTOM_PROMPT='%(10V.%B%F{green}(%10v)%f%b.)'
 # Username and hostname
@@ -70,17 +64,18 @@ plugins=(
     zpm-zsh/undollar
     # My plugins
     lainiwa/gitcd
-    lainiwa/ph-marks
+    # lainiwa/ph-marks
     # Adds git open
     paulirish/git-open
     # Completions
     bobthecow/git-flow-completion
     spwhitt/nix-zsh-completions
     nojanath/ansible-zsh-completion
+    lainiwa/zsh-completions
+    lukechilds/zsh-better-npm-completion
     # Get gitignore template with `gi` command
     voronkovich/gitignore.plugin.zsh
     # Heavy stuff
-    zsh-users/zsh-completions,apply:fpath
     zdharma/history-search-multi-word,fpath:/
     zdharma/fast-syntax-highlighting
     zsh-users/zsh-autosuggestions,source:zsh-autosuggestions.zsh
@@ -164,7 +159,6 @@ done
 
 fpath+=(${_ZPM}/completions)
 fpath+=(~/.zsh/completions/)
-# export FPATH=${HOME}/.zsh/completions:${FPATH}
 
 
 unset _ZPM
