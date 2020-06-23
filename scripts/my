@@ -157,7 +157,7 @@ current_layout_indicator() {
 #         https://stackoverflow.com/a/22439016
 #
 show_installed() {
-    requires comm apt-mark sort gzip zgrep grep cut tr apt sed apropos
+    requires comm apt-mark sort gzip zgrep grep cut tr apt sed apt-cache
 
     packages_1=$(comm -23 \
         <(apt-mark showmanual | sort -u) \
@@ -181,17 +181,46 @@ show_installed() {
         <(echo "${packages}") \
         <(echo "${all_installed}"))
 
-    red='\033[0;31m' # red color print
-    nc='\033[0m'     # no/reset color
+    # Color print
+    red='\033[0;31m'
+    green='\033[0;32m'
+    grey='\033[0;37m'
+    nc='\033[0m'
 
-    # print apropos for each package, if available
-    echo "${manually_installed}" |
-        while read -r package; do
-            description=$(apropos --exact "${package}" 2>/dev/null |
-                sed -n -e "s/^.*- //p" -e 1q ||
-                true)
-            printf "${red}%s${nc} - %s\n" "${package}" "${description}"
-        done
+    while read -r package; do
+        # Print package description
+        description="$(
+            apt-cache search "^${package}$" |
+            grep "^${package} - " |
+            cut -d' ' -f2-
+        )"
+        printf "${red}%s${nc} %s" "${package}" "${description} ["
+
+        # Binaries provided by this package
+        binaries="$(
+            dpkg --listfiles "${package}" |
+            { grep --extended-regexp '/bin/|/sbin/' || true; } |
+            sed 's|.*/||'
+        )"
+
+        # Print completions for each binary
+        while read -r binary; do
+            # Completion function for this binary
+            completion="$(
+                zsh -i -c "$(printf '<<<${_comps[%s]}' "${binary}")"
+            )" &>/dev/null
+            # If completion exists, print in green
+            if [[ -n ${completion} ]]; then
+                printf "${green}%s${nc}," "${binary}"
+            # otherwise print in red
+            else
+                printf "${grey}%s${nc}," "${binary}"
+            fi
+        done <<<"${binaries}"
+
+        printf "]\n"
+
+    done <<<"${manually_installed}"
 }
 
 #################################################
