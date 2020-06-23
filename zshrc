@@ -65,6 +65,8 @@ bindkey '^[d' insert_binary_from_path  # Alt+d
 if [[ -r ~/.opam/opam-init/init.zsh ]]; then
     source ~/.opam/opam-init/init.zsh
 fi
-eval "$(opam env)"
+if (( ${+commands[opam]} )); then
+    eval "$(opam env)"
+fi
 
 # zprof
