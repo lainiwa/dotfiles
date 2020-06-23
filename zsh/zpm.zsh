@@ -1,16 +1,15 @@
 
 # Lacking (compared to zplugin.zsh)
-# * rupa/v
-# * circulosmeos/gdown.pl
 # * junegunn/fzf shell/{completion,key-bindings}.zsh
 # * clean does not work?
-# * make nvie/gitflow
 # * make mdom/txtnish
-# * make dylanaraps/fff
-# * has'gawk' soimort/translate-shell
+# * Command-line online translator -- soimort/translate-shell
 
 
 _ZPM=${XDG_CACHE_HOME:-${HOME}/.cache}/zpm
+_ZPM_POL=${_ZPM}/polaris
+_ZPM_COMP=${_ZPM}/completions
+_ZPM_SRC=${_ZPM}/sourceables
 GH=https://raw.githubusercontent.com
 GNU=https://git.savannah.gnu.org
 
@@ -18,7 +17,11 @@ GNU=https://git.savannah.gnu.org
 export _ZPM_DIR=${_ZPM}/zpm
 export _ZPM_PLUGIN_DIR=${_ZPM}/plugins
 if [[ ! -f ${_ZPM_DIR}/zpm.zsh ]]; then
-  git clone --depth 1 https://github.com/zpm-zsh/zpm "${_ZPM_DIR}"
+    git clone --depth 1 https://github.com/zpm-zsh/zpm "${_ZPM_DIR}"
+    mkdir --parents -- "${_ZPM_POL}"/{bin,share/{doc,man/man{1,2,3,4,5,6,7,8,9}}}
+    mkdir --parents -- "${_ZPM_COMP}"
+    mkdir --parents -- "${_ZPM_COMP}"
+    mkdir --parents -- "${_ZPM_SRC}"
 fi
 source "${_ZPM_DIR}/zpm.zsh"
 
@@ -60,8 +63,6 @@ plugins=(
     andrewferrier/fzf-z
     # Rename tmux pane to current folder's basename
     trystan2k/zsh-tab-title
-    # Command-line online translator
-    soimort/translate-shell
     # Toggles `sudo` for current/previous command on ESC-ESC.
     hcgraf/zsh-sudo
     # Run `fg` on C-Z
@@ -71,17 +72,18 @@ plugins=(
     zpm-zsh/undollar
     # My plugins
     lainiwa/gitcd
-    # lainiwa/ph-marks
-    # Adds git open
+    lainiwa/ph-marks
+    # Git related
     paulirish/git-open
+    zdharma/zsh-diff-so-fancy
     # Completions
+    zsh-users/zsh-completions
+    srijanshetty/zsh-pandoc-completion
     bobthecow/git-flow-completion
     spwhitt/nix-zsh-completions
     nojanath/ansible-zsh-completion
     lainiwa/zsh-completions
     lukechilds/zsh-better-npm-completion
-    #
-    zdharma/zsh-diff-so-fancy
     # Get gitignore template with `gi` command
     voronkovich/gitignore.plugin.zsh
     # Heavy stuff
@@ -90,45 +92,47 @@ plugins=(
     zsh-users/zsh-autosuggestions,source:zsh-autosuggestions.zsh
     # Substitute `...` with `../..`
     lainiwa/zsh-manydots-magic,source:manydots-magic
+    # Non-plugins
+    dylanaraps/fff,hook:"make; PREFIX=${_ZPM_POL} make install"
+    nvie/gitflow,hook:"make install prefix=${_ZPM_POL}"
+    circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
+    snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
+    gitbits/git-info,hook:"cp git-* ${_ZPM_POL}/bin/"
 )
 zpm load "${plugins[@]}"
 
 
+print_status() {
+    local verb=${1}
+    local entity=${2}
+    echo "${c[bold]}${c[green]}${verb}" \
+         "${c[blue]}${entity}" \
+         "${c[green]}✔" \
+         "${c[reset]}"
+}
 get_comp() {
     local name=${1}
     local url=${2}
-    if [[ ! -f ${_ZPM}/completions/_${name} ]]; then
-        mkdir --parents -- "${_ZPM}/completions"
-        wget --quiet "${url}" --output-document="${_ZPM}/completions/_${name}"
-        echo "${c[bold]}${c[green]}Download" \
-             "${c[blue]}_${name}" \
-             "${c[green]}✔" \
-             "${c[reset]}"
+    if [[ ! -f ${_ZPM_COMP}/_${name} ]]; then
+        wget --quiet "${url}" --output-document="${_ZPM_COMP}/_${name}"
+        print_status "Download" "_${name}"
     fi
 }
 gen_comp() {
     local name=${1}
     local cmd=${2}
     local has=${${(z)cmd}[1]}
-    if [[ ! -f ${_ZPM}/completions/_${name} ]] && (( ${+commands[${has}]} )); then
-        mkdir --parents -- "${_ZPM}/completions"
-        eval "${cmd}"    > "${_ZPM}/completions/_${name}"
-        echo "${c[bold]}${c[green]}Generate" \
-             "${c[blue]}_${name}" \
-             "${c[green]}✔" \
-             "${c[reset]}"
+    if [[ ! -f ${_ZPM_COMP}/_${name} ]] && (( ${+commands[${has}]} )); then
+        eval "${cmd}"    > "${_ZPM_COMP}/_${name}"
+        print_status "Generate" "_${name}"
     fi
 }
 gen_zsh() {
     local cmd=${1}
     local has=${${(z)cmd}[1]}
-    if [[ ! -f ${_ZPM}/sourceables/${has}.zsh ]] && (( ${+commands[${has}]} )); then
-        mkdir --parents -- "${_ZPM}/sourceables"
-        eval "${cmd}"    > "${_ZPM}/sourceables/${has}.zsh"
-        echo "${c[bold]}${c[green]}Generate" \
-             "${c[blue]}${has}.zsh" \
-             "${c[green]}✔" \
-             "${c[reset]}"
+    if [[ ! -f ${_ZPM_SRC}/${has}.zsh ]] && (( ${+commands[${has}]} )); then
+        eval "${cmd}"    > "${_ZPM_SRC}/${has}.zsh"
+        print_status "Generate" "${has}.zsh"
     fi
 }
 (
@@ -164,12 +168,17 @@ bashcompinit
 for file in "${_ZPM}/sourceables"/*sh; do
     source "${file}"
 done
+source "/usr/share/bash-completion/completions/atool"
 
 
 fpath+=(${_ZPM}/completions)
 fpath+=(~/.zsh/completions/)
+export PATH=${_ZPM_POL}/bin${PATH:+:}${PATH}
 
 
 unset _ZPM
+unset _ZPM_POL
+unset _ZPM_COMP
+unset _ZPM_SRC
 unset GH
 unset GNU
