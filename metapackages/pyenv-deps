@@ -28,7 +28,10 @@ Depends:
     libffi-dev,
     liblzma-dev,
     python-openssl,
-    git
+    git,
+    libxml2-dev,
+    libxmlsec1-dev
+
 # Recommends: <comma-separated list of packages>
 # Suggests: <comma-separated list of packages>
 # Provides: <comma-separated list of packages>
