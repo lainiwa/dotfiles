@@ -43,7 +43,12 @@ alias egrep='egrep --color=auto'
 alias -g NE='2> /dev/null'
 alias -g NUL='&> /dev/null'
 
-alias gl='git log --oneline --graph --decorate --all'
+if (( ${+commands[git-foresta]} )); then
+    gl() { git-foresta --style=10 "$@" | less -RSX; }
+    compdef _git gl=git-log
+else
+    alias gl="git log --oneline --graph --decorate --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
+fi
 
 alias r='ranger'
 
