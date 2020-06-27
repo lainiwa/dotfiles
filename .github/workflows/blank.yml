@@ -12,7 +12,7 @@ jobs:
 
     - name: Run shellcheck on `my` script
       run: |
-        shellcheck scripts/my
+        shellcheck --external-sources scripts/my
 
     # - name: Install dependencies
     #   run: |
