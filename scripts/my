@@ -157,29 +157,30 @@ current_layout_indicator() {
 #         https://stackoverflow.com/a/22439016
 #
 show_installed() {
-    requires comm apt-mark sort gzip zgrep grep cut tr apt sed apt-cache
-
-    packages_1=$(comm -23 \
-        <(apt-mark showmanual | sort -u) \
-        <(gzip -dc /var/log/installer/initial-status.gz | sort -u))
-
-    packages_2=$(zgrep 'Commandline: apt' /var/log/apt/history.log{,.*.gz} | # print apt history
-        grep --extended-regexp 'apt(|-get) install' |                        # filter installations
-        cut --delimiter=' ' --fields=4- |                                    # show only stuff after "apt(-get) install"
-        tr '\ ' '\n' |                                                       # split if multiple packages
-        grep '^[[:alpha:]]')                                                 # filter out flags
-
-    packages=$(comm -12 \
-        <(echo "${packages_1}" | sort -u) \
-        <(echo "${packages_2}" | sort -u) | tr -d '\t')
-
-    all_installed=$(apt list --installed 2>/dev/null | # info on installed packages
-        sed 's|^\([^/]*\)/.*|\1|g' |                   # only packages names
-        sort -u)
-
-    manually_installed=$(comm -12 \
-        <(echo "${packages}") \
-        <(echo "${all_installed}"))
+    preinstalled=$(
+        source /etc/os-release
+        curl --silent "https://releases.ubuntu.com/$(
+            [[ ${VERSION_ID} == 20.04 ]] && printf '20.04/ubuntu-20.04'
+            [[ ${VERSION_ID} == 18.04 ]] && printf '18.04/ubuntu-18.04.4'
+        )-live-server-amd64.manifest" |
+        sed 's|\([^[:space:]:]*\).*|\1|g'
+    )
+    manual=$(
+        apt-mark showmanual
+    )
+    manual_no_preinstalled=$(
+        comm -23 <(sort --unique <<<"${manual}") <(sort --unique <<<"${preinstalled}")
+    )
+    completions=$(
+        zsh -i -c 'for key val in ${(kv)_comps}; echo "${key} ${val}"'
+    )
+    packages_regex=$(
+        tr '\n' '|' <<<"${manual_no_preinstalled}"
+    )
+    descriptions=$(
+        apt-cache search "^(${packages_regex})$" |
+        grep --extended-regexp "^(${packages_regex}) - "
+    )
 
     # Color print
     red='\033[0;31m'
@@ -189,28 +190,23 @@ show_installed() {
 
     while read -r package; do
         # Print package description
-        description="$(
-            apt-cache search "^${package}$" |
-            grep "^${package} - " |
+        description=$(
+            grep "^${package} - " <<<"${descriptions}" |
             cut -d' ' -f2-
-        )"
+        )
         printf "${red}%s${nc} %s" "${package}" "${description} ["
 
         # Binaries provided by this package
-        binaries="$(
+        binaries=$(
             dpkg --listfiles "${package}" |
             { grep --extended-regexp '/bin/|/sbin/' || true; } |
             sed 's|.*/||'
-        )"
+        )
 
         # Print completions for each binary
         while read -r binary; do
-            # Completion function for this binary
-            completion="$(
-                zsh -i -c "$(printf '<<<${_comps[%s]}' "${binary}")"
-            )" &>/dev/null
             # If completion exists, print in green
-            if [[ -n ${completion} ]]; then
+            if grep "^${binary} " <<<"${completions}" >/dev/null; then
                 printf "${green}%s${nc}," "${binary}"
             # otherwise print in red
             else
@@ -220,7 +216,7 @@ show_installed() {
 
         printf "]\n"
 
-    done <<<"${manually_installed}"
+    done <<<"${manual_no_preinstalled}"
 }
 
 #################################################
