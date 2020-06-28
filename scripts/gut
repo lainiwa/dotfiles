@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+set -o errexit  # exit on fail
+set -o pipefail # catch errors in pipelines
+set -o nounset  # exit on undeclared variable
+# set -o xtrace    # trace execution
+
+
+init() {
+    # Create bare minimum
+    mkdir --parents .git/{objects,refs/heads}
+    # Initialize HEAD to point to master branch
+    printf '%s' 'ref: refs/heads/master' > .git/HEAD
+}
+
+
+hash_object() {
+    local type=${1}
+    local file_path=${2}
+    local write_object=${3:-yes}
+
+    # Encoded "<type> <file_size>\0<file_contents>"
+    # ex.: "blob 5\0hello"
+    local data
+    data=$({
+        stat --printf="${type} %s\0" "${file_path}";
+        cat "${file_path}";
+    } | xxd)
+
+    # Calculate data's SHA1
+    local blob_id
+    blob_id=$(xxd -revert <<<"${data}" | sha1sum --binary | cut -d" " -f1)
+
+    # Write object
+    if [[ ${write_object} == yes ]]; then
+        mkdir --parents ".git/objects/${blob_id:0:2}/"
+        zlib-flate -compress \
+            < <(xxd -revert <<<"${data}") \
+            > ".git/objects/${blob_id:0:2}/${blob_id:2}"
+    fi
+
+    printf "%s" "${blob_id}"
+}
+
+
+write_tree() {
+    local tree_content
+    tree_content=$(
+        for name in "$@"; do
+            # File type + permissions
+            printf '%o ' "0x$(stat --format '%f' "${name}")"
+            # File path
+            printf '%s\0' "${name}"
+            # File binary SHA1 hash
+            hash_object blob "${name}" no | xxd -revert -ps
+        done | xxd
+    )
+
+    local temp_file
+    temp_file=$(mktemp)
+    xxd -revert <<<"${tree_content}" > "${temp_file}"
+
+    hash_object tree "${temp_file}" yes
+
+    rm "${temp_file}"
+}
+
+
+# tree() {
+#     find .git/objects -type f |
+#     while read -r line; do
+#         line=${line#.git/objects/}
+#         line=${line//\/}
+#         echo "$line"
+#     done
+# }
+
+
+"$@"
