@@ -352,7 +352,7 @@ full_upgrade() {
     fi
     # Update poetry
     if command -v poetry >/dev/null; then
-        poetry self update
+        poetry self update || true
     fi
     # Upgrade pipx packages
     if command -v pipx >/dev/null; then
@@ -384,9 +384,13 @@ full_clean() {
     sudo journalctl --rotate
     sudo journalctl --vacuum-time=1s
     # Garbage-collect guix
-    guix gc --delete-generations=1m
+    if command -v guix >/dev/null; then
+        guix gc --delete-generations=1m
+    fi
     # Garbage-collect nix
-    nix-collect-garbage --delete-old
+    if command -v nix >/dev/null; then
+        nix-collect-garbage --delete-old
+    fi
 }
 
 #################################################
