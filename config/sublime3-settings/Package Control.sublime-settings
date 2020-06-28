@@ -23,6 +23,7 @@
 		"SublimeLinter-shellcheck",
 		"TabNine",
 		"Terraform",
-		"TOML"
+		"TOML",
+		"VimL"
 	]
 }
