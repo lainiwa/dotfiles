@@ -11,3 +11,4 @@ update-dotbot:
 build_pyenv-deps:
 	equivs-build ~/.dotfiles/metapackages/pyenv-deps
 	sudo apt install --yes ./pyenv-deps_*.deb
+	rm ./pyenv-deps_*.deb
