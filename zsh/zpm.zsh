@@ -53,6 +53,11 @@ export GITCD_TRIM=1
 # Autosuggestions configuration
 # export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+# Notes configuration
+export QUICKNOTE_FORMAT="%Y-%m-%d"
+export NOTES_EXT="md"
+export NOTES_DIRECTORY=~/notes
+
 
 plugins=(
     # Prompt
@@ -77,12 +82,12 @@ plugins=(
     paulirish/git-open
     zdharma/zsh-diff-so-fancy
     # Completions
-    zsh-users/zsh-completions
+    zpm-zsh/zsh-completions,apply:fpath
+    zchee/zsh-completions
     srijanshetty/zsh-pandoc-completion
     bobthecow/git-flow-completion
     spwhitt/nix-zsh-completions
     nojanath/ansible-zsh-completion
-    lainiwa/zsh-completions
     lukechilds/zsh-better-npm-completion
     # Get gitignore template with `gi` command
     voronkovich/gitignore.plugin.zsh
@@ -98,6 +103,11 @@ plugins=(
     circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
     snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
     gitbits/git-info,hook:"cp git-* ${_ZPM_POL}/bin/"
+    greymd/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
+    pimterry/notes,hook:"PREFIX=${_ZPM_POL} make -f <(sed 's|^\(BASH_COMPLETION_DIR\).*|\1 = /tmp|' Makefile)"
+    #
+    # AdrieanKhisbe/diractions
+    # michaelxmcbride/zsh-dircycle
 )
 zpm load "${plugins[@]}"
 
@@ -135,6 +145,17 @@ gen_zsh() {
         print_status "Generate" "${has}.zsh"
     fi
 }
+get_bin() {
+    local name=${1}
+    local url=${2}
+    if [[ ! -f ${_ZPM_POL}/bin/${name} ]]; then
+        wget --quiet "${url}" --output-document="${_ZPM_POL}/bin/${name}"
+        chmod +x "${_ZPM_POL}/bin/${name}"
+        print_status "Download" "${name}"
+    fi
+}
+
+
 (
 # Download completions
 get_comp beet           "${GH}/beetbox/beets/master/extra/_beet" &
@@ -148,22 +169,27 @@ get_comp khal           "${GH}/pimutils/khal/master/misc/__khal" &
 # Generate completions for present commands
 gen_comp beet   'curl --silent "${GH}/beetbox/beets/master/extra/_beet" | sed s/awk/gawk/g' &
 gen_comp cargo  'rustup completions zsh cargo' &
-gen_comp pipx   'register-python-argcomplete pipx' &
 gen_comp poetry 'poetry completions zsh' &
 gen_comp rclone 'rclone genautocomplete zsh /dev/stdout' &
 gen_comp restic 'restic generate --zsh-completion /dev/stdout' &
 gen_comp rustup 'rustup completions zsh rustup' &
 # Generate completions for present commands
+gen_zsh 'pipx --version >/dev/null && register-python-argcomplete pipx' &
 gen_zsh 'pyenv init - --no-rehash' &
 gen_zsh 'pip  completion --zsh' &
 gen_zsh 'pip3 completion --zsh' &
 gen_zsh 'dircolors --bourne-shell <(curl --silent "${GH}/trapd00r/LS_COLORS/master/LS_COLORS")' &
 gen_zsh 'terraform version >/dev/null && <<<"complete -o nospace -C $(which terraform) terraform"' &
+# Get binary files
+get_bin pping       "${GH}/denilsonsa/prettyping/master/prettyping" &
+get_bin git-foresta "${GH}/takaaki-kasai/git-foresta/master/git-foresta" &
 wait
 )
 
+
 autoload -U +X bashcompinit
 bashcompinit
+
 
 for file in "${_ZPM}/sourceables"/*sh; do
     source "${file}"
@@ -171,7 +197,7 @@ done
 source "/usr/share/bash-completion/completions/atool"
 
 
-fpath+=(${_ZPM}/completions)
+fpath+=(${_ZPM_COMP})
 fpath+=(~/.zsh/completions/)
 export PATH=${_ZPM_POL}/bin${PATH:+:}${PATH}
 
