@@ -10,8 +10,8 @@
 - link:
     #~/.dotfiles: ''
     #~/.vim: vim
-    ~/.vimrc:
-        if: command -v vim >/dev/null
+    # ~/.vimrc:
+    #     if: command -v vim >/dev/null
     ~/.psqlrc:
         if: command -v psql >/dev/null
     # OCaml's REPL
@@ -50,6 +50,10 @@
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Preferences.sublime-settings
         force: true
+    # Neovim
+    ~/.config/nvim:
+        path: config/nvim
+        if: command -v nvim >/dev/null
     # Ranger
     ~/.config/ranger/rc.conf:
         if: command -v ranger >/dev/null
