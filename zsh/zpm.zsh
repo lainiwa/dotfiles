@@ -113,12 +113,13 @@ requirements() {
     #
     # AdrieanKhisbe/diractions
     # michaelxmcbride/zsh-dircycle
-    <<< rustup,type:mkdir,gen-comp:"rustup completions zsh rustup"
-    <<<  cargo,type:mkdir,gen-comp:"rustup completions zsh cargo"
-    <<< poetry,type:mkdir,gen-comp:"poetry completions zsh"
-    <<< rclone,type:mkdir,gen-comp:"rclone genautocomplete zsh /dev/stdout"
-    <<< restic,type:mkdir,gen-comp:"restic generate --zsh-completion /dev/stdout"
-    <<<   beet,type:mkdir,gen-comp:"${GH}/beetbox/beets/master/extra/_beet | sed s/awk/gawk/g"
+    (( ${+commands[rustup]} )) && <<< rustup,type:mkdir,gen-comp:"rustup completions zsh rustup"
+    (( ${+commands[rustup]} )) && <<<  cargo,type:mkdir,gen-comp:"rustup completions zsh cargo"
+    (( ${+commands[poetry]} )) && <<< poetry,type:mkdir,gen-comp:"poetry completions zsh"
+    (( ${+commands[rclone]} )) && <<< rclone,type:mkdir,gen-comp:"rclone genautocomplete zsh /dev/stdout"
+    (( ${+commands[restic]} )) && <<< restic,type:mkdir,gen-comp:"restic generate --zsh-completion /dev/stdout"
+    (( ${+commands[beet]} && ${+commands[gawk]} )) &&
+        <<<   beet,type:mkdir,gen-comp:"${GH}/beetbox/beets/master/extra/_beet | sed s/awk/gawk/g"
 
     <<<           beet,type:mkdir,gen-comp:"${GH}/beetbox/beets/master/extra/_beet"
     <<<           buku,type:mkdir,gen-comp:"${GH}/jarun/Buku/master/auto-completion/zsh/_buku"
