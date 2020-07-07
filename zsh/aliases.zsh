@@ -52,7 +52,7 @@ fi
 
 alias r='ranger'
 
-alias mkdir='mkdir --parents --verbose'
+alias mkdir='mkdir -pv'
 alias U='unbuffer'
 
 alias -g H='| head'
@@ -83,10 +83,10 @@ fi
 
 
 # Create directory and cd to it
-mkcd() { [[ $# == 1 ]] && mkdir --parents -- "$1" && cd -P -- "$1" ; }
+mkcd() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -P -- "$1" ; }
 compdef _directories mkcd
 
-new() { [[ $# == 1 ]] && mkdir --parents -- "${1:h}" && touch "$1" ; }
+new() { [[ $# == 1 ]] && mkdir -p -- "${1:h}" && touch "$1" ; }
 compdef _directories new
 
 alias tmp='cd $(mktemp -d)'
