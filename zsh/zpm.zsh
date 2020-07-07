@@ -142,7 +142,7 @@ requirements() {
 }
 
 
-if [[ ! ${TMPDIR:-/tmp}/zsh-${UID}/requirements.zpm -nt ${0} ]]; then
+if [[ ! ${_ZMP_REQ} -nt ${0} ]]; then
     echo "Resetting ZPM cache..."
     rm -rf /tmp/zsh-1000
     mkdir -p -- "${_ZMP_REQ:h}"
