@@ -18,10 +18,10 @@ export _ZPM_DIR=${_ZPM}/zpm
 export _ZPM_PLUGIN_DIR=${_ZPM}/plugins
 if [[ ! -f ${_ZPM_DIR}/zpm.zsh ]]; then
     git clone --depth 1 https://github.com/zpm-zsh/zpm "${_ZPM_DIR}"
-    mkdir --parents -- "${_ZPM_POL}"/{bin,share/{doc,man/man{1,2,3,4,5,6,7,8,9}}}
-    mkdir --parents -- "${_ZPM_COMP}"
-    mkdir --parents -- "${_ZPM_COMP}"
-    mkdir --parents -- "${_ZPM_SRC}"
+    mkdir -p -- "${_ZPM_POL}"/{bin,share/{doc,man/man{1,2,3,4,5,6,7,8,9}}}
+    mkdir -p -- "${_ZPM_COMP}"
+    mkdir -p -- "${_ZPM_COMP}"
+    mkdir -p -- "${_ZPM_SRC}"
 fi
 source "${_ZPM_DIR}/zpm.zsh"
 
