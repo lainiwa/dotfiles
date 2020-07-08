@@ -102,7 +102,7 @@
     -
         description: Create folder for urxvt extensions
         command: command -v urxvt >/dev/null &&
-                 mkdir --parents "${HOME}/.urxvt/ext" ||
+                 mkdir -p "${HOME}/.urxvt/ext" ||
                  true
     -
         description: Copy urxvt resize-font extension
@@ -120,8 +120,8 @@
     -
         description: Install Sublime Text 3 package manager
         command: command -v subl >/dev/null &&
-                 mkdir --parents "${HOME}/.config/sublime-text-3/Installed Packages/" &&
-                 mkdir --parents "${HOME}/.config/sublime-text-3/Packages/User" &&
+                 mkdir -p "${HOME}/.config/sublime-text-3/Installed Packages/" &&
+                 mkdir -p "${HOME}/.config/sublime-text-3/Packages/User" &&
                  wget --directory-prefix "${HOME}/.config/sublime-text-3/Installed Packages/"
                       'https://packagecontrol.io/Package Control.sublime-package' ||
                  true
