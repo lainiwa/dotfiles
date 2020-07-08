@@ -46,6 +46,9 @@
     ~/.config/sublime-text-3/Packages/User/Markdown.sublime-settings:
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Markdown.sublime-settings
+    ~/.config/sublime-text-3/Packages/User/SublimeLinter.sublime-settings:
+        if: command -v subl >/dev/null
+        path: config/sublime3-settings/SublimeLinter.sublime-settings
     ~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings:
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Package Control.sublime-settings
