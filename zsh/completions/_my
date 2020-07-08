@@ -10,9 +10,6 @@ _my() {
         "*::arg:->args"
 
     case $line[1] in
-    pornhub)
-        _pornhub
-        ;;
     set_bg)
         _set_bg
         ;;
@@ -36,80 +33,6 @@ _my() {
         ;;
     esac
 
-}
-
-_pornhub() {
-    local -a commands
-    commands=(
-        'add:Remember a video'
-        'del:Forget a video'
-        'search:Filter by categories'
-    )
-
-    if ((CURRENT == 2)); then
-        _describe -t commands 'commands' commands
-    fi
-
-    if ((CURRENT >= 3)); then
-        case $line[2] in
-        'add')
-            commands=()
-            local contents
-            local response_code
-            local prev_args=${(@)line:2}
-            # Filter clipboards for possible pornhub links with regexps
-            for selection in primary secondary clipboard; do
-                contents=$(xclip -selection "${selection}" -out 2>/dev/null)
-                if ((5 < ${#contents} && ${#contents} < 20)) &&
-                    [[ ! -z ${contents} && ${contents} =~ ^[[:alnum:]]*$ ]]; then
-                    echo "https://www.pornhub.com/view_video.php?viewkey=${contents}"
-                elif [[ ${contents} =~ ^"https://www.pornhub.com/view_video.php\?viewkey=".* ]]; then
-                    echo "${contents}"
-                else
-                    continue
-                fi
-            done |
-            # Filter links that are already specified in arguments
-            while read -r link; do
-                if [[ ! ${prev_args} =~ ${link#*viewkey=} ]]; then
-                    echo "${link}"
-                fi
-            done |
-            # Filter links by checking they are valid pornhub videos
-            while read -r link; do
-                response_code=$(curl --silent --output /dev/null --write-out "%{http_code}" -- "${link}")
-                if [[ ${response_code} == 200 ]]; then
-                    commands=("${link#*viewkey=}" ${commands})
-                fi
-            done
-            _describe -t commands 'commands' commands
-            ;;
-        'del')
-            local video_id
-            local prev_args=${(@)line:2}
-            IFS=$'\n' commands=($(for file in ~/.pornhub/*.json; do
-                video_id=$(basename "${file}" .json)
-                if [[ ${prev_args} =~ ${video_id} ]]; then
-                    continue
-                fi
-                printf "%s:%s\n" \
-                    "${video_id}" \
-                    "$(jq --raw-output '.title' "${file}")"
-            done))
-            _describe -t commands 'remembered videos' commands
-            ;;
-        'search')
-            local categories
-            categories=$(for file in ~/.pornhub/*.json; do
-                jq --raw-output '.categories | .[]' "${file}"
-            done | sort | uniq)
-            categories=${categories// /_}
-            categories=${categories:l}
-            IFS=$'\n' commands=($(echo "${categories}"))
-            _describe -t commands 'categories' commands
-            ;;
-        esac
-    fi
 }
 
 _set_bg() {
