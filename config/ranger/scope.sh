@@ -49,20 +49,20 @@ OPENSCAD_COLORSCHEME=${RNGR_OPENSCAD_COLORSCHEME:-Tomorrow Night}
 
 handle_extension() {
     case "${FILE_EXTENSION_LOWER}" in
-        # ## Archive
-        # a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
-        # rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)
-        #     atool --list -- "${FILE_PATH}" && exit 5
-        #     bsdtar --list --file "${FILE_PATH}" && exit 5
-        #     exit 1;;
-        # rar)
-        #     ## Avoid password prompt by providing empty password
-        #     unrar lt -p- -- "${FILE_PATH}" && exit 5
-        #     exit 1;;
-        # 7z)
-        #     ## Avoid password prompt by providing empty password
-        #     7z l -p -- "${FILE_PATH}" && exit 5
-        #     exit 1;;
+        ## Archive
+        a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
+        rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)
+            atool --list -- "${FILE_PATH}" && exit 5
+            bsdtar --list --file "${FILE_PATH}" && exit 5
+            exit 1;;
+        rar)
+            ## Avoid password prompt by providing empty password
+            unrar lt -p- -- "${FILE_PATH}" && exit 5
+            exit 1;;
+        7z)
+            ## Avoid password prompt by providing empty password
+            7z l -p -- "${FILE_PATH}" && exit 5
+            exit 1;;
 
         ## PDF
         pdf)
@@ -79,24 +79,26 @@ handle_extension() {
             transmission-show -- "${FILE_PATH}" && exit 5
             exit 1;;
 
-        ## Word documents
+        ## OpenDocument
         odt|ods|odp|sxw)
             ## Preview as text conversion
             odt2txt "${FILE_PATH}" && exit 5
             ## Preview as markdown conversion
             pandoc --standalone --to=markdown -- "${FILE_PATH}" && exit 5
             exit 1;;
+
+        ## Word Documents
         doc)
-            antiword "${FILE_PATH}" && exit 5
+            antiword -- "${FILE_PATH}" && exit 5
             exit 1;;
         docx)
-            pandoc --from=docx --to=plain "${FILE_PATH}" --output=- && exit 5
+            pandoc --from=docx --to=plain --output=- -- "${FILE_PATH}" && exit 5
             docx2txt "${FILE_PATH}" - && exit 5
             exit 1;;
 
         ## Markdown
         md|mdown)
-            glow "${FILE_PATH}" --style dark --width "${PV_WIDTH}" && exit 5
+            glow --style dark --width "${PV_WIDTH}" -- "${FILE_PATH}" && exit 5
             exit 1;;
 
         ## XLSX
@@ -112,7 +114,7 @@ handle_extension() {
             w3m -dump "${FILE_PATH}" && exit 5
             lynx -dump -- "${FILE_PATH}" && exit 5
             elinks -dump "${FILE_PATH}" && exit 5
-            pandoc --standalone --to=markdown -- "${FILE_PATH}" && exit 5
+            pandoc -s -t markdown -- "${FILE_PATH}" && exit 5
             ;;
 
         ## JSON
@@ -130,6 +132,7 @@ handle_extension() {
     esac
 }
 
+
 handle_image_ascii() {
     local mimetype="${1}"
     case "${mimetype}" in
@@ -138,6 +141,7 @@ handle_image_ascii() {
             ;;
     esac
 }
+
 
 handle_image() {
     ## Size of the preview if there are multiple options or it has to be
@@ -153,7 +157,7 @@ handle_image() {
             convert -- "${FILE_PATH}" "${IMAGE_CACHE_PATH}" && exit 6
             exit 1;;
 
-        # DjVu
+        ## DjVu
         image/vnd.djvu)
             ddjvu -format=tiff -quality=90 -page=1 -size="${DEFAULT_SIZE}" \
                   - "${IMAGE_CACHE_PATH}" < "${FILE_PATH}" \
@@ -174,7 +178,7 @@ handle_image() {
             ## as above), but might fail for unsupported types.
             exit 7;;
 
-        # Video
+        ## Video
         video/*)
             # Thumbnail
             ffmpegthumbnailer -i "${FILE_PATH}" -o "${IMAGE_CACHE_PATH}" -s 0 && exit 6
@@ -355,7 +359,10 @@ handle_mime() {
 }
 
 handle_fallback() {
-    echo '----- File Type Classification -----' && file --dereference --brief -- "${FILE_PATH}" && exit 5
+    echo '----- File Type Classification -----' &&
+    file --dereference --brief -- "${FILE_PATH}" &&
+    exit 5
+
     exit 1
 }
 
