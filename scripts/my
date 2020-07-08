@@ -18,6 +18,16 @@ fb() {
     done
 }
 
+#################################################
+# LIST PACKAGES INSTALLED INTO PIPX
+#
+list_pipx_requirements() {
+    requires pipx grep sed
+
+    pipx list |
+        grep '   package' |
+        sed 's/   package \(.*\) \(.*\), Python.*/\1==\2/g'
+}
 
 #################################################
 # LIST AVAILABLE `$TERM` VARIABLES
