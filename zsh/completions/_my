@@ -6,39 +6,7 @@ _my() {
     _arguments -C \
         "-h[Show help information]" \
         "--h[Show help information]" \
-        "1: :(pornhub \
-              show_installed \
-              disks \
-              current_layout_indicator \
-              i3_exit_menu \
-              fix_zsh_history \
-              random_reddit_image \
-              set_bg \
-              save_4chan_thread_imgs \
-              transfer \
-              most_used_commands \
-              history_hours_freq \
-              weather \
-              hr \
-              cclip \
-              screenshot \
-              serveo \
-              jqv \
-              curl_first_ok \
-              ip \
-              map \
-              speedtest \
-              graph_dependencies \
-              pastebin \
-              install_from_web \
-              install_package \
-              fullUpgrade \
-              check_dependencies \
-              dependencies \
-              allitebooks \
-              ijrnl \
-              fill_requirements_txt \
-            )" \
+        "1: :($(my _list_functions))" \
         "*::arg:->args"
 
     case $line[1] in

@@ -822,9 +822,7 @@ requires() {
 #
 check_dependencies() {
     # Get functions defined in this file
-    declare -f | grep '^[a-zA-Z0-9_]*\s()' | cut -f 1 -d ' ' |
-        # Drop functions we do not want to check
-        grep -v -e 'check_dependencies' -e 'requires' |
+    _list_functions |
         # Check each of the rest functions' dependencies
         while IFS= read -r func; do
             if ! MY_DEBUG=1 my "${func}" &>/dev/null; then
@@ -834,4 +832,16 @@ check_dependencies() {
         done
 }
 
+#################################################
+# LIST FUNCTIONS IN THIS FILE
+#
+_list_functions() {
+    # Get functions defined in this file
+    declare -f | grep '^[a-zA-Z0-9_]*\s()' | cut -f 1 -d ' ' |
+        # Drop functions we do not want to publicly list
+        grep -v -e 'check_dependencies' -e 'requires' -e '^_.*'
+}
+
+
 "$@"
+
