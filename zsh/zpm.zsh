@@ -26,7 +26,7 @@ bashcompinit
 export _ZPM_DIR=${_ZPM}/zpm
 export _ZPM_PLUGIN_DIR=${_ZPM}/plugins
 if [[ ! -f ${_ZPM_DIR}/zpm.zsh ]]; then
-    git clone --depth 1 https://github.com/lainiwa/zpm "${_ZPM_DIR}"
+    git clone --depth 1 https://github.com/zpm-zsh/zpm "${_ZPM_DIR}"
     mkdir -p -- "${_ZPM_POL}"/{bin,share/{doc,man/man{1..9}}}
 fi
 
