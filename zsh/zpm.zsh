@@ -8,12 +8,15 @@
 
 _ZPM=${XDG_CACHE_HOME:-${HOME}/.cache}/zpm
 _ZPM_POL=${_ZPM}/polaris
-_ZPM_COMP=${_ZPM}/completions
-_ZPM_SRC=${_ZPM}/sourceables
 _ZMP_REQ=${TMPDIR:-/tmp}/zsh-${UID}/requirements.zpm
-GH='curl --silent https://raw.githubusercontent.com'
-GNU='curl --silent https://git.savannah.gnu.org'
 
+if (( ${+commands[wget]} )); then
+    GH='wget --quiet --output-document - https://raw.githubusercontent.com'
+    GNU='wget --quiet --output-document - https://git.savannah.gnu.org'
+else
+    GH='curl --silent https://raw.githubusercontent.com'
+    GNU='curl --silent https://git.savannah.gnu.org'
+fi
 
 autoload -U +X bashcompinit
 bashcompinit
@@ -23,11 +26,8 @@ bashcompinit
 export _ZPM_DIR=${_ZPM}/zpm
 export _ZPM_PLUGIN_DIR=${_ZPM}/plugins
 if [[ ! -f ${_ZPM_DIR}/zpm.zsh ]]; then
-    git clone --depth 1 https://github.com/zpm-zsh/zpm "${_ZPM_DIR}"
+    git clone --depth 1 https://github.com/lainiwa/zpm "${_ZPM_DIR}"
     mkdir -p -- "${_ZPM_POL}"/{bin,share/{doc,man/man{1..9}}}
-    mkdir -p -- "${_ZPM_COMP}"
-    mkdir -p -- "${_ZPM_COMP}"
-    mkdir -p -- "${_ZPM_SRC}"
 fi
 
 
@@ -103,16 +103,14 @@ requirements() {
     # Substitute `...` with `../..`
     <<< lainiwa/zsh-manydots-magic,source:manydots-magic
     # Non-plugins
-    <<< dylanaraps/fff,hook:"make; PREFIX=${_ZPM_POL} make install"
-    <<< nvie/gitflow,hook:"make install prefix=${_ZPM_POL}"
+    (( ${+commands[make]} )) &&  <<< dylanaraps/fff,hook:"make; PREFIX=${_ZPM_POL} make install"
+    (( ${+commands[make]} )) &&  <<< nvie/gitflow,hook:"make install prefix=${_ZPM_POL}"
+    (( ${+commands[make]} )) &&  <<< snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
     <<< circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
-    <<< snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
     <<< gitbits/git-info,hook:"cp git-* ${_ZPM_POL}/bin/"
     <<< greymd/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
     <<< pimterry/notes,hook:"PREFIX=${_ZPM_POL} make -f <(sed 's|^\(BASH_COMPLETION_DIR\).*|\1 = /tmp|' Makefile)"
-    #
-    # AdrieanKhisbe/diractions
-    # michaelxmcbride/zsh-dircycle
+    # Generate completions
     (( ${+commands[rustup]} )) && <<< rustup,type:mkdir,gen-comp:"rustup completions zsh rustup"
     (( ${+commands[rustup]} )) && <<<  cargo,type:mkdir,gen-comp:"rustup completions zsh cargo"
     (( ${+commands[poetry]} )) && <<< poetry,type:mkdir,gen-comp:"poetry completions zsh"
@@ -120,22 +118,22 @@ requirements() {
     (( ${+commands[restic]} )) && <<< restic,type:mkdir,gen-comp:"restic generate --zsh-completion /dev/stdout"
     (( ${+commands[beet]} && ${+commands[gawk]} )) &&
         <<<   beet,type:mkdir,gen-comp:"${GH}/beetbox/beets/master/extra/_beet | sed s/awk/gawk/g"
-
+    # Download completions
     <<<           beet,type:mkdir,gen-comp:"${GH}/beetbox/beets/master/extra/_beet"
     <<<           buku,type:mkdir,gen-comp:"${GH}/jarun/Buku/master/auto-completion/zsh/_buku"
+    <<<            nnn,type:mkdir,gen-comp:"${GH}/jarun/nnn/master/misc/auto-completion/zsh/_nnn"
     <<< docker-compose,type:mkdir,gen-comp:"${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose"
     <<<            exa,type:mkdir,gen-comp:"${GH}/ogham/exa/master/contrib/completions.zsh"
     <<<         ffsend,type:mkdir,gen-comp:"${GH}/timvisee/ffsend/master/contrib/completions/_ffsend"
     <<<           gist,type:mkdir,gen-comp:"${GH}/jdowner/gist/alpha/share/gist.zsh"
     <<<           guix,type:mkdir,gen-comp:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
     <<<           khal,type:mkdir,gen-comp:"${GH}/pimutils/khal/master/misc/__khal"
-
+    # Generate sourceables
     (( ${+commands[dircolors]} )) && <<< dircolors,type:mkdir,gen-pl:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
     (( ${+commands[pip]}       )) && <<<       pip,type:mkdir,gen-pl:"pip completion --zsh"
     (( ${+commands[pip3]}      )) && <<<      pip3,type:mkdir,gen-pl:"pip3 completion --zsh"
     (( ${+commands[pyenv]}     )) && <<<     pyenv,type:mkdir,gen-pl:"pyenv init - --no-rehash"
     (( ${+commands[kubectl]}   )) && <<<   kubectl,type:mkdir,gen-pl:"kubectl completion zsh"
-
     (( ${+commands[register-python-argcomplete]} && ${+commands[pipx]} )) &&
         <<< pipx,type:mkdir,gen-pl:"register-python-argcomplete pipx"
     <<< terraform,type:mkdir,gen-pl:"<<<'complete -o nospace -C $(which terraform) terraform'"
@@ -158,7 +156,11 @@ get_bin() {
     local name=${1}
     local url=${2}
     if [[ ! -f ${_ZPM_POL}/bin/${name} ]]; then
-        wget --quiet "${url}" --output-document="${_ZPM_POL}/bin/${name}"
+        if (( ${+commands[wget]} )); then
+            wget --quiet "${url}" --output-document "${_ZPM_POL}/bin/${name}"
+        else
+            curl --silent "${url}" --output "${_ZPM_POL}/bin/${name}"
+        fi
         chmod +x "${_ZPM_POL}/bin/${name}"
         echo "${c[bold]}${c[green]}Download" \
              "${c[blue]}${name}" \
@@ -176,15 +178,12 @@ wait
 )
 
 
-fpath+=(${_ZPM_COMP})
 fpath+=(~/.zsh/completions/)
 export PATH=${_ZPM_POL}/bin${PATH:+:}${PATH}
 
 
 unset _ZPM
 unset _ZPM_POL
-unset _ZPM_COMP
-unset _ZPM_SRC
 unset _ZMP_REQ
 unset GH
 unset GNU
