@@ -137,7 +137,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 assign [class="Sublime_text"]                $ws2
 # assign [class="Pcmanfm"]                     $ws3
 assign [class="Firefox"]                     $ws3
-assign [class="Chromium-browser"]            $ws3
+assign [class="Chromium*"]                   $ws3
 assign [class="Telegram"]                    $ws3
 
 # reload the configuration file
