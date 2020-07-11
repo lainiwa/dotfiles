@@ -170,12 +170,31 @@ get_bin() {
 }
 
 
+link_bin() {
+    local name=${1}
+    local binary
+    binary=$(command -v "${2}")
+    if [[ ! -f ${_ZPM_POL}/bin/${name} && -f ${binary} ]]; then
+        ln -s "${binary}" "${_ZPM_POL}/bin/${name}"
+        echo "${c[bold]}${c[green]}Linking" \
+             "${c[blue]}${name} -> ${binary}" \
+             "${c[green]}✔" \
+             "${c[reset]}"
+    fi
+}
+
+
 (
 # Get binary files
 get_bin pping       "${GH}/denilsonsa/prettyping/master/prettyping" &
 get_bin git-foresta "${GH}/takaaki-kasai/git-foresta/master/git-foresta" &
 wait
 )
+
+
+# Create links
+link_bin merge /opt/sublime_merge/sublime_merge
+link_bin vim   nvim
 
 
 fpath+=(~/.zsh/completions/)
