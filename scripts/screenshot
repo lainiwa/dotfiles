@@ -1,0 +1,40 @@
+#!/bin/sh
+
+set -o errexit  # exit on fail
+set -o pipefail # catch errors in pipelines
+set -o nounset  # exit on undeclared variable
+# set -o xtrace    # trace execution
+
+
+save_path="${HOME}/0files/imgs/screenshots/$(date '+%s_%Y.%m.%d_%H:%M:%S').png"
+
+
+if command -v maim xdotool >/dev/null; then
+    [ "${1}" = 'full'    ] && maim "${save_path}"
+    [ "${1}" = 'select'  ] && maim "${save_path}" --select
+    [ "${1}" = 'focused' ] && maim "${save_path}" --window "$(xdotool getwindowfocus -f)"
+
+elif command -v scrot >/dev/null; then
+    [ "${1}" = 'full'    ] && scrot "${save_path}" --multidisp
+    [ "${1}" = 'select'  ] && scrot "${save_path}" --select
+    [ "${1}" = 'focused' ] && scrot "${save_path}" --focused
+
+elif command -v import xdotool >/dev/null; then
+    [ "${1}" = 'full'    ] && import "${save_path}" -window root
+    [ "${1}" = 'select'  ] && import "${save_path}"
+    [ "${1}" = 'focused' ] && import "${save_path}" -window "$(xdotool getwindowfocus -f)"
+
+else
+    echo "No imagemagick's import or scrot or maim installed"
+    exit 1
+
+fi
+
+
+if command -v xclip >/dev/null; then
+    printf '%s' "${save_path}" | xclip -in -selection primary
+    xclip -selection clipboard -target image/png <"${save_path}"
+fi
+
+
+printf '%s' "${save_path}"

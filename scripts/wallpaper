@@ -1,0 +1,68 @@
+#!/bin/sh
+
+set -o errexit  # exit on fail
+set -o pipefail # catch errors in pipelines
+set -o nounset  # exit on undeclared variable
+# set -o xtrace    # trace execution
+
+
+if command -v hsetroot >/dev/null; then
+    hsetroot -fill "${1}"
+    exit 0
+
+elif command -v nitrogen >/dev/null; then
+    nitrogen --set-scaled -- "${1}"
+    exit 0
+
+elif command -v feh >/dev/null; then
+    feh --bg-scale -- "${1}"
+    exit 0
+
+elif command -v Esetroot >/dev/null; then
+    Esetroot -scale "${1}"
+    exit 0
+
+fi
+
+
+if command -v xdpyinfo >/dev/null; then
+    dimensions=$(
+        xdpyinfo | grep dimensions |
+        tr --squeeze-repeats ' ' | cut --delimiter=' ' --fields=3
+    )
+
+elif command -v xwininfo >/dev/null; then
+    dimensions=$(
+        xwininfo -root | grep geometry | tr '+' ' ' |
+        tr --squeeze-repeats ' ' | cut --delimiter=' ' --fields=3
+    )
+
+elif command -v xrdb >/dev/null; then
+    width=$(
+        echo 'SKIP: WIDTH'| xrdb -n |
+        tr '\t' ' ' | cut --delimiter=' ' --fields=2
+    )
+    height=$(
+        echo 'SKIP: HEIGHT'| xrdb -n |
+        tr '\t' ' ' | cut --delimiter=' ' --fields=2
+    )
+    dimensions=${width}x${height}
+
+else
+    echo "Could not get the screen geometry"
+    exit 1
+
+fi
+
+
+if command -v display >/dev/null; then
+    display -resize "${dimensions}!" -window root -- "${1}"
+    exit 0
+
+else
+    # xloadimage/xsetbg and xli all suck bc they can't resize some files
+    # xsetroot suck bc it can't set jpeg/png as a wallpaper
+    echo "No appropriate wallpaper setter installed"
+    exit 1
+
+fi
