@@ -23,6 +23,10 @@ _add_to_path "${HOME}/bin"
 _add_to_path "${HOME}/.local/bin"
 _add_to_path "${HOME}/scripts"
 
+# Pkgsrc paths
+_add_to_path "/usr/pkg/bin"
+_add_to_path "/usr/pkg/sbin"
+
 # PostgreSQL
 export PGDATA=/usr/local/pgsql/data
 export PGUSER=postgres
