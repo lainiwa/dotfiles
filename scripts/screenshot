@@ -25,6 +25,8 @@ elif command -v import xdotool >/dev/null; then
     [ "${1}" = 'focused' ] && import "${save_path}" -window "$(xdotool getwindowfocus -f)"
 
 else
+    # current xwd lacks -rect option on ubuntu: can't test
+    # escrotum not in the repos
     echo "No imagemagick's import or scrot or maim installed"
     exit 1
 
