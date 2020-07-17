@@ -406,27 +406,10 @@ full_clean() {
 #################################################
 # SET BACKGROUND IMAGE
 #
-set_bg() {
-    requires feh display
 
-    if command -v feh >/dev/null; then
-        feh --bg-scale "$1"
-
-    else
-        local dimensions
-        dimensions=$(xdpyinfo |
-            grep dimensions |
-            tr --squeeze-repeats ' ' |
-            cut --delimiter=' ' --fields=3
-        )
-
-        display -resize "${dimensions}!" -window root "$1"
-
-    fi
-}
 
 set_bg_random() {
-    set_bg "$(shuf --echo --head-count=1 "${HOME}/0files/imgs/wallpapers"/*)"
+    wallpaper "$(shuf --echo --head-count=1 "${HOME}/0files/imgs/wallpapers"/*)"
 }
 
 #################################################
