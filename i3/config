@@ -191,9 +191,9 @@ exec --no-startup-id i3-msg "workspace $ws2; exec subl"
 # exec --no-startup-id i3-msg "workspace $ws4; exec urxvt -e ranger"
 exec --no-startup-id i3-msg "workspace $ws1"
 
-bindsym --release            Print exec my screenshot full
-bindsym --release      Shift+Print exec my screenshot select
-bindsym --release $mod+Shift+Print exec my screenshot focused
+bindsym --release            Print exec screenshot full
+bindsym --release      Shift+Print exec screenshot select
+bindsym --release $mod+Shift+Print exec screenshot focused
 
 bindsym $mod+Shift+p exec passmenu
 
