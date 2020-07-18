@@ -6,10 +6,12 @@
 # What characters are considered to be a part of a word
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # Pagers and editors
-export PAGER=less
-export METAMAIL_PAGER=less
 export VISUAL=vim
 export EDITOR=vim
+export METAMAIL_PAGER=less
+export PAGER=less
+(( ${+commands[lesspipe]} )) && export LESSOPEN='|lesspipe %s'
+export LESS='-Ri '
 # Set a virtualenvwrapper path, if not already set (resolves tmux nesting issue)
 export VIRTUALENVWRAPPER_PYTHON=${VIRTUALENVWRAPPER_PYTHON:-$(which python3)}
 export VIRTUALENV_PYTHON=${VIRTUALENVWRAPPER_PYTHON}
