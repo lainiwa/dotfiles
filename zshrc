@@ -67,4 +67,11 @@ if [[ -r ~/.opam/opam-init/init.zsh ]]; then
     eval "$(opam env)"
 fi
 
+export NNN_OPTS="dnrx"
+if [[ -d ${XDG_CONFIG_HOME:-${HOME}/.config}/nnn/plugins ]]; then
+    export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
+    (( ${+commands[fzf]} && ${+functions[zshz]} )) && export NNN_PLUG="${NNN_PLUG};z:fzz"
+    export NNN_PLUG="${NNN_PLUG};a:preview-tabbed"
+fi
+
 # zprof
