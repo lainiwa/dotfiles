@@ -43,6 +43,9 @@ alias egrep='egrep --color=auto'
 alias -g NE='2> /dev/null'
 alias -g NUL='&> /dev/null'
 
+# Tmux attach alias
+alias t='tmux attach || tmux'
+
 if (( ${+commands[git-foresta]} )); then
     gl() { git-foresta --style=10 "$@" | less -RSX; }
     compdef _git gl=git-log
