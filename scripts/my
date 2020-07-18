@@ -409,6 +409,8 @@ full_clean() {
 
 
 set_bg_random() {
+    requires wallpaper shuf
+
     wallpaper "$(shuf --echo --head-count=1 "${HOME}/0files/imgs/wallpapers"/*)"
 }
 
