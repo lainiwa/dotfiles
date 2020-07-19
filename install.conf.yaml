@@ -101,46 +101,57 @@
     # Urxvt extensions
     -
         description: Create folder for urxvt extensions
-        command: command -v urxvt >/dev/null &&
-                 mkdir -p "${HOME}/.urxvt/ext" ||
-                 true
+        command: |
+            if command -v urxvt >/dev/null; then
+                mkdir -p "${HOME}/.urxvt/ext"
+            fi
     -
         description: Copy urxvt resize-font extension
-        command: command -v urxvt >/dev/null &&
-                 wget --output-document="${HOME}/.urxvt/ext/resize-font"
-                      'https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font' ||
-                 true
+        command: |
+            FILE="${HOME}/.urxvt/ext/resize-font"
+            URL="https://raw.githubusercontent.com/simmel/urxvt-resize-font/master/resize-font"
+            if command -v urxvt >/dev/null && [[ ! -f ${FILE} ]]; then
+                wget --output-document="${FILE}" "${URL}"
+            fi
     -
         description: Copy urxvt vtwheel extension
-        command: command -v urxvt >/dev/null &&
-                 wget --output-document="${HOME}/.urxvt/ext/vtwheel"
-                      'https://raw.githubusercontent.com/pkkolos/urxvt-scripts/master/vtwheel' ||
-                 true
+        command: |
+            FILE="${HOME}/.urxvt/ext/vtwheel"
+            URL="https://raw.githubusercontent.com/pkkolos/urxvt-scripts/master/vtwheel"
+            if command -v urxvt >/dev/null && [[ ! -f ${FILE} ]]; then
+                wget --output-document="${FILE}" "${URL}"
+            fi
     # Sublime Text 3 package control
     -
         description: Install Sublime Text 3 package manager
-        command: command -v subl >/dev/null &&
-                 mkdir -p "${HOME}/.config/sublime-text-3/Installed Packages/" &&
-                 mkdir -p "${HOME}/.config/sublime-text-3/Packages/User" &&
-                 wget --directory-prefix "${HOME}/.config/sublime-text-3/Installed Packages/"
-                      'https://packagecontrol.io/Package Control.sublime-package' ||
-                 true
+        command: |
+            PKG_CONTROL_DIR="${HOME}/.config/sublime-text-3/Installed Packages/"
+            URL="https://packagecontrol.io/Package Control.sublime-package"
+            if command -v subl >/dev/null && [[ ! -f ${FILE} ]]; then
+                mkdir -p "${HOME}/.config/sublime-text-3/Installed Packages/"
+                mkdir -p "${HOME}/.config/sublime-text-3/Packages/User"
+                wget --directory-prefix "${PKG_CONTROL_DIR}" "${URL}"
+            fi
     # Plugin manager for vim (vim-plug) and install plugins
     -
         description: Install vim-plug and vim plugins for vim
-        command: command -v vim >/dev/null &&
-                 curl --create-dirs -fLo ~/.vim/autoload/plug.vim
-                     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim &&
-                 vim +PlugInstall +qall! ||
-                 true
+        command: |
+            FILE="${HOME}/.vim/autoload/plug.vim"
+            URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+            if command -v vim >/dev/null && [[ ! -f "${FILE}" ]]; then
+                 curl --create-dirs -fLo "${FILE}" "${URL}"
+                 vim +PlugInstall +qall!
+            fi
     # Plugin manager for nvim (vim-plug) and install plugins
     -
         description: Install vim-plug and vim plugins for nvim
-        command: command -v nvim >/dev/null &&
-                 curl --create-dirs -fLo ~/.local/share/nvim/site/autoload/plug.vim
-                     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim &&
-                 nvim +PlugInstall +UpdateRemotePlugins +qall! ||
-                 true
+        command: |
+            FILE="${HOME}/.local/share/nvim/site/autoload/plug.vim"
+            URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+            if command -v nvim >/dev/null && [[ ! -f "${FILE}" ]]; then
+                 curl --create-dirs -fLo "${FILE}" "${URL}"
+                 nvim +PlugInstall +UpdateRemotePlugins +qall!
+            fi
     # Link user.js to specific profile
     -
         description: Install user.js to *.lain-default profile
