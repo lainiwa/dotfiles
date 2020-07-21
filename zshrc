@@ -76,4 +76,6 @@ if [[ -d ${XDG_CONFIG_HOME:-${HOME}/.config}/nnn/plugins ]]; then
     export NNN_PLUG="${NNN_PLUG};a:preview-tabbed"
 fi
 
+# Deduplicate these arrays
+typeset -U path cdpath fpath manpath
 # zprof
