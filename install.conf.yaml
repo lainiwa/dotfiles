@@ -156,9 +156,9 @@
     -
         description: Install user.js to *.lain-default profile
         command: |
+            rm ~/.mozilla/firefox/*.lain-default/prefs.js || true
             ln -s ~/.dotfiles/firefox/user.js \
-                  ~/.mozilla/firefox/*.lain-default/user.js 2>/dev/null \
-            || true
+                  ~/.mozilla/firefox/*.lain-default/ 2>/dev/null || true
     # Update dotbot
     -
         description: Installing submodules
