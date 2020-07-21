@@ -154,13 +154,9 @@ zpm load "${(@f)"$(<"${_ZMP_REQ}")"}"
 
 get_bin() {
     local name=${1}
-    local url=${2}
+    local cmd=${2}
     if [[ ! -f ${_ZPM_POL}/bin/${name} ]]; then
-        if (( ${+commands[wget]} )); then
-            wget --quiet "${url}" --output-document "${_ZPM_POL}/bin/${name}"
-        else
-            curl --silent "${url}" --output "${_ZPM_POL}/bin/${name}"
-        fi
+        eval "${cmd}" > "${_ZPM_POL}/bin/${name}"
         chmod +x "${_ZPM_POL}/bin/${name}"
         echo "${c[bold]}${c[green]}Download" \
              "${c[blue]}${name}" \
