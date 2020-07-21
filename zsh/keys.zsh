@@ -44,3 +44,8 @@ autoload -Uz run-help
 autoload -Uz run-help-git
 autoload -Uz run-help-sudo
 bindkey '^[h' run-help  # Esc+h
+
+# Edit current command in $EDITOR
+autoload -U edit-command-line
+zle -N  edit-command-line
+bindkey "^X^E" edit-command-line
