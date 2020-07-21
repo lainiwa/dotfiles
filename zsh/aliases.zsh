@@ -55,6 +55,8 @@ fi
 
 alias r='ranger'
 
+alias fix='reset; stty sane; tput rs1; clear; echo -e "\033c"'
+
 alias mkdir='mkdir -pv'
 alias U='unbuffer'
 
