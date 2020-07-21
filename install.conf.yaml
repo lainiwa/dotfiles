@@ -125,11 +125,12 @@
     -
         description: Install Sublime Text 3 package manager
         command: |
-            PKG_CONTROL_DIR="${HOME}/.config/sublime-text-3/Installed Packages/"
+            SUBLIME_DIR=${HOME}/.config/sublime-text-3
+            PKG_CONTROL_DIR="${SUBLIME_DIR}/Installed Packages/"
             URL="https://packagecontrol.io/Package Control.sublime-package"
-            if command -v subl >/dev/null && [[ ! -f ${FILE} ]]; then
-                mkdir -p "${HOME}/.config/sublime-text-3/Installed Packages/"
-                mkdir -p "${HOME}/.config/sublime-text-3/Packages/User"
+            if command -v subl >/dev/null && [[ ! -d ${PKG_CONTROL_DIR} ]]; then
+                mkdir -p "${PKG_CONTROL_DIR}"
+                mkdir -p "${SUBLIME_DIR}/Packages/User"
                 wget --directory-prefix "${PKG_CONTROL_DIR}" "${URL}"
             fi
     # Plugin manager for vim (vim-plug) and install plugins
