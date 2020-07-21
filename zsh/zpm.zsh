@@ -104,12 +104,12 @@ requirements() {
     <<< lainiwa/zsh-manydots-magic,source:manydots-magic
     # Non-plugins
     (( ${+commands[make]} )) &&  <<< dylanaraps/fff,hook:"make; PREFIX=${_ZPM_POL} make install"
-    (( ${+commands[make]} )) &&  <<< nvie/gitflow,hook:"make install prefix=${_ZPM_POL}"
-    (( ${+commands[make]} )) &&  <<< snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
-    <<< circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
-    <<< gitbits/git-info,hook:"cp git-* ${_ZPM_POL}/bin/"
-    <<< greymd/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
-    <<< pimterry/notes,hook:"PREFIX=${_ZPM_POL} make -f <(sed 's|^\(BASH_COMPLETION_DIR\).*|\1 = /tmp|' Makefile)"
+    (( ${+commands[make]} )) &&  <<<   nvie/gitflow,hook:"make install prefix=${_ZPM_POL}"
+    (( ${+commands[make]} )) &&  <<<       snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
+     <<< circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
+     <<<      gitbits/git-info,hook:"cp git-*    ${_ZPM_POL}/bin/"
+     <<<    greymd/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
+     <<<        pimterry/notes,hook:"PREFIX=${_ZPM_POL} make -f <(sed 's|^\(BASH_COMPLETION_DIR\).*|\1 = /tmp|' Makefile)"
     # Generate completions
     (( ${+commands[rustup]} )) && <<< rustup,type:mkdir,gen-comp:"rustup completions zsh rustup"
     (( ${+commands[rustup]} )) && <<<  cargo,type:mkdir,gen-comp:"rustup completions zsh cargo"
