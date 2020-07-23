@@ -33,6 +33,9 @@
     ~/.tmux.conf:
         if: command -v tmux >/dev/null
         path: tmux.conf
+    ~/.tmate.conf:
+        if: command -v tmate >/dev/null
+        path: tmate.conf
     ~/.tmuxp:
         if: command -v tmuxp >/dev/null
         path: tmuxp
