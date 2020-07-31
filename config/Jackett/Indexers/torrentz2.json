@@ -3,7 +3,7 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://torrentz2.eu/"
+    "value": "https://torrentz2.is/"
   },
   {
     "id": "cookieheader",
@@ -15,7 +15,7 @@
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": null
+    "value": "Exception (torrentz2): Connection reset by peer: The SSL connection could not be established, see inner exception."
   },
   {
     "id": "adddownloadlinksviaitorrents.org",
@@ -34,5 +34,17 @@
     "type": "inputbool",
     "name": "Only include verifed content in results",
     "value": false
+  },
+  {
+    "id": "sortrequestedfromsite",
+    "type": "inputselect",
+    "name": "Sort requested from site",
+    "value": "A",
+    "options": {
+      "_": "peers",
+      "N": "rating",
+      "A": "created",
+      "S": "size"
+    }
   }
 ]

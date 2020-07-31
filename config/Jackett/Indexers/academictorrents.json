@@ -3,39 +3,40 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://www.torlock2.com/"
+    "value": "https://academictorrents.com/"
   },
   {
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__cfduid=dcf391528cf34d4181beee7bce8c6dbb71546622783"
+    "value": ""
   },
   {
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": "Exception (torlock): Connection reset by peer: The SSL connection could not be established, see inner exception."
+    "value": ""
   },
   {
-    "id": "sortrequestedfromsite(onlyworksforsearchwithkeywords)",
+    "id": "sortrequestedfromsite",
     "type": "inputselect",
-    "name": "Sort requested from site (only works for search with keywords)",
+    "name": "Sort requested from site",
     "value": "added",
     "options": {
       "added": "created",
-      "seeds": "seeders",
-      "size": "size"
+      "seeders": "seeders",
+      "size": "size",
+      "name": "title"
     }
   },
   {
     "id": "orderrequestedfromsite",
     "type": "inputselect",
     "name": "Order requested from site",
-    "value": "desc",
+    "value": "DESC",
     "options": {
-      "desc": "desc",
-      "asc": "asc"
+      "DESC": "desc",
+      "ASC": "asc"
     }
   }
 ]

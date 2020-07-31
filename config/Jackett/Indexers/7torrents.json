@@ -3,19 +3,25 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://www.skytorrents.lol/"
+    "value": "https://www.7torrents.cc/"
   },
   {
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__cfduid=d8917f74de0a389b2d1456707840a4bac1548519317; PHPSESSID=djn73r9q3jo2dq9jbtlv1rrq96; flash=; cf_clearance=1e40cdcd7fb5ddc543f01869d5c1f3f9f00f9ec3-1548519323-1800-150"
+    "value": ""
   },
   {
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": "Exception (skytorrentsclone): Connection reset by peer: The SSL connection could not be established, see inner exception."
+    "value": ""
+  },
+  {
+    "id": "info",
+    "type": "displayinfo",
+    "name": "info",
+    "value": "7torrents does not use categories. In your software Indexer settings, set the category to 7000."
   },
   {
     "id": "sortrequestedfromsite",
@@ -24,6 +30,7 @@
     "value": "created",
     "options": {
       "created": "created",
+      "length": "size",
       "seeders": "seeders"
     }
   }

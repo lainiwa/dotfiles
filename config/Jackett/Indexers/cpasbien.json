@@ -3,7 +3,7 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://www.cpasbien.lol/"
+    "value": "https://wvw.cpasbien-fr.fr/"
   },
   {
     "id": "cookieheader",
@@ -15,6 +15,36 @@
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
+    "value": "Exception (cpasbien): Clearance failed after 10 attempt(s).: Clearance failed after 10 attempt(s)."
+  },
+  {
+    "id": "cookie",
+    "type": "inputstring",
+    "name": "Cookie",
     "value": null
+  },
+  {
+    "id": "howtogetthecookie",
+    "type": "displayinfo",
+    "name": "How to get the Cookie",
+    "value": "<ol><li>Login to this tracker with your browser<li>Solve the challenge<li>Open the <b>DevTools</b> panel by pressing <b>F12</b><li>Select the <b>Network</b> tab<li>Click on the <b>Doc</b> button<li>Refresh the page by pressing <b>F5</b><li>Select the <b>Headers</b> tab<li>Find <b>'cookie:'</b> in the <b>Request Headers</b> section<li><b>Select</b> and <b>Copy</b> the whole cookie string <i>(everything after 'cookie: ')</i> and <b>Paste</b> here.</ol>"
+  },
+  {
+    "id": "user-agent",
+    "type": "inputstring",
+    "name": "User-Agent",
+    "value": null
+  },
+  {
+    "id": "howtogettheuser-agent",
+    "type": "displayinfo",
+    "name": "How to get the User-Agent",
+    "value": "<ol><li>From the same place you fetched the cookie,<li>Find <b>'user-agent:'</b> in the <b>Request Headers</b> section<li><b>Select</b> and <b>Copy</b> the whole user-agent string <i>(everything after 'user-agent: ')</i> and <b>Paste</b> here.</ol>"
+  },
+  {
+    "id": "aboutcategories",
+    "type": "displayinfo",
+    "name": "About categories",
+    "value": "cpasbien does not show <b>Categories</b> in its Search Results.<br />To use this indexer with Sonarr/Radarr set your indexer category to <b>7000</b>."
   }
 ]

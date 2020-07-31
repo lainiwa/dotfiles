@@ -15,7 +15,7 @@
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": null
+    "value": "Exception (1337x): Connection reset by peer: The SSL connection could not be established, see inner exception."
   },
   {
     "id": "downloadlink",
@@ -24,7 +24,30 @@
     "value": "magnet:",
     "options": {
       "http://itorrents.org/": "iTorrents.org",
+      "http://torrage.info/": "Torrage.info",
+      "http://btcache.me/": "BTcache.me",
       "magnet:": "magnet"
+    }
+  },
+  {
+    "id": "sortrequestedfromsite",
+    "type": "inputselect",
+    "name": "Sort requested from site",
+    "value": "time",
+    "options": {
+      "time": "created",
+      "seeders": "seeders",
+      "size": "size"
+    }
+  },
+  {
+    "id": "orderrequestedfromsite",
+    "type": "inputselect",
+    "name": "Order requested from site",
+    "value": "desc",
+    "options": {
+      "desc": "desc",
+      "asc": "asc"
     }
   }
 ]

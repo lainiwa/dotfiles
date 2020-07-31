@@ -3,7 +3,7 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://wwv.torrent9.ai/"
+    "value": "https://www.torrent9.ac/"
   },
   {
     "id": "cookieheader",
@@ -15,6 +15,6 @@
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": null
+    "value": "Exception (torrent9): Got redirected to another domain. Try changing the indexer URL to https://www.torrent9.ac/. Updated site link, please try again.: Parse error"
   }
 ]

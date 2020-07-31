@@ -15,7 +15,7 @@
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": null
+    "value": "Exception (torrentdownloads): Connection reset by peer: The SSL connection could not be established, see inner exception."
   },
   {
     "id": "downloadlink",

@@ -3,18 +3,58 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://www.ilcorsaroblu.org/"
+    "value": "https://ilcorsaroblu.org/"
   },
   {
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "xbtitFM=ec8ks9g6f6n3bn5c7ru658ru44; ilCorSaRoBlu=deleted"
+    "value": "xbtitFM=e1919195a282c49e4af293c0823eb5a2; ilCorSaRoBlu=9e8659bd9f01a04f26ac39845c034010"
   },
   {
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
+    "value": "Exception (ilcorsaroblu): Error: Nome Utente non corretto: Parse error"
+  },
+  {
+    "id": "username",
+    "type": "inputstring",
+    "name": "Username",
     "value": null
+  },
+  {
+    "id": "password",
+    "type": "inputstring",
+    "name": "Password",
+    "value": ""
+  },
+  {
+    "id": "sortrequestedfromsite",
+    "type": "inputselect",
+    "name": "Sort requested from site",
+    "value": "3",
+    "options": {
+      "3": "created",
+      "5": "seeders",
+      "4": "size",
+      "2": "title"
+    }
+  },
+  {
+    "id": "orderrequestedfromsite",
+    "type": "inputselect",
+    "name": "Order requested from site",
+    "value": "2",
+    "options": {
+      "2": "desc",
+      "1": "asc"
+    }
+  },
+  {
+    "id": "resultsperpage",
+    "type": "displayinfo",
+    "name": "Results Per Page",
+    "value": "For best results, change the <b>Torrents per page:</b> setting to <b>100</b> on your account profile."
   }
 ]

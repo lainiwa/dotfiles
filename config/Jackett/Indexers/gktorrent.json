@@ -3,7 +3,7 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://www.gktorrent.biz/"
+    "value": "https://www.gktorrent.pw/"
   },
   {
     "id": "cookieheader",
@@ -15,6 +15,16 @@
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": "Exception (gktorrent): Got redirected to another domain. Try changing the indexer URL to http://www.gktorrent.net/. Updated site link, please try again.: Parse error"
+    "value": null
+  },
+  {
+    "id": "downloadlink",
+    "type": "inputselect",
+    "name": "Download link",
+    "value": "magnet:?xt=",
+    "options": {
+      "/telecharger/": ".torrent",
+      "magnet:?xt=": "magnet"
+    }
   }
 ]

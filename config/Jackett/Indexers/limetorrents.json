@@ -15,7 +15,7 @@
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": null
+    "value": "Exception (limetorrents): Connection reset by peer: The SSL connection could not be established, see inner exception."
   },
   {
     "id": "downloadlink",
@@ -25,6 +25,17 @@
     "options": {
       "http://itorrents.org/": "iTorrents.org",
       "magnet:": "magnet"
+    }
+  },
+  {
+    "id": "sortrequestedfromsite",
+    "type": "inputselect",
+    "name": "Sort requested from site",
+    "value": "date",
+    "options": {
+      "date": "created",
+      "seeds": "seeders",
+      "size": "size"
     }
   }
 ]

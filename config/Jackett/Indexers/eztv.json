@@ -15,6 +15,6 @@
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": null
+    "value": "Exception (eztv): Connection reset by peer: The SSL connection could not be established, see inner exception."
   }
 ]

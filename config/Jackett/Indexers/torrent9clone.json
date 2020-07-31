@@ -3,7 +3,7 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://ww1.torrent9.sx/"
+    "value": "https://www.torrent9.ac/"
   },
   {
     "id": "cookieheader",
@@ -15,6 +15,6 @@
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": "Exception (torrent9clone): Got redirected to another domain. Try changing the indexer URL to http://www.torrent9.ch/.: Parse error"
+    "value": null
   }
 ]

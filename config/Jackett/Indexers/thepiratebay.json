@@ -3,7 +3,7 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://thepiratebay.org/"
+    "value": "https://thepiratebay0.org/"
   },
   {
     "id": "cookieheader",
@@ -15,7 +15,13 @@
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": "Exception (thepiratebay): Request to https://thepiratebay.org/recent failed (Error 522) - The tracker seems to be down.: Request to https://thepiratebay.org/recent failed (Error 522) - The tracker seems to be down."
+    "value": "Exception (thepiratebay): Connection reset by peer: The SSL connection could not be established, see inner exception."
+  },
+  {
+    "id": "proxies",
+    "type": "displayinfo",
+    "name": "Proxies",
+    "value": "Yes, <b>The Pirate Bay</b> is currently only reachable via <b>TOR</b>.</br>But you can try to use any of the unofficial proxies above.</br>To check on the status of the official TPB Web Site access the <a href=\"https://pirates-forum.org/misc.php?page=tpbstatus\" target=\"_blank\">tpbstatus</a> page. When the <i>https</i> column has green dots then the site is online."
   },
   {
     "id": "orderresults",
@@ -27,11 +33,5 @@
       "8": "Seeders",
       "3": "Time"
     }
-  },
-  {
-    "id": "proxies",
-    "type": "displayinfo",
-    "name": "Proxies",
-    "value": "The Pirate Bay is currently only reachable via TOR. But you can try to use an unofficial proxy from <a href=\"https://piratebayproxy.info/\" target=\"_blank\">piratebayproxy.info</a>."
   }
 ]

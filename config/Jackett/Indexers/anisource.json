@@ -3,18 +3,18 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://www.anirena.com/"
+    "value": "https://asnet.pw/"
   },
   {
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__cfduid=d84bae69ec70a42bb1346717ef91242ce1546622992; anirena_com_u=1; anirena_com_sid=f979155d105292aacb063177e8393a64"
+    "value": "PHPSESSID=frr49e8giahu7ovccl1eav5fm4"
   },
   {
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
-    "value": null
+    "value": ""
   }
 ]

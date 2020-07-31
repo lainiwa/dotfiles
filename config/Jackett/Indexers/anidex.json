@@ -9,7 +9,7 @@
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": "__cfduid=d7d08ca929c67ae1982bacab2da5b53481546622992; PHPSESSID=ddppraeqja1uqakg2nigf5dgri; __ddg1=bwJz7VPe5XmMKf6eSllj"
+    "value": "__cfduid=d7d08ca929c67ae1982bacab2da5b53481546622992; PHPSESSID=ddppraeqja1uqakg2nigf5dgri; __ddg1=bwJz7VPe5XmMKf6eSllj; __ddg2=Ivl4FvPLcooVl07A"
   },
   {
     "id": "lasterror",
@@ -18,21 +18,48 @@
     "value": null
   },
   {
-    "id": "languageid",
-    "type": "inputstring",
-    "name": "Language ID",
-    "value": null
-  },
-  {
-    "id": "languageidnote",
-    "type": "displayinfo",
-    "name": "Language ID Note",
-    "value": "You can filter your searches using any of the following language ID (comma delimited):<br>19 :Arabic<br>22 :Bengali<br>14 :Bulgarian<br>21 :Chinese (Simplified)<br>24 :Czech<br>20 :Danish<br>5 :Dutch<br>1 :English<br>11 :Finnish<br>10 :French<br>8 :German<br>13 :Greek<br>9 :Hungarian<br>27 :Indonesian<br>6 :Italian<br>2 :Japanese<br>28 :Korean<br>31 :Malaysian<br>25 :Mongolian<br>30 :Persian<br>3 :Polish<br>16 :Portuguese (Brazil)<br>17 :Portuguese (Portugal)<br>23 :Romanian<br>7 :Russian<br>4 :Serbo-Croatian<br>29 :Spanish (LATAM)<br>15 :Spanish (Spain)<br>18 :Swedish<br>26 :Turkish<br>12 :Vietnamese"
-  },
-  {
-    "id": "sortrequestedfromsite",
+    "id": "language",
     "type": "inputselect",
-    "name": "Sort requested from site",
+    "name": "Language",
+    "value": "1",
+    "options": {
+      "1": "English",
+      "2": "Japanese",
+      "3": "Polish",
+      "4": "Serbo-Croatian",
+      "5": "Dutch",
+      "6": "Italian",
+      "7": "Russian",
+      "8": "German",
+      "9": "Hungarian",
+      "10": "French",
+      "11": "Finnish",
+      "12": "Vietnamese",
+      "13": "Greek",
+      "14": "Bulgarian",
+      "15": "Spanish (Spain)",
+      "16": "Portuguese (Brazil)",
+      "17": "Portuguese (Portugal)",
+      "18": "Swedish",
+      "19": "Arabic",
+      "20": "Danish",
+      "21": "Chinese (Simplified)",
+      "22": "Bengali",
+      "23": "Romanian",
+      "24": "Czech",
+      "25": "Mongolian",
+      "26": "Turkish",
+      "27": "Indonesian",
+      "28": "Korean",
+      "29": "Spanish (LATAM)",
+      "30": "Persian",
+      "31": "Malaysian"
+    }
+  },
+  {
+    "id": "sortby",
+    "type": "inputselect",
+    "name": "Sort by",
     "value": "upload_timestamp",
     "options": {
       "upload_timestamp": "created",
@@ -42,13 +69,13 @@
     }
   },
   {
-    "id": "orderrequestedfromsite",
+    "id": "order",
     "type": "inputselect",
-    "name": "Order requested from site",
+    "name": "Order",
     "value": "desc",
     "options": {
-      "desc": "desc",
-      "asc": "asc"
+      "desc": "Descending",
+      "asc": "Ascending"
     }
   }
 ]
