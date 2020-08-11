@@ -14,10 +14,13 @@
     #     if: command -v vim >/dev/null
     ~/.psqlrc:
         if: command -v psql >/dev/null
-    # Top
+    # Top & Htop
     ~/.config/procps:
         if: command -v top >/dev/null
         path: config/procps
+    ~/.config/htop:
+        if: command -v htop >/dev/null
+        path: config/htop
     # OCaml's REPL
     ~/.config/.lambda-term-inputrc:
         if: command -v utop >/dev/null
