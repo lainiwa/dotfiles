@@ -38,12 +38,13 @@ fi
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+# alias diff='diff --color=auto'
 
 # More verbose commands
 alias mkdir='mkdir -pv'
-alias cp='cp -v'
-alias mv='mv -v'
-alias rm='rm -v'
+# alias cp='cp -v'
+# alias mv='mv -v'
+# alias rm='rm -v'
 
 # R is for Ranger
 alias r='ranger'
