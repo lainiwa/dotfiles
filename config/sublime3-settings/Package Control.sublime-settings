@@ -5,7 +5,9 @@
 	],
 	"installed_packages":
 	[
+		"AlignTab",
 		"Anaconda",
+		"BracketHighlighter",
 		"EditorConfig",
 		"Emacs-like Modelines",
 		"FindKeyConflicts",
