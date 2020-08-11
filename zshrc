@@ -29,9 +29,9 @@ for file (
     "${NVM_DIR}/nvm.sh"
     "${NVM_DIR}/bash_completion"
     # zsh settings
+    "${HOME}/.zsh/man.zsh"
     "${HOME}/.zsh/opts.zsh"
     "${HOME}/.zsh/keys.zsh"
-    # "${HOME}/.zsh/antibody.zsh"
     # "${HOME}/.zsh/zplugin.zsh"
     "${HOME}/.zsh/zpm.zsh"
     "${HOME}/.zsh/aliases.zsh"
