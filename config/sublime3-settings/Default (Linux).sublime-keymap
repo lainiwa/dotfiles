@@ -1,0 +1,7 @@
+[
+    {
+        "keys": ["ctrl+d", "ctrl+d"],
+        "command": "insert_date",
+        "args": {"format": "%Y-%m-%d %H:%M:%S"}
+    },
+]

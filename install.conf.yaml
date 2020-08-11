@@ -59,6 +59,9 @@
     ~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings:
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Package Control.sublime-settings
+    ~/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap:
+        if: command -v subl >/dev/null
+        path: config/sublime3-settings/Default (Linux).sublime-keymap
     ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings:
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Preferences.sublime-settings
