@@ -1,8 +1,8 @@
 
 # zmodload zsh/zprof
 
-
-
+# https://bixense.com/clicolors/
+export CLICOLOR=1
 # What characters are considered to be a part of a word
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # Pagers and editors
