@@ -40,9 +40,12 @@ done
 
 declare -A __services=(
     ['https://brpaste.xyz']='data=<-'
+    ['https://0x0.st']='file=@-'
+    ['https://clbin.com']='clbin=<-'
+    ['https://clbin.com']='clbin=<-'
+    ['https://ttm.sh']='file=@-'
     ['http://sprunge.us']='sprunge=<-'
     ['http://ix.io']='f:1=<-'
-    ['https://clbin.com']='clbin=<-'
 )
 
 
