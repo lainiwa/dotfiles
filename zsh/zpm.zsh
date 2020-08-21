@@ -124,14 +124,15 @@ requirements() {
     <<<           guix,type:empty,gen-completion:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
     <<<           khal,type:empty,gen-completion:"${GH}/pimutils/khal/master/misc/__khal"
     # Generate sourceables
-    (( ${+commands[dircolors]} )) && <<< dircolors,type:empty,gen-plugin:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
-    (( ${+commands[pip]}       )) && <<<       pip,type:empty,gen-plugin:"pip completion --zsh"
-    (( ${+commands[pip3]}      )) && <<<      pip3,type:empty,gen-plugin:"pip3 completion --zsh"
-    (( ${+commands[pyenv]}     )) && <<<     pyenv,type:empty,gen-plugin:"pyenv init - --no-rehash"
-    (( ${+commands[kubectl]}   )) && <<<   kubectl,type:empty,gen-plugin:"kubectl completion zsh"
+    (( ${+commands[aws_completer]} )) && <<<       aws,type:empty,gen-plugin:"<<<'complete -C $(which aws_completer) aws'"
+    (( ${+commands[dircolors]}     )) && <<< dircolors,type:empty,gen-plugin:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
+    (( ${+commands[pip]}           )) && <<<       pip,type:empty,gen-plugin:"pip completion --zsh"
+    (( ${+commands[pip3]}          )) && <<<      pip3,type:empty,gen-plugin:"pip3 completion --zsh"
+    (( ${+commands[pyenv]}         )) && <<<     pyenv,type:empty,gen-plugin:"pyenv init - --no-rehash"
+    (( ${+commands[kubectl]}       )) && <<<   kubectl,type:empty,gen-plugin:"kubectl completion zsh"
+    (( ${+commands[terraform]}     )) && <<< terraform,type:empty,gen-plugin:"<<<'complete -o nospace -C $(which terraform) terraform'"
     (( ${+commands[register-python-argcomplete]} && ${+commands[pipx]} )) &&
         <<< pipx,type:empty,gen-plugin:"register-python-argcomplete pipx"
-    <<< terraform,type:empty,gen-plugin:"<<<'complete -o nospace -C $(which terraform) terraform'"
 }
 
 
