@@ -58,10 +58,6 @@ export GITCD_TRIM=1
 # Autosuggestions configuration
 # export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-# Notes configuration
-export QUICKNOTE_FORMAT="%Y-%m-%d"
-export NOTES_EXT="md"
-export NOTES_DIRECTORY=~/notes
 
 
 requirements() {
@@ -109,7 +105,6 @@ requirements() {
      <<< circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
      <<<      gitbits/git-info,hook:"cp git-*    ${_ZPM_POL}/bin/"
      <<<    greymd/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
-     <<<        pimterry/notes,hook:"PREFIX=${_ZPM_POL} make -f <(sed 's|^\(BASH_COMPLETION_DIR\).*|\1 = /tmp|' Makefile)"
     # Generate completions
     (( ${+commands[rustup]} )) && <<< rustup,type:empty,gen-completion:"rustup completions zsh rustup"
     (( ${+commands[rustup]} )) && <<<  cargo,type:empty,gen-completion:"rustup completions zsh cargo"
