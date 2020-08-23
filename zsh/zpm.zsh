@@ -94,7 +94,7 @@ requirements() {
     <<< voronkovich/gitignore.plugin.zsh
     # Heavy stuff
     <<< zdharma/history-search-multi-word,fpath:/
-    <<< zdharma/fast-syntax-highlighting
+    <<< zdharma/fast-syntax-highlighting,fpath:/→chroma
     <<< zsh-users/zsh-autosuggestions,source:zsh-autosuggestions.zsh
     # Substitute `...` with `../..`
     <<< lainiwa/zsh-manydots-magic,source:manydots-magic
