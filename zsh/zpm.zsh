@@ -13,9 +13,11 @@ _ZMP_REQ=${TMPDIR:-/tmp}/zsh-${UID}/requirements.zpm
 if (( ${+commands[wget]} )); then
     GH='wget --quiet --output-document - https://raw.githubusercontent.com'
     GNU='wget --quiet --output-document - https://git.savannah.gnu.org'
+    URL='wget --quiet --output-document - https:/'
 else
     GH='curl --silent https://raw.githubusercontent.com'
     GNU='curl --silent https://git.savannah.gnu.org'
+    URL='curl --silent https:/'
 fi
 
 autoload -U +X bashcompinit
@@ -116,6 +118,7 @@ requirements() {
     # Download completions
     <<<           beet,type:empty,gen-completion:"${GH}/beetbox/beets/master/extra/_beet"
     <<<           buku,type:empty,gen-completion:"${GH}/jarun/Buku/master/auto-completion/zsh/_buku"
+    <<<            cht,type:empty,gen-completion:"${URL}/cheat.sh/:zsh"
     <<<            nnn,type:empty,gen-completion:"${GH}/jarun/nnn/master/misc/auto-completion/zsh/_nnn"
     <<< docker-compose,type:empty,gen-completion:"${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose"
     <<<            exa,type:empty,gen-completion:"${GH}/ogham/exa/master/contrib/completions.zsh"
@@ -178,6 +181,7 @@ link_bin() {
 
 (
 # Get binary files
+get_bin cht.sh      "${URL}/cht.sh/:cht.sh" &
 get_bin pping       "${GH}/denilsonsa/prettyping/master/prettyping" &
 get_bin git-foresta "${GH}/takaaki-kasai/git-foresta/master/git-foresta" &
 wait
@@ -187,6 +191,8 @@ wait
 # Create links
 link_bin merge /opt/sublime_merge/sublime_merge
 link_bin vim   nvim
+# and aliases
+alias cht='cht.sh'
 
 
 fpath+=(~/.zsh/completions/)
