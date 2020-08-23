@@ -13,6 +13,7 @@
 		"FindKeyConflicts",
 		"GitGutter",
 		"HTML-CSS-JS Prettify",
+		"INI Syntax",
 		"InsertDate",
 		"LSP",
 		"MarkdownEditing",
@@ -28,5 +29,9 @@
 		"Terraform",
 		"TOML",
 		"VimL"
+	],
+	"repositories":
+	[
+		"https://raw.githubusercontent.com/jwortmann/ini-syntax/master/packages.json"
 	]
 }
