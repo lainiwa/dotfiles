@@ -1,0 +1,21 @@
+#!/bin/sh
+
+env -i bwrap      \
+    --setenv DISPLAY         ":0"                  \
+    --setenv XDG_RUNTIME_DIR "/run/user/$(id -u)"  \
+    --setenv XAUTHORITY      "${HOME}/.Xauthority" \
+    --setenv HOME            "${HOME}"             \
+    --proc    /proc                                           \
+    --bind    /tmp/.X11-unix/X0       /tmp/.X11-unix/X0       \
+    --ro-bind "$(command -v zathura)" "$(command -v zathura)" \
+    --ro-bind "${HOME}"               "${HOME}"               \
+    --ro-bind /etc                    /etc                    \
+    --ro-bind /lib/locale             /lib/locale             \
+    --ro-bind /lib/x86_64-linux-gnu   /lib/x86_64-linux-gnu   \
+    --ro-bind /lib64                  /lib64                  \
+    --ro-bind /run                    /run                    \
+    --ro-bind /usr                    /usr                    \
+    --ro-bind /usr/local/share        /usr/local/share        \
+    --ro-bind /usr/share              /usr/share              \
+    --unshare-all \
+    "$(command -v zathura)" "$@"
