@@ -1,7 +1,8 @@
 # VBoxClient-all || true
 /usr/bin/VBoxClient --clipboard        || true
 /usr/bin/VBoxClient --checkhostversion || true
-/usr/bin/VBoxClient --display          || true
+/usr/bin/VBoxClient --display          || true  # for VBoxClient --version 5.*.*
+/usr/bin/VBoxClient --vmsvga           || true  # for VBoxClient --version 6.*.*
 /usr/bin/VBoxClient --seamless         || true
 /usr/bin/VBoxClient --draganddrop      || true
 
