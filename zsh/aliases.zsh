@@ -17,7 +17,7 @@ if (( ${+commands[exa]} )); then
 
 # Colorize and humanify `ls`
 else
-    if [[ ${OSTYPE} == *linux* ]]; then
+    if [[ ${OSTYPE} == linux* ]]; then
         alias ls='ls -h --color=auto'
     else
         alias ls='ls -h -G'
@@ -30,9 +30,15 @@ else
 fi
 
 # Substitute cat with bat
-if (( ${+commands[bat]} )); then
-    alias cat=bat
-fi
+(( ${+commands[bat]}    )) && alias cat=bat
+# Shorter fd-find
+(( ${+commands[fdfind]} )) && alias fd=fdfind
+# "Pronounceable" passwords are insecure
+(( ${+commands[pwgen]}  )) && alias pwgen='pwgen --secure'
+# Drop "ng" if no old generation tool present
+(( ${+commands[ntopng]}    && ! ${+commands[ntop]}   )) && alias ntop=ntopng
+(( ${+commands[iptraf-ng]} && ! ${+commands[iptraf]} )) && alias iptraf=iptraf-ng
+
 
 # Colorize `grep`s
 alias grep='grep --color=auto'
@@ -90,12 +96,12 @@ alias -g S='| sed'
 # Redirect to less
 alias -g L='| less'
 alias -g LR='| less --RAW-CONTROL-CHARS'  # colors support
+alias -g LS='| less --chop-long-lines'    # don't wrap long lines
 
 # Split to columns
 alias -g C='| column -t'
 # Today's files
 alias -g TOD='*(.m0)'
-
 # Remove colors
 alias -g NOC='| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"'
 
@@ -131,3 +137,8 @@ compdef _directories new
 # Create new file with all base directories and open it in editor
 nev() { [[ $# == 1 ]] && new "$1" && ${EDITOR:-vim} "$1" ; }
 compdef _directories nev
+
+
+# Suffix aliases
+alias -s json=${EDITOR}
+alias -s {cs,ts,html}=${EDITOR}
