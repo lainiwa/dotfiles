@@ -1,7 +1,9 @@
 [
+{
+    "keys": ["ctrl+f5", "ctrl+f5"],
+    "command": "insert_date",
+    "args":
     {
-        "keys": ["ctrl+d", "ctrl+d"],
-        "command": "insert_date",
-        "args": {"format": "%Y-%m-%d %H:%M:%S"}
-    },
-]
+        "format": "%Y-%m-%d %H:%M:%S"
+    }
+} ]
