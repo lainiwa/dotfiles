@@ -11,14 +11,14 @@ _ZPM_POL=${_ZPM}/polaris
 _ZMP_REQ=${TMPDIR:-/tmp}/zsh-${UID}/requirements.zpm
 
 if (( ${+commands[wget]} )); then
-    GH='wget --quiet --output-document - https://raw.githubusercontent.com'
-    GNU='wget --quiet --output-document - https://git.savannah.gnu.org'
-    URL='wget --quiet --output-document - https:/'
+    _FETCH="wget --quiet --output-document -"
 else
-    GH='curl --silent https://raw.githubusercontent.com'
-    GNU='curl --silent https://git.savannah.gnu.org'
-    URL='curl --silent https:/'
+    _FETCH="curl --silent --location"
 fi
+
+GH="${_FETCH} https://raw.githubusercontent.com"
+GNU="${_FETCH} https://git.savannah.gnu.org"
+URL="${_FETCH} https:/"
 
 autoload -U +X bashcompinit
 bashcompinit
@@ -60,6 +60,16 @@ export GITCD_TRIM=1
 # Autosuggestions configuration
 # export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+
+get_gh_url() {
+    eval "${_FETCH} https://api.github.com/repos/${1}/releases/latest" |
+        jq --raw-output "
+            [.assets[] | .browser_download_url]
+          + [.tarball_url, .zipball_url]         | .[]
+        " |
+        grep "${2}"
+}
 
 
 requirements() {
@@ -136,6 +146,13 @@ requirements() {
     (( ${+commands[terraform]}     )) && <<< terraform,type:empty,gen-plugin:"<<<'complete -o nospace -C $(which terraform) terraform'"
     (( ${+commands[register-python-argcomplete]} && ${+commands[pipx]} )) &&
         <<< pipx,type:empty,gen-plugin:"register-python-argcomplete pipx"
+    # Fetch releases from Github
+    if (( ${+commands[jq]} )); then
+        _glow=$( get_gh_url charmbracelet/glow 'linux_x86_64.tar.gz$')
+        _micro=$(get_gh_url zyedidia/micro     'linux64-static.tar.gz$')
+        <<<  glow,type:empty,hook:"${_FETCH} ${_glow}  | tar -xzf-; cp glow    ${_ZPM_POL}/bin/"
+        <<< micro,type:empty,hook:"${_FETCH} ${_micro} | tar -xzf-; cp */micro ${_ZPM_POL}/bin/"
+    fi
 }
 
 
