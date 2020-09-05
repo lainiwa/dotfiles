@@ -76,15 +76,9 @@
         path: config/nvim
         if: command -v nvim >/dev/null
     # Ranger
-    ~/.config/ranger/rc.conf:
+    ~/.config/ranger:
         if: command -v ranger >/dev/null
-        path: config/ranger/rc.conf
-    ~/.config/ranger/scope.sh:
-        if: command -v ranger >/dev/null
-        path: config/ranger/scope.sh
-    ~/.config/ranger/rifle.conf:
-        if: command -v ranger >/dev/null
-        path: config/ranger/rifle.conf
+        path: config/ranger
     # X11
     ~/.i3:
         if: command -v i3 >/dev/null
