@@ -12,6 +12,8 @@
     #~/.vim: vim
     # ~/.vimrc:
     #     if: command -v vim >/dev/null
+    ~/.local/share/applications:
+        path: local/share/applications
     ~/.psqlrc:
         if: command -v psql >/dev/null
     # Top & Htop
