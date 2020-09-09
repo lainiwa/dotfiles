@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # VBoxClient-all || true
 /usr/bin/VBoxClient --clipboard        || true
 /usr/bin/VBoxClient --checkhostversion || true
@@ -20,6 +22,6 @@ elif command -v dwm >/dev/null; then
     exec dwm
 
 else
-    echo 'ERROR: No i3 or dwm found!'
+    echo 'ERROR: No i3, spectrwm or dwm found!'
 
 fi

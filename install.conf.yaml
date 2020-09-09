@@ -85,7 +85,9 @@
     ~/.Xdefaults:
         if: command -v urxvt >/dev/null
     ~/.xinitrc:
-        if: command -v startx >/dev/null
+        if: command -v xinit >/dev/null
+    ~/.xserverrc:
+        if: command -v xinit >/dev/null
     # Beets
     ~/.config/beets/config.yaml:
         if: command -v beet >/dev/null
