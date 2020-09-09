@@ -147,7 +147,7 @@ requirements() {
     (( ${+commands[register-python-argcomplete]} && ${+commands[pipx]} )) &&
         <<< pipx,type:empty,gen-plugin:"register-python-argcomplete pipx"
     # Fetch releases from Github
-    if (( ${+commands[jq]} )); then
+    if (( ${+commands[jq]} && ${+commands[tar]} )); then
         _glow=$( get_gh_url charmbracelet/glow 'linux_x86_64.tar.gz$')
         _micro=$(get_gh_url zyedidia/micro     'linux64-static.tar.gz$')
         <<<  glow,type:empty,hook:"${_FETCH} ${_glow}  | tar -xzf-; cp glow    ${_ZPM_POL}/bin/"
