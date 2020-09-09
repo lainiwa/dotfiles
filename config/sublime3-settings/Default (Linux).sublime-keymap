@@ -6,4 +6,12 @@
     {
         "format": "%Y-%m-%d %H:%M:%S"
     }
-} ]
+},
+{
+    "keys": ["super+alt+shift+w"],
+    "command": "toggle_setting",
+    "args":
+    {
+        "setting": "word_wrap"
+    }
+}]
