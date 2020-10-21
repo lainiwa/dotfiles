@@ -71,8 +71,21 @@ weather() {
     requires finger head curl
 
     # weather graph
-    finger moscow~160@graph.no |
-        head --lines=-1
+    cyan_bg=$(tput setab 6)
+    nc=$(tput sgr0)
+
+    finger mytishchi~$(tput cols)@graph.no |
+        head --lines=-1 |
+        sed \
+            -e "s/ SW/  ↙/g" \
+            -e "s/ SE/  ↘/g" \
+            -e "s/ NW/  ↖/g" \
+            -e "s/ NE/  ↗/g" \
+            -e "s/  S/  ↓/g" \
+            -e "s/  N/  ↑/g" \
+            -e "s/  W/  ←/g" \
+            -e "s/  E/  →/g" \
+            -e "s/| Rain/${cyan_bg}&${nc}/g" -e "s/ | /${cyan_bg}&${nc}/g" \
 
     # empty line to divide graph and images weather representations
     printf '\n'
