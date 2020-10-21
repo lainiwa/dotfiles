@@ -173,6 +173,13 @@
             rm ~/.mozilla/firefox/*.lain-default/prefs.js || true
             ln -s ~/.dotfiles/firefox/user.js \
                   ~/.mozilla/firefox/*.lain-default/ 2>/dev/null || true
+    # Install linuxbrew
+    -
+        description: Install linuxbrew
+        command: |
+            git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
+            mkdir ~/.linuxbrew/bin
+            ln -sf ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
     # Update dotbot
     -
         description: Installing submodules
