@@ -39,6 +39,8 @@ fi
 (( ${+commands[ntopng]}    && ! ${+commands[ntop]}   )) && alias ntop=ntopng
 (( ${+commands[iptraf-ng]} && ! ${+commands[iptraf]} )) && alias iptraf=iptraf-ng
 
+# Make Russian default target language for translate-shell
+(( ${+commands[trans]}  )) && alias trans='LANG=ru_RU.UTF-8 trans'
 
 # Colorize `grep`s
 alias grep='grep --color=auto'
