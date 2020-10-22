@@ -356,14 +356,34 @@ serveo() {
 full_upgrade() {
     requires sudo apt git zsh
 
-    # Update apt packages
-    sudo -- sh -c \
-        'apt update' \
-        'apt upgrade --yes' \
-        'apt autoremove --yes'
+#     # Update apt packages
+#     sudo -- sh <<EOF
+#         if command -v apt >/dev/null; then
+#             apt update
+#             apt upgrade --yes
+#             apt autoremove --yes
+#         fi
+#         if command -v nix >/dev/null; then
+#             nix-channel --update nixpkgs
+#             nix-env -u '*'
+#         fi
+#         if command -v guix >/dev/null; then
+#             guix pull
+#             guix package -u
+#         fi
+# EOF
     # Update dotfiles
-    git --git-dir="${HOME}/.dotfiles/.git/" pull origin master
-    ~/.dotfiles/install
+    if [[ -d ~/.dotfiles ]]; then
+        git --git-dir="${HOME}/.dotfiles/.git/" pull origin master
+        ~/.dotfiles/install
+    fi
+    # Update private dotfiles
+    if [[ -d ~/.dotfiles ]] && command -v run_keybase >/dev/null; then
+        run_keybase -a
+        git --git-dir="${HOME}/.dotfiles-private/.git/" pull origin master
+        ~/.dotfiles-private/install
+        run_keybase -k || true
+    fi
     # Update zsh modules for zinit
     if command -v zinit >/dev/null; then
         zsh -i -c -- 'zinit self-update; zinit update --all'
@@ -391,6 +411,11 @@ full_upgrade() {
         guix pull
         guix package -u
     fi
+    # Update brewed packages
+    if command -v guix >/dev/null; then
+        brew update
+        brew upgrade
+    fi
 }
 
 #################################################
@@ -399,21 +424,34 @@ full_upgrade() {
 full_clean() {
     requires sudo apt journalctl
 
-    # Remove non-needed packages
-    sudo apt autoremove --yes
-    # Cleanup local repo
-    sudo apt clean
-    # Clean logs
-    sudo journalctl --rotate
-    sudo journalctl --vacuum-time=1s
-    # Garbage-collect guix
-    if command -v guix >/dev/null; then
-        guix gc --delete-generations=1m
-    fi
+    sudo -- sh <<EOF
+        if command -v apt >/dev/null; then
+            apt autoremove --yes
+            apt clean
+        fi
+        if command -v journalctl >/dev/null; then
+            journalctl --rotate
+            journalctl --vacuum-time=1s
+        fi
+        if command -v nix >/dev/null; then
+            nix-collect-garbage --delete-old
+        fi
+EOF
     # Garbage-collect nix
     if command -v nix >/dev/null; then
         nix-collect-garbage --delete-old
     fi
+    # Garbage-collect guix
+    if command -v guix >/dev/null; then
+        guix gc --delete-generations=1m
+    fi
+    # Cleanup unused linuxbrew packages
+    (
+        cd /tmp
+        brew bundle dump
+        brew bundle --force cleanup
+        mv Brewfile Brewfile.used
+    )
 }
 
 #################################################
