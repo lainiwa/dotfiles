@@ -137,7 +137,7 @@ requirements() {
     <<<           guix,type:empty,gen-completion:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
     <<<           khal,type:empty,gen-completion:"${GH}/pimutils/khal/master/misc/__khal"
     # Generate sourceables
-    [[ -f ~/.linuxbrew/bin/brew    ]] && <<< linuxbrew,type:empty,gen-plugin:"~/.linuxbrew/bin/brew shellenv"
+    (( ${+commands[brew]}          )) && <<< linuxbrew,type:empty,gen-plugin:"brew shellenv; <<<'FPATH=$(brew --prefix)/share/zsh/site-functions:\${FPATH}'"
     (( ${+commands[aws_completer]} )) && <<<       aws,type:empty,gen-plugin:"<<<'complete -C $(which aws_completer) aws'"
     (( ${+commands[dircolors]}     )) && <<< dircolors,type:empty,gen-plugin:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
     (( ${+commands[pip]}           )) && <<<       pip,type:empty,gen-plugin:"pip completion --zsh"
