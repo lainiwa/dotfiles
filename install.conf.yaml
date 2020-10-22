@@ -52,6 +52,9 @@
     ~/.config/sublime-text-3/Packages/User/Anaconda.sublime-settings:
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Anaconda.sublime-settings
+    ~/.config/sublime-text-3/Packages/User/insert_date.sublime-settings:
+        if: command -v subl >/dev/null
+        path: config/sublime3-settings/insert_date.sublime-settings
     ~/.config/sublime-text-3/Packages/User/reStructuredText.sublime-settings:
         if: command -v subl >/dev/null
         path: config/sublime3-settings/reStructuredText.sublime-settings
