@@ -1,3 +1,4 @@
 **/Jackett/Indexers/*.json.bak
 *.zwc
 metapackages/*.deb
+/.gtm/
