@@ -61,6 +61,9 @@ _add_to_path "${GUIX_PROFILE}/bin"
 _add_to_path "${GUIX_PROFILE}/sbin"
 _add_to_path "${HOME}/.config/guix/current/bin"
 
+# Linuxbrew
+_add_to_path "${HOME}/.linuxbrew/bin"
+
 # Turn on aliases for hosts
 export HOSTALIASES=${HOME}/.hosts
 
