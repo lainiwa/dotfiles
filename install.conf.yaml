@@ -78,6 +78,9 @@
     ~/.config/nvim:
         path: config/nvim
         if: command -v nvim >/dev/null
+    # Doom emacs
+    ~/.doom.d:
+        if: command -v emacs >/dev/null
     # Ranger
     ~/.config/ranger:
         if: command -v ranger >/dev/null

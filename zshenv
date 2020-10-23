@@ -64,6 +64,9 @@ _add_to_path "${HOME}/.config/guix/current/bin"
 # Linuxbrew
 _add_to_path "${HOME}/.linuxbrew/bin"
 
+# Emacs
+_add_to_path "${HOME}/.emacs.d/bin"
+
 # Turn on aliases for hosts
 export HOSTALIASES=${HOME}/.hosts
 
