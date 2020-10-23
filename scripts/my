@@ -74,7 +74,7 @@ weather() {
     cyan_bg=$(tput setab 6)
     nc=$(tput sgr0)
 
-    finger mytishchi~$(tput cols)@graph.no |
+    finger "mytishchi~$(tput cols)@graph.no" |
         head --lines=-1 |
         sed \
             -e "s/ SW/  ↙/g" \
@@ -379,7 +379,7 @@ full_upgrade() {
     fi
     # Update private dotfiles
     if [[ -d ~/.dotfiles ]] && command -v run_keybase >/dev/null; then
-        run_keybase -a
+        run_keybase -g
         git --git-dir="${HOME}/.dotfiles-private/.git/" pull origin master
         ~/.dotfiles-private/install
         run_keybase -k || true
