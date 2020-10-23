@@ -130,6 +130,10 @@ if [[ ! -z "${grc_conf}" ]]; then
 fi
 
 
+alias du='du --human-readable'
+alias df='df --human-readable'
+
+
 # Create directory and cd to it
 mkcd() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -P -- "$1" ; }
 compdef _directories mkcd
