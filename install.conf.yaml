@@ -16,6 +16,10 @@
         path: local/share/applications
     ~/.psqlrc:
         if: command -v psql >/dev/null
+    # Rofi picker
+    ~/.config/rofi:
+        if: command -v rofi >/dev/null
+        path: config/rofi
     # Top & Htop
     ~/.config/procps:
         if: command -v top >/dev/null
