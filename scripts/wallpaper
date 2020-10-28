@@ -14,7 +14,7 @@ elif command -v nitrogen >/dev/null; then
     exit 0
 
 elif command -v feh >/dev/null; then
-    feh --bg-scale -- "${1}"
+    feh --bg-scale --no-fehbg -- "${1}"
     exit 0
 
 elif command -v Esetroot >/dev/null; then
