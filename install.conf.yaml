@@ -33,8 +33,9 @@
         path: config/lambda-term-inputrc
     ~/scripts:
     # Zsh
-    ~/.zsh:
+    ~/.config/zsh:
         if: command -v zsh >/dev/null
+        path: config/zsh
     ~/.zshenv:
         if: command -v zsh >/dev/null
     ~/.zprofile:
