@@ -2,7 +2,7 @@
 
 set -o errexit  # exit on fail
 set -o nounset  # exit on undeclared variable
-# set -o xtrace    # trace execution
+# set -o xtrace   # trace execution
 
 
 if command -v hsetroot >/dev/null; then

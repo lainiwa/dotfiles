@@ -2,31 +2,36 @@
 
 set -o errexit  # exit on fail
 set -o nounset  # exit on undeclared variable
-# set -o xtrace    # trace execution
+# set -o xtrace   # trace execution
 
 
 save_path="${HOME}/0files/imgs/screenshots/$(date '+%s_%Y.%m.%d_%H:%M:%S').png"
 
 
 if command -v maim xdotool >/dev/null; then
-    [ "${1}" = 'full'    ] && maim "${save_path}"
-    [ "${1}" = 'select'  ] && maim "${save_path}" --select
-    [ "${1}" = 'focused' ] && maim "${save_path}" --window "$(xdotool getwindowfocus -f)"
+    [ "${1}" = 'full'    ] && maim                                         -- "${save_path}"
+    [ "${1}" = 'select'  ] && maim --select                                -- "${save_path}"
+    [ "${1}" = 'focused' ] && maim --window "$(xdotool getwindowfocus -f)" -- "${save_path}"
 
 elif command -v scrot >/dev/null; then
-    [ "${1}" = 'full'    ] && scrot "${save_path}" --multidisp
-    [ "${1}" = 'select'  ] && scrot "${save_path}" --select
-    [ "${1}" = 'focused' ] && scrot "${save_path}" --focused
+    [ "${1}" = 'full'    ] && scrot --multidisp -- "${save_path}"
+    [ "${1}" = 'select'  ] && scrot --select    -- "${save_path}"
+    [ "${1}" = 'focused' ] && scrot --focused   -- "${save_path}"
 
-elif command -v import xdotool >/dev/null; then
-    [ "${1}" = 'full'    ] && import "${save_path}" -window root
-    [ "${1}" = 'select'  ] && import "${save_path}"
-    [ "${1}" = 'focused' ] && import "${save_path}" -window "$(xdotool getwindowfocus -f)"
+elif command -v xdotool gm >/dev/null; then
+    [ "${1}" = 'full'    ] && gm import -window root                           "${save_path}"
+    [ "${1}" = 'select'  ] && gm import                                        "${save_path}"
+    [ "${1}" = 'focused' ] && gm import -window "$(xdotool getwindowfocus -f)" "${save_path}"
+
+elif command -v xdotool import >/dev/null; then
+    [ "${1}" = 'full'    ] && import -window root                           -- "${save_path}"
+    [ "${1}" = 'select'  ] && import                                        -- "${save_path}"
+    [ "${1}" = 'focused' ] && import -window "$(xdotool getwindowfocus -f)" -- "${save_path}"
 
 else
     # current xwd lacks -rect option on ubuntu: can't test
     # escrotum not in the repos
-    echo "No imagemagick's import or scrot or maim installed"
+    echo "No graphics/image-magick's import or scrot or maim installed"
     exit 1
 
 fi
