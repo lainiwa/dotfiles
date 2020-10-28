@@ -29,20 +29,20 @@ for file (
     "${NVM_DIR}/nvm.sh"
     "${NVM_DIR}/bash_completion"
     # zsh settings
-    "${HOME}/.zsh/man.zsh"
-    "${HOME}/.zsh/opts.zsh"
-    "${HOME}/.zsh/keys.zsh"
-    # "${HOME}/.zsh/zplugin.zsh"
-    "${HOME}/.zsh/zpm.zsh"
-    "${HOME}/.zsh/aliases.zsh"
-    "${HOME}/.zsh/completions.zsh"
+    "${HOME}/.config/zsh/man.zsh"
+    "${HOME}/.config/zsh/opts.zsh"
+    "${HOME}/.config/zsh/keys.zsh"
+    # "${HOME}/.config/zsh/zplugin.zsh"
+    "${HOME}/.config/zsh/zpm.zsh"
+    "${HOME}/.config/zsh/aliases.zsh"
+    "${HOME}/.config/zsh/completions.zsh"
     # command-not-found functionality
-    "${HOME}/.zsh/other/command-not-found.zsh"
+    "${HOME}/.config/zsh/other/command-not-found.zsh"
     # python's virtualenvwrapper
     # "${HOME}/.local/bin/virtualenvwrapper_lazy.sh"
     # nix package manager
 )
-    [ -s "${file}" ] && source "${file}"
+    [[ -s "${file}" ]] && source "${file}"
 
 
 
