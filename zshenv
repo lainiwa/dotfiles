@@ -73,5 +73,9 @@ export HOSTALIASES=${HOME}/.hosts
 # Private settings
 _try_source "${HOME}/.dotfiles-private/env.zsh"
 
+# Add snap .desktop files to rofi menu
+export XDG_DATA_DIRS=${XDG_DATA_DIRS:-/usr/local/share:/usr/share}
+export XDG_DATA_DIRS=/var/lib/snapd/desktop:${XDG_DATA_DIRS}
+
 unset -f _add_to_path
 unset -f _try_source
