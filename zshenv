@@ -66,6 +66,7 @@ _add_to_path "${HOME}/.linuxbrew/bin"
 
 # Emacs
 _add_to_path "${HOME}/.emacs.d/bin"
+_add_to_path "${HOME}/.config/emacs/bin"
 
 # Turn on aliases for hosts
 export HOSTALIASES=${HOME}/.hosts
