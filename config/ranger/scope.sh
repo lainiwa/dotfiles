@@ -40,7 +40,7 @@ FILE_EXTENSION_LOWER="$(printf "%s" "${FILE_EXTENSION}" | tr '[:upper:]' '[:lowe
 
 ## Settings
 HIGHLIGHT_SIZE_MAX=262143  # 256KiB
-HIGHLIGHT_TABWIDTH=${HIGHLIGHT_TABWIDTH:-8}
+HIGHLIGHT_TABWIDTH=${HIGHLIGHT_TABWIDTH:-4}
 HIGHLIGHT_STYLE=${HIGHLIGHT_STYLE:-pablo}
 HIGHLIGHT_OPTIONS="--replace-tabs=${HIGHLIGHT_TABWIDTH} --style=${HIGHLIGHT_STYLE} ${HIGHLIGHT_OPTIONS:-}"
 PYGMENTIZE_STYLE=${PYGMENTIZE_STYLE:-autumn}
@@ -52,26 +52,30 @@ handle_extension() {
         ## Archive
         a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
         rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)
-            command -v timeout atool >/dev/null &&
-                timeout 1 atool --list -- "${FILE_PATH}"; exit 5
-            command -v timeout bsdtar >/dev/null &&
-                timeout 1 bsdtar --list --file "${FILE_PATH}"; exit 5
-            # atool --list -- "${FILE_PATH}" && exit 5
-            # bsdtar --list --file "${FILE_PATH}" && exit 5
+            if command -v timeout >/dev/null; then
+                timeout 1 atool  --list --     "${FILE_PATH}" && exit 5
+                timeout 1 bsdtar --list --file "${FILE_PATH}" && exit 5
+            else
+                          atool  --list --     "${FILE_PATH}" && exit 5
+                          bsdtar --list --file "${FILE_PATH}" && exit 5
+            fi
             exit 1;;
         rar)
-            ## Avoid password prompt by providing empty password
-            command -v timeout unrar >/dev/null &&
-                timeout 1 unrar lt -p- -- "${FILE_PATH}"; exit 5
-            # unrar lt -p- -- "${FILE_PATH}" && exit 5
+            if command -v timeout >/dev/null; then
+                ## Avoid password prompt by providing empty password
+                timeout 1 unrar lt -p- -- "${FILE_PATH}" && exit 5
+            else
+                          unrar lt -p- -- "${FILE_PATH}" && exit 5
+            fi
             exit 1;;
         7z)
-            ## Avoid password prompt by providing empty password
-            command -v timeout 7z >/dev/null &&
-                timeout 1 7z l -p -- "${FILE_PATH}"; exit 5
-            # 7z l -p -- "${FILE_PATH}" && exit 5
+            if command -v timeout >/dev/null; then
+                ## Avoid password prompt by providing empty password
+                timeout 1 7z l -p -- "${FILE_PATH}" && exit 5
+            else
+                          7z l -p -- "${FILE_PATH}" && exit 5
+            fi
             exit 1;;
-
         ## PDF
         pdf)
             ## Preview as text conversion
@@ -119,9 +123,9 @@ handle_extension() {
         ## HTML
         htm|html|xhtml)
             ## Preview as text conversion
-            w3m -dump "${FILE_PATH}" && exit 5
-            lynx -dump -- "${FILE_PATH}" && exit 5
-            elinks -dump "${FILE_PATH}" && exit 5
+            w3m    -dump             "${FILE_PATH}" && exit 5
+            lynx   -dump          -- "${FILE_PATH}" && exit 5
+            elinks -dump             "${FILE_PATH}" && exit 5
             pandoc -s -t markdown -- "${FILE_PATH}" && exit 5
             ;;
 
@@ -135,7 +139,7 @@ handle_extension() {
         ## by file(1).
         dff|dsf|wv|wvc)
             mediainfo "${FILE_PATH}" && exit 5
-            exiftool "${FILE_PATH}" && exit 5
+            exiftool  "${FILE_PATH}" && exit 5
             ;; # Continue with next handler on failure
     esac
 }
@@ -331,17 +335,22 @@ handle_mime() {
             if [[ "$( tput colors )" -ge 256 ]]; then
                 local pygmentize_format='terminal256'
                 local highlight_format='xterm256'
+                local sh_format='esc256'
+
             else
                 local pygmentize_format='terminal'
                 local highlight_format='ansi'
+                local sh_format='esc'
             fi
             env HIGHLIGHT_OPTIONS="${HIGHLIGHT_OPTIONS}" highlight \
                 --out-format="${highlight_format}" \
-                --force -- "${FILE_PATH}" && exit 5
+                -- "${FILE_PATH}" && exit 5
             env COLORTERM=8bit bat --color=always --style="plain" \
                 -- "${FILE_PATH}" && exit 5
-            pygmentize -f "${pygmentize_format}" -O "style=${PYGMENTIZE_STYLE}"\
+            pygmentize -f "${pygmentize_format}" -O "style=${PYGMENTIZE_STYLE}" \
                 -- "${FILE_PATH}" && exit 5
+            source-highlight --out-format "${sh_format}" --output /dev/stdout \
+                --input "${FILE_PATH}" && exit 5
             exit 2;;
 
         ## DjVu
@@ -361,6 +370,12 @@ handle_mime() {
         ## Video and audio
         video/* | audio/*)
             mediainfo "${FILE_PATH}" && exit 5
+            exiftool "${FILE_PATH}" && exit 5
+            exit 1;;
+
+        ## Sqlite database
+        */x-sqlite3)
+            sqlite3 "${FILE_PATH}" '.schema' && exit 5
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
     esac
