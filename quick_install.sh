@@ -7,7 +7,7 @@ set -o xtrace    # trace execution
 mkdir -p ~/.ssh
 
 # Add github's host key to known_hosts (if not yet)
-if ! grep github.com ~/.ssh/known_hosts; then
+if ! grep github.com ~/.ssh/known_hosts >/dev/null 2>&1; then
     ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 fi
 
