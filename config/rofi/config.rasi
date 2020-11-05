@@ -50,7 +50,7 @@ configuration {
     // window-format: "{w}    {i}{c}   {t}";
     // click-to-exit: true;
     // show-match: true;
-    theme: "/usr/share/rofi/themes/gruvbox-dark-hard.rasi";
+    theme: "gruvbox-dark-hard";
     // color-normal: "#510231, #FEE8DA, #510231, #FF974E, #510231";
     // color-urgent: "#510231, #FA6E43, #510231, #FA6E43, #FEE8DA";
     // color-active: "#510231, #FEE8DA, #510231, #FF974E, #510231";
