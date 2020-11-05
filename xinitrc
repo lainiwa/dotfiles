@@ -1,12 +1,15 @@
 #!/bin/sh
 
-# VBoxClient-all || true
-/usr/bin/VBoxClient --clipboard        || true
-/usr/bin/VBoxClient --checkhostversion || true
-/usr/bin/VBoxClient --display          || true  # for VBoxClient --version 5.*.*
-/usr/bin/VBoxClient --vmsvga           || true  # for VBoxClient --version 6.*.*
-/usr/bin/VBoxClient --seamless         || true
-/usr/bin/VBoxClient --draganddrop      || true
+if command -v VBoxClient-all >/dev/null; then
+    VBoxClient-all || true
+else
+    VBoxClient --clipboard        || true
+    VBoxClient --checkhostversion || true
+    VBoxClient --display          || true  # for VBoxClient --version 5.*.*
+    VBoxClient --vmsvga           || true  # for VBoxClient --version 6.*.*
+    VBoxClient --seamless         || true
+    VBoxClient --draganddrop      || true
+fi
 
 if command -v i3 >/dev/null; then
     exec i3

@@ -23,4 +23,4 @@ fi
 ~/.dotfiles/install
 
 # Eagerly load zsh plugins
-zsh -i -c -- '-zplg-scheduler burst || true'
+zsh -i -c -- '(( ${+commands[-zplg-scheduler]} )) && -zplg-scheduler burst || true'
