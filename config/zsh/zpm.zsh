@@ -110,7 +110,7 @@ requirements() {
     <<< zdharma/fast-syntax-highlighting,fpath:/→chroma
     <<< zsh-users/zsh-autosuggestions,source:zsh-autosuggestions.zsh
     # Substitute `...` with `../..`
-    <<< lainiwa/zsh-manydots-magic,source:manydots-magic
+    (( ${+commands[awk]} )) <<< lainiwa/zsh-manydots-magic,source:manydots-magic
     # Non-plugins
     (( ${+commands[make]} )) &&  <<< dylanaraps/fff,hook:"make; PREFIX=${_ZPM_POL} make install"
     (( ${+commands[make]} )) &&  <<<   nvie/gitflow,hook:"make install prefix=${_ZPM_POL}"
