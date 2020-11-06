@@ -192,9 +192,11 @@
     -
         description: Install linuxbrew
         command: |
-            git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
-            mkdir ~/.linuxbrew/bin
-            ln -sf ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
+            if [[ -x /bin/bash ]]; then
+                git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
+                mkdir ~/.linuxbrew/bin
+                ln -sf ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
+            fi
     # Update dotbot
     -
         description: Installing submodules
