@@ -17,6 +17,8 @@ if [ ! -d ~/.dotfiles ]; then
     git clone     git@github.com:lainiwa/dotfiles.git ~/.dotfiles ||
     # Clone via https otherwise
     git clone https://github.com/lainiwa/dotfiles.git ~/.dotfiles
+else
+    git -C ~/.dotfiles/.git pull || true
 fi
 
 # Execute installer
