@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Press C-x to activate to key handler!
+while read -r file; do
+    case "$1" in
+        "C-c")
+            xclip -selection clipboard "$file" -t image/png ;;
+    esac
+done

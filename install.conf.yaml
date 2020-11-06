@@ -20,6 +20,10 @@
     ~/.config/rofi:
         if: command -v rofi >/dev/null
         path: config/rofi
+    # Sxiv image viewer
+    ~/.config/sxiv:
+        if: command -v sxiv >/dev/null
+        path: config/sxiv
     # Top & Htop
     ~/.config/procps:
         if: command -v top >/dev/null
