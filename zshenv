@@ -79,5 +79,8 @@ export XDG_DATA_DIRS=${XDG_DATA_DIRS:-/usr/local/share:/usr/share}
 export XDG_DATA_DIRS=/var/lib/snapd/desktop:${XDG_DATA_DIRS}
 export XDG_DATA_DIRS=${HOME}/.local/share:${XDG_DATA_DIRS}
 
+# Better file picker for telegram
+export XDG_CURRENT_DESKTOP=gnome
+
 unset -f _add_to_path
 unset -f _try_source
