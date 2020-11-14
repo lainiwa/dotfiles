@@ -5,7 +5,12 @@ set -o nounset  # exit on undeclared variable
 # set -o xtrace   # trace execution
 
 
-save_path="${HOME}/0files/imgs/screenshots/$(date '+%s_%Y.%m.%d_%H:%M:%S').png"
+save_dir=${HOME}/0files/imgs/screenshots
+save_ext=png
+save_name=$(date '+%s_%Y.%m.%d_%H:%M:%S').${save_ext}
+save_path=${save_dir}/${save_name}
+
+mkdir -p "${save_dir}"
 
 
 if command -v maim xdotool >/dev/null; then
@@ -40,6 +45,23 @@ fi
 if command -v xclip >/dev/null; then
     printf '%s' "${save_path}" | xclip -in -selection primary
     xclip -selection clipboard -target image/png <"${save_path}"
+
+elif command -v xsel >/dev/null; then
+    printf '%s' "${save_path}" | xsel --input --primary
+    printf '%s' "${save_path}" | xsel --input --clipboard
+fi
+
+
+if   [ "${save_ext}" = "png" ] && command -v optipng   >/dev/null; then
+    optipng -o7 -strip all "${save_path}"
+
+elif [ "${save_ext}" = "png" ] && command -v optipng   >/dev/null; then
+    pngcrush "${save_path}" "/tmp/${save_name}"
+    mv "/tmp/${save_name}" "${save_path}"
+
+elif [ "${save_ext}" = "jpg" ] && command -v jpegoptim >/dev/null; then
+    jpegoptim --strip-all "${save_path}"
+
 fi
 
 
