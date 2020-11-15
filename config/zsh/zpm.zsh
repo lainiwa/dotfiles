@@ -117,7 +117,7 @@ requirements() {
     (( ${+commands[make]} )) &&  <<<       snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
      <<< circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
      <<<      gitbits/git-info,hook:"cp git-*    ${_ZPM_POL}/bin/"
-     <<<    greymd/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
+     <<<    lainiwa/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
     # Generate completions
     (( ${+commands[rustup]} )) && <<< rustup,type:empty,gen-completion:"rustup completions zsh rustup"
     (( ${+commands[rustup]} )) && <<<  cargo,type:empty,gen-completion:"rustup completions zsh cargo"
