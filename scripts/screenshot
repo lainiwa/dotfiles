@@ -7,7 +7,8 @@ set -o nounset  # exit on undeclared variable
 
 save_dir=${HOME}/0files/imgs/screenshots
 save_ext=png
-save_name=$(date '+%s_%Y.%m.%d_%H:%M:%S').${save_ext}
+save_date=$(date '+%s_%Y.%m.%d_%H:%M:%S')
+save_name=${save_date}.${save_ext}
 save_path=${save_dir}/${save_name}
 
 mkdir -p "${save_dir}"
@@ -52,17 +53,33 @@ elif command -v xsel >/dev/null; then
 fi
 
 
-if   [ "${save_ext}" = "png" ] && command -v optipng   >/dev/null; then
-    optipng -o7 -strip all "${save_path}"
-
-elif [ "${save_ext}" = "png" ] && command -v optipng   >/dev/null; then
-    pngcrush "${save_path}" "/tmp/${save_name}"
-    mv "/tmp/${save_name}" "${save_path}"
-
-elif [ "${save_ext}" = "jpg" ] && command -v jpegoptim >/dev/null; then
-    jpegoptim --strip-all "${save_path}"
-
-fi
-
-
 printf '%s' "${save_path}"
+
+
+(
+    # Execute under lock
+    # if flock is available
+    if command -v xclip >/dev/null; then
+        flock 9
+    fi
+
+    if   [ "${save_ext}" = "png" ] && command -v optipng   >/dev/null; then
+        optipng -o7 -strip all "${save_path}"
+        printf "%s\n" "${save_name}" >> "${save_dir}/.optimized"
+
+    elif [ "${save_ext}" = "png" ] && command -v optipng   >/dev/null; then
+        pngcrush -brute -reduce "${save_path}" "/tmp/${save_name}"
+        mv "/tmp/${save_name}" "${save_path}"
+        printf "%s\n" "${save_name}" >> "${save_dir}/.optimized"
+
+    elif [ "${save_ext}" = "jpg" ] && command -v jpegoptim >/dev/null; then
+        jpegoptim --strip-all "${save_path}"
+        printf "%s\n" "${save_name}" >> "${save_dir}/.optimized"
+
+    fi
+
+    if command -v tesseract >/dev/null; then
+        tesseract -l eng+rus --psm 1 "${save_path}" "${save_dir}/${save_date}"
+    fi
+
+) 9>"/var/lock/screenshot-$(id -u).lock"
