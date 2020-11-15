@@ -412,7 +412,7 @@ full_upgrade() {
         guix package -u
     fi
     # Update brewed packages
-    if command -v guix >/dev/null; then
+    if command -v brew >/dev/null; then
         brew update
         brew upgrade
     fi
