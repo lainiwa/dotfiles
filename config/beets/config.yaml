@@ -1,3 +1,7 @@
+# Dependencies
+#   pipx install 'git+https://github.com/beetbox/beets#egg=beets[chroma,fetchart,lyrics,lastgenre,scrub]'
+#   sudo apt install libchromaprint-tools ffmpeg mp3val flac
+
 directory: ~/music
 library: ~/data/musiclibrary.db
 
