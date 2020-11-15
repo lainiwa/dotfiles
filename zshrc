@@ -18,7 +18,7 @@ export VIRTUALENV_PYTHON=${VIRTUALENVWRAPPER_PYTHON}
 # Node Version Manager (NVM) direcory
 export NVM_DIR=${HOME}/.nvm
 # ZSH history
-export HISTFILE=${HOME}/.zsh_history
+export HISTFILE=${HISTFILE:-${HOME}/.zsh_history}
 export HISTSIZE=1000000000
 export SAVEHIST=1000000000
 
