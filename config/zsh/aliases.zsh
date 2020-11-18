@@ -79,7 +79,9 @@ else
 fi
 
 # Imitate no redirection
-alias U='unbuffer'
+if (( ${+commands[unbuffer]} )); then
+    alias U='unbuffer'
+fi
 
 
 # Ignoring output
@@ -97,24 +99,26 @@ alias -g S='| sed'
 
 # Redirect to less
 alias -g L='| less'
-alias -g LR='| less --RAW-CONTROL-CHARS'  # colors support
+alias -g LR='| less --raw-control-chars'  # colors support
 alias -g LS='| less --chop-long-lines'    # don't wrap long lines
 
 # Split to columns
-alias -g C='| column -t'
+alias -g COL='| column -t'
 # Today's files
 alias -g TOD='*(.m0)'
 # Remove colors
 alias -g NOC='| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"'
 
+if (( ${+commands[xclip]} )); then
+    alias -g C='| xclip -in -selection primary -filter | xclip -in -selection clipboard'
+fi
+
 # Colorize certain word
-__COL__() { grep --color -E "$1|$" ; }
-alias -g COL='| __COL__'
+alias -g COL='| (){ grep --color -E "$1|$";}'
 
 # Alias for altering some symbol with newline
 # Example: echo $PATH TRN :
-__rt__() { tr -- "$2" "$1" ; }
-alias -g TRN='| __rt__ "\n" '
+alias -g TRN='| (){ tr -- "$1" "\n";}'
 
 
 # Set grc alias for available commands.
