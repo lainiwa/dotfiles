@@ -66,15 +66,14 @@ export GITCD_TRIM=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
 
-get_gh_url() {
-    eval "${_FETCH} https://api.github.com/repos/${1}/releases/latest" |
-        jq --raw-output "
-            [.assets[] | .browser_download_url]
-          + [.tarball_url, .zipball_url]         | .[]
-        " |
-        grep "${2}"
-}
-
+# get_gh_url() {
+#     eval "${_FETCH} https://api.github.com/repos/${1}/releases/latest" |
+#         jq --raw-output "
+#             [.assets[] | .browser_download_url]
+#           + [.tarball_url, .zipball_url]         | .[]
+#         " |
+#         grep "${2}"
+# }
 
 requirements() {
     # Prompt
@@ -156,13 +155,13 @@ requirements() {
     (( ${+commands[terraform]}     )) && <<< terraform,type:empty,gen-plugin:"<<<'complete -o nospace -C $(which terraform) terraform'"
     (( ${+commands[register-python-argcomplete]} && ${+commands[pipx]} )) &&
         <<< pipx,type:empty,gen-plugin:"register-python-argcomplete pipx"
-    # Fetch releases from Github
-    if (( ${+commands[jq]} && ${+commands[tar]} )); then
-        _glow=$( get_gh_url charmbracelet/glow 'linux_x86_64.tar.gz$')
-        _micro=$(get_gh_url zyedidia/micro     'linux64-static.tar.gz$')
-        <<<  glow,type:empty,hook:"${_FETCH} ${_glow}  | tar -xzf-; cp glow    ${_ZPM_POL}/bin/"
-        <<< micro,type:empty,hook:"${_FETCH} ${_micro} | tar -xzf-; cp */micro ${_ZPM_POL}/bin/"
-    fi
+    # # Fetch releases from Github
+    # if (( ${+commands[jq]} && ${+commands[tar]} )); then
+    #     _glow=$( get_gh_url charmbracelet/glow 'linux_x86_64.tar.gz$')
+    #     _micro=$(get_gh_url zyedidia/micro     'linux64-static.tar.gz$')
+    #     <<<  glow,type:empty,hook:"${_FETCH} ${_glow}  | tar -xzf-; cp glow    ${_ZPM_POL}/bin/"
+    #     <<< micro,type:empty,hook:"${_FETCH} ${_micro} | tar -xzf-; cp */micro ${_ZPM_POL}/bin/"
+    # fi
 }
 
 
