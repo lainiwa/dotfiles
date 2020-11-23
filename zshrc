@@ -36,6 +36,7 @@ for file (
     "${HOME}/.config/zsh/zpm.zsh"
     "${HOME}/.config/zsh/aliases.zsh"
     "${HOME}/.config/zsh/completions.zsh"
+    "${HOME}/.config/zsh/nnn.zsh"
     # command-not-found functionality
     "${HOME}/.config/zsh/other/command-not-found.zsh"
     # python's virtualenvwrapper
