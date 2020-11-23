@@ -1,0 +1,91 @@
+#!/usr/bin/env zsh
+
+set -o errexit  # exit on fail
+set -o pipefail # catch errors in pipelines
+set -o nounset  # exit on undeclared variable
+# set -o xtrace    # trace execution
+
+URL=$1
+
+
+py_cmd="
+import os
+from six.moves.urllib.request import urlopen
+resp = urlopen('${URL}')
+obj = resp.read()
+os.write(1, obj)
+"
+
+
+ssl_netcat() {
+    local host=$1
+    local route=$2
+
+    request() {
+        printf '%s\n%s\n%s\n\n' "GET ${route} HTTP/1.0" \
+                                "Connection: close"     \
+                                "Host: ${host}"
+    }
+
+    if (( ${+commands[ncat]} )); then
+        request | ncat -C --ssl "${host}" 443
+
+    elif (( ${+commands[openssl]} )); then
+        request | openssl s_client -quiet -verify_quiet -connect "${host}:443"
+
+    elif (( ${+commands[ssl_client]} )); then
+        request | ssl_client "${host}:443"
+
+    elif (( ${+commands[busybox]} )); then
+        request | busybox ssl_client "${host}:443"
+
+    fi
+}
+
+
+ssl_netcat_fetch() {
+    local url=$1
+    local no_proto=${url#http*://}
+    local host=${no_proto%%/*}
+    local route=${no_proto#"$host"}
+          route=${route:-/}
+
+    full_response=$(mktemp)
+    # echo "temp: $full_response" >&2
+    ssl_netcat "${host}" "${route}" > "${full_response}"
+
+    while read -r line; do
+        if [[ $line =~ 'location: ' ]]; then
+            ssl_netcat_fetch "${line:10:-1}"
+            break
+
+        elif [[ $line == $'\r' ]]; then
+            # echo "EMPTY LINE" >&2
+            cat -
+            break
+        fi
+
+    done < "$full_response"
+
+}
+
+
+if (( ${+commands[wget]} )); then
+    wget --quiet --output-document - "${URL}"
+
+elif (( ${+commands[wget]} )); then
+    curl --silent --location "${URL}"
+
+elif (( ${+commands[python]} )); then
+    python -c "$cmd"
+
+elif (( ${+commands[python3]} )); then
+    python3 -c "$cmd"
+
+elif (( ${+commands[python2]} )); then
+    python2 -c "$cmd"
+
+else
+    ssl_netcat_fetch "${URL}"
+
+fi

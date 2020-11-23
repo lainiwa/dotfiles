@@ -10,12 +10,7 @@ _ZPM=${XDG_CACHE_HOME:-${HOME}/.cache}/zpm
 _ZPM_POL=${_ZPM}/polaris
 _ZMP_REQ=${TMPDIR:-/tmp}/zsh-${UID}/requirements.zpm
 
-if (( ${+commands[wget]} )); then
-    _FETCH="wget --quiet --output-document -"
-else
-    _FETCH="curl --silent --location"
-fi
-
+_FETCH=${0:A:h}/other/fetch_file
 GH="${_FETCH} https://raw.githubusercontent.com"
 GNU="${_FETCH} https://git.savannah.gnu.org"
 URL="${_FETCH} https:/"
