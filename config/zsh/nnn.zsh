@@ -5,7 +5,7 @@ export NNN_FIFO=/tmp/nnn.fifo
 # -n  type-to-nav mode
 # -r  use advcpmv patched cp, mv
 # -x  notis, sel to system clipboard
-export NNN_OPTS="dnrx"
+export NNN_OPTS="drx"
 
 if [[ -d ${XDG_CONFIG_HOME:-${HOME}/.config}/nnn/plugins ]]; then
     export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
