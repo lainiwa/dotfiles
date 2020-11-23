@@ -6,10 +6,10 @@ set -o xtrace    # trace execution
 # Create ~/.ssh if not exists
 mkdir -p ~/.ssh
 
-# Add github's host key to known_hosts (if not yet)
-if ! grep github.com ~/.ssh/known_hosts >/dev/null 2>&1; then
-    ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-fi
+# # Add github's host key to known_hosts (if not yet)
+# if ! grep github.com ~/.ssh/known_hosts >/dev/null 2>&1; then
+#     ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+# fi
 
 # Clone repository (if not yet)
 if [ ! -d ~/.dotfiles ]; then
