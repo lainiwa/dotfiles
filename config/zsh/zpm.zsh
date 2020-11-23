@@ -83,8 +83,9 @@ requirements() {
     # Z
     <<< agkozak/zsh-z
     <<< andrewferrier/fzf-z
-    # Rename tmux pane to current folder's basename
-    <<< trystan2k/zsh-tab-title
+    # Tmux plugins
+    <<< zpm-zsh/title
+    # <<< zpm-zsh/tmux
     # Toggles `sudo` for current/previous command on ESC-ESC.
     <<< hcgraf/zsh-sudo
     # Run `fg` on C-Z
