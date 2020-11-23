@@ -104,6 +104,8 @@ requirements() {
     <<< spwhitt/nix-zsh-completions
     <<< nojanath/ansible-zsh-completion
     <<< lukechilds/zsh-better-npm-completion
+    # Zsh in nix-shell
+    <<< chisui/zsh-nix-shell
     # Get gitignore template with `gi` command
     <<< voronkovich/gitignore.plugin.zsh
     # Heavy stuff
