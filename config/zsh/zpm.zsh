@@ -41,6 +41,10 @@ AGKOZAK_CUSTOM_PROMPT+='%(!.%S%B.%B%F{yellow})%n%1v%(!.%b%s.%f%b) '
 AGKOZAK_CUSTOM_PROMPT+=$'%B%F{green}%2v%f%b '
 # Prompt character
 AGKOZAK_CUSTOM_PROMPT+='%B%F{red}%(4V.:.%#)%f%b '
+# Nnn file browser shell level
+if [[ -n "${NNNLVL}" ]]; then
+    AGKOZAK_CUSTOM_PROMPT="%F{cyan}N${NNNLVL}%f ${AGKOZAK_CUSTOM_PROMPT}"
+fi
 # Git status
 AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' 'S')
 AGKOZAK_CUSTOM_RPROMPT='%(3V.%F{yellow}%3v%f.)'
