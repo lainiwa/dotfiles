@@ -95,9 +95,10 @@ requirements() {
     # <<< paulirish/git-open
     <<< zdharma/zsh-diff-so-fancy
     # Completions
-    <<< zpm-zsh/zsh-completions,apply:fpath
-    <<< zsh-users/zsh-completions
+    # <<< MenkeTechnologies/zsh-more-completions
     <<< zchee/zsh-completions
+    <<< zsh-users/zsh-completions
+    <<< zpm-zsh/zsh-completions,apply:fpath
     <<< srijanshetty/zsh-pandoc-completion
     <<< bobthecow/git-flow-completion
     <<< spwhitt/nix-zsh-completions
