@@ -54,7 +54,11 @@ else
 fi
 
 
-if command -v display >/dev/null; then
+if command -v gm >/dev/null; then
+    gm display -geometry "${dimensions}!" -window root "${1}"
+    exit 0
+
+elif command -v display >/dev/null; then
     display -resize "${dimensions}!" -window root -- "${1}"
     exit 0
 
