@@ -59,7 +59,7 @@ printf '%s' "${save_path}"
 (
     # Execute under lock
     # if flock is available
-    if command -v xclip >/dev/null; then
+    if command -v flock >/dev/null; then
         flock 9
     fi
 
