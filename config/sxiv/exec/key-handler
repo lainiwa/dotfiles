@@ -3,7 +3,26 @@
 # Press C-x to activate to key handler!
 while read -r file; do
     case "$1" in
+        # Copy to clipboard
         "C-c")
-            xclip -selection clipboard "$file" -t image/png ;;
+            xclip -selection clipboard "${file}" -t image/png
+        ;;
+        # Rotate
+        "C-r")
+            convert -rotate 90 "${file}" "${file}"
+        ;;
+        # Reverse search
+        "C-s")
+            imgops search "${file}"
+        ;;
+        # Move to trash
+        "C-d")
+            if command -v trash-put >/dev/null; then
+                trash-puts "${file}"
+            else
+                gio trash "${file}"  # List with `gio list trash://`
+            fi
+            # mv "${file}" ~/.trash
+        ;;
     esac
 done
