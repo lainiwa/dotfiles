@@ -263,44 +263,6 @@ save_4chan_thread_imgs() {
             wget --no-verbose --directory-prefix="$pagename" "{}"
 }
 
-#################################################
-# MAKE A SCREENSHOT
-#
-# ARGUMENTS: mode (full|selected|focused)
-# Save a screenshot
-#     using either imagemagick's import or scrot or maim
-#     and insert path to image into buffer
-#
-screenshot() {
-    requires date xclip
-
-    mode=${1}
-    save_path="${HOME}/0files/imgs/screenshots/$(date '+%s_%Y.%m.%d_%H:%M:%S').png"
-
-    if command -v maim >/dev/null && command -v xdotool >/dev/null; then
-        [ "${mode}" = 'full' ] && maim "${save_path}"
-        [ "${mode}" = 'select' ] && maim "${save_path}" --select
-        [ "${mode}" = 'focused' ] && maim "${save_path}" --window "$(xdotool getwindowfocus -f)"
-
-    elif command -v scrot >/dev/null; then
-        [ "${mode}" = 'full' ] && scrot "${save_path}" --multidisp
-        [ "${mode}" = 'select' ] && scrot "${save_path}" --select
-        [ "${mode}" = 'focused' ] && scrot "${save_path}" --focused
-
-    elif command -v import >/dev/null && command -v xdotool >/dev/null; then
-        [ "${mode}" = 'full' ] && import "${save_path}" -window root
-        [ "${mode}" = 'select' ] && import "${save_path}"
-        [ "${mode}" = 'focused' ] && import "${save_path}" -window "$(xdotool getwindowfocus -f)"
-
-    else
-        echo "No imagemagick's import or scrot or maim installed"
-        exit 1
-
-    fi
-
-    printf '%s' "${save_path}" | xclip -in -selection primary
-    xclip -selection clipboard -target image/png <"${save_path}"
-}
 
 #################################################
 # DOWNLOAD RANDOM IMAGE FROM /R/WALLPAPER
@@ -505,32 +467,6 @@ hr() {
     requires tr
 
     printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' '-'
-}
-
-#################################################
-# RETURN CURRENT EXTERNAL IP ADDRESS
-#
-ip() {
-    requires curl
-
-    ip_sites=('ifconfig.co'
-        'canihazip.com/s'
-        'ipinfo.io/ip'
-        'icanhazip.com'
-        'curlmyip.net'
-        'ipecho.net/plain'
-        'ip-addr.es'
-        'ident.me'
-        'ipaddr.site'
-    )
-    for site in "${ip_sites[@]}"; do
-        data=$(curl --ipv4 --max-time 1 --write-out '\n%{http_code}' --silent "${site}" || true)
-        if [[ ${data##*$'\n'} == 200 ]]; then
-            read -r ip < <(echo "${data}")
-            echo "${ip}"
-            break
-        fi
-    done
 }
 
 #################################################
