@@ -1,5 +1,24 @@
 #!/bin/sh
 
+# DESCRIPTION:
+# * make and save a screenshot
+# * [optionally] copy to clipboard
+# * [optionally] optimize it
+# * [optionally] OCR it
+#
+# ARGUMENTS:
+# * mode: full|selected|focused
+#
+# DEPENDENCIES:
+# * Interpreter: POSIX shell + coreutils
+# * Screenshot tool: maim + xdotool | scrot | graphicsmagick + xdotool | imagemagick + xdotool
+# * Clipboard tool [opt]: xclip | xsel
+# * Image lossless optimizer [opt]: optipng | pngcrush | jpegoptim
+# * OCR tool [opt]: tesseract + tesseract-ocr-rus
+# * Locks manager [opt]: flock
+#
+
+
 set -o errexit  # exit on fail
 set -o nounset  # exit on undeclared variable
 # set -o xtrace   # trace execution

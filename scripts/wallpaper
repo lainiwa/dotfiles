@@ -1,5 +1,18 @@
 #!/bin/sh
 
+# DESCRIPTION:
+# * set image as a wallpaper
+#
+# ARGUMENTS:
+# * image path
+#
+# DEPENDENCIES:
+# * Interpreter: POSIX shell + coreutils
+# * Wallpaper setter: hsetroot | nitrogen | feh | Esetroot |
+#     (xdpyinfo | xwininfo | xrdb) + (graphicsmagick | imagemagick)
+#
+
+
 set -o errexit  # exit on fail
 set -o nounset  # exit on undeclared variable
 # set -o xtrace   # trace execution
