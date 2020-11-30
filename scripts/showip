@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# DESCRIPTION:
+# * return current external ip address
+#
+# DEPENDENCIES:
+# * Interpreter: POSIX shell
+# * Downloader tool: wget | curl
+#
+
+
+set -o errexit  # exit on fail
+set -o nounset  # exit on undeclared variable
+# set -o xtrace   # trace execution
+
+
+ip_sites='ifconfig.co
+canihazip.com/s
+ipinfo.io/ip
+icanhazip.com
+curlmyip.net
+ipecho.net/plain
+ip-addr.es
+ident.me
+ipaddr.site
+'
+
+
+for site in ${ip_sites}; do
+
+    if command -v wget >/dev/null; then
+        while IFS= read -r line; do
+            case ${line} in
+                '  HTTP'*)
+                    set -f
+                    set -- ${line}
+                    exit_code=$2
+                    set +f
+                ;;
+                '  '*)
+                    continue
+                ;;
+                *)
+                    global_ip=${line}
+                ;;
+            esac
+        done << EOF
+$(wget --quiet --server-response "${site}" -O- 2>&1)
+EOF
+
+
+    else
+        global_ip=
+        while IFS= read -r line; do
+            global_ip=${global_ip:-$line}
+            exit_code=${line}
+        done << EOF
+$(curl --ipv4 --max-time 1 --write-out '\n%{http_code}' --silent "${site}" || true)
+EOF
+
+
+    fi
+
+
+    if [ "$(printf %.1s "${exit_code}")" = 2 ]; then
+        break
+    fi
+
+
+done
+
+
+if [ -n "${global_ip:-}" ]; then
+    printf "%s\n" "${global_ip}"
+else
+    exit 1
+fi
