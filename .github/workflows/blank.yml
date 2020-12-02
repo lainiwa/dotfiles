@@ -10,9 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Run shellcheck on `my` script
+    - name: Run shellcheck on my scripts
       run: |
-        shellcheck --external-sources scripts/my
+        shellcheck --external-sources scripts/{gut,my,pastebin,screenshot,showip,wallpaper}
 
     # - name: Install dependencies
     #   run: |
