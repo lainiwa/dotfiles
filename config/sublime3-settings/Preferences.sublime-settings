@@ -8,6 +8,7 @@
 	"ignored_packages":
 	[
 		"Markdown",
+		"Python",
 		"Rust",
 		"Vintage"
 	],

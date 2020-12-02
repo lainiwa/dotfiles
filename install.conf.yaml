@@ -67,6 +67,9 @@
     ~/.config/sublime-text-3/Packages/User/reStructuredText.sublime-settings:
         if: command -v subl >/dev/null
         path: config/sublime3-settings/reStructuredText.sublime-settings
+    ~/.config/sublime-text-3/Packages/User/ApplySyntax.sublime-settings:
+        if: command -v subl >/dev/null
+        path: config/sublime3-settings/ApplySyntax.sublime-settings
     ~/.config/sublime-text-3/Packages/User/Markdown.sublime-settings:
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Markdown.sublime-settings
