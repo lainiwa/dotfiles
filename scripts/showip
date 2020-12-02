@@ -33,6 +33,8 @@ for site in ${ip_sites}; do
             case ${line} in
                 '  HTTP'*)
                     set -f
+                    # We expect word splitting here
+                    # shellcheck disable=2086
                     set -- ${line}
                     exit_code=$2
                     set +f
