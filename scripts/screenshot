@@ -9,6 +9,11 @@
 # ARGUMENTS:
 # * mode: full|selected|focused
 #
+# ENVIRONMENT VARIABLES:
+# * SCREENSHOT_DOCKER_HOST: set to prefer using docker for image optimization
+#     Examples: `unix:///var/run/docker.sock` for local execution
+#               `ssh://root@your.server.com` for remote
+#
 # DEPENDENCIES:
 # * Interpreter: POSIX shell + coreutils
 # * Screenshot tool: maim + xdotool | scrot | graphicsmagick + xdotool | imagemagick + xdotool
@@ -63,16 +68,16 @@ fi
 
 
 if command -v xclip >/dev/null; then
-    printf '%s' "${save_path}" | xclip -in -selection primary
+    printf %s "${save_path}" | xclip -in -selection primary
     xclip -selection clipboard -target image/png <"${save_path}"
 
 elif command -v xsel >/dev/null; then
-    printf '%s' "${save_path}" | xsel --input --primary
-    printf '%s' "${save_path}" | xsel --input --clipboard
+    printf %s "${save_path}" | xsel --input --primary
+    printf %s "${save_path}" | xsel --input --clipboard
 fi
 
 
-printf '%s' "${save_path}"
+printf '%s\n' "${save_path}"
 
 
 (
@@ -82,7 +87,26 @@ printf '%s' "${save_path}"
         flock 9
     fi
 
-    if command -v etc >/dev/null; then
+    if [ -n "${SCREENSHOT_DOCKER_HOST:-}" ] && command -v docker >/dev/null; then
+        (
+            export DOCKER_HOST=${SCREENSHOT_DOCKER_HOST}
+            # Create a container that would auto-destroy in 10 minutes
+            container_id=$(
+                docker run --rm -d \
+                    skhaz/compression-tools \
+                    sleep $(( 60 * 10 ))
+            )
+            # Destroy container on exit from brackets
+            trap 'docker rm -f "${container_id}" >/dev/null; trap - EXIT; exit' EXIT INT HUP
+            # Copy file to container, process it, and copy back
+            docker cp "${save_path}" "${container_id}:/${save_name}"
+            docker exec -ti "${container_id}" ect -9 "/${save_name}"
+            docker container cp "${container_id}:/${save_name}" "${save_path}"
+
+            printf "%s\n" "${save_name}" >> "${save_dir}/.optimized"
+        )
+
+    elif command -v etc >/dev/null; then
         ect -9 "${save_path}"
         printf "%s\n" "${save_name}" >> "${save_dir}/.optimized"
 
@@ -121,11 +145,11 @@ printf '%s' "${save_path}"
         fi
         printf "%s\n" "${save_name}" >> "${save_dir}/.optimized"
 
-    fi
+    fi >&2
 
     if command -v tesseract >/dev/null; then
         tesseract -l eng+rus --psm 1 "${save_path}" "${save_dir}/${save_date}"
-    fi
+    fi >&2
 
 ) 9>"/var/lock/screenshot-$(id -u).lock"
 
