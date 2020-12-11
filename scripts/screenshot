@@ -87,7 +87,7 @@ printf '%s\n' "${save_path}"
         flock 9
     fi
 
-    if [ -n "${SCREENSHOT_DOCKER_HOST:-}" ] && command -v docker >/dev/null; then
+    if [ -n "${SCREENSHOT_DOCKER_HOST:-}" ] && docker info >/dev/null 2>&1; then
         (
             export DOCKER_HOST=${SCREENSHOT_DOCKER_HOST}
             # Create a container that would auto-destroy in 10 minutes
