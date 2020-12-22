@@ -184,7 +184,7 @@ bar {
 
 bindsym $mod+Shift+x exec i3lock -c 000000
 
-exec_always --no-startup-id my set_bg_random
+exec_always --no-startup-id wallpaper ~/0files/imgs/wallpapers
 
 exec --no-startup-id i3-msg "workspace $ws1; exec i3-sensible-terminal"
 exec --no-startup-id i3-msg "workspace $ws2; exec subl"

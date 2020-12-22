@@ -8,7 +8,7 @@
 #
 # DEPENDENCIES:
 # * Interpreter: POSIX shell + coreutils
-# * Wallpaper setter: hsetroot | nitrogen | feh | Esetroot |
+# * Wallpaper setter: xwallpaper | hsetroot | nitrogen | feh | Esetroot |
 #     (xdpyinfo | xwininfo | xrdb) + (graphicsmagick | imagemagick)
 #
 
@@ -18,20 +18,31 @@ set -o nounset  # exit on undeclared variable
 # set -o xtrace   # trace execution
 
 
-if command -v hsetroot >/dev/null; then
-    hsetroot -fill "${1}"
+if [ -d "${1}" ]; then
+    wp=$(shuf --echo --head-count=1 -- "${1}"/*)
+else
+    wp=${1}
+fi
+
+
+if command -v xwallpaper >/dev/null; then
+    xwallpaper --stretch "${wp}"
+    exit 0
+
+elif command -v hsetroot >/dev/null; then
+    hsetroot -fill "${wp}"
     exit 0
 
 elif command -v nitrogen >/dev/null; then
-    nitrogen --set-scaled -- "${1}"
+    nitrogen --set-scaled -- "${wp}"
     exit 0
 
 elif command -v feh >/dev/null; then
-    feh --bg-scale --no-fehbg -- "${1}"
+    feh --bg-scale --no-fehbg -- "${wp}"
     exit 0
 
 elif command -v Esetroot >/dev/null; then
-    Esetroot -scale "${1}"
+    Esetroot -scale "${wp}"
     exit 0
 
 fi
@@ -68,11 +79,11 @@ fi
 
 
 if command -v gm >/dev/null; then
-    gm display -geometry "${dimensions}!" -window root "${1}"
+    gm display -geometry "${dimensions}!" -window root "${wp}"
     exit 0
 
 elif command -v display >/dev/null; then
-    display -resize "${dimensions}!" -window root -- "${1}"
+    display -resize "${dimensions}!" -window root -- "${wp}"
     exit 0
 
 else
