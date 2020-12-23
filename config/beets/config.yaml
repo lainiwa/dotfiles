@@ -1,26 +1,56 @@
 # Dependencies
-#   pipx install 'git+https://github.com/beetbox/beets#egg=beets[chroma,fetchart,lyrics,lastgenre,scrub]'
+#   pipx install 'git+https://github.com/beetbox/beets#egg=beets[chroma,fetchart,lyrics,lastgenre,scrub,thumbnails,web,discogs]'
 #   sudo apt install libchromaprint-tools ffmpeg mp3val flac
 
 directory: ~/music
 library: ~/data/musiclibrary.db
 
+
 import:
-    # move new music in instead of copying it
+    # Either skip, keep, remove, merge or ask.
+    # Controls how duplicates are treated in import task.
+    # "skip" means that new item(album or track) will be skipped;
+    # "keep" means keep both old and new items;
+    # "remove" means remove old item;
+    # "merge" means merge into one album;
+    # "ask" means the user should be prompted for the action each time.
+    # The default is ask.
+    duplicate_action: skip
+    # Either yes or no, indicating whether to move files into the library directory
+    # when using beet import.
+    # Defaults to no.
+    #
+    # The effect is similar to the copy option but you end up
+    # with only one copy of the imported file.
+    # ("Moving" works even across filesystems; if necessary, beets will copy and
+    # then delete when a simple rename is impossible.)
+    # Moving files can be risky—it’s a good idea to keep a backup in case beets
+    # doesn’t do what you expect with your files.
+    #
+    # This option overrides copy, so enabling it will always move (and not copy) files.
+    # The -c switch to the beet import command, however, still takes precedence.
     move: yes
+    # One of apply, skip, asis, or none, indicating which option
+    # should be the default when selecting an action for a given match.
+    # This is the action that will be taken when you type return without an option letter.
+    # The default is apply.
+    default_action: skip
+
+match:
+    strong_rec_thresh: 0.05
 
 
 plugins:
     # Autotagger Extensions
     - chroma        # Use acoustic fingerprinting for files with missing/incorrect metadata
-    # - discogs       # Search for releases in the Discogs database
+    - discogs       # Search for releases in the Discogs database
     - fromfilename  # Guess metadata for untagged tracks from their filenames
 
     # Metadata
     - acousticbrainz  # Fetch various AcousticBrainz metadata
     - edit            # Edit metadata from a text editor
     # - embedart        # Embed album art images into files' metadata
-    # - fetchart        # Fetch album cover art from various sources
+    - fetchart        # Fetch album cover art from various sources
     - lastgenre       # Fetch genres based on Last.fm tags
     - lyrics          # Automatically fetch song lyrics
     - mbsync          # Fetch updated metadata from MusicBrainz
@@ -35,7 +65,7 @@ plugins:
     - play           # Play beets queries in your music player
     # - playlist       # Use M3U playlists to query the beets library
     # - smartplaylist  # Generate smart playlists based on beets queries
-    # - thumbnails     # Get thumbnails with the cover art on your album folders
+    - thumbnails     # Get thumbnails with the cover art on your album folders
 
     # Miscellaneous
     # - bpd            # A music player for beets library that emulates MPD
@@ -44,7 +74,7 @@ plugins:
     - info           # Print music files' tags to the console
     - spotify        # Create Spotify playlists from the Beets library
     - types          # Declare types for flexible attributes
-    # - web            # An experimental Web-based GUI for beets
+    - web            # An experimental Web-based GUI for beets
 
     # ???
     # - permissions
@@ -52,6 +82,10 @@ plugins:
 
 chroma:
     auto: true
+
+
+# discogs:
+#     user_token:
 
 
 fromfilename:
@@ -78,6 +112,56 @@ edit:
     # Default: album albumartist
     albumfields: album albumartist
 
+fetchart:
+    # Enable automatic album art fetching during import.
+    # Default: yes.
+    auto: true
+    # Pick only trusted album art by ignoring filenames that do not contain
+    # one of the keywords in cover_names.
+    # Default: no.
+    cautious: false
+    # Prioritize images containing words in this list.
+    # Default: cover front art album folder.
+    cover_names: cover front art album folder
+    # Only images with a width bigger or equal to minwidth
+    # are considered as valid album art candidates.
+    # Default: 0.
+    minwidth: 0
+    # A maximum image width to downscale fetched images if they are too big.
+    # The resize operation reduces image width to at most maxwidth pixels.
+    # The height is recomputed so that the aspect ratio is preserved.
+    maxwidth: 600
+    # Only images with a width:height ratio of 1:1 are considered as valid
+    # album art candidates if set to yes. It is also possible to specify a certain
+    # deviation to the exact ratio to still be considered valid.
+    # This can be done either in pixels (enforce_ratio: 10px) or
+    # as a percentage of the longer edge (enforce_ratio: 0.5%).
+    # Default: no.
+    enforce_ratio: false
+    # List of sources to search for images. An asterisk * expands to all available sources.
+    # Default: filesystem coverart itunes amazon albumart,
+    #          i.e., everything but wikipedia, google and fanarttv.
+    #          Enable those sources for more matches at the cost of some speed.
+    #          They are searched in the given order, thus in the default config,
+    #          no remote (Web) art source are queried if local art is found
+    #          in the filesystem.
+    #          To use a local image as fallback, move it to the end of the list.
+    #          For even more fine-grained control over the search order,
+    #          see the section on Album Art Sources below.
+    sources: filesystem coverart itunes amazon albumart wikipedia google fanarttv
+    # Your Google API key (to enable the Google Custom Search backend).
+    # Default: None.
+    google_key: None
+    # The custom search engine to use.
+    # Default: The beets custom search engine, which searches the entire web.
+    google_engine: 001442825323518660753:hrh5ch1gjzm
+    # The personal API key for requesting art from fanart.tv. See below.
+    fanarttv_key: None
+    # If enabled, fetchart stores the artwork’s source in a flexible tag named art_source.
+    # See below for the rationale behind this.
+    # Default: no.
+    store_source: false
+
 
 lastgenre:
     # Fetch genres automatically during import.
@@ -87,14 +171,14 @@ lastgenre:
     # tree. You can also set it to a path, like the whitelist config value, to
     # use your own tree.
     # Default: no (disabled).
-    canonical: false
+    canonical: true
     # Number of genres to fetch.
     # Default: 1
-    count: 1
+    count: 7
     # A string if to use a fallback genre when no genre is found. You can use
     # the empty string '' to reset the genre.
     # Default: None.
-    fallback: None
+    fallback: null
     # By default, beets will always fetch new genres, even if the files already
     # have one. To instead leave genres in place in when they pass the
     # whitelist, set the force option to no.
@@ -109,7 +193,7 @@ lastgenre:
     prefer_specific: false
     # Which entity to look up in Last.fm. Can be either artist, album or track.
     # Default: album.
-    source: album
+    source: track
     # A separator for multiple genres.
     # Default: ', '.
     separator: ', '
@@ -153,7 +237,7 @@ lyrics:
     # sources. The google source will be automatically deactivated if no
     # google_API_key is setup. Both it and the genius source will only be
     # enabled if BeautifulSoup is installed.
-    sources: "*"
+    sources: google lyricwiki musixmatch  # genius
 
 
 scrub:
@@ -172,7 +256,22 @@ play:
     # Default: open on OS X
     #          xdg-open on other Unixes
     #          start on Windows
-    command: mpv --vid=no
+    command: mpv #--vid=no
+
+
+thumbnails:
+    # Whether the thumbnail should be automatically set on import.
+    # Default: yes.
+    auto: false
+    # Generate the thumbnail even when there’s one that seems fine
+    # (more recent than the cover art).
+    # Default: no.
+    force: false
+    # Generate dolphin-compatible thumbnails.Dolphin (KDE file explorer)
+    # does not respect freedesktop.org’s standard on thumbnails.
+    # This functionality replaces the Freedesktop Plugin
+    # Default: no
+    dolphin: false
 
 
 duplicates:
@@ -229,7 +328,7 @@ duplicates:
     # A key=value pair. The plugin will add a new key attribute with value
     # value as a flexattr to the database for duplicate items.
     # Default: no.
-    tag: false
+    tag: ''
     # Dictionary of lists of attributes keyed by items or albums to use when
     # choosing duplicates. By default, the tie-breaking procedure favors the
     # most complete metadata attribute set. If you would like to consider the
@@ -247,6 +346,38 @@ fuzzy:
     # The character used to designate fuzzy queries. Default: ~, which may need
     # to be escaped in some shells.
     prefix: "~"
+
+
+spotify:
+    # One of the following:
+    #   list: Print out the playlist as a list of links. This list can then
+    #         be pasted in to a new or existing Spotify playlist.
+    #   open: This mode actually sends a link to your default browser
+    #         with instructions to open Spotify with the playlist you created.
+    #         Until this has been tested on all platforms, it will remain optional.
+    # Default: list.
+    mode: list
+    # A two-character country abbreviation, to limit results to that market.
+    # Default: None.
+    region_filter: None
+    # List each lookup that does not return a Spotify ID
+    # (and therefore cannot be added to a playlist).
+    # Default: no.
+    show_failures: false
+    # How to choose the track if there is more than one identical result.
+    # For example, there might be multiple releases of the same album.
+    # The options are popularity and first (to just choose the first match returned).
+    # Default: popularity.
+    tiebreak: popularity
+    # An array of regex transformations to perform on the track/album/artist fields
+    # before sending them to Spotify. Can be useful for changing certain abbreviations,
+    # like ft. -> feat. See the examples below.
+    # Default: None.
+    # regex: None
+    # Penalty applied to Spotify matches during import.
+    # Set to 0.0 to disable.
+    # Default: 0.5.
+    source_weight: 0.5
 
 
 types:
