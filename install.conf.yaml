@@ -104,6 +104,10 @@
     ~/.config/nnn:
         if: command -v nnn >/dev/null
         path: config/nnn
+    # Zathura
+    ~/.config/zathura:
+        if: command -v zathura >/dev/null
+        path: config/zathura
     # X11
     ~/.config/i3:
         if: command -v i3 >/dev/null
