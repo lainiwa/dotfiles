@@ -52,6 +52,7 @@ plugins:
     # - embedart        # Embed album art images into files' metadata
     - fetchart        # Fetch album cover art from various sources
     - lastgenre       # Fetch genres based on Last.fm tags
+    - lastimport      # Collect play counts from Last.fm
     - lyrics          # Automatically fetch song lyrics
     - mbsync          # Fetch updated metadata from MusicBrainz
     # - replaygain      # Calculate volume normalization for players that support it
@@ -203,6 +204,16 @@ lastgenre:
     whitelist: true
 
 
+lastfm:
+    user: Nowhere_to_Go
+    # The number of tracks to request from the API at once.
+    # Default: 500.
+    per_page: 500
+    # How many times should we re-send requests to Last.fm on failure?
+    # Default: 3.
+    retry_limit: 3
+
+
 lyrics:
     # Fetch lyrics automatically during import.
     # Default: yes.
@@ -256,7 +267,7 @@ play:
     # Default: open on OS X
     #          xdg-open on other Unixes
     #          start on Windows
-    command: mpv #--vid=no
+    command: mpv --vid=no
 
 
 thumbnails:
