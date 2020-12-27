@@ -1,9 +1,6 @@
 [submodule "dotbot"]
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
-[submodule "mpv-stats"]
-	path = config/mpv/scripts/mpv-stats
-	url = https://github.com/Argon-/mpv-stats
 [submodule "mpvSockets"]
 	path = config/mpv/scripts/mpvSockets
 	url = https://github.com/wis/mpvSockets
