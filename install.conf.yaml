@@ -112,6 +112,8 @@
     ~/.config/i3:
         if: command -v i3 >/dev/null
         path: config/i3
+    ~/.Xresources:
+        if: command -v sxiv >/dev/null && xrdb Xresources
     ~/.Xdefaults:
         if: command -v urxvt >/dev/null
     ~/.xinitrc:
