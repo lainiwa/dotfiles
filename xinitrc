@@ -2,6 +2,7 @@
 
 if command -v VBoxClient-all >/dev/null; then
     VBoxClient-all || true
+
 else
     VBoxClient --clipboard        || true
     VBoxClient --checkhostversion || true
@@ -9,7 +10,9 @@ else
     VBoxClient --vmsvga           || true  # for VBoxClient --version 6.*.*
     VBoxClient --seamless         || true
     VBoxClient --draganddrop      || true
+
 fi
+
 
 if command -v i3 >/dev/null; then
     exec i3
@@ -26,5 +29,11 @@ elif command -v dwm >/dev/null; then
 
 else
     echo 'ERROR: No i3, spectrwm or dwm found!'
+
+fi
+
+
+if command -v dunst >/dev/null; then
+    dunst &
 
 fi
