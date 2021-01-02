@@ -36,6 +36,7 @@ import:
     # The default is apply.
     default_action: skip
 
+
 match:
     strong_rec_thresh: 0.05
 
@@ -57,6 +58,7 @@ plugins:
     - mbsync          # Fetch updated metadata from MusicBrainz
     # - replaygain      # Calculate volume normalization for players that support it
     - scrub           # Clean extraneous metadata from music files
+    - zero            # Nullify fields by pattern or unconditionally
 
     # Path Formats
     # - the  # Move patterns in path formats (i.e., move "a" and "the" to the end)
@@ -253,6 +255,12 @@ lyrics:
 
 scrub:
     auto: true
+
+
+zero:
+    fields: month day comments
+    comments: [EAC, LAME, from.+collection, 'ripped by']
+    update_database: true
 
 
 badfiles:
