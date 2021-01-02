@@ -15,6 +15,15 @@ if (( ${+commands[exa]} )); then
     alias tree='exa --tree'
     alias lt='tree'
 
+# Substitute ls with lsd
+elif (( ${+commands[lsd]} )); then
+    alias ls='lsd --icon=never'
+    alias ll='ls -l'
+    alias la='ls -A'
+    alias lal='ls -Al'
+    alias tree='lsd --tree'
+    alias lt='tree'
+
 # Colorize and humanify `ls`
 else
     if [[ ${OSTYPE} == linux* ]]; then
@@ -35,10 +44,11 @@ fi
 (( ${+commands[fdfind]} )) && alias fd=fdfind
 # "Pronounceable" passwords are insecure
 (( ${+commands[pwgen]}  )) && alias pwgen='pwgen --secure'
+# Scale image to full window in sxiv (mode: fit)
+(( ${+commands[sxiv]}   )) && alias sxiv='sxiv -sf'
 # Drop "ng" if no old generation tool present
 (( ${+commands[ntopng]}    && ! ${+commands[ntop]}   )) && alias ntop=ntopng
 (( ${+commands[iptraf-ng]} && ! ${+commands[iptraf]} )) && alias iptraf=iptraf-ng
-
 # Make Russian default target language for translate-shell
 (( ${+commands[trans]}  )) && alias trans='LANG=ru_RU.UTF-8 trans'
 
@@ -135,7 +145,7 @@ fi
 
 
 alias du='du --human-readable'
-alias df='df --human-readable'
+alias df='df --human-readable --block-size=G'
 
 
 # Create directory and cd to it
@@ -149,6 +159,13 @@ nev() { [[ $# == 1 ]] && new "$1" && ${EDITOR:-vim} "$1" ; }
 compdef _directories nev
 
 
+# Wrap into a readline
+if (( ${+commands[rlwrap]} )); then
+    # CHICKEN Scheme interpreter
+    (( ${+commands[csi]} )) && alias csi='rlwrap csi'
+fi
+
+
 # Suffix aliases
-alias -s json=${EDITOR}
+alias -s json='jq <'
 alias -s {cs,ts,html}=${EDITOR}
