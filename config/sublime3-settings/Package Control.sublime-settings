@@ -8,7 +8,9 @@
 		"AlignTab",
 		"Anaconda",
 		"ApplySyntax",
+		"Asciidoctor",
 		"BracketHighlighter",
+		"Dockerfile Syntax Highlighting",
 		"Dotfiles Syntax Highlighting",
 		"EditorConfig",
 		"Emacs-like Modelines",
@@ -21,6 +23,7 @@
 		"InsertDate",
 		"LSP",
 		"MagicPython",
+		"Man Page Support",
 		"MarkdownEditing",
 		"Nix",
 		"Package Control",
@@ -32,10 +35,10 @@
 		"SublimeLinter-clang",
 		"SublimeLinter-flake8",
 		"SublimeLinter-shellcheck",
-		"TabNine",
 		"Terraform",
 		"TOML",
-		"VimL"
+		"VimL",
+		"Tabnine"
 	],
 	"repositories":
 	[
