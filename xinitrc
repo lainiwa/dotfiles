@@ -1,5 +1,8 @@
 #!/bin/sh
 
+
+# RUN VIRTUALBOX GUEST ADDITIONS
+#
 if command -v VBoxClient-all >/dev/null; then
     VBoxClient-all || true
 
@@ -10,6 +13,12 @@ else
     VBoxClient --vmsvga           || true  # for VBoxClient --version 6.*.*
     VBoxClient --seamless         || true
     VBoxClient --draganddrop      || true
+
+fi
+
+
+if command -v dunst >/dev/null && ! pgrep -x dunst >/dev/null; then
+    dunst &
 
 fi
 
@@ -29,11 +38,5 @@ elif command -v dwm >/dev/null; then
 
 else
     echo 'ERROR: No i3, spectrwm or dwm found!'
-
-fi
-
-
-if command -v dunst >/dev/null; then
-    dunst &
 
 fi
