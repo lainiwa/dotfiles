@@ -45,6 +45,7 @@ _add_to_path "/usr/local/go/bin"
 # Python
 export PYENV_ROOT="${HOME}/.pyenv"
 _add_to_path "${PYENV_ROOT}/bin"
+_add_to_path "${PYENV_ROOT}/shims"
 _add_to_path "${HOME}/.poetry/bin"
 
 # Nix
