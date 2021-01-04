@@ -141,6 +141,9 @@
     ~/.config/nixpkgs:
         path: config/nixpkgs
         if: command -v home-manager >/dev/null
+    # Wyrd
+    ~/.wyrdrc:
+        if: command -v wyrd >/dev/null
 
 - shell:
     # Urxvt extensions
