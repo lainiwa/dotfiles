@@ -144,6 +144,9 @@
     # Wyrd
     ~/.wyrdrc:
         if: command -v wyrd >/dev/null
+    # Units
+    ~/.units:
+        if: command -v units >/dev/null
 
 - shell:
     # Urxvt extensions

@@ -1,0 +1,24 @@
+
+#######################################
+# Sources:
+# * Configuration and usage:
+#   - man:  https://linux.die.net/man/1/units
+#   - info: https://www.gnu.org/software/units/manual/units.html
+#   - wikipedia: https://en.wikipedia.org/wiki/GNU_Units
+#
+# * Drug dosages: https://dsid.od.nih.gov/Conversions.php
+#
+
+
+#
+# drug dosage
+#
+
+# Vitamin A
+iuvitamina_retinol      0.3 mcg
+iuvitamina_betacarotene 0.6 mcg
+# Vitamin D
+iuvitamind 0.025 mcg
+# Vitamin E
+iuvitamine_natural   0.67 mg  # d-alpha-tocopherol (natural)
+iuvitamine_synthetic 0.9  mg  # dl-alpha-tocopherol (synthetic)
