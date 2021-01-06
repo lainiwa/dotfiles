@@ -50,8 +50,8 @@ include "/etc/wyrdrc"
 #                       # (everything else is level3 color, bold)
 
 
-# # first day of the week is Sunday
-# set week_starts_monday="false"
+# first day of the week is Monday
+set week_starts_monday="true"
 
 # 12/24 hour time settings
 set schedule_12_hour="false"
@@ -59,9 +59,9 @@ set selection_12_hour="false"
 set status_12_hour="false"
 set description_12_hour="false"
 
-# # whether or not to keep the cursor centered when scrolling through timed
-# # reminders
-# set center_cursor="false"
+# whether or not to keep the cursor centered when scrolling through timed
+# reminders
+set center_cursor="true"
 
 # # date syntax for the 'go to date' command can be big or little endian
 # set goto_big_endian="true"
