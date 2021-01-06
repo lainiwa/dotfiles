@@ -23,6 +23,12 @@ if command -v dunst >/dev/null && ! pgrep -x dunst >/dev/null; then
 fi
 
 
+if command -v compton >/dev/null && ! pgrep -x compton >/dev/null; then
+    compton &
+
+fi
+
+
 if command -v i3 >/dev/null; then
     exec i3
 
