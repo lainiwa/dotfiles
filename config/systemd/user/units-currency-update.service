@@ -1,0 +1,9 @@
+[Unit]
+Description=Update units(1) currency rates
+
+[Service]
+Type=oneshot
+Nice=19
+
+ExecStart=mkdir -p %h/.local/share/units/
+ExecStart=units_cur %h/.local/share/units/currency.units
