@@ -58,6 +58,8 @@ This configures the following set of tools:
 * **Music organizer:** beets_
 * **Image viewer:** sxiv_
 * **Torrenting:** torrench_ and jackett_
+* **Unit converter:** units_
+* **Calendar:** remind_ and wyrd_
 
 .. _dotbot: https://github.com/anishathalye/dotbot
 .. _i3: https://i3wm.org/
@@ -75,6 +77,10 @@ This configures the following set of tools:
 .. _sxiv: https://github.com/muennich/sxiv
 .. _torrench: https://github.com/kryptxy/torrench
 .. _jackett: https://github.com/Jackett/Jackett
+.. _units: https://www.gnu.org/software/units
+.. _remind: https://dianne.skoll.ca/projects/remind
+.. _wyrd: https://directory.fsf.org/wiki/Wyrd
+.. .. _wyrd: http://pessimization.com/software/wyrd
 
 
 Personal scripts
