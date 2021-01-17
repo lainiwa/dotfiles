@@ -149,13 +149,13 @@ alias df='df --human-readable --block-size=G'
 
 
 # Create directory and cd to it
-mkcd() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -P -- "$1" ; }
+mkcd() { [[ $# == 1 ]] && \mkdir -pv -- "$1" && cd -P -- "$1" ; }
 compdef _directories mkcd
 # Create new file with all base directories
-new() { [[ $# == 1 ]] && mkdir -p -- "${1:h}" && touch "$1" ; }
+new() { [[ $# == 1 ]] && \mkdir -pv -- "${1:h}" && touch -- "$1" ; }
 compdef _directories new
 # Create new file with all base directories and open it in editor
-nev() { [[ $# == 1 ]] && new "$1" && ${EDITOR:-vim} "$1" ; }
+nev() { [[ $# == 1 ]] && new "$1" && ${EDITOR:-vim} -- "$1" ; }
 compdef _directories nev
 
 
