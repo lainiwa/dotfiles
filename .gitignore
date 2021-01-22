@@ -2,3 +2,4 @@
 *.zwc
 metapackages/*.deb
 /.gtm/
+/firefox/userjs_backups

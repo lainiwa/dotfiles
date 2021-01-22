@@ -1,7 +1,7 @@
 /******
 * name: arkenfox user.js
-* date: 22 Nov 2020
-* version 84-alpha
+* date: 17 Jan 2021
+* version 85-alpha
 * url: https://github.com/arkenfox/user.js
 * license: MIT: https://github.com/arkenfox/user.js/blob/master/LICENSE.txt
 
@@ -116,7 +116,6 @@ user_pref("browser.newtabpage.activity-stream.telemetry", false);
  * Runs code received from a server (aka Remote Code Execution) and sends information back to a metrics server
  * [1] https://abouthome-snippets-service.readthedocs.io/ ***/
 user_pref("browser.newtabpage.activity-stream.feeds.snippets", false);
-user_pref("browser.newtabpage.activity-stream.asrouter.providers.snippets", "{}");
 /* 0105c: disable Activity Stream Top Stories, Pocket-based and/or sponsored content ***/
 user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
 user_pref("browser.newtabpage.activity-stream.section.highlights.includePocket", false);
@@ -630,9 +629,11 @@ user_pref("_user.js.parrot", "1200 syntax error: the parrot's a stiff!");
  * if it disables renegotiations but the problem is that the browser can't know that.
  * Setting this pref to true is the only way for the browser to ensure there will be
  * no unsafe renegotiations on the channel between the browser and the server.
+ * [STATS] SSL Labs (Dec 2020) reports 99.0% of sites have secure renegotiation [4]
  * [1] https://wiki.mozilla.org/Security:Renegotiation
  * [2] https://tools.ietf.org/html/rfc5746
- * [3] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2009-3555 ***/
+ * [3] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2009-3555
+ * [4] https://www.ssllabs.com/ssl-pulse/ ***/
 user_pref("security.ssl.require_safe_negotiation", true);
 /* 1202: control TLS versions with min and max
  * 1=TLS 1.0, 2=TLS 1.1, 3=TLS 1.2, 4=TLS 1.3
@@ -767,10 +768,8 @@ user_pref("dom.security.https_only_mode_send_http_background_request", false);
 /** UI (User Interface) ***/
 /* 1270: display warning on the padlock for "broken security" (if 1201 is false)
  * Bug: warning padlock not indicated for subresources on a secure page! [2]
- * [STATS] SSL Labs (Dec 2020) reports 99.0% of sites have secure renegotiation [3]
  * [1] https://wiki.mozilla.org/Security:Renegotiation
- * [2] https://bugzilla.mozilla.org/1353705
- * [3] https://www.ssllabs.com/ssl-pulse/ ***/
+ * [2] https://bugzilla.mozilla.org/1353705 ***/
 user_pref("security.ssl.treat_unsafe_negotiation_as_broken", true);
 /* 1271: control "Add Security Exception" dialog on SSL warnings
  * 0=do neither 1=pre-populate url 2=pre-populate url + pre-fetch cert (default)
@@ -1191,7 +1190,10 @@ user_pref("permissions.delegation.enabled", false);
 /* 2624: enable "window.name" protection [FF82+]
  * If a new page from another domain is loaded into a tab, then window.name is set to an empty string. The original
  * string is restored if the tab reverts back to the original page. This change prevents some cross-site attacks ***/
-user_pref("privacy.window.name.update.enabled", true);
+user_pref("privacy.window.name.update.enabled", true); // [DEFAULT: true FF86+]
+/* 2625: disable bypassing 3rd party extension install prompts [FF82+]
+ * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1659530,1681331 ***/
+user_pref("extensions.postDownloadThirdPartyPrompt", false);
 
 /** DOWNLOADS ***/
 /* 2650: discourage downloading to desktop
@@ -1676,12 +1678,6 @@ user_pref("browser.search.geoSpecificDefaults.url", "");
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 
-
-
-
-/*** MY OVERRIDES ***/
-user_pref("_user.js.parrot", "overrides section syntax error");
-
 /* Enable start page
 user_pref("browser.startup.page", 1);                            // 0102
 user_pref("browser.startup.homepage", "https://duckduckgo.com"); // 0103
@@ -1718,5 +1714,3 @@ user_pref("privacy.clearOnShutdown.siteSettings", false); // Site Preferences
 
 // Do not resize inner window as a FPR technique
 user_pref("privacy.resistFingerprinting.letterboxing", false); // 4504
-
-user_pref("_user.js.parrot", "SUCCESS");
