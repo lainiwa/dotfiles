@@ -42,6 +42,8 @@ fi
 (( ${+commands[bat]}    )) && alias cat=bat
 # Shorter fd-find
 (( ${+commands[fdfind]} )) && alias fd=fdfind
+# Shorter netsurf
+(( ${+commands[netsurf-gtk3]} )) && alias netsurf=netsurf-gtk3
 # "Pronounceable" passwords are insecure
 (( ${+commands[pwgen]}  )) && alias pwgen='pwgen --secure'
 # Scale image to full window in sxiv (mode: fit)
@@ -144,8 +146,10 @@ if [[ ! -z "${grc_conf}" ]]; then
 fi
 
 
+# I'm not a robot
 alias du='du --human-readable'
-alias df='df --human-readable --block-size=G'
+alias df='df --human-readable'
+alias free='free --human'
 
 
 # Create directory and cd to it
