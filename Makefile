@@ -20,4 +20,3 @@ update-userjs:
 		-p ~/.dotfiles/firefox \
 		-d \
 		-s
-
