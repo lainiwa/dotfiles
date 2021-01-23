@@ -1714,3 +1714,6 @@ user_pref("privacy.clearOnShutdown.siteSettings", false); // Site Preferences
 
 // Do not resize inner window as a FPR technique
 user_pref("privacy.resistFingerprinting.letterboxing", false); // 4504
+
+user_pref("extensions.enabledScopes", 0); // [HIDDEN PREF]
+user_pref("extensions.autoDisableScopes", 15); // [DEFAULT: 15]
