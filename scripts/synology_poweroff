@@ -24,7 +24,7 @@ delta=${delta/-/}
 
 
 if [[ ${delta} -le $(( 5 * 60 )) ]]; then
-    echo Not powering off...
+    echo Powering off...
     ssh synology poweroff
     echo Powered off
 
