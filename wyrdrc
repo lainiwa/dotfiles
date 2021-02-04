@@ -142,6 +142,7 @@ set center_cursor="true"
 # bind "?"                 help
 # bind "\\Cl"              refresh
 # bind "Q"                 quit
+bind "Z"                 quit
 
 # bind "<return>"          entry_complete
 # bind "<enter>"           entry_complete
