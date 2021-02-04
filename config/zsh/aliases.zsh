@@ -76,6 +76,8 @@ alias fix='reset; stty sane; tput rs1; clear; echo -e "\033c"'
 alias tmp='cd $(mktemp -d)'
 
 # Systemd --user aliases
+alias sys='systemctl'
+alias jor='journalctl'
 alias sysu='systemctl --user'
 alias joru='journalctl --user'
 
@@ -161,6 +163,9 @@ compdef _directories new
 # Create new file with all base directories and open it in editor
 nev() { [[ $# == 1 ]] && new "$1" && ${EDITOR:-vim} -- "$1" ; }
 compdef _directories nev
+# Follow links when opening in sublime
+subl() { $(command -pv subl) -- "$(readlink -f "$1")"; }
+compdef _subl subl
 
 
 # Wrap into a readline
