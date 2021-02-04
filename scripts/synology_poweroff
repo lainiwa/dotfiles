@@ -6,20 +6,11 @@ set -o nounset  # exit on undeclared variable
 # set -o xtrace    # trace execution
 
 
-pretty_uptime=$(ssh synology uptime |cut -d ' ' -f5 |cut -d ',' -f1)
+uptime_seconds=$(ssh synology cat /proc/uptime |cut --fields=1 --delimiter=.)
+boot_epoch=$(date -d "${uptime_seconds} seconds ago" +%s)
+expected_boot_epoch=$(date --date="13:00" +%s)
 
-uptime_seconds=$((
-    $(date --date="$(date +'%Y-%m-%d') ${pretty_uptime}" +%s) -
-    $(date --date="$(date +'%Y-%m-%d')                 " +%s)
-))
-
-
-start_epoch=$(( $(date +%s) - uptime_seconds ))
-
-real_start_time=$(date --date="@${start_epoch}" +%s)
-expected_start_time=$(date --date="13:00" +%s)
-
-delta=$(( real_start_time - expected_start_time ))
+delta=$(( boot_epoch - expected_boot_epoch ))
 delta=${delta/-/}
 
 
