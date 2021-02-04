@@ -208,9 +208,12 @@
     -
         description: Install user.js to *.lain-default profile
         command: |
-            rm ~/.mozilla/firefox/*.lain-default/prefs.js || true
-            ln -sf ~/.dotfiles/firefox/*.js \
-                   ~/.mozilla/firefox/*.lain-default/
+            FILE=$(echo ${HOME}/.mozilla/firefox/*.lain-default)
+            if [[ -d ${FILE} ]]; then
+                rm "${FILE}/prefs.js" || true
+                ln -sf ~/.dotfiles/firefox/*.js \
+                       "${FILE}/"
+            fi
     # Install linuxbrew
     -
         description: Install linuxbrew
