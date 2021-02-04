@@ -6,14 +6,16 @@ set -o xtrace    # trace execution
 # Create ~/.ssh if not exists
 mkdir -p ~/.ssh
 
-# # Add github's host key to known_hosts (if not yet)
-# if ! grep github.com ~/.ssh/known_hosts >/dev/null 2>&1; then
-#     ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-# fi
+# Add github's host key to known_hosts (if not yet)
+if ! grep github.com ~/.ssh/known_hosts >/dev/null 2>&1; then
+    command -v ssh-keyscan >/dev/null &&
+    ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+fi
 
 # Clone repository (if not yet)
 if [ ! -d ~/.dotfiles ]; then
     # First try cloning via ssh (only works if owner of repo)
+    GIT_TERMINAL_PROMPT=0 \
     git clone     git@github.com:lainiwa/dotfiles.git ~/.dotfiles ||
     # Clone via https otherwise
     git clone https://github.com/lainiwa/dotfiles.git ~/.dotfiles
