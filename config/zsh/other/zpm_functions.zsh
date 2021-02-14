@@ -112,7 +112,9 @@ ORDER BY history.start_time DESC
         --query="${LBUFFER}" \
         --bind=ctrl-r:toggle-sort \
         --with-nth 2.. \
-        --delimiter='\|'
+        --delimiter='\|' \
+        --no-sort \
+        --exact
     )
     selected=${selected%%|*}
     if [[ -n ${selected} ]]; then
