@@ -165,7 +165,6 @@ nev() { [[ $# == 1 ]] && new "$1" && ${EDITOR:-vim} -- "$1" ; }
 compdef _directories nev
 # Follow links when opening in sublime
 subl() { $(command -pv subl) -- "$(readlink -f "$1")"; }
-compdef _subl subl
 
 
 # Wrap into a readline
