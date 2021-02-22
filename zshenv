@@ -1,3 +1,5 @@
+# Don't call compinit on /etc/zsh/zshrc source
+skip_global_compinit=1
 
 _add_to_path() {
     local dir=${1}
