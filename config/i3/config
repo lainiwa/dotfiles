@@ -198,6 +198,12 @@ bindsym --release $mod+Shift+Print exec screenshot focused
 
 bindsym $mod+Shift+p exec passmenu
 
+bindsym $mod+Shift+w exec \
+        notify-send \
+                --urgency=low \
+                --expire-time=10000 \
+                "$(xclip -selection primary -out | trans en:ru --no-ansi)"
+
 #exec --no-startup-id conky
 
 # aka Alt+Tab, like normies do
