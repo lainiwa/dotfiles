@@ -100,7 +100,7 @@ histdb-fzf-widget() {
     local selected num
     selected=$(
         _histdb_query "
-SELECT min(history.id), REPLACE(argv, X'0A', '; ')
+SELECT min(history.command_id), REPLACE(argv, X'0A', '; ')
 FROM history
 LEFT JOIN commands ON history.command_id = commands.rowid
 GROUP BY argv
