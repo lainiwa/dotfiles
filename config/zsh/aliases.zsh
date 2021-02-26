@@ -136,16 +136,19 @@ alias -g TRN='| (){ tr -- "$1" "\n";}'
 
 
 # Set grc alias for available commands.
-[[ -f /etc/grc.conf ]] && grc_conf='/etc/grc.conf'
+[[ -f /etc/grc.conf           ]] && grc_conf='/etc/grc.conf'
 [[ -f /usr/local/etc/grc.conf ]] && grc_conf='/usr/local/etc/grc.conf'
-if [[ ! -z "${grc_conf}" ]]; then
+grc_ignore=(ls systemctl)
+if [[ -n ${grc_conf} ]]; then
     grep '^# ' "${grc_conf}" | cut -f 2 -d ' ' |
     while read -r cmd; do
-        if (( $+commands[$cmd] )) &&  [[ "ls systemctl" != *"$cmd"* ]]; then
+        if (( ${+commands[$cmd]} )) && ! (($grc_ignore[(Ie)$cmd])); then
             eval "$cmd() { grc --colour=auto $cmd \"\$@\" }"
         fi
     done
 fi
+unset grc_ignore
+unset grc_conf
 
 
 # I'm not a robot
