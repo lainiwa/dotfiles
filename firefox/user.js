@@ -149,7 +149,7 @@ user_pref("_user.js.parrot", "0200 syntax error: the parrot's definitely decease
 /* 0202: set a default permission for Location (see 0201) [FF58+]
  * 0=always ask (default), 1=allow, 2=block
  * [NOTE] Best left at default "always ask", fingerprintable via Permissions API
- * [SETTING] to add site exceptions: Page Info>Permissions>Access Your Location
+ * [SETTING] to add site exceptions: Ctrl+I>Permissions>Access Your Location
  * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Location>Settings ***/
    // user_pref("permissions.default.geo", 2);
 /* 0203: use Mozilla geolocation service instead of Google when geolocation is enabled [FF74+]
@@ -415,7 +415,7 @@ user_pref("network.http.altsvc.oe", false);
  * [1] https://trac.torproject.org/projects/tor/wiki/doc/TorifyHOWTO/WebBrowsers ***/
 user_pref("network.proxy.socks_remote_dns", true);
 /* 0708: disable FTP [FF60+] ***/
-   // user_pref("network.ftp.enabled", false);
+   // user_pref("network.ftp.enabled", false); // [DEFAULT: false FF88+]
 /* 0709: disable using UNC (Uniform Naming Convention) paths [FF61+]
  * [SETUP-CHROME] Can break extensions for profiles on network shares
  * [1] https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/26424 ***/
@@ -645,14 +645,15 @@ user_pref("security.ssl.require_safe_negotiation", true);
 /* 1203: enforce TLS 1.0 and 1.1 downgrades as session only */
 user_pref("security.tls.version.enable-deprecated", false);
 /* 1204: disable SSL session tracking [FF36+]
- * SSL Session IDs are unique, last up to 24hrs in Firefox, and can be used for tracking
- * [SETUP-PERF] Relax this if you have FPI enabled (see 4000) *AND* you understand the
- * consequences. FPI isolates these, but it was designed with the Tor protocol in mind,
- * and the Tor Browser has extra protection, including enhanced sanitizing per Identity.
+ * SSL Session IDs are unique and last up to 24hrs in Firefox (or longer with prolongation attacks)
+ * [NOTE] These are not used in PB mode. In normal windows they are isolated when using FPI (4001)
+ * and/or containers. In FF85+ they are isolated by default (privacy.partition.network_state)
+ * [WARNING] There are perf and passive fingerprinting costs, for little to no gain. Preventing
+ * tracking via this method does not address IPs, nor handle any sanitizing of current identifiers
  * [1] https://tools.ietf.org/html/rfc5077
  * [2] https://bugzilla.mozilla.org/967977
  * [3] https://arxiv.org/abs/1810.07304 ***/
-user_pref("security.ssl.disable_session_identifiers", true); // [HIDDEN PREF]
+   // user_pref("security.ssl.disable_session_identifiers", true); // [HIDDEN PREF]
 /* 1206: disable TLS1.3 0-RTT (round-trip time) [FF51+]
  * [1] https://github.com/tlswg/tls13-spec/issues/1001
  * [2] https://blog.cloudflare.com/tls-1-3-overview-and-q-and-a/ ***/
@@ -725,7 +726,7 @@ user_pref("security.mixed_content.block_display_content", true);
 user_pref("security.mixed_content.block_object_subrequest", true);
 /* 1244: enable HTTPS-Only mode [FF76+]
  * When "https_only_mode" (all windows) is true, "https_only_mode_pbm" (private windows only) is ignored
- * [SETTING] to add site exceptions: Page Info>HTTPS-Only mode>On/Off/Off temporarily
+ * [SETTING] to add site exceptions: Padlock>HTTPS-Only mode>On/Off/Off temporarily
  * [SETTING] Privacy & Security>HTTPS-Only Mode
  * [TEST] http://example.com [upgrade]
  * [TEST] http://neverssl.org/ [no upgrade]
@@ -917,7 +918,7 @@ user_pref("media.peerconnection.ice.proxy_only_if_behind_proxy", true); // [FF70
 user_pref("webgl.disabled", true);
 user_pref("webgl.enable-webgl2", false);
 /* 2012: limit WebGL ***/
-user_pref("webgl.min_capability_mode", true);
+   // user_pref("webgl.min_capability_mode", true);
 user_pref("webgl.disable-fail-if-major-performance-caveat", true); // [DEFAULT: true FF86+]
 /* 2022: disable screensharing ***/
 user_pref("media.getusermedia.screensharing.enabled", false);
@@ -925,7 +926,7 @@ user_pref("media.getusermedia.browser.enabled", false);
 user_pref("media.getusermedia.audiocapture.enabled", false);
 /* 2024: set a default permission for Camera/Microphone [FF58+]
  * 0=always ask (default), 1=allow, 2=block
- * [SETTING] to add site exceptions: Page Info>Permissions>Use the Camera/Microphone
+ * [SETTING] to add site exceptions: Ctrl+I>Permissions>Use the Camera/Microphone
  * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Camera/Microphone>Settings ***/
    // user_pref("permissions.default.camera", 2);
    // user_pref("permissions.default.microphone", 2);
@@ -1007,7 +1008,7 @@ user_pref("dom.push.enabled", false);
 /* 2306: set a default permission for Notifications (both 2304 and 2305) [FF58+]
  * 0=always ask (default), 1=allow, 2=block
  * [NOTE] Best left at default "always ask", fingerprintable via Permissions API
- * [SETTING] to add site exceptions: Page Info>Permissions>Receive Notifications
+ * [SETTING] to add site exceptions: Ctrl+I>Permissions>Receive Notifications
  * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Notifications>Settings ***/
    // user_pref("permissions.default.desktop-notification", 2);
 
@@ -1098,7 +1099,7 @@ user_pref("dom.webaudio.enabled", false);
    // user_pref("dom.vr.enabled", false);
 /* 2521: set a default permission for Virtual Reality (see 2520) [FF73+]
  * 0=always ask (default), 1=allow, 2=block
- * [SETTING] to add site exceptions: Page Info>Permissions>Access Virtual Reality Devices
+ * [SETTING] to add site exceptions: Ctrl+I>Permissions>Access Virtual Reality Devices
  * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Virtual Reality>Settings ***/
    // user_pref("permissions.default.xr", 0);
 
@@ -1139,7 +1140,7 @@ user_pref("devtools.debugger.remote-enabled", false); // [DEFAULT: false]
 user_pref("middlemouse.contentLoadURL", false);
 /* 2615: disable websites overriding Firefox's keyboard shortcuts [FF58+]
  * 0 (default) or 1=allow, 2=block
- * [SETTING] to add site exceptions: Page Info>Permissions>Override Keyboard Shortcuts ***/
+ * [SETTING] to add site exceptions: Ctrl+I>Permissions>Override Keyboard Shortcuts ***/
    // user_pref("permissions.default.shortcuts", 2);
 /* 2616: remove special permissions for certain mozilla domains [FF35+]
  * [1] resource://app/defaults/permissions ***/
@@ -1618,6 +1619,7 @@ user_pref("_user.js.parrot", "5000 syntax error: this is an ex-parrot!");
    // user_pref("layout.spellcheckDefault", 2); // 0=none, 1-multi-line, 2=multi-line & single-line
 /* UX BEHAVIOR ***/
    // user_pref("browser.backspace_action", 2); // 0=previous page, 1=scroll up, 2=do nothing
+   // user_pref("browser.quitShortcut.disabled", true); // disable Ctrl-Q quit shortcut [LINUX] [MAC] [FF87+]
    // user_pref("browser.tabs.closeWindowWithLastTab", false);
    // user_pref("browser.tabs.loadBookmarksInTabs", true); // open bookmarks in a new tab [FF57+]
    // user_pref("browser.urlbar.decodeURLsOnCopy", true); // see bugzilla 1320061 [FF53+]
