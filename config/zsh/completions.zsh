@@ -43,3 +43,14 @@ builtin zstyle ':completion:*' menu select
 # zstyle ':completion:*:warnings' format "$fg[red]No matches for:$reset_color %d"
 # zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
 # zstyle ':completion:*' group-name ''
+
+# Git aliases
+builtin zstyle ':completion:*:*:git:*' user-commands \
+       big-picture:'visualize git repositories' \
+       filter-repo:'rewrite (or analyze) repository history' \
+               dsf:'' \
+           foresta:'text-based git log graph viewer' \
+              info:'show information about repository a la svn-info' \
+          playback:'play back or step through, commit by commit, the history of any git-controlled file' \
+    remote-keybase:'' \
+              town:'make software development teams who use git even more productive and happy'
