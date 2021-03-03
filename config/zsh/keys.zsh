@@ -42,7 +42,10 @@ bindkey '^[[6~'    down-history # PageDown
 # Run manpage on Esc+h
 autoload -Uz run-help
 autoload -Uz run-help-git
+autoload -Uz run-help-ip
+autoload -Uz run-help-openssl
 autoload -Uz run-help-sudo
+autoload -Uz run-help-svn
 bindkey '^[h' run-help  # Esc+h
 
 # Edit current command in $EDITOR
