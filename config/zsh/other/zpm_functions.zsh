@@ -31,7 +31,7 @@ requirements() {
     <<< zsh-users/zsh-completions
     # <<< zpm-zsh/zsh-completions,apply:fpath
     <<< srijanshetty/zsh-pandoc-completion
-    <<< bobthecow/git-flow-completion
+    <<< petervanderdoes/git-flow-completion
     <<< spwhitt/nix-zsh-completions
     <<< nojanath/ansible-zsh-completion
     <<< lukechilds/zsh-better-npm-completion
