@@ -87,6 +87,10 @@
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Preferences.sublime-settings
         force: true
+    # Poetry
+    ~/.config/pypoetry:
+        path: config/pypoetry
+        if: command -v poetry >/dev/null
     # Neovim
     ~/.config/nvim:
         path: config/nvim
