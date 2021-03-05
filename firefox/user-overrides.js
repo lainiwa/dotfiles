@@ -38,3 +38,6 @@ user_pref("privacy.resistFingerprinting.letterboxing", false); // 4504
 // Could you not break my extensions please
 user_pref("extensions.enabledScopes", 0); // [HIDDEN PREF]
 user_pref("extensions.autoDisableScopes", 15); // [DEFAULT: 15]
+
+// Enable ActivityWatch extension
+user_pref("dom.serviceWorkers.enabled", true);  // 2302
