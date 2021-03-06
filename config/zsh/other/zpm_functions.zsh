@@ -76,6 +76,7 @@ requirements() {
     <<<           @empty/khal,gen-completion:"${GH}/pimutils/khal/master/misc/__khal"
     # Generate completions
     (( ${+commands[dvc]} )) && <<< @empty/dvc,gen-completion:"dvc completion -s zsh"
+    (( ${+commands[gh]}  )) && <<<  @empty/gh,gen-completion:"gh  completion -s zsh"
     # Generate sourceables
     (( ${+commands[brew]}          )) && <<< @empty/linuxbrew,gen-plugin:"brew shellenv; <<<'FPATH=$(brew --prefix)/share/zsh/site-functions:\${FPATH}'"
     (( ${+commands[aws_completer]} )) && <<<       @empty/aws,gen-plugin:"<<<'complete -C $(which aws_completer) aws'"
