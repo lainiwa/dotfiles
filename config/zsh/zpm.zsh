@@ -79,7 +79,8 @@ export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 source "${0:A:h}/other/zpm_functions.zsh"
 
 
-if [[ ! ${_ZMP_REQ} -nt ${0} ]]; then
+if [[ ! ${_ZMP_REQ} -nt ${0}
+   || ! ${_ZMP_REQ} -nt ${0:A:h}/other/zpm_functions.zsh ]]; then
     echo "Resetting ZPM cache..."
     rm -rf -- "${_ZMP_REQ:h}"
     mkdir -p -- "${_ZMP_REQ:h}"
