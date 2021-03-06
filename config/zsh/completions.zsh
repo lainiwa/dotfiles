@@ -23,10 +23,6 @@ builtin zstyle ':completion:*' menu select
 # Increase the number of errors based on the length of the typed word.
 # builtin zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
 
-
-# Do menu-driven completion.
-# zstyle ':completion:*' menu select
-
 # Color completion for some things.
 # http://linuxshellaccount.blogspot.com/2008/12/color-completion-using-zsh-modules-on.html
 # zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
