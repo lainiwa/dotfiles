@@ -45,12 +45,22 @@ builtin zstyle ':completion:*' menu select
 # zstyle ':completion:*' group-name ''
 
 # Git aliases
-builtin zstyle ':completion:*:*:git:*' user-commands \
-       big-picture:'visualize git repositories' \
-       filter-repo:'rewrite (or analyze) repository history' \
-               dsf:'' \
-           foresta:'text-based git log graph viewer' \
-              info:'show information about repository a la svn-info' \
-          playback:'play back or step through, commit by commit, the history of any git-controlled file' \
-    remote-keybase:'' \
+builtin zstyle ':completion:*:*:git:*' user-commands
+
+
+# Load existing git completions into an array
+zstyle -a ':completion:*:*:git:*' user-commands _commands_arr
+# Add user commands to array
+_commands_arr=(
+       big-picture:'visualize git repositories'
+       filter-repo:'rewrite (or analyze) repository history'
+               dsf:''
+           foresta:'text-based git log graph viewer'
+              info:'show information about repository a la svn-info'
+          playback:'play back or step through, commit by commit, the history of any git-controlled file'
+    remote-keybase:''
               town:'make software development teams who use git even more productive and happy'
+    ${_commands_arr}
+)
+# Load the updated completions list back to work
+zstyle ':completion:*:*:git:*' user-commands "${_commands_arr[@]}"
