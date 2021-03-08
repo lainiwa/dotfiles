@@ -56,6 +56,7 @@ _commands_arr=(
           playback:'play back or step through, commit by commit, the history of any git-controlled file'
     remote-keybase:''
               town:'make software development teams who use git even more productive and happy'
+              open:'open the repo website'
     ${_commands_arr}
 )
 # Load the updated completions list back to work
