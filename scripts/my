@@ -5,6 +5,10 @@ set -o pipefail # catch errors in pipelines
 set -o nounset  # exit on undeclared variable
 # set -o xtrace    # trace execution
 
+bios_or_efi() {
+    [ -d /sys/firmware/efi ] && echo UEFI || echo BIOS
+}
+
 fb() {
     requires buku fzf
 
