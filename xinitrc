@@ -17,6 +17,19 @@ else
 fi
 
 
+pkill 'aw-watcher-*'
+pkill 'aw-server-*'
+if command -v aw-qt >/dev/null && ! pgrep -x aw-qt >/dev/null; then
+    {
+        while ! pgrep py3status; do
+            sleep 1
+        done &
+        sleep 10 && aw-qt
+    } &
+
+fi
+
+
 if command -v dunst >/dev/null && ! pgrep -x dunst >/dev/null; then
     dunst &
 
