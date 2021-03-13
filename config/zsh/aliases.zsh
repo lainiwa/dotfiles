@@ -1,10 +1,10 @@
 
 # Mass file move, copy, and linking
 autoload zmv
-alias zmv='noglob zmv'
-alias zcp='noglob zmv -C'
-alias zln='noglob zmv -L'
-alias zsy='noglob zmv -Ls'
+zmv() { noglob zmv     "$@"; }
+zcp() { noglob zmv -C  "$@"; }
+zln() { noglob zmv -L  "$@"; }
+zsy() { noglob zmv -Ls "$@"; }
 
 # Substitute ls with exa
 if (( ${+commands[exa]} )); then
@@ -172,8 +172,8 @@ subl() { ${commands[subl]} -- "$(readlink -f "$1")"; }
 
 # Wrap into a readline
 if (( ${+commands[rlwrap]} )); then
-    # CHICKEN Scheme interpreter
-    (( ${+commands[csi]} )) && alias csi='rlwrap csi'
+    (( ${+commands[csi]}  )) && csi()  {rlwrap csi  "$@"; }  # scheme interpreter
+    (( ${+commands[make]} )) && make() {rlwrap make "$@"; }  # for interactive menus, e.g. `make menuconfig`
 fi
 
 
