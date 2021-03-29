@@ -11,7 +11,8 @@
 -- \set PROMPT1 '%[%033[1m%][%/] # '
 -- \set PROMPT2 '... > '
 
-
+-- Set pager to less
+\setenv PAGER 'less -XS'
 -- Disable pager by default
 \pset pager off
 
