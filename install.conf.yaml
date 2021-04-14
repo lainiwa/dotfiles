@@ -133,6 +133,12 @@
     ~/.config/Jackett:
         if: command -v docker >/dev/null
         path: config/Jackett
+    # GTK
+    ~/.gtkrc-2.0:
+        if: dpkg -l libgtk2.0-0 &>/dev/null
+    ~/.config/gtk-3.0:
+        if: dpkg -l libgtk-3-0 &>/dev/null
+        path: config/gtk-3.0
     # Systemd
     ~/.config/systemd/user/:
         glob: true
