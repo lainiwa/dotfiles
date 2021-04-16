@@ -344,7 +344,7 @@ full_upgrade() {
         ~/.dotfiles/install
     fi
     # Update private dotfiles
-    if [[ -d ~/.dotfiles ]] && command -v run_keybase >/dev/null; then
+    if [[ -d ~/.dotfiles-private ]] && command -v run_keybase >/dev/null; then
         run_keybase -g
         git --git-dir="${HOME}/.dotfiles-private/.git/" pull origin master
         ~/.dotfiles-private/install
