@@ -106,6 +106,10 @@
     ~/.config/nnn:
         if: command -v nnn >/dev/null
         path: config/nnn
+    # Surfraw
+    ~/.config/surfraw:
+        if: command -v surfraw >/dev/null
+        path: config/surfraw
     # Zathura
     ~/.config/zathura:
         if: command -v zathura >/dev/null

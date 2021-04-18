@@ -1,0 +1,100 @@
+#!/bin/sh
+# elvis: searx           -- Search using searx metasearch engine instances (https://searx.me and others)
+# author: ng0            -- contact: ng0@we.make.ritual.n0.is
+# 2016-08-14
+
+. surfraw || exit 1
+
+w3_config_hook () {
+    def SURFRAW_searx_categories  "$SURFRAW_categories"
+    def SURFRAW_searx_base_url    "$SURFRAW_url"
+}
+
+w3_usage_hook () {
+    cat <<EOF
+
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Use the searx metasearch engine
+
+ -category,c=CATEGORIES
+
+  Local options:
+    default   | search category "general" (default)
+    vid       | search category "videos"
+    socialm   | search category "social+media"
+    news      | search category "news"
+    music     | search category "music"
+    map       | search category "map"
+    it        | search category "it"
+    img       | search category "images"
+    files     | search category "files"
+                 Default: general
+
+ -url,u=URL
+
+  Local options:
+    1       | https://searx.me
+    2       | https://searx.laquadrature.net
+    3       | https://www.privatesearch.io
+    o1      | http://searchb5a7tmimez.onion (laquadrature)
+    o2      | http://ulrn6sryqaifefld.onion (searx.me)
+    cjdns   | fc00:59dd:3bb2:d592:4083:c138:5489:560a
+                  Default: https://searx.me
+
+EOF
+    w3_global_usage
+}
+
+w3_parse_option_hook () {
+    opt="$1"
+    optarg="$2"
+    case "$opt" in
+    -c*=*)   setopt   SURFRAW_searx_categories   $optarg ;;
+    -u*=*)   setopt   SURFRAW_searx_base_url     $optarg ;;
+    *) return 1 ;;
+    esac
+    return 0
+}
+
+w3_config
+w3_parse_args "$@"
+
+case "$SURFRAW_searx_categories" in
+    default*)   category="general"        ;;
+    vid*)       category="videos"         ;;
+    socialm*)   category="social+media"   ;;
+    news*)      category="news"           ;;
+    music*)     category="music"          ;;
+    map*)       category="map"            ;;
+    it*)        category="it"             ;;
+    img*)       category="images"         ;;
+    files*)     category="files"          ;;
+    *)          category="general"        ;;
+esac
+case "$SURFRAW_searx_base_url" in
+     1*)        searx_url="https://searx.prvcy.eu" ;;
+     2*)        searx_url="https://searx.simonoener.com" ;;
+    # https://searx.me                # not a search
+    # https://searx.laquadrature.net  # cannot retrieve results
+    # https://www.privatesearch.io    # down
+    # https://search.modalogi.com     # no results
+    # https://searx.decatec.de        # german
+    # https://searx.fmac.xyz          # rate-limited
+    # https://searx.nevrlands.de      # rate-limited
+    # https://anon.sx                 # rate-limited
+    o1*)        searx_url="http://searchb5a7tmimez.onion"  ;;
+    o2*)        searx_url="http://ulrn6sryqaifefld.onion"  ;;
+    o3*)        searx_url="http://upzhip7hatfbsi5xcwyw6n2bpappt3j4gkvwjmyb7qo6urcyhmlekpad.onion" ;;
+    o4*)        searx_url="http://juy4e6eicawzdrz7.onion" ;;
+    cjdns*)     searx_url="fc00:59dd:3bb2:d592:4083:c138:5489:560a" ;;
+    *)          searx_url="https://searx.prvcy.eu" ;;
+esac
+# w3_args now contains a list of arguments
+escaped_args=$(w3_url_of_arg $w3_args)
+
+preferences='eJx1Vk2P3DYM_TX1xZgASQ49zaFoUSRAgQTdTa8GLXFs1rLoULJnvb--lD9m5NntZQaiJPKRj3yygYgNC2E4N-hRwBUOfDNCg2f0px9PhWMDLi0KGCMb7geHEc8F9XqmGoRf5vOzjFj0GFu25-_fnp6LABcMCGLa86cittjjmYMBKQTD6GKo2Fcer1WE-vwnuICFZap0k92Ecg6GTu1Yf4jXYrl2CnFWDI4bMmxxOlmQrgA7gTdoqy3S5ogC1E6t6BvyKS_mxmE5kUUOVbX-__Lp98gi6ONrZqrJN28PXqmjieeUbrUVSa0pZOnIjy9lOlBVFBcPsR5Nh3Fbpy0LEfKbdrToc4OjWkDmMlkChXzLzwA5wGipaaqqHwMZXZPXLeIxh7te2U90ZDoI-f7HF8WWyEuLrTjKhR5Jv2oLESQOD-n2_C9il1u2q8G07ECqSklDpSOPuYOYeYxjjXfDRaCHlDZudVrTCmwIXNmjJVhOke8ITIZX0FqKmeHO4oXcYrGIryj3WCAvNOXwjHAIgpfchsJXsgeWbFNavJCnSOzDO5kPDuYShiHcY2NkdoezZkz4zHyoJUZFL295vmWV2ibwKObAQcb2nlwahxql2coYuZs5cmi5A59x_vMKPh5ZtkBu7jkllx2cqEd-6P2auTvkJGM9N9iHvcfZrXwOLeQ1fQCzQ16GbM00y_jWM3sp-7nHnnUqooAPTnXK_h8HPU-EeYuvmwfIW99syc_QMuf7PKAXHDgDcIiQsGcpbGN4C3hr8Jsl4KuHPg-RSnlgYPeyB7wI6jjxJV5BsLQkaLS7563KC-QjhX7ot82GooP6rjmJVZBD02k7eWscj_aeh0opaWPouGdMrKC2EO1WycUx-VyLLJn4yv5Q5oXbA8al8w5ix3WI-EH27tmZuZ_4-Pnzry9vBG2v0ir2qe_L9PPg5UFBUs1_jhwPIB_68lZ-K5wkYF8PiPJAaqMSGHVCwk3tfXOYYpiOYw1DV_YkwnL3a4w5xSnzmvKhCcuj8jfU6DsG4VCagL2Wk8x7qrs8UyiB4oH3dfTfzNvog3Z2aN-V0r0_WtCHKf1s-WJUxfD66N3rWaA_Prf3B3hwo5rC-atfVBQVq7BLmP6h_uSow6rl2OGcgn_TAax-MwZVA_749lW_Ba6id27ud2dfEuZ1obee0F0q9c_SwyLTiy0VNH1hmPXjZtYPBKezpHtfnp-_P-2-df0soI-1VD_-_kutqiMohbYHaqD_AN6YbXU='
+# SafeSearch: none ------------gAS
+preferences='eJx1Vk2P3DYM_TX1xZigaQ49zaFoUSRAgQ26m14NWuLYrGXRoWTPen99KX_MyLPpZQaiJPKRj3yygYgNC2E4N-hRwBUOfDNCg2f0p2_PhWMDLi0KGCMb7geHEc8F9XqmGoRf5_OLjFj0GFu2569Pzy9FgAsGBDHt-ecittjjmYMBKQTD6GKo2Fcer1WE-vwnuICFZap0k92Ecg6GTu1Yf4jXYrl2CnFWDI4bMmxxOlmQrgA7gTdoqy3S5ogC1E6t6BvyKS_mxmE5kUUOVbX-__TL75FF0Me3zFSTb94fvFJHE88p3WorklpTyNKRH1_LdKCqKC4eYj2aDuO2TlsWIuQ37WjR5wZHtYDMZbIECvmWnwFygNFS01RVPwYyuiavW8RjDne9sp_oyHQQ8v2Pr4otkZcWW3GUCz2SftUWIkgcHtLt-V_ELrdsV4Np2YFUlZKGSkcecwcx8xjHGu-Gi0APKW3c6rSmFdgQuLJHS7CcIt8RmAyvoLUUM8OdxQu5xWIR31DusUBeacrhGeEQBC-5DYWvZA8s2aa0eCFPkdiHH2Q-OJhLGIZwj42R2R3OmjHhM_OhlhgVvbzn-ZZVapvAo5gDBxnbe3JpHGqUZitj5G7myKHlDnzG-fcr-Hhk2QK5ueeUXHZwoh75ofdr5u6Qk4z13GAf9h5nt_I5tJDX9AHMDnkZsjXTLONbz-yl7Ocee9apiAI-ONUp-38c9DwR5i2-bh4gb32zJT9Dy5zv84BecOAMwCFCwp6lsI3hLeCtwW-WgG8e-jxEKuWBgd3LHvAiqOPEl3gFwdKSoNHunrcqL5CPFPqh3zYbig7qu-YkVkEOTaft5K1xPNp7HiqlpI2h454xsYLaQrRbJRfH5HMtsmTiG_tDmRduDxiXzjuIHdch4gfZu2dn5n7i46dPv76-E7S9SqvYp74v08-DlwcFSTX_PnI8gHzoy1v5rXCSgH09IMoDqY1KYNQJCTe1981himE6jjUMXdmTCMvdrzHmFKfMa8qHJiyPyt9Qo-8YhENpAvZaTjI_Ut3lmUIJFA-8r6P_bt5GH7SzQ_tDKd37owV9mNLPli9GVQyvj969ngX643N7f4AHN6opnL_4RUVRsQq7hOkf6k-OOqxajh3OKfiTDmD1mzGoGvDH0xf9FriK3rm53519TpjXhd56Rnep1D9LD4tML7ZU0PSFYdaPm1k_EJzOku59fnn5-rz71vWLgD7WUn37-y-1qo6gFNoeqIH-A80obXM='
+
+w3_browse_url "${searx_url}/?preferences=${preferences}&q=${escaped_args}&categories=${category}"
