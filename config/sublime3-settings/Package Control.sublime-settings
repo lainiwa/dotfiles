@@ -1,10 +1,15 @@
 {
 	"bootstrapped": true,
+	"channels":
+	[
+		"https://packagecontrol.io/channel_v3.json"
+	],
 	"in_process_packages":
 	[
 	],
 	"installed_packages":
 	[
+		"ActivityWatch Watcher",
 		"AlignTab",
 		"Anaconda",
 		"ApplySyntax",
@@ -17,7 +22,6 @@
 		"FindKeyConflicts",
 		"GitGutter",
 		"GitSavvy",
-		"GitTimeMetric",
 		"HTML-CSS-JS Prettify",
 		"INI",
 		"InsertDate",
@@ -29,19 +33,21 @@
 		"Package Control",
 		"Pretty JSON",
 		"rainbow_csv",
+		"RestructuredText Improved",
 		"Rust Enhanced",
 		"SideBarEnhancements",
+		"Sort Lines By Selection",
+		"SortBy",
 		"SublimeLinter",
 		"SublimeLinter-clang",
 		"SublimeLinter-flake8",
 		"SublimeLinter-shellcheck",
+		"Tabnine",
 		"Terraform",
 		"TOML",
-		"VimL",
-		"Tabnine"
+		"VimL"
 	],
 	"repositories":
 	[
-		"https://raw.githubusercontent.com/jwortmann/ini-syntax/master/packages.json"
 	]
 }
