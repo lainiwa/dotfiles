@@ -23,15 +23,13 @@ requirements() {
     <<< lainiwa/gitcd
     <<< lainiwa/ph-marks
     # Git related
-    # <<< paulirish/git-open
+    <<< paulirish/git-open
     <<< zdharma/zsh-diff-so-fancy
     # Completions
-    # <<< MenkeTechnologies/zsh-more-completions
+    # <<< MenkeTechnologies/zsh-more-completions,fpath:/src
     <<< zchee/zsh-completions
     <<< zsh-users/zsh-completions
-    # <<< zpm-zsh/zsh-completions,apply:fpath
     <<< srijanshetty/zsh-pandoc-completion
-    <<< petervanderdoes/git-flow-completion
     <<< spwhitt/nix-zsh-completions
     <<< nojanath/ansible-zsh-completion
     <<< lukechilds/zsh-better-npm-completion
@@ -39,25 +37,36 @@ requirements() {
     <<< chisui/zsh-nix-shell
     # Get gitignore template with `gi` command
     <<< voronkovich/gitignore.plugin.zsh
+    # History
+    if (( ${+commands[sqlite3]} && ${+commands[fzf]} )); then
+        <<< lainiwa/zsh-histdb
+    elif (( ${+commands[mcfly]} )); then
+        <<< cantino/mcfly,source:mcfly.zsh
+    else
+        <<< zdharma/history-search-multi-word,fpath:/
+    fi
     # Heavy stuff
-    # <<< zdharma/history-search-multi-word,fpath:/
-    # (( ${+commands[mcfly]} )) && <<< cantino/mcfly,source:mcfly.zsh
-    (( ${+commands[sqlite3]} )) && <<< lainiwa/zsh-histdb
     <<< zdharma/fast-syntax-highlighting,fpath:/→chroma
     <<< zsh-users/zsh-autosuggestions,source:zsh-autosuggestions.zsh
-    # <<< m42e/zsh-histdb-fzf,source:fzf-histdb.zsh
     # Substitute `...` with `../..`
     (( ${+commands[awk]} )) && <<< lainiwa/zsh-manydots-magic,source:manydots-magic
     # Non-plugins
-    (( ${+commands[make]} )) &&  <<< dylanaraps/fff,hook:"make; PREFIX=${_ZPM_POL} make install"
-    (( ${+commands[make]} )) &&  <<<   nvie/gitflow,hook:"make install prefix=${_ZPM_POL}"
-    (( ${+commands[make]} )) &&  <<<       snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
-     <<<      gitbits/git-info,hook:"cp git-*    ${_ZPM_POL}/bin/"
-     (( ${+commands[perl]} )) && <<< circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
-     (( ${+commands[bash]} )) && <<<    greymd/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
+    if (( ${+commands[make]} )); then
+        <<< dylanaraps/fff,hook:"PREFIX=${_ZPM_POL} make install"
+        <<<       snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
+        # <<<   nvie/gitflow,hook:"make install prefix=${_ZPM_POL}"
+        # <<< stacked-git/stgit,hook:"make prefix=${_ZPM_POL} install install-doc"
+        # <<< @gitlab/jallbrit/cbonsai,hook:"make; make install PREFIX=${_ZPM_POL}"
+    fi
+    <<< gitbits/git-info,hook:"cp git-*    ${_ZPM_POL}/bin/"
+    (( ${+commands[fzf]} )) && <<< wfxr/forgit
+    <<< Angelmmiguel/pm,fpath:/zsh,source:/zsh/pm.zsh
+    # ,hook:"mkdir functions bin; cp zsh/_pm functions/; cp zsh/pm.zsh bin/pm"
+    (( ${+commands[perl]} )) && <<< circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
+    (( ${+commands[bash]} )) && <<<    greymd/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
     # Generate completions
     (( ${+commands[rustup]} )) && <<< @empty/rustup,gen-completion:"rustup completions zsh rustup"
-    (( ${+commands[rustup]} )) && <<< @empty/cargo,gen-completion:"rustup completions zsh cargo"
+    (( ${+commands[rustup]} )) && <<<  @empty/cargo,gen-completion:"rustup completions zsh cargo"
     (( ${+commands[poetry]} )) && <<< @empty/poetry,gen-completion:"poetry completions zsh"
     (( ${+commands[rclone]} )) && <<< @empty/rclone,gen-completion:"rclone genautocomplete zsh /dev/stdout"
     (( ${+commands[restic]} )) && <<< @empty/restic,gen-completion:"restic generate --zsh-completion /dev/stdout"
@@ -77,6 +86,11 @@ requirements() {
     # Generate completions
     (( ${+commands[dvc]} )) && <<< @empty/dvc,gen-completion:"dvc completion -s zsh"
     (( ${+commands[gh]}  )) && <<<  @empty/gh,gen-completion:"gh  completion -s zsh"
+    if (( ${+commands[register-python-argcomplete]} )); then
+        (( ${+commands[pipx]} ))   && <<<   @empty/pipx,gen-completion:"register-python-argcomplete pipx"
+        (( ${+commands[cz]} ))     && <<<     @empty/cz,gen-completion:"register-python-argcomplete cz"
+        (( ${+commands[git-cz]} )) && <<< @empty/git-cz,gen-completion:"register-python-argcomplete git-cz"
+    fi
     # Generate sourceables
     (( ${+commands[brew]}          )) && <<< @empty/linuxbrew,gen-plugin:"brew shellenv; <<<'FPATH=$(brew --prefix)/share/zsh/site-functions:\${FPATH}'"
     (( ${+commands[aws_completer]} )) && <<<       @empty/aws,gen-plugin:"<<<'complete -C $(which aws_completer) aws'"
@@ -87,11 +101,6 @@ requirements() {
     (( ${+commands[pyenv]}         )) && <<<     @empty/pyenv,gen-plugin:"pyenv init - --no-rehash"
     (( ${+commands[kubectl]}       )) && <<<   @empty/kubectl,gen-plugin:"kubectl completion zsh"
     (( ${+commands[terraform]}     )) && <<< @empty/terraform,gen-plugin:"<<<'complete -o nospace -C $(which terraform) terraform'"
-    if (( ${+commands[register-python-argcomplete]} )); then
-        (( ${+commands[pipx]} ))   && <<<   @empty/pipx,gen-plugin:"register-python-argcomplete pipx"
-        (( ${+commands[cz]} ))     && <<<     @empty/cz,gen-plugin:"register-python-argcomplete cz"
-        (( ${+commands[git-cz]} )) && <<< @empty/git-cz,gen-plugin:"register-python-argcomplete git-cz"
-    fi
     # # Fetch releases from Github
     # if (( ${+commands[jq]} && ${+commands[tar]} )); then
     #     _glow=$( get_gh_url charmbracelet/glow 'linux_x86_64.tar.gz$')
@@ -101,6 +110,17 @@ requirements() {
     # fi
 }
 
+pick_fzf() {
+    ${${commands[sk]:+sk}:-fzf} \
+        --height "${FZF_TMUX_HEIGHT:-40%}" \
+        --no-multi \
+        --query="${LBUFFER}" \
+        --bind=ctrl-r:toggle-sort \
+        --with-nth 2.. \
+        --delimiter='\|' \
+        --no-sort \
+        --exact
+}
 
 histdb-fzf-widget() {
     emulate -L zsh
@@ -113,15 +133,7 @@ LEFT JOIN commands ON history.command_id = commands.rowid
 GROUP BY argv
 ORDER BY history.start_time DESC
 " |
-    ${${commands[sk]:+sk}:-fzf} \
-        --height "${FZF_TMUX_HEIGHT:-40%}" \
-        --no-multi \
-        --query="${LBUFFER}" \
-        --bind=ctrl-r:toggle-sort \
-        --with-nth 2.. \
-        --delimiter='\|' \
-        --no-sort \
-        --exact
+    pick_fzf
     )
     selected=${selected%%|*}
     if [[ -n ${selected} ]]; then
