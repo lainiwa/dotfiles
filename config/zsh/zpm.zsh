@@ -68,12 +68,16 @@ AGKOZAK_CUSTOM_RPROMPT+=' %B%F{green}%9v%f%b'
 # Zsh-z configuration
 export ZSHZ_DATA=${HOME}/.cache/.z
 export ZSHZ_OWNER=${HOME:t}
+export ZSHZ_NO_RESOLVE_SYMLINKS=1
+export ZSHZ_MAX_SCORE=900000
 # Gitcd configuration
 export GITCD_HOME=${HOME}/tmp
 export GITCD_TRIM=1
 # Autosuggestions configuration
 # export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+export FORGIT_NO_ALIASES=1
 
 
 source "${0:A:h}/other/zpm_functions.zsh"
