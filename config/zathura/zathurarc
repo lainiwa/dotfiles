@@ -18,3 +18,7 @@ map r reload
 map R rotate
 map i recolor
 map p print
+
+# Invert color
+set recolor
+map <C-i> recolor
