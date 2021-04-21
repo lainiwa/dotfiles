@@ -1,17 +1,17 @@
 
 # Mass file move, copy, and linking
 autoload zmv
-zmv() { noglob zmv     "$@"; }
-zcp() { noglob zmv -C  "$@"; }
-zln() { noglob zmv -L  "$@"; }
-zsy() { noglob zmv -Ls "$@"; }
+alias zmv='noglob zmv'
+alias zcp='noglob zmv -C'
+alias zln='noglob zmv -L'
+alias zsy='noglob zmv -Ls'
 
 # Substitute ls with exa
 if (( ${+commands[exa]} )); then
     alias ls='exa --color=auto --header --git'
     alias ll='ls -l'
     alias la='ls -a'
-    alias lal='ls -al'
+    alias lal='ls -alg'
     alias tree='exa --tree'
     alias lt='tree'
 
