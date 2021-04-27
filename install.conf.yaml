@@ -159,6 +159,11 @@
     # Units
     ~/.units:
         if: command -v units >/dev/null
+    # Mpv scripts and config
+    ~/.config/mpv:
+        path: config/mpv
+        if: command -v mpv >/dev/null
+
 
 - shell:
     # Urxvt extensions
