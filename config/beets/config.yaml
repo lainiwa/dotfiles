@@ -67,7 +67,7 @@ plugins:
     - badfiles       # Check audio file integrity
     - play           # Play beets queries in your music player
     # - playlist       # Use M3U playlists to query the beets library
-    # - smartplaylist  # Generate smart playlists based on beets queries
+    - smartplaylist  # Generate smart playlists based on beets queries
     - thumbnails     # Get thumbnails with the cover art on your album folders
 
     # Miscellaneous
@@ -278,6 +278,26 @@ play:
     command: mpv --vid=no
 
 
+smartplaylist:
+    # Regenerate the playlist after every database change.
+    # Default: yes.
+    auto: true
+    # Where to put the generated playlist files.
+    # Default: The current working directory (i.e., '.').
+    playlist_dir: ~/.config/cmus/playlists
+    # Generate paths in the playlist files relative to a base directory.
+    # If you intend to use this plugin to generate playlists for MPD,
+    # point this to your MPD music directory.
+    # Default: Use absolute paths.
+    relative_to: null
+    #
+    playlists:
+        - name: all.m3u
+          query: ''
+        # - name: beatles.m3u
+        #   query: 'artist:Beatles'
+
+
 thumbnails:
     # Whether the thumbnail should be automatically set on import.
     # Default: yes.
@@ -304,6 +324,7 @@ duplicates:
     # keys configuration option) the second time around.
     # Default: ffmpeg -i {file} -f crc -.
     checksum: "ffmpeg -i {file} -f crc -"
+    # checksum: 'ffprobe -i {file} -show_entries "format_tags=Acoustid Id" -v quiet'
     # A destination base directory into which to copy matched items.
     # Default: none (disabled).
     copy: none
