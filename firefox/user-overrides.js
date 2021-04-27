@@ -11,7 +11,7 @@ user_pref("browser.urlbar.suggest.searches", true); // 0807
 
 // Enable Cloudflare DoH
 user_pref("network.trr.mode", 3);
-user_pref("network.trr.uri", "https://mozilla.cloudflare-dns.com/dns-query");
+user_pref("network.trr.uri", "https://cloudflare-dns.com/dns-query");
 user_pref("network.trr.bootstrapAddress", "1.1.1.1");
 user_pref("security.tls.enable_0rtt_data", true);  // 1206
 user_pref("network.security.esni.enabled", true);
@@ -41,3 +41,7 @@ user_pref("extensions.autoDisableScopes", 15); // [DEFAULT: 15]
 
 // Enable ActivityWatch extension
 user_pref("dom.serviceWorkers.enabled", true);  // 2302
+
+// Disable HTTPS-Only mode
+user_pref("dom.security.https_only_mode", false); // [FF76+]
+user_pref("dom.security.https_only_mode_pbm", false); // [FF80+]
