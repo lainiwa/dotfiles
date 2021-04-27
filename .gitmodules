@@ -4,3 +4,6 @@
 [submodule "mpvSockets"]
 	path = config/mpv/scripts/mpvSockets
 	url = https://github.com/wis/mpvSockets
+[submodule "mpv_sponsorblock"]
+	path = config/mpv/scripts/mpv_sponsorblock
+	url = https://github.com/po5/mpv_sponsorblock
