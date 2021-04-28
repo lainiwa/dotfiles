@@ -400,11 +400,15 @@ full_clean() {
             journalctl --vacuum-time=1s
         fi
         if command -v nix >/dev/null; then
+            nix-store --gc
+            nix-store --optimise
             nix-collect-garbage --delete-old
         fi
 EOF
     # Garbage-collect nix
     if command -v nix >/dev/null; then
+        nix-store --gc
+        nix-store --optimise
         nix-collect-garbage --delete-old
     fi
     # Garbage-collect guix
