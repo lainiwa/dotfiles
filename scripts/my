@@ -5,6 +5,16 @@ set -o pipefail # catch errors in pipelines
 set -o nounset  # exit on undeclared variable
 # set -o xtrace    # trace execution
 
+http_publish() {
+    local port=$1
+
+    if command -v ngrok >/dev/null; then
+        ngrok http -host-header="localhost:8080" "${port}"
+    elif command -v tunnelto >/dev/null; then
+        tunnelto --port "${port}"
+    fi
+}
+
 bios_or_efi() {
     [ -d /sys/firmware/efi ] && echo UEFI || echo BIOS
 }
