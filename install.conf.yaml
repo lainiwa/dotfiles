@@ -143,6 +143,10 @@
     ~/.config/gtk-3.0:
         if: dpkg -l libgtk-3-0 &>/dev/null
         path: config/gtk-3.0
+    # QT5
+    ~/.config/qt5ct:
+        if: command -v qt5ct >/dev/null
+        path: config/qt5ct
     # Systemd
     ~/.config/systemd/user/:
         glob: true
