@@ -30,6 +30,12 @@ if command -v aw-qt >/dev/null && ! pgrep -x aw-qt >/dev/null; then
 fi
 
 
+if command -v arbtt-capture >/dev/null && ! pgrep -x arbtt-capture >/dev/null; then
+    arbtt-capture &
+
+fi
+
+
 if command -v dunst >/dev/null && ! pgrep -x dunst >/dev/null; then
     dunst &
 
