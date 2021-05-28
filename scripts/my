@@ -332,22 +332,22 @@ serveo() {
 full_upgrade() {
     requires sudo apt git zsh
 
-#     # Update apt packages
-#     sudo -- sh <<EOF
-#         if command -v apt >/dev/null; then
-#             apt update
-#             apt upgrade --yes
-#             apt autoremove --yes
-#         fi
-#         if command -v nix >/dev/null; then
-#             nix-channel --update nixpkgs
-#             nix-env -u '*'
-#         fi
-#         if command -v guix >/dev/null; then
-#             guix pull
-#             guix package -u
-#         fi
-# EOF
+    # Update apt packages
+    sudo -- sh <<EOF
+        if command -v apt >/dev/null; then
+            apt update
+            apt upgrade --yes
+            apt autoremove --yes
+        fi
+        if command -v nix >/dev/null; then
+            nix-channel --update nixpkgs
+            nix-env -u '*'
+        fi
+        # if command -v guix >/dev/null; then
+        #     guix pull
+        #     guix package -u
+        # fi
+EOF
     # Update dotfiles
     if [[ -d ~/.dotfiles ]]; then
         git --git-dir="${HOME}/.dotfiles/.git/" pull origin master
@@ -356,7 +356,7 @@ full_upgrade() {
     # Update private dotfiles
     if [[ -d ~/.dotfiles-private ]] && command -v run_keybase >/dev/null; then
         run_keybase -g
-        git --git-dir="${HOME}/.dotfiles-private/.git/" pull origin master
+        git --git-dir="${HOME}/.dotfiles-private/.git/" pull keybase master
         ~/.dotfiles-private/install
         run_keybase -k || true
     fi
@@ -373,20 +373,31 @@ full_upgrade() {
     if command -v poetry >/dev/null; then
         poetry self update || true
     fi
+    # Upgrade pip and pipx
+    if pip freeze |grep -q pipx 2>/dev/null; then
+        pip install --upgrade pip
+        pip install --upgrade pipx
+    fi
     # Upgrade pipx packages
     if command -v pipx >/dev/null; then
-        pipx upgrade-all
+        if command -v jq xargs >/dev/null; then
+            pipx list --json 2>/dev/null |
+            jq -r '.venvs | keys | .[]' |
+            xargs -L1 -P8 pipx upgrade
+        else
+            pipx upgrade-all
+        fi
     fi
     # Upgrade nix packages
     if command -v nix >/dev/null; then
         nix-channel --update nixpkgs
         nix-env -u '*'
     fi
-    # Upgrade guix packages
-    if command -v guix >/dev/null; then
-        guix pull
-        guix package -u
-    fi
+    # # Upgrade guix packages
+    # if command -v guix >/dev/null; then
+    #     guix pull
+    #     guix package -u
+    # fi
     # Update brewed packages
     if command -v brew >/dev/null; then
         brew update
@@ -421,10 +432,10 @@ EOF
         nix-store --optimise
         nix-collect-garbage --delete-old
     fi
-    # Garbage-collect guix
-    if command -v guix >/dev/null; then
-        guix gc --delete-generations=1m
-    fi
+    # # Garbage-collect guix
+    # if command -v guix >/dev/null; then
+    #     guix gc --delete-generations=1m
+    # fi
     # Cleanup unused linuxbrew packages
     (
         cd /tmp
