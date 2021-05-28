@@ -85,5 +85,10 @@ export XDG_DATA_DIRS=${HOME}/.local/share:${XDG_DATA_DIRS}
 # Better file picker for telegram
 export XDG_CURRENT_DESKTOP=gnome
 
+if (( ${+commands[qt5ct]} )); then
+    export QT_QPA_PLATFORMTHEME=qt5ct
+fi
+
+
 unset -f _add_to_path
 unset -f _try_source
