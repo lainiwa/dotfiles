@@ -1,21 +1,21 @@
 {
-	"always_show_minimap_viewport": true,
-	"auto_complete": false,
-	"create_window_at_startup": false,
-	"drag_text": false,
-	"font_size": 19,
-	"highlight_line": true,
-	"ignored_packages":
-	[
-		"Markdown",
-		"Python",
-		"Rust",
-		"Vintage"
-	],
-	"show_encoding": true,
-	"tab_size": 4,
-	"theme": "Default.sublime-theme",
-	"translate_tabs_to_spaces": true,
-	"trim_trailing_white_space_on_save": true,
-	"word_wrap": false
+    "theme": "Adaptive.sublime-theme", 
+    "highlight_line": true, 
+    "drag_text": false, 
+    "always_show_minimap_viewport": true, 
+    "trim_trailing_white_space_on_save": true, 
+    "tab_size": 4, 
+    "word_wrap": false, 
+    "translate_tabs_to_spaces": true, 
+    "font_size": 19, 
+    "create_window_at_startup": false, 
+    "ignored_packages": [
+        "Markdown", 
+        "Python", 
+        "Rust", 
+        "Vintage",
+    ], 
+    "auto_complete": false, 
+    "show_encoding": true,
+    "color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
 }
