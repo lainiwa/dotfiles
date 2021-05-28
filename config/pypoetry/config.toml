@@ -3,4 +3,4 @@ in-project = true
 
 
 [experimental]
-new-installer = false
+new-installer = true
