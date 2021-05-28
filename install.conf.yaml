@@ -56,6 +56,9 @@
         if: command -v tmuxp >/dev/null
         path: tmuxp
     # Sublime
+    ~/.config/sublime-text-3/Packages/User/Adaptive.sublime-theme:
+        if: command -v subl >/dev/null
+        path: config/sublime3-settings/Adaptive.sublime-theme
     ~/.config/sublime-text-3/Packages/User/Anaconda.sublime-settings:
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Anaconda.sublime-settings
