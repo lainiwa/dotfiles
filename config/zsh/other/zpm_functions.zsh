@@ -7,7 +7,12 @@ requirements() {
     <<< romkatv/zsh-prompt-benchmark
     <<< agkozak/agkozak-zsh-prompt
     # Z
-    <<< agkozak/zsh-z
+    <<< Angelmmiguel/pm,fpath:/zsh,source:/zsh/pm.zsh
+    if (( ${+commands[zoxide]} )); then
+        <<<  @empty/zoxide,gen-plugin:"zoxide init zsh"
+    else
+        <<< agkozak/zsh-z
+    fi
     # <<< andrewferrier/fzf-z
     # Tmux plugins
     <<< zpm-zsh/title
@@ -60,7 +65,6 @@ requirements() {
     fi
     <<< gitbits/git-info,hook:"cp git-*    ${_ZPM_POL}/bin/"
     (( ${+commands[fzf]} )) && <<< wfxr/forgit
-    <<< Angelmmiguel/pm,fpath:/zsh,source:/zsh/pm.zsh
     # ,hook:"mkdir functions bin; cp zsh/_pm functions/; cp zsh/pm.zsh bin/pm"
     (( ${+commands[perl]} )) && <<< circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
     (( ${+commands[bash]} )) && <<<    greymd/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
