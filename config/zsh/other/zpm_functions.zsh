@@ -89,6 +89,7 @@ requirements() {
     <<<           @empty/gist,gen-completion:"${GH}/jdowner/gist/alpha/share/gist.zsh"
     <<<           @empty/guix,gen-completion:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
     <<<           @empty/khal,gen-completion:"${GH}/pimutils/khal/master/misc/__khal"
+    <<<    @empty/taskwarrior,gen-completion:"${GH}/GothenburgBitFactory/taskwarrior/master/scripts/zsh/_task"
     # Generate completions
     (( ${+commands[dvc]} )) && <<< @empty/dvc,gen-completion:"dvc completion -s zsh"
     (( ${+commands[gh]}  )) && <<<  @empty/gh,gen-completion:"gh  completion -s zsh"
