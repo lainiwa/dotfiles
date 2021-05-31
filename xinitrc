@@ -1,6 +1,12 @@
 #!/bin/sh
 
 
+if [ -f ~/.Xresources ]; then
+    xrdb -load ~/.Xresources
+
+fi
+
+
 # RUN VIRTUALBOX GUEST ADDITIONS
 #
 if command -v VBoxClient-all >/dev/null; then
