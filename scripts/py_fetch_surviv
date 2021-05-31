@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+
+
+import csv
+from pathlib import Path
+import json
+from urllib.request import urlopen, Request
+from pprint import pprint
+from itertools import count
+import os
+import logging
+import argparse
+
+LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
+logging.basicConfig(level=LOGLEVEL)
+
+DATA_DIR = Path.home() / ".local/share/surviv"
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+DATA_FILE = DATA_DIR / "data.csv"
+
+
+fieldnames = [
+    "guid",
+    "player",
+    "region",
+    "map_id",
+    "team_mode",
+    "team_count",
+    "team_total",
+    "end_time",
+    "time_alive",
+    "rank",
+    "kills",
+    "team_kills",
+    "damage_dealt",
+    "damage_taken",
+]
+
+
+def init_csv(fieldnames: list) -> set:
+    logging.debug(f'Touching {DATA_FILE}')
+
+    if not DATA_FILE.is_file():
+        logging.info(f'Creating {DATA_FILE}')
+        with open(DATA_FILE, mode='w') as file:
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+            return set()
+
+    else:
+        with open(DATA_FILE, mode='r') as file:
+            reader = csv.DictReader(file)
+            return {row['guid'] for row in reader}
+
+
+def fetch_records(player: str, offset: int):
+    logging.debug(f'Fetching for {player} player with offset={offset}')
+
+    request = Request(
+        "https://surviv.io/api/match_history",
+        headers={
+            'User-Agent': 'Mozilla/5.0',
+            'Content-Type': 'application/json'
+    })
+
+    data = {"slug": player, "offset": offset, "count": 50, "teamModeFilter": 7}
+    response = urlopen(request, data=json.dumps(data).encode('utf-8'))
+
+    return json.loads(response.read())
+
+
+def add_records(player: str, offset: int) -> bool:
+    logging.debug(f'Calling add_records for {player} player with offset={offset}')
+
+    guids = init_csv(fieldnames=fieldnames)
+    records = fetch_records(player=player, offset=offset)
+    records_guids = {row['guid'] for row in records}
+    # pprint(records_guids)
+    records_new = [row for row in records if row['guid'] in records_guids - guids]
+
+    with open(DATA_FILE, mode='a') as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+        for row in records_new:
+            writer.writerow(rowdict={'player': player, **row})
+
+    logging.debug(f'Having {len(records_new)} new records')
+
+    return len(records_new) == 50
+
+
+parser = argparse.ArgumentParser("py_fetch_surviv")
+parser.add_argument("player", help="Player's slug name.", type=str)
+args = parser.parse_args()
+
+for offset in count(start=0, step=50):
+    if not add_records(player=args.player, offset=offset):
+        break
