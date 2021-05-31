@@ -51,31 +51,16 @@ handle_extension() {
     case "${FILE_EXTENSION_LOWER}" in
         ## Archive
         a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
-        rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)
-            if command -v timeout >/dev/null; then
-                timeout 1 atool  --list --     "${FILE_PATH}" && exit 5
-                timeout 1 bsdtar --list --file "${FILE_PATH}" && exit 5
-            else
-                          atool  --list --     "${FILE_PATH}" && exit 5
-                          bsdtar --list --file "${FILE_PATH}" && exit 5
-            fi
+        rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip|7z)
+            (set +o pipefail && atool  --list --     "${FILE_PATH}" |head -n "${PV_HEIGHT}") && exit 5
+            (set +o pipefail && bsdtar --list --file "${FILE_PATH}" |head -n "${PV_HEIGHT}") && exit 5
             exit 1;;
         rar)
-            if command -v timeout >/dev/null; then
-                ## Avoid password prompt by providing empty password
-                timeout 1 unrar lt -p- -- "${FILE_PATH}" && exit 5
-            else
-                          unrar lt -p- -- "${FILE_PATH}" && exit 5
-            fi
+            (set +o pipefail && unrar lt -p- -- "${FILE_PATH}" |head -n "${PV_HEIGHT}") && exit 5
             exit 1;;
-        7z)
-            if command -v timeout >/dev/null; then
-                ## Avoid password prompt by providing empty password
-                timeout 1 7z l -p -- "${FILE_PATH}" && exit 5
-            else
-                          7z l -p -- "${FILE_PATH}" && exit 5
-            fi
-            exit 1;;
+        # 7z)
+        #     (set +o pipefail && 7z l -p -- "${FILE_PATH}" |head -n40) && exit 5
+        #     exit 1;;
         ## PDF
         pdf)
             ## Preview as text conversion
