@@ -66,4 +66,4 @@ URxvt.keysym.C-Shift-Down:  resize-font:smaller
 URxvt.keysym.C-Shift-Up:    resize-font:bigger
 
 !! $TERM variable
-URxvt.termName: rxvt-256color
+URxvt.termName: rxvt-unicode-256color
