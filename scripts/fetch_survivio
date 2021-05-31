@@ -7,7 +7,7 @@ set -o nounset  # exit on undeclared variable
 
 
 DATA_DIR=${XDG_DATA_HOME:-${HOME}/.local/share}/surviv
-mkdir -p "${DATA_DIR}"
+mkdir -p "${DATA_DIR}/${1}"
 
 
 for (( offset=0; 1; offset+=50 )); do
@@ -27,11 +27,11 @@ for (( offset=0; 1; offset+=50 )); do
 
     EXISTING=
     for guid in ${GUIDS}; do
-        if [[ -f ${DATA_DIR}/${guid}.json ]]; then
+        if [[ -f ${DATA_DIR}/${1}/${guid}.json ]]; then
             EXISTING=1
         else
             echo "Saving ${guid}"
-            jq --raw-output ".[] | select(.guid==\"${guid}\")" <<<"${JSON}" > "${DATA_DIR}/${guid}.json"
+            jq --raw-output ".[] | select(.guid==\"${guid}\")" <<<"${JSON}" > "${DATA_DIR}/${1}/${guid}.json"
         fi
     done
 
