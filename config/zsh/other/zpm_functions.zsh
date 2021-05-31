@@ -14,9 +14,6 @@ requirements() {
         <<< agkozak/zsh-z
     fi
     # <<< andrewferrier/fzf-z
-    # Tmux plugins
-    <<< zpm-zsh/title
-    # <<< zpm-zsh/tmux
     # Toggles `sudo` for current/previous command on ESC-ESC.
     <<< hcgraf/zsh-sudo
     # Run `fg` on C-Z
@@ -61,9 +58,6 @@ requirements() {
     if (( ${+commands[make]} )); then
         <<< dylanaraps/fff,hook:"PREFIX=${_ZPM_POL} make install"
         <<<       snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
-        # <<<   nvie/gitflow,hook:"make install prefix=${_ZPM_POL}"
-        # <<< stacked-git/stgit,hook:"make prefix=${_ZPM_POL} install install-doc"
-        # <<< @gitlab/jallbrit/cbonsai,hook:"make; make install PREFIX=${_ZPM_POL}"
     fi
     <<< gitbits/git-info,hook:"cp git-*    ${_ZPM_POL}/bin/"
     (( ${+commands[fzf]} )) && <<< wfxr/forgit
@@ -109,13 +103,6 @@ requirements() {
     (( ${+commands[kubectl]}       )) && <<<   @empty/kubectl,gen-plugin:"kubectl completion zsh"
     (( ${+commands[terraform]}     )) && <<< @empty/terraform,gen-plugin:"<<<'complete -o nospace -C =terraform terraform'"
     (( ${+commands[s5cmd]}         )) && <<<     @empty/s5cmd,gen-plugin:"<<<'complete -o nospace -C =s5cmd s5cmd'"
-    # # Fetch releases from Github
-    # if (( ${+commands[jq]} && ${+commands[tar]} )); then
-    #     _glow=$( get_gh_url charmbracelet/glow 'linux_x86_64.tar.gz$')
-    #     _micro=$(get_gh_url zyedidia/micro     'linux64-static.tar.gz$')
-    #     <<<  @empty/glow,hook:"${_FETCH} ${_glow}  | tar -xzf-; cp glow    ${_ZPM_POL}/bin/"
-    #     <<< @empty/micro,hook:"${_FETCH} ${_micro} | tar -xzf-; cp */micro ${_ZPM_POL}/bin/"
-    # fi
 }
 
 pick_fzf() {
