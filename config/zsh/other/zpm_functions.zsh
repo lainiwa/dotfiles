@@ -43,7 +43,9 @@ requirements() {
     # Get gitignore template with `gi` command
     <<< voronkovich/gitignore.plugin.zsh
     # History
-    if (( ${+commands[sqlite3]} && (${+commands[fzf]} || ${+commands[sk]}) )); then
+    if (( ${+commands[atuin]} )); then
+        <<< ellie/atuin
+    elif (( ${+commands[sqlite3]} && (${+commands[fzf]} || ${+commands[sk]}) )); then
         <<< lainiwa/zsh-histdb
     elif (( ${+commands[mcfly]} )); then
         <<< cantino/mcfly,source:mcfly.zsh
