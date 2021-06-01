@@ -96,6 +96,7 @@ handle_extension() {
         ## Markdown
         md|mdown)
             glow --style dark --width "${PV_WIDTH}" -- "${FILE_PATH}" && exit 5
+            mdcat           --columns "${PV_WIDTH}" -- "${FILE_PATH}" && exit 5
             exit 1;;
 
         ## XLSX
