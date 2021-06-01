@@ -114,12 +114,6 @@ handle_extension() {
             pandoc -s -t markdown -- "${FILE_PATH}" && exit 5
             ;;
 
-        ## JSON
-        json)
-            jq --color-output . "${FILE_PATH}" && exit 5
-            python -m json.tool -- "${FILE_PATH}" && exit 5
-            ;;
-
         ## Direct Stream Digital/Transfer (DSDIFF) and wavpack aren't detected
         ## by file(1).
         dff|dsf|wv|wvc)
@@ -290,6 +284,12 @@ handle_image() {
 handle_mime() {
     local mimetype="${1}"
     case "${mimetype}" in
+        ## JSON
+        */json)
+            jq --color-output . "${FILE_PATH}" && exit 5
+            python -m json.tool -- "${FILE_PATH}" && exit 5
+            exit 1;;
+
         ## RTF and DOC
         text/rtf|*msword)
             ## Preview as text conversion
