@@ -120,6 +120,14 @@ handle_extension() {
             mediainfo "${FILE_PATH}" && exit 5
             exiftool  "${FILE_PATH}" && exit 5
             ;; # Continue with next handler on failure
+
+        ## pubring.kbx
+        kbx)
+            kbxutil -- "${FILE_PATH}" |grep -E '(Uid\[|Key-Fpr\[)' && exit 5
+            exit 1;;
+        key)
+            gpg --enarmor --output - -- "${FILE_PATH}" && exit 5
+            exit 1;;
     esac
 }
 
