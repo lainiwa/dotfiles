@@ -13,7 +13,6 @@ requirements() {
     else
         <<< agkozak/zsh-z
     fi
-    # <<< andrewferrier/fzf-z
     # Toggles `sudo` for current/previous command on ESC-ESC.
     <<< hcgraf/zsh-sudo
     # Run `fg` on C-Z
@@ -56,14 +55,11 @@ requirements() {
     (( ${+commands[awk]} )) && <<< lainiwa/zsh-manydots-magic,source:manydots-magic
     # Non-plugins
     if (( ${+commands[make]} )); then
-        <<< dylanaraps/fff,hook:"PREFIX=${_ZPM_POL} make install"
+        (( ! ${+commands[fff]} )) && <<< dylanaraps/fff,hook:"PREFIX=${_ZPM_POL} make install"
         <<<       snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
     fi
     <<< gitbits/git-info,hook:"cp git-*    ${_ZPM_POL}/bin/"
     (( ${+commands[fzf]} )) && <<< wfxr/forgit
-    # ,hook:"mkdir functions bin; cp zsh/_pm functions/; cp zsh/pm.zsh bin/pm"
-    (( ${+commands[perl]} )) && <<< circulosmeos/gdown.pl,hook:"cp gdown.pl ${_ZPM_POL}/bin/gdown"
-    (( ${+commands[bash]} )) && <<<    greymd/tmux-xpanes,hook:"./install.sh '${_ZPM_POL}'",apply:fpath,fpath:/completion/zsh
     # Generate completions
     (( ${+commands[rustup]} )) && <<< @empty/rustup,gen-completion:"rustup completions zsh rustup"
     (( ${+commands[rustup]} )) && <<<  @empty/cargo,gen-completion:"rustup completions zsh cargo"
@@ -73,15 +69,15 @@ requirements() {
     (( ${+commands[beet]} && ${+commands[gawk]} )) &&
         <<<   @empty/beet,gen-completion:"${GH}/beetbox/beets/master/extra/_beet | sed s/awk/gawk/g"
     # Download completions
+    <<<            @empty/cht,gen-completion:"${URL}/cheat.sh/:zsh"
+    <<<           @empty/guix,gen-completion:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
+    <<<           @empty/gist,gen-completion:"${GH}/jdowner/gist/alpha/share/gist.zsh"
     <<<           @empty/beet,gen-completion:"${GH}/beetbox/beets/master/extra/_beet"
     <<<           @empty/buku,gen-completion:"${GH}/jarun/Buku/master/auto-completion/zsh/_buku"
-    <<<            @empty/cht,gen-completion:"${URL}/cheat.sh/:zsh"
     <<<            @empty/nnn,gen-completion:"${GH}/jarun/nnn/master/misc/auto-completion/zsh/_nnn"
     <<< @empty/docker-compose,gen-completion:"${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose"
     <<<            @empty/exa,gen-completion:"${GH}/ogham/exa/master/contrib/completions.zsh"
     <<<         @empty/ffsend,gen-completion:"${GH}/timvisee/ffsend/master/contrib/completions/_ffsend"
-    <<<           @empty/gist,gen-completion:"${GH}/jdowner/gist/alpha/share/gist.zsh"
-    <<<           @empty/guix,gen-completion:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
     <<<           @empty/khal,gen-completion:"${GH}/pimutils/khal/master/misc/__khal"
     <<<    @empty/taskwarrior,gen-completion:"${GH}/GothenburgBitFactory/taskwarrior/master/scripts/zsh/_task"
     # Generate completions
