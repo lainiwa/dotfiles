@@ -398,10 +398,11 @@ EOF
     fi
     # Upgrade pipx packages
     if command -v pipx >/dev/null; then
-        if command -v jq xargs >/dev/null; then
+        if [[ $(printf "%03d%03d%03d" $(pipx --version |tr '.' ' ')) -gt 000016000 ]] &&
+           command -v jq xargs >/dev/null; then
             pipx list --json 2>/dev/null |
             jq -r '.venvs | keys | .[]' |
-            xargs -L1 -P8 pipx upgrade
+            xargs --no-run-if-empty -L1 -P8 pipx upgrade
         else
             pipx upgrade-all
         fi
