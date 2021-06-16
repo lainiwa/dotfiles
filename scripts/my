@@ -5,6 +5,24 @@ set -o pipefail # catch errors in pipelines
 set -o nounset  # exit on undeclared variable
 # set -o xtrace    # trace execution
 
+buku_tags() {
+    buku --np --stag |
+    sed 's/.* \([^ ]*\) (\(.*\))/\2 \1/' |
+    grep --invert-match --regexp='^[[:space:]]*$' --regexp=' date:' |
+    sort --numeric-sort |
+    fzf \
+        --height "${FZF_TMUX_HEIGHT:-40%}" \
+        --multi \
+        --bind=ctrl-r:toggle-sort \
+        --with-nth 2.. \
+        --delimiter=' ' \
+        --no-sort \
+        --exact |
+    cut -d' ' -f2- |
+    tr '\n' ','
+    echo
+}
+
 http_publish() {
     local port=$1
 
