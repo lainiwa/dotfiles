@@ -44,8 +44,9 @@
 		"SublimeLinter-shellcheck",
 		"Tabnine",
 		"Terraform",
+		"Tmux Syntax Highlight",
 		"TOML",
-		"VimL"
+		"VimL",
 	],
 	"repositories":
 	[
