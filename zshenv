@@ -52,7 +52,7 @@ _add_to_path "${HOME}/.poetry/bin"
 
 # Nix
 _try_source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
-export NIX_PATH=${HOME}/.nix-defexpr/channels${NIX_PATH:+:}${NIX_PATH}
+# export NIX_PATH=${HOME}/.nix-defexpr/channels${NIX_PATH:+:}${NIX_PATH}
 
 # Guix
 export GUIX_PROFILE="${HOME}/.guix-profile"
