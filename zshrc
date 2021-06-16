@@ -70,6 +70,15 @@ if [[ -r ~/.opam/opam-init/init.zsh ]]; then
     eval "$(opam env)"
 fi
 
+
+# Set terminal title
+preexec_hook_set_title() {
+    print -Pn "\e]0;${1}\a"
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec preexec_hook_set_title
+
+
 # Deduplicate these arrays
 typeset -U path cdpath fpath manpath
 # zprof
