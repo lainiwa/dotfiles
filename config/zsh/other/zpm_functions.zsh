@@ -10,6 +10,8 @@ requirements() {
     <<< Angelmmiguel/pm,fpath:/zsh,source:/zsh/pm.zsh
     if (( ${+commands[zoxide]} )); then
         <<<  @empty/zoxide,gen-plugin:"zoxide init zsh"
+    elif (( ${+commands[lua]} )); then
+        <<< skywind3000/z.lua
     else
         <<< agkozak/zsh-z
     fi
