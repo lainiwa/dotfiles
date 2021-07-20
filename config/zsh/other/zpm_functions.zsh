@@ -62,29 +62,31 @@ requirements() {
     fi
     <<< gitbits/git-info,hook:"cp git-*    ${_ZPM_POL}/bin/"
     (( ${+commands[fzf]} )) && <<< wfxr/forgit
+    (( ${+commands[beet]} && ${+commands[gawk]} )) &&
+        <<<   @empty/beet,gen-completion:"${GH}/beetbox/beets/master/extra/_beet | sed s/awk/gawk/g"
+    # Download zsh completions
+    <<<            @empty/cht,gen-completion:"${URL}/cheat.sh/:zsh"
+    <<<            @empty/exa,gen-completion:"${GH}/ogham/exa/master/contrib/completions.zsh"
+    <<<            @empty/nnn,gen-completion:"${GH}/jarun/nnn/master/misc/auto-completion/zsh/_nnn"
+    <<<           @empty/beet,gen-completion:"${GH}/beetbox/beets/master/extra/_beet"
+    <<<           @empty/buku,gen-completion:"${GH}/jarun/Buku/master/auto-completion/zsh/_buku"
+    <<<           @empty/gist,gen-completion:"${GH}/jdowner/gist/alpha/share/gist.zsh"
+    <<<           @empty/guix,gen-completion:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
+    <<<           @empty/khal,gen-completion:"${GH}/pimutils/khal/master/misc/__khal"
+    <<<         @empty/ffsend,gen-completion:"${GH}/timvisee/ffsend/master/contrib/completions/_ffsend"
+    <<<         @empty/watson,gen-completion:"${GH}/TailorDev/Watson/master/watson.zsh-completion"
+    <<<    @empty/taskwarrior,gen-completion:"${GH}/GothenburgBitFactory/taskwarrior/master/scripts/zsh/_task"
+    <<< @empty/docker-compose,gen-completion:"${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose"
+    # Download bash completions
+    <<< @empty/timewarrior,gen-plugin:"${GH}/GothenburgBitFactory/timewarrior/master/completion/timew-completion.bash"
     # Generate completions
-    (( ${+commands[rustup]} )) && <<< @empty/rustup,gen-completion:"rustup completions zsh rustup"
-    (( ${+commands[rustup]} )) && <<<  @empty/cargo,gen-completion:"rustup completions zsh cargo"
+    (( ${+commands[dvc]}    )) && <<<    @empty/dvc,gen-completion:"dvc completion -s zsh"
+    (( ${+commands[gh]}     )) && <<<     @empty/gh,gen-completion:"gh completion -s zsh"
     (( ${+commands[poetry]} )) && <<< @empty/poetry,gen-completion:"poetry completions zsh"
     (( ${+commands[rclone]} )) && <<< @empty/rclone,gen-completion:"rclone genautocomplete zsh /dev/stdout"
     (( ${+commands[restic]} )) && <<< @empty/restic,gen-completion:"restic generate --zsh-completion /dev/stdout"
-    (( ${+commands[beet]} && ${+commands[gawk]} )) &&
-        <<<   @empty/beet,gen-completion:"${GH}/beetbox/beets/master/extra/_beet | sed s/awk/gawk/g"
-    # Download completions
-    <<<            @empty/cht,gen-completion:"${URL}/cheat.sh/:zsh"
-    <<<           @empty/guix,gen-completion:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
-    <<<           @empty/gist,gen-completion:"${GH}/jdowner/gist/alpha/share/gist.zsh"
-    <<<           @empty/beet,gen-completion:"${GH}/beetbox/beets/master/extra/_beet"
-    <<<           @empty/buku,gen-completion:"${GH}/jarun/Buku/master/auto-completion/zsh/_buku"
-    <<<            @empty/nnn,gen-completion:"${GH}/jarun/nnn/master/misc/auto-completion/zsh/_nnn"
-    <<< @empty/docker-compose,gen-completion:"${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose"
-    <<<            @empty/exa,gen-completion:"${GH}/ogham/exa/master/contrib/completions.zsh"
-    <<<         @empty/ffsend,gen-completion:"${GH}/timvisee/ffsend/master/contrib/completions/_ffsend"
-    <<<           @empty/khal,gen-completion:"${GH}/pimutils/khal/master/misc/__khal"
-    <<<    @empty/taskwarrior,gen-completion:"${GH}/GothenburgBitFactory/taskwarrior/master/scripts/zsh/_task"
-    # Generate completions
-    (( ${+commands[dvc]} )) && <<< @empty/dvc,gen-completion:"dvc completion -s zsh"
-    (( ${+commands[gh]}  )) && <<<  @empty/gh,gen-completion:"gh  completion -s zsh"
+    (( ${+commands[rustup]} )) && <<<  @empty/cargo,gen-completion:"rustup completions zsh cargo"
+    (( ${+commands[rustup]} )) && <<< @empty/rustup,gen-completion:"rustup completions zsh rustup"
     if (( ${+commands[register-python-argcomplete]} )); then
         (( ${+commands[pipx]} ))   && <<<   @empty/pipx,gen-completion:"register-python-argcomplete pipx"
         (( ${+commands[cz]} ))     && <<<     @empty/cz,gen-completion:"register-python-argcomplete cz"
