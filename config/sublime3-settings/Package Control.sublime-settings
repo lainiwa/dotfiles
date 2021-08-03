@@ -25,12 +25,15 @@
 		"HTML-CSS-JS Prettify",
 		"INI",
 		"InsertDate",
+		"Ledger syntax highlighting",
 		"LSP",
 		"MagicPython",
 		"Man Page Support",
+		"Markdown Extended",
 		"MarkdownEditing",
 		"Nix",
 		"Package Control",
+		"PackageDev",
 		"Pretty JSON",
 		"rainbow_csv",
 		"RestructuredText Improved",
@@ -47,6 +50,7 @@
 		"Tmux Syntax Highlight",
 		"TOML",
 		"VimL",
+		"WakaTime",
 	],
 	"repositories":
 	[
