@@ -31,7 +31,7 @@ requirements() {
     # Completions
     # <<< MenkeTechnologies/zsh-more-completions,fpath:/src
     <<< zchee/zsh-completions
-    <<< zsh-users/zsh-completions
+    <<< zsh-users/zsh-completions,fpath:/src
     <<< srijanshetty/zsh-pandoc-completion
     <<< spwhitt/nix-zsh-completions
     <<< nojanath/ansible-zsh-completion
