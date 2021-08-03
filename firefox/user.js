@@ -1,7 +1,7 @@
 /******
 * name: arkenfox user.js
-* date: 16 June 2021
-* version 90-alpha
+* date: 30 July 2021
+* version 91-alpha
 * url: https://github.com/arkenfox/user.js
 * license: MIT: https://github.com/arkenfox/user.js/blob/master/LICENSE.txt
 
@@ -585,8 +585,7 @@ user_pref("media.memory_cache_max_size", 65536);
 /* 1020: exclude "Undo Closed Tabs" in Session Restore ***/
    // user_pref("browser.sessionstore.max_tabs_undo", 0);
 /* 1021: disable storing extra session data [SETUP-CHROME]
- * extra session data contains contents of forms, scrollbar positions, cookies and POST data
- * define on which sites to save extra session data:
+ * define on which sites to save extra session data such as form content, cookies and POST data
  * 0=everywhere, 1=unencrypted sites, 2=nowhere ***/
 user_pref("browser.sessionstore.privacy_level", 2);
 /* 1022: disable resuming session from crash ***/
@@ -1300,7 +1299,11 @@ user_pref("privacy.trackingprotection.socialtracking.enabled", true);
 user_pref("dom.storage.next_gen", true);
 
 /*** [SECTION 2800]: SHUTDOWN
-     You should set the values to what suits you best.
+     - Sanitizing on shutdown is all or nothing. It does not use Managed Exceptions under
+       Privacy & Security>Delete cookies and site data when Firefox is closed (1681701)
+     - If you want to keep some sites' cookies (exception as "Allow") and optionally other site
+       data but clear all the rest on close, then you need to set the "cookie" and optionally the
+       "offlineApps" prefs below to false, and to set the cookie lifetime pref to 2 (2703)
      - "Offline Website Data" includes appCache (2730), localStorage (2720),
        service worker cache (2740), and QuotaManager (IndexedDB, asm-cache)
      - In both 2803 + 2804, the 'download' and 'history' prefs are combined in the
@@ -1371,6 +1374,7 @@ user_pref("privacy.sanitize.timeSpan", 0);
    1506693 - pdfjs range-based requests (FF68+)
    1330467 - site permissions (FF69+)
    1534339 - IPv6 (FF73+)
+   1721858 - WebSocket (FF92+)
 ***/
 user_pref("_user.js.parrot", "4000 syntax error: the parrot's pegged out");
 /* 4001: enable First Party Isolation [FF51+]
