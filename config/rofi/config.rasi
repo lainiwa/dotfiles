@@ -23,7 +23,6 @@ configuration {
     drun-match-fields: "name,generic,exec,categories";
     // disable-history: false;
     // sort: false;
-    levenshtein-sort: true;
     // case-sensitive: false;
     // cycle: true;
     sidebar-mode: true;
