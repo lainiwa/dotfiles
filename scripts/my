@@ -393,8 +393,8 @@ EOF
     fi
     # Upgrade pip and pipx
     if pip freeze |grep -q pipx 2>/dev/null; then
-        pip install --upgrade pip
-        pip install --upgrade pipx
+        pip install --user --upgrade pip
+        pip install --user --upgrade pipx
     fi
     # Upgrade pipx packages
     if command -v pipx >/dev/null; then
