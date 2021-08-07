@@ -499,6 +499,52 @@ i3_exit_menu() {
 }
 
 #################################################
+# SEARCH SELECTED TEXT IN A SEARCH ENGINE
+#
+surfraw_pick_elvi() {
+    requires surfraw
+
+    local elvi_names;
+    local picked_elvi;
+    local clipboard;
+
+    clipboard=$(xclip -selection primary -out)
+    if [[ -z "${clipboard}" ]]; then
+        exit 1
+    fi
+
+    elvi_names=$(
+        find ~/.config/surfraw/elvi/ /usr/lib/surfraw/ \
+            -type f -printf "%f\n" 2>/dev/null |
+
+        while IFS= read -r elvi; do
+            case "${elvi}" in
+                 google )     printf "9 %s\n" "${elvi}" ;;
+                 searx )      printf "8 %s\n" "${elvi}" ;;
+                 yandex )     printf "7 %s\n" "${elvi}" ;;
+                 duckduckgo ) printf "6 %s\n" "${elvi}" ;;
+                 * )          printf "0 %s\n" "${elvi}" ;;
+            esac
+        done |
+
+        sort --key=1 --numeric-sort --reverse |
+        cut --delimiter=' ' --fields=2- |
+        uniq
+    )
+
+    picked_elvi=$(
+        printf "%s" "${elvi_names}" |
+        if command -v rofi >/dev/null; then
+            rofi -dmenu -i -p "Engine"
+        else
+            dmenu -fn style=bold:pixelsize=22 -i -p "Engine"
+        fi
+    )
+
+    surfraw "${picked_elvi}" "${clipboard}"
+}
+
+#################################################
 # FIX CORRUPTED ZSH HISTORY FILE
 #
 # Backup copy is placed into ~/.zsh_history_bad

@@ -204,6 +204,9 @@ bindsym $mod+Shift+w exec \
                 --expire-time=10000 \
                 "$(xclip -selection primary -out | trans en:ru --no-ansi)"
 
+bindsym $mod+Shift+s exec \
+        my surfraw_pick_elvi
+
 #exec --no-startup-id conky
 
 # aka Alt+Tab, like normies do
