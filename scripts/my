@@ -467,6 +467,10 @@ EOF
             mv Brewfile Brewfile.used
         )
     fi
+    # Clean sublime text 3 backups
+    if [[ -d ~/.config/sublime-text-3/Backup ]]; then
+        rm -rf ~/.config/sublime-text-3/Backup
+    fi
 }
 
 #################################################
