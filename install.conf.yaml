@@ -56,36 +56,12 @@
         if: command -v tmuxp >/dev/null
         path: tmuxp
     # Sublime
-    ~/.config/sublime-text-3/Packages/User/Adaptive.sublime-theme:
-        if: command -v subl >/dev/null
-        path: config/sublime3-settings/Adaptive.sublime-theme
-    ~/.config/sublime-text-3/Packages/User/Anaconda.sublime-settings:
-        if: command -v subl >/dev/null
-        path: config/sublime3-settings/Anaconda.sublime-settings
-    ~/.config/sublime-text-3/Packages/User/insert_date.sublime-settings:
-        if: command -v subl >/dev/null
-        path: config/sublime3-settings/insert_date.sublime-settings
-    ~/.config/sublime-text-3/Packages/User/reStructuredText.sublime-settings:
-        if: command -v subl >/dev/null
-        path: config/sublime3-settings/reStructuredText.sublime-settings
-    ~/.config/sublime-text-3/Packages/User/ApplySyntax.sublime-settings:
-        if: command -v subl >/dev/null
-        path: config/sublime3-settings/ApplySyntax.sublime-settings
-    ~/.config/sublime-text-3/Packages/User/Markdown.sublime-settings:
-        if: command -v subl >/dev/null
-        path: config/sublime3-settings/Markdown.sublime-settings
-    ~/.config/sublime-text-3/Packages/User/SublimeLinter.sublime-settings:
-        if: command -v subl >/dev/null
-        path: config/sublime3-settings/SublimeLinter.sublime-settings
-    ~/.config/sublime-text-3/Packages/User/HTMLPrettify.sublime-settings:
-        if: command -v subl >/dev/null
-        path: config/sublime3-settings/HTMLPrettify.sublime-settings
-    ~/.config/sublime-text-3/Packages/User/Package Control.sublime-settings:
-        if: command -v subl >/dev/null
-        path: config/sublime3-settings/Package Control.sublime-settings
-    ~/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap:
-        if: command -v subl >/dev/null
-        path: config/sublime3-settings/Default (Linux).sublime-keymap
+    ~/.config/sublime-text-3/Packages/User/:
+      glob: true
+      relink: true
+      if: command -v subl >/dev/null
+      path: config/sublime3-settings/*
+      exclude: [ config/sublime3-settings/Preferences.sublime-settings ]
     ~/.config/sublime-text-3/Packages/User/Preferences.sublime-settings:
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Preferences.sublime-settings
