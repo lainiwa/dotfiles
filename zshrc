@@ -21,7 +21,8 @@ export NVM_DIR=${HOME}/.nvm
 export HISTFILE=${HISTFILE:-${HOME}/.zsh_history}
 export HISTSIZE=10000000
 export SAVEHIST=10000000
-
+# Zoxide
+export _ZO_MAXAGE=10000000
 
 # Try to source:
 for file (
@@ -46,7 +47,6 @@ for file (
     [[ -s "${file}" ]] && source "${file}"
 
 
-
 # Automatically list directory contents on `cd`.
 auto-ls () { ls; }
 [[ ${chpwd_functions[(r)auto-ls]} == auto-ls ]] || chpwd_functions=( auto-ls $chpwd_functions )
@@ -60,8 +60,6 @@ insert_binary_from_path() {
 }
 zle -N insert_binary_from_path
 bindkey '^[d' insert_binary_from_path  # Alt+d
-
-
 
 
 # opam configuration
@@ -82,3 +80,14 @@ add-zsh-hook preexec preexec_hook_set_title
 # Deduplicate these arrays
 typeset -U path cdpath fpath manpath
 # zprof
+
+
+# # Run tmux on start
+# if (( ${+commands[tmux]}     )) &&
+#     [[ ! "${TERM}" =~ screen ]] &&
+#     [[ ! "${TERM}" =~ tmux   ]] &&
+#     [[ -z "${TMUX}"          ]]; then
+#   tmux attach || tmux
+# fi
+
+
