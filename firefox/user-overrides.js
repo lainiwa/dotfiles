@@ -45,3 +45,6 @@ user_pref("dom.serviceWorkers.enabled", true);  // 2302
 // Disable HTTPS-Only mode
 user_pref("dom.security.https_only_mode", false); // [FF76+]
 user_pref("dom.security.https_only_mode_pbm", false); // [FF80+]
+
+// Old Ctrl+Tab behaviour
+user_pref("browser.engagement.ctrlTab.has-used", true);
