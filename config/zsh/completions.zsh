@@ -53,6 +53,7 @@ _commands_arr=(
                dsf:''
            foresta:'text-based git log graph viewer'
               info:'show information about repository a la svn-info'
+            redate:'change the dates of several git commits with a single command'
           playback:'play back or step through, commit by commit, the history of any git-controlled file'
     remote-keybase:''
               town:'make software development teams who use git even more productive and happy'
