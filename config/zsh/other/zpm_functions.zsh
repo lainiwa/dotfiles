@@ -104,6 +104,7 @@ requirements() {
     (( ${+commands[kubectl]}       )) && <<<   @empty/kubectl,gen-plugin:"kubectl completion zsh"
     (( ${+commands[terraform]}     )) && <<< @empty/terraform,gen-plugin:"<<<'complete -o nospace -C =terraform terraform'"
     (( ${+commands[s5cmd]}         )) && <<<     @empty/s5cmd,gen-plugin:"<<<'complete -o nospace -C =s5cmd s5cmd'"
+    (( ${+commands[git-extras]}    )) && <<<@empty/git-extras,gen-plugin:"cat /usr/share/zsh/vendor-completions/_git-extras"
 }
 
 pick_fzf() {
