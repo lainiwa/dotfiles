@@ -497,7 +497,11 @@ i3_exit_menu() {
     while true; do
         select=$(
             printf "NO\nYES" |
+            if command -v rofi >/dev/null; then
+                rofi -dmenu -i -p "Are you sure you want to logout?"
+            else
                 dmenu -fn style=bold:pixelsize=22 -i -p "Are you sure you want to logout?"
+            fi
         )
         [[ ${select} = "NO" ]] && exit 0
         [[ ${select} = "YES" ]] && i3-msg exit
