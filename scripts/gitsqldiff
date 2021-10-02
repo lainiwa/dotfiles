@@ -1,0 +1,12 @@
+#!/bin/sh
+echo "$1:"
+
+# Duplicate sqldiff's output for consumption by wc and stdout.
+# This enables us to check for an empty output but still see
+# sqldiffs messages if there are any.
+sqldiff "$2" "$5" 2>&1 | {
+    tee /dev/fd/3 |
+        if [ $(wc -c) -eq 0 ]; then
+            echo "  nothing changed according to sqldiff"
+        fi
+} 3>&1
