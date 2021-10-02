@@ -1,7 +1,7 @@
 /******
 * name: arkenfox user.js
-* date: 30 July 2021
-* version 91-alpha
+* date: 10 September 2021
+* version 92-alpha
 * url: https://github.com/arkenfox/user.js
 * license: MIT: https://github.com/arkenfox/user.js/blob/master/LICENSE.txt
 
@@ -34,7 +34,7 @@
     ESR78
     - If you are not using arkenfox v78... (not a definitive list)
       - 1244: HTTPS-Only mode is enabled
-      - 2502: non-native widget theme is enforced
+      - 4511: non-native widget theme is enforced
       - 9999: switch the appropriate deprecated section(s) back on
 
 * INDEX:
@@ -55,7 +55,6 @@
   2000: PLUGINS / MEDIA / WEBRTC
   2300: WEB WORKERS
   2400: DOM (DOCUMENT OBJECT MODEL)
-  2500: FINGERPRINTING
   2600: MISCELLANEOUS
   2700: PERSISTENT STORAGE
   2800: SHUTDOWN
@@ -245,7 +244,7 @@ user_pref("extensions.webcompat-reporter.enabled", false); // [DEFAULT: false]
 /*** [SECTION 0400]: SAFE BROWSING (SB)
    SB has taken many steps to preserve privacy. If required, a full url is never sent
    to Google, only a part-hash of the prefix, hidden with noise of other real part-hashes.
-   Firefox takes measures such as striping out identifying parameters and since SBv4 (FF57+)
+   Firefox takes measures such as stripping out identifying parameters and since SBv4 (FF57+)
    doesn't even use cookies. (#Turn on browser.safebrowsing.debug to monitor this activity)
    FWIW, Google also swear it is anonymized and only used to flag malicious sites.
 
@@ -334,9 +333,13 @@ user_pref("network.gio.supported-protocols", ""); // [HIDDEN PREF]
  * see "doh-rollout.home-region": USA Feb 2020, Canada July 2021 [3]
  * [1] https://hacks.mozilla.org/2018/05/a-cartoon-intro-to-dns-over-https/
  * [2] https://wiki.mozilla.org/Security/DOH-resolver-policy
- * [3] https://blog.mozilla.org/en/mozilla/news/firefox-by-default-dns-over-https-rollout-in-canada/
+ * [3] https://blog.mozilla.org/mozilla/news/firefox-by-default-dns-over-https-rollout-in-canada/
  * [4] https://www.eff.org/deeplinks/2020/12/dns-doh-and-odoh-oh-my-year-review-2020 ***/
    // user_pref("network.trr.mode", 5);
+/* 0706: disable proxy direct failover for system requests [FF91+]
+ * [WARNING] Default true is a security feature against malicious extensions
+ * [SETUP-CHROME] If you use a proxy and you trust your extensions ***/
+   // user_pref("network.proxy.failover_direct", false);
 
 /*** [SECTION 0800]: LOCATION BAR / SEARCH BAR / SUGGESTIONS / HISTORY / FORMS ***/
 user_pref("_user.js.parrot", "0800 syntax error: the parrot's ceased to be!");
@@ -432,9 +435,7 @@ user_pref("network.auth.subresource-http-auth-allow", 1);
  * [1] https://support.mozilla.org/kb/windows-sso ***/
 user_pref("network.http.windows-sso.enabled", false); // [DEFAULT: false]
 
-/*** [SECTION 1000]: DISK AVOIDANCE
-   [NOTE] Cache is isolated with network partitioning (FF85+) or FPI
-***/
+/*** [SECTION 1000]: DISK AVOIDANCE ***/
 user_pref("_user.js.parrot", "1000 syntax error: the parrot's gone to meet 'is maker!");
 /* 1001: disable disk cache
  * [SETUP-CHROME] If you think disk cache helps perf, then feel free to override this
@@ -615,7 +616,7 @@ user_pref("network.http.referer.XOriginTrimmingPolicy", 2);
    [4] https://github.com/stoically/temporary-containers/wiki
 ***/
 user_pref("_user.js.parrot", "1700 syntax error: the parrot's bit the dust!");
-/* 1701: enable Container Tabs and it's UI setting [FF50+]
+/* 1701: enable Container Tabs and its UI setting [FF50+]
  * [SETTING] General>Tabs>Enable Container Tabs ***/
 user_pref("privacy.userContext.enabled", true);
 user_pref("privacy.userContext.ui.enabled", true);
@@ -680,7 +681,7 @@ user_pref("media.autoplay.blocking_policy", 2);
 user_pref("_user.js.parrot", "2300 syntax error: the parrot's off the twig!");
 /* 2302: disable service workers [FF32, FF44-compat]
  * Service workers essentially act as proxy servers that sit between web apps, and the
- * browser and network, are event driven, and can control the web page/site it is associated
+ * browser and network, are event driven, and can control the web page/site they are associated
  * with, intercepting and modifying navigation and resource requests, and caching resources.
  * [NOTE] Service workers require HTTPS, have no DOM access, and are not supported in PB mode [1]
  * [SETUP-WEB] Disabling service workers will break some sites. This pref is required true for
@@ -717,28 +718,6 @@ user_pref("dom.disable_window_move_resize", true);
 user_pref("dom.disable_open_during_load", true);
 /* 2404: limit events that can cause a popup [SETUP-WEB] ***/
 user_pref("dom.popup_allowed_events", "click dblclick mousedown pointerdown");
-
-/*** [SECTION 2500]: FINGERPRINTING ***/
-user_pref("_user.js.parrot", "2500 syntax error: the parrot's shuffled off 'is mortal coil!");
-/* 2501: enforce no system colors
- * [SETTING] General>Language and Appearance>Fonts and Colors>Colors>Use system colors ***/
-user_pref("browser.display.use_system_colors", false); // [DEFAULT: false]
-/* 2502: enforce non-native widget theme
- * Security: removes/reduces system API calls, e.g. win32k API [1]
- * Fingerprinting: provides a uniform look and feel across platforms [2]
- * [1] https://bugzilla.mozilla.org/1381938
- * [2] https://bugzilla.mozilla.org/1411425 ***/
-user_pref("widget.non-native-theme.enabled", true); // [DEFAULT: true FF89+]
-/* 2503: open links targeting new windows in a new tab instead
- * Stops malicious window sizes and some screen resolution leaks.
- * You can still right-click a link and open in a new window
- * [TEST] https://arkenfox.github.io/TZP/tzp.html#screen
- * [1] https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/9881 ***/
-user_pref("browser.link.open_newwindow", 3); // 1=most recent window or tab 2=new window, 3=new tab
-user_pref("browser.link.open_newwindow.restriction", 0);
-/* 2504: disable WebGL (Web Graphics Library)
- * [SETUP-WEB] If you need it then enable it. RFP still randomizes canvas for naive scripts ***/
-user_pref("webgl.disabled", true);
 
 /*** [SECTION 2600]: MISCELLANEOUS ***/
 user_pref("_user.js.parrot", "2600 syntax error: the parrot's run down the curtain!");
@@ -781,13 +760,13 @@ user_pref("webchannel.allowObject.urlWhitelist", "");
  * [TEST] https://www.xn--80ak6aa92e.com/ (www.apple.com)
  * [1] https://wiki.mozilla.org/IDN_Display_Algorithm
  * [2] https://en.wikipedia.org/wiki/IDN_homograph_attack
- * [3] CVE-2017-5383: https://www.mozilla.org/security/advisories/mfsa2017-02/
+ * [3] https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=punycode+firefox
  * [4] https://www.xudongz.com/blog/2017/idn-phishing/ ***/
 user_pref("network.IDN_show_punycode", true);
 /* 2620: enforce PDFJS, disable PDFJS scripting [SETUP-CHROME]
  * This setting controls if the option "Display in Firefox" is available in the setting below
  *   and by effect controls whether PDFs are handled in-browser or externally ("Ask" or "Open With")
- * PROS: pdfjs is lightweight, open source, and as secure/vetted more than most
+ * PROS: pdfjs is lightweight, open source, and more secure/vetted than most
  *   Exploits are rare (one serious case in seven years), treated seriously and patched quickly.
  *   It doesn't break "state separation" of browser content (by not sharing with OS, independent apps).
  *   It maintains disk avoidance and application data isolation. It's convenient. You can still save to disk.
@@ -818,7 +797,7 @@ user_pref("browser.download.manager.addToRecentDocs", false);
  * [SETUP-CHROME] This will break extensions, language packs, themes and any other
  * XPI files which are installed outside of profile and application directories
  * [1] https://mike.kaply.com/2012/02/21/understanding-add-on-scopes/
- * [1] archived: https://archive.is/DYjAM ***/
+ * [1] https://archive.is/DYjAM (archived) ***/
 user_pref("extensions.enabledScopes", 5); // [HIDDEN PREF]
 user_pref("extensions.autoDisableScopes", 15); // [DEFAULT: 15]
 /* 2661: disable bypassing 3rd party extension install prompts [FF82+]
@@ -992,17 +971,14 @@ user_pref("privacy.firstparty.isolate", true);
 
    [WARNING] DO NOT USE extensions to alter RFP protected metrics
 
- FF41+
-    418986 - limit window.screen & CSS media queries leaking identifiable info
+    418986 - limit window.screen & CSS media queries (FF41)
       [TEST] https://arkenfox.github.io/TZP/tzp.html#screen
- FF50+
-   1281949 - spoof screen orientation
-   1281963 - hide contents of navigator.plugins and navigator.mimeTypes
- FF55+
-   1330890 - spoof timezone as UTC0
-   1360039 - spoof navigator.hardwareConcurrency as 2
-   1217238 - reduce precision of time exposed by javascript
- FF56+
+   1281949 - spoof screen orientation (FF50)
+   1281963 - hide contents of navigator.plugins and navigator.mimeTypes (FF50-88)
+   1330890 - spoof timezone as UTC0 (FF55)
+   1360039 - spoof navigator.hardwareConcurrency as 2 (FF55)
+   1217238 - reduce precision of time exposed by javascript (FF55)
+ FF56
    1369303 - spoof/disable performance API
    1333651 - spoof User Agent & Navigator API
       JS: FF91+ the version is spoofed as ESR, and the OS as Windows 10, OS 10.15, Android 10, or Linux
@@ -1012,7 +988,7 @@ user_pref("privacy.firstparty.isolate", true);
    1337161 - hide gamepads from content
    1372072 - spoof network information API as "unknown" when dom.netinfo.enabled = true
    1333641 - reduce fingerprinting in WebSpeech API
- FF57+
+ FF57
    1369309 - spoof media statistics
    1382499 - reduce screen co-ordinate fingerprinting in Touch API
    1217290 & 1409677 - enable some fingerprinting resistance for WebGL
@@ -1020,34 +996,30 @@ user_pref("privacy.firstparty.isolate", true);
    1354633 - limit MediaError.message to a whitelist
    1382533 & 1697680 - enable fingerprinting resistance for Presentation API (FF57-87)
       Blocks exposure of local IP Addresses via mDNS (Multicast DNS)
- FF58+
-    967895 - spoof canvas and enable site permission prompt before allowing canvas data extraction
- FF59+
-   1372073 - spoof/block fingerprinting in MediaDevices API
+ FF58-90
+    967895 - spoof canvas and enable site permission prompt (FF58)
+   1372073 - spoof/block fingerprinting in MediaDevices API (FF59)
       Spoof: enumerate devices as one "Internal Camera" and one "Internal Microphone"
       Block: suppresses the ondevicechange event
-   1039069 - warn when language prefs are not set to "en*" (also see 0210, 0211)
-   1222285 & 1433592 - spoof keyboard events and suppress keyboard modifier events
+   1039069 - warn when language prefs are not set to "en*" (also see 0210, 0211) (FF59)
+   1222285 & 1433592 - spoof keyboard events and suppress keyboard modifier events (FF59)
       Spoofing mimics the content language of the document. Currently it only supports en-US.
       Modifier events suppressed are SHIFT and both ALT keys. Chrome is not affected.
- FF60-67
-   1337157 - disable WebGL debug renderer info (FF60+)
-   1459089 - disable OS locale in HTTP Accept-Language headers (ANDROID) (FF62+)
-   1479239 - return "no-preference" with prefers-reduced-motion (FF63+)
-   1363508 - spoof/suppress Pointer Events (FF64+)
-   1492766 - spoof pointerEvent.pointerid (FF65+)
-   1485266 - disable exposure of system colors to CSS or canvas (FF67+)
-   1494034 - return "light" with prefers-color-scheme (FF67+)
- FF68-77
-   1564422 - spoof audioContext outputLatency (FF70+)
-   1595823 - return audioContext sampleRate as 44100 (FF72+)
-   1607316 - spoof pointer as coarse and hover as none (ANDROID) (FF74+)
- FF78-90
-   1621433 - randomize canvas (previously FF58+ returned an all-white canvas) (FF78+)
-   1653987 - limit font visibility to bundled and "Base Fonts" (Windows, Mac, some Linux) (FF80+)
-   1461454 - spoof smooth=true and powerEfficient=false for supported media in MediaCapabilities (FF82+)
+   1337157 - disable WebGL debug renderer info (FF60)
+   1459089 - disable OS locale in HTTP Accept-Language headers (ANDROID) (FF62)
+   1479239 - return "no-preference" with prefers-reduced-motion (FF63)
+   1363508 - spoof/suppress Pointer Events (FF64)
+   1492766 - spoof pointerEvent.pointerid (FF65)
+   1485266 - disable exposure of system colors to CSS or canvas (FF67)
+   1494034 - return "light" with prefers-color-scheme (FF67)
+   1564422 - spoof audioContext outputLatency (FF70)
+   1595823 - return audioContext sampleRate as 44100 (FF72)
+   1607316 - spoof pointer as coarse and hover as none (ANDROID) (FF74)
+   1621433 - randomize canvas (previously FF58+ returned an all-white canvas) (FF78)
+   1653987 - limit font visibility to bundled and "Base Fonts" (Windows, Mac, some Linux) (FF80)
+   1461454 - spoof smooth=true and powerEfficient=false for supported media in MediaCapabilities (FF82)
  FF91+
-    531915 - use fdlibm's sin, cos and tan in jsmath (FF93+, ESR91.1+)
+    531915 - use fdlibm's sin, cos and tan in jsmath (FF93, ESR91.1)
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting [FF41+]
@@ -1081,10 +1053,29 @@ user_pref("privacy.resistFingerprinting.letterboxing", true); // [HIDDEN PREF]
  * [1] https://bugzilla.mozilla.org/1635603 ***/
    // user_pref("privacy.resistFingerprinting.exemptedDomains", "*.example.invalid");
    // user_pref("privacy.resistFingerprinting.testGranularityMask", 0);
-/* 4510: disable showing about:blank as soon as possible during startup [FF60+]
+/* 4506: disable showing about:blank as soon as possible during startup [FF60+]
  * When default true this no longer masks the RFP chrome resizing activity
  * [1] https://bugzilla.mozilla.org/1448423 ***/
 user_pref("browser.startup.blankWindow", false);
+/* 4510: enforce no system colors
+ * [SETTING] General>Language and Appearance>Fonts and Colors>Colors>Use system colors ***/
+user_pref("browser.display.use_system_colors", false); // [DEFAULT: false]
+/* 4511: enforce non-native widget theme
+ * Security: removes/reduces system API calls, e.g. win32k API [1]
+ * Fingerprinting: provides a uniform look and feel across platforms [2]
+ * [1] https://bugzilla.mozilla.org/1381938
+ * [2] https://bugzilla.mozilla.org/1411425 ***/
+user_pref("widget.non-native-theme.enabled", true); // [DEFAULT: true FF89+]
+/* 4512: open links targeting new windows in a new tab instead
+ * Stops malicious window sizes and some screen resolution leaks.
+ * You can still right-click a link and open in a new window
+ * [TEST] https://arkenfox.github.io/TZP/tzp.html#screen
+ * [1] https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/9881 ***/
+user_pref("browser.link.open_newwindow", 3); // 1=most recent window or tab 2=new window, 3=new tab
+user_pref("browser.link.open_newwindow.restriction", 0);
+/* 4513: disable WebGL (Web Graphics Library)
+ * [SETUP-WEB] If you need it then enable it. RFP still randomizes canvas for naive scripts ***/
+user_pref("webgl.disabled", true);
 
 /*** [SECTION 5000]: OPTIONAL OPSEC
    Disk avoidance, application data isolation, eyeballs...
@@ -1160,7 +1151,7 @@ user_pref("_user.js.parrot", "5000 syntax error: the parrot's taken 'is last bow
    // user_pref("browser.download.folderList", 2);
 
 /*** [SECTION 5500]: OPTIONAL HARDENING
-   Not recommended. Keep in mind that these can cause breakage, performance
+   Not recommended. Keep in mind that these can cause breakage and performance
    issues, are mostly fingerpintable, and the threat model is practically zero
 ***/
 user_pref("_user.js.parrot", "5500 syntax error: this is an ex-parrot!");
@@ -1313,7 +1304,7 @@ user_pref("_user.js.parrot", "7000 syntax error: the parrot's pushing up daisies
    // user_pref("gfx.downloadable_fonts.enabled", false); // [FF41+]
    // user_pref("gfx.downloadable_fonts.fallback_delay", -1);
 /* 7013: disable Clipboard API
- * [WHY] Fingerprintable. Breakage. They (cut/copy/paste) require user
+ * [WHY] Fingerprintable. Breakage. Cut/copy/paste require user
  * interaction, and paste is limited to focused editable fields ***/
    // user_pref("dom.event.clipboardevents.enabled", false);
 
@@ -1403,7 +1394,7 @@ user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", 
    Documentation denoted as [-]. Items deprecated in FF78 or earlier have been archived at [1]
    [1] https://github.com/arkenfox/user.js/issues/123
 ***/
-user_pref("_user.js.parrot", "9999 syntax error: the parrot's deprecated!");
+user_pref("_user.js.parrot", "9999 syntax error: the parrot's shuffled off 'is mortal coil!");
 /* ESR78.x still uses all the following prefs
 // [NOTE] replace the * with a slash in the line above to re-enable them
 // FF79
@@ -1514,3 +1505,6 @@ user_pref("dom.serviceWorkers.enabled", true);  // 2302
 // Disable HTTPS-Only mode
 user_pref("dom.security.https_only_mode", false); // [FF76+]
 user_pref("dom.security.https_only_mode_pbm", false); // [FF80+]
+
+// Old Ctrl+Tab behaviour
+user_pref("browser.engagement.ctrlTab.has-used", true);
