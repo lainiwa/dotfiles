@@ -105,13 +105,13 @@ if (( ${+functions[_histdb_query]} )); then
 fi
 
 
-(
-# Get binary files
-get_bin cht.sh      "${URL}/cht.sh/:cht.sh" &
-get_bin pping       "${GH}/denilsonsa/prettyping/master/prettyping" &
-get_bin git-foresta "${GH}/takaaki-kasai/git-foresta/master/git-foresta" &
-wait
-)
+# (
+# # Get binary files
+# get_bin cht.sh      "${URL}/cht.sh/:cht.sh" &
+# get_bin pping       "${GH}/denilsonsa/prettyping/master/prettyping" &
+# get_bin git-foresta "${GH}/takaaki-kasai/git-foresta/master/git-foresta" &
+# wait
+# )
 
 
 ###################################

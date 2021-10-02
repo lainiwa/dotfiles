@@ -60,8 +60,13 @@ requirements() {
         (( ! ${+commands[fff]} )) && <<< dylanaraps/fff,hook:"PREFIX=${_ZPM_POL} make install"
         <<<       snipem/v,hook:"PREFIX=${_ZPM_POL} make install"
     fi
-    <<<   gitbits/git-info,hook:"cp git-*    ${_ZPM_POL}/bin/"
-    <<< loelkes/git-redate,hook:"cp git-*    ${_ZPM_POL}/bin/"
+    (( ${+commands[fzf]} && ${+commands[systemctl]} && ${+commands[awk]} )) &&
+        <<<  joehillen/sysz,hook:"cp sysz ${_ZPM_POL}/bin/"
+    <<<          gitbits/git-info,hook:"cp git-*      ${_ZPM_POL}/bin/"
+    <<<        loelkes/git-redate,hook:"cp git-*      ${_ZPM_POL}/bin/"
+    <<< takaaki-kasai/git-foresta,hook:"cp git-*      ${_ZPM_POL}/bin/"
+    <<<     denilsonsa/prettyping,hook:"cp prettyping ${_ZPM_POL}/bin/pping"
+    # get_bin cht.sh      "${URL}/cht.sh/:cht.sh" &
     (( ${+commands[fzf]} )) && <<< wfxr/forgit
     (( ${+commands[beet]} && ${+commands[gawk]} )) &&
         <<<   @empty/beet,gen-completion:"${GH}/beetbox/beets/master/extra/_beet | sed s/awk/gawk/g"
