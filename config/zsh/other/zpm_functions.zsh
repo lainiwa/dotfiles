@@ -27,7 +27,7 @@ requirements() {
     <<< lainiwa/ph-marks
     # Git related
     <<< paulirish/git-open
-    <<< zdharma/zsh-diff-so-fancy
+    # <<< zdharma/zsh-diff-so-fancy
     # Completions
     # <<< MenkeTechnologies/zsh-more-completions,fpath:/src
     <<< zchee/zsh-completions
@@ -85,6 +85,7 @@ requirements() {
     <<< @empty/docker-compose,gen-completion:"${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose"
     # Download bash completions
     <<< @empty/timewarrior,gen-plugin:"${GH}/GothenburgBitFactory/timewarrior/master/completion/timew-completion.bash"
+    # <<<     @empty/hledger,gen-completion:"${GH}/simonmichael/hledger/master/hledger/shell-completion/hledger-completion.bash"
     # Generate completions
     (( ${+commands[dvc]}    )) && <<<    @empty/dvc,gen-completion:"dvc completion -s zsh"
     (( ${+commands[gh]}     )) && <<<     @empty/gh,gen-completion:"gh completion -s zsh"
