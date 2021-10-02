@@ -11,8 +11,9 @@
     "create_window_at_startup": false, 
     "ignored_packages": [
         "BracketHighlighter", 
+        "GitGutter", 
         "LSP", 
-        "Markdown", 
+        "Markdown",
         "Python",
         "Rust",
         "SortBy",
