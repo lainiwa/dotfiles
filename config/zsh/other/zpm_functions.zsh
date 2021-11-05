@@ -25,9 +25,6 @@ requirements() {
     # My plugins
     <<< lainiwa/gitcd
     <<< lainiwa/ph-marks
-    # Git related
-    <<< paulirish/git-open
-    # <<< zdharma/zsh-diff-so-fancy
     # Completions
     # <<< MenkeTechnologies/zsh-more-completions,fpath:/src
     <<< zchee/zsh-completions
@@ -38,8 +35,16 @@ requirements() {
     <<< lukechilds/zsh-better-npm-completion
     # Zsh in nix-shell
     <<< chisui/zsh-nix-shell
+    # Git related
+    <<< paulirish/git-open
+    (( ${+commands[fzf]} )) && <<< wfxr/forgit
     # Get gitignore template with `gi` command
     <<< voronkovich/gitignore.plugin.zsh
+
+    # Heavy stuff
+    <<< zsh-users/zsh-autosuggestions,source:zsh-autosuggestions.zsh
+    <<< zdharma-continuum/fast-syntax-highlighting,fpath:/→chroma
+
     # History
     if (( ${+commands[atuin]} )); then
         <<< ellie/atuin
@@ -48,13 +53,12 @@ requirements() {
     elif (( ${+commands[mcfly]} )); then
         <<< cantino/mcfly,source:mcfly.zsh
     else
-        <<< zdharma/history-search-multi-word,fpath:/
+        <<< zsh-users/zsh-history-substring-search
     fi
-    # Heavy stuff
-    <<< zdharma/fast-syntax-highlighting,fpath:/→chroma
-    <<< zsh-users/zsh-autosuggestions,source:zsh-autosuggestions.zsh
+
     # Substitute `...` with `../..`
     (( ${+commands[awk]} )) && <<< lainiwa/zsh-manydots-magic,source:manydots-magic
+
     # Non-plugins
     if (( ${+commands[make]} )); then
         (( ! ${+commands[fff]} )) && <<< dylanaraps/fff,hook:"PREFIX=${_ZPM_POL} make install"
@@ -67,10 +71,10 @@ requirements() {
     <<< takaaki-kasai/git-foresta,hook:"cp git-*      ${_ZPM_POL}/bin/"
     <<<     denilsonsa/prettyping,hook:"cp prettyping ${_ZPM_POL}/bin/pping"
     # get_bin cht.sh      "${URL}/cht.sh/:cht.sh" &
-    (( ${+commands[fzf]} )) && <<< wfxr/forgit
+
+    # Download zsh completions
     (( ${+commands[beet]} && ${+commands[gawk]} )) &&
         <<<   @empty/beet,gen-completion:"${GH}/beetbox/beets/master/extra/_beet | sed s/awk/gawk/g"
-    # Download zsh completions
     <<<            @empty/cht,gen-completion:"${URL}/cheat.sh/:zsh"
     <<<            @empty/exa,gen-completion:"${GH}/ogham/exa/master/contrib/completions.zsh"
     <<<            @empty/nnn,gen-completion:"${GH}/jarun/nnn/master/misc/auto-completion/zsh/_nnn"
@@ -83,9 +87,11 @@ requirements() {
     <<<         @empty/watson,gen-completion:"${GH}/TailorDev/Watson/master/watson.zsh-completion"
     <<<    @empty/taskwarrior,gen-completion:"${GH}/GothenburgBitFactory/taskwarrior/master/scripts/zsh/_task"
     <<< @empty/docker-compose,gen-completion:"${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose"
+
     # Download bash completions
     <<< @empty/timewarrior,gen-plugin:"${GH}/GothenburgBitFactory/timewarrior/master/completion/timew-completion.bash"
     # <<<     @empty/hledger,gen-completion:"${GH}/simonmichael/hledger/master/hledger/shell-completion/hledger-completion.bash"
+
     # Generate completions
     (( ${+commands[dvc]}    )) && <<<    @empty/dvc,gen-completion:"dvc completion -s zsh"
     (( ${+commands[gh]}     )) && <<<     @empty/gh,gen-completion:"gh completion -s zsh"
@@ -99,6 +105,7 @@ requirements() {
         (( ${+commands[cz]} ))     && <<<     @empty/cz,gen-completion:"register-python-argcomplete cz"
         (( ${+commands[git-cz]} )) && <<< @empty/git-cz,gen-completion:"register-python-argcomplete git-cz"
     fi
+
     # Generate sourceables
     (( ${+commands[brew]}          )) && <<< @empty/linuxbrew,gen-plugin:"brew shellenv; <<<'FPATH=$(brew --prefix)/share/zsh/site-functions:\${FPATH}'"
     (( ${+commands[aws_completer]} )) && <<<       @empty/aws,gen-plugin:"<<<'complete -C =aws_completer aws'"
