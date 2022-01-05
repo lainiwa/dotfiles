@@ -93,6 +93,7 @@ requirements() {
     # <<<     @empty/hledger,gen-completion:"${GH}/simonmichael/hledger/master/hledger/shell-completion/hledger-completion.bash"
 
     # Generate completions
+    (( ${+commands[hcloud]} )) && <<< @empty/hcloud,gen-completion:"hcloud completion zsh"
     (( ${+commands[dvc]}    )) && <<<    @empty/dvc,gen-completion:"dvc completion -s zsh"
     (( ${+commands[gh]}     )) && <<<     @empty/gh,gen-completion:"gh completion -s zsh"
     (( ${+commands[poetry]} )) && <<< @empty/poetry,gen-completion:"poetry completions zsh"
