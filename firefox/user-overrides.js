@@ -23,13 +23,13 @@ user_pref("security.OCSP.require", false); // 1212
 // Disable cleanup upon shutdown
 user_pref("privacy.sanitize.sanitizeOnShutdown", false); // 2802
 // 2803
-user_pref("privacy.clearOnShutdown.cache", true);
-user_pref("privacy.clearOnShutdown.cookies", true);
-user_pref("privacy.clearOnShutdown.downloads", true); // see note above
-user_pref("privacy.clearOnShutdown.formdata", true); // Form & Search History
-user_pref("privacy.clearOnShutdown.history", true); // Browsing & Download History
-user_pref("privacy.clearOnShutdown.offlineApps", true); // Offline Website Data
-user_pref("privacy.clearOnShutdown.sessions", true); // Active Logins
+user_pref("privacy.clearOnShutdown.cache", false);
+user_pref("privacy.clearOnShutdown.cookies", false);
+user_pref("privacy.clearOnShutdown.downloads", false); // see note above
+user_pref("privacy.clearOnShutdown.formdata", false); // Form & Search History
+user_pref("privacy.clearOnShutdown.history", false); // Browsing & Download History
+user_pref("privacy.clearOnShutdown.offlineApps", false); // Offline Website Data
+user_pref("privacy.clearOnShutdown.sessions", false); // Active Logins
 user_pref("privacy.clearOnShutdown.siteSettings", false); // Site Preferences
 
 // Do not resize inner window as a FPR technique
