@@ -94,6 +94,7 @@ requirements() {
 
     # Generate completions
     (( ${+commands[k0s]}    )) && <<<    @empty/k0s,gen-completion:"k0s completion zsh"
+    (( ${+commands[k0sctl]} )) && <<< @empty/k0sctl,gen-completion:"k0sctl completion zsh"
     (( ${+commands[hcloud]} )) && <<< @empty/hcloud,gen-completion:"hcloud completion zsh"
     (( ${+commands[dvc]}    )) && <<<    @empty/dvc,gen-completion:"dvc completion -s zsh"
     (( ${+commands[gh]}     )) && <<<     @empty/gh,gen-completion:"gh completion -s zsh"
