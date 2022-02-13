@@ -114,6 +114,7 @@ requirements() {
     (( ${+commands[aws_completer]} )) && <<<       @empty/aws,gen-plugin:"<<<'complete -C =aws_completer aws'"
     (( ${+commands[dircolors]}     )) && <<< @empty/dircolors,gen-plugin:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
     (( ${+commands[git-town]}      )) && <<<  @empty/git-town,gen-plugin:"git-town completions zsh"
+    (( ${+commands[broot]}         )) && <<<     @empty/broot,gen-plugin:"broot --print-shell-function zsh"
     (( ${+commands[pip]}           )) && <<<       @empty/pip,gen-plugin:"pip completion --zsh"
     (( ${+commands[pip3]}          )) && <<<      @empty/pip3,gen-plugin:"pip3 completion --zsh"
     (( ${+commands[pyenv]}         )) && <<<     @empty/pyenv,gen-plugin:"pyenv init - --no-rehash"
