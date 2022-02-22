@@ -152,8 +152,8 @@ unset grc_conf
 
 
 # I'm not a robot
-alias du='du --human-readable'
-alias df='df --human-readable'
+alias du='du -h'
+alias df='df -h'
 alias free='free --human'
 
 
