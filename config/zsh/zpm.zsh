@@ -55,6 +55,10 @@ fi
 # Git status
 AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' 'S')
 AGKOZAK_CUSTOM_RPROMPT='%(3V.%F{yellow}%3v%f.)'
+# nix-shell indicator
+if [[ -n "${IN_NIX_SHELL}" ]]; then
+    AGKOZAK_CUSTOM_RPROMPT="${AGKOZAK_CUSTOM_RPROMPT} %F{magenta}(nix-shell)%f"
+fi
 # Exit status
 AGKOZAK_CUSTOM_RPROMPT+=' %(?..%B%F{red}(%?%)%f%b)'
 # Execution time
