@@ -392,7 +392,8 @@ EOF
         poetry self update || true
     fi
     # Upgrade pip and pipx
-    if pip freeze |grep -q pipx 2>/dev/null; then
+    if command -v pip >/dev/null &&
+       pip freeze |grep -q pipx 2>/dev/null; then
         pip install --user --upgrade pip
         pip install --user --upgrade pipx
     fi
@@ -444,9 +445,13 @@ full_clean() {
             nix-store --optimise
             nix-collect-garbage --delete-old
         fi
-        docker system prune --force --all
-        docker volume rm \$(docker volume ls -q) || true
-        podman system prune --all --force && podman rmi --all
+        if command -v docker >/dev/null; then
+            docker system prune --force --all
+            docker volume rm \$(docker volume ls -q) || true
+        fi
+        if command -v podman >/dev/null; then
+            podman system prune --all --force && podman rmi --all
+        fi
 EOF
     # Garbage-collect nix
     if command -v nix >/dev/null; then
