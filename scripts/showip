@@ -47,7 +47,7 @@ for site in ${ip_sites}; do
                 ;;
             esac
         done << EOF
-$(wget --quiet --server-response "${site}" -O- 2>&1)
+$(wget --quiet --server-response --prefer-family=IPv4 "${site}" -O- 2>&1)
 EOF
 
 
