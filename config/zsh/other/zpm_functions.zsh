@@ -93,6 +93,8 @@ requirements() {
     # <<<     @empty/hledger,gen-completion:"${GH}/simonmichael/hledger/master/hledger/shell-completion/hledger-completion.bash"
 
     # Generate completions
+    (( ${+commands[arc]}    )) && <<<    @empty/arc,gen-completion:"arc completion zsh"
+    (( ${+commands[ya]}    ))  && <<<     @empty/ya,gen-completion:"ya completion --zsh; cat ~/.ya.completion/zsh/_ya; rm -rf ~/.ya.completion/zsh"
     (( ${+commands[k0s]}    )) && <<<    @empty/k0s,gen-completion:"k0s completion zsh"
     (( ${+commands[k0sctl]} )) && <<< @empty/k0sctl,gen-completion:"k0sctl completion zsh"
     (( ${+commands[hcloud]} )) && <<< @empty/hcloud,gen-completion:"hcloud completion zsh"
