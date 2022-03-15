@@ -463,14 +463,17 @@ EOF
     if command -v guix >/dev/null; then
         guix gc --delete-generations=1m
     fi
-    # Cleanup unused linuxbrew packages
+    # # Cleanup unused linuxbrew packages
+    # if command -v brew >/dev/null; then
+    #     (
+    #         cd /tmp
+    #         brew bundle dump
+    #         brew bundle --force cleanup
+    #         mv Brewfile Brewfile.used
+    #     )
+    # fi
     if command -v brew >/dev/null; then
-        (
-            cd /tmp
-            brew bundle dump
-            brew bundle --force cleanup
-            mv Brewfile Brewfile.used
-        )
+        brew cleanup --prune=1 -s
     fi
     # Clean sublime text 3 backups
     if [[ -d ~/.config/sublime-text-3/Backup ]]; then
