@@ -125,6 +125,8 @@ alias -g NOC='| sed -r "s/\x1B\[[0-9;]*[JKmsu]//g"'
 
 if (( ${+commands[xclip]} )); then
     alias -g C='| xclip -in -selection primary -filter | xclip -in -selection clipboard'
+elif (( ${+commands[pbcopy]} && ${+commands[perl]} )); then
+    alias -g C='|perl -pe "chomp if eof" |pbcopy -pboard general'
 fi
 
 # Colorize certain word
