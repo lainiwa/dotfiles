@@ -9,7 +9,7 @@ requirements() {
     # Z
     <<< Angelmmiguel/pm,fpath:/zsh,source:/zsh/pm.zsh
     if (( ${+commands[zoxide]} )); then
-        <<<  @empty/zoxide,gen-plugin:"zoxide init zsh"
+        <<<  @exec/zoxide,origin:"zoxide init zsh"
     elif (( ${+commands[lua]} )); then
         <<< skywind3000/z.lua
     else
@@ -74,57 +74,57 @@ requirements() {
 
     # Download zsh completions
     (( ${+commands[beet]} && ${+commands[gawk]} )) &&
-        <<<   @empty/beet,gen-completion:"${GH}/beetbox/beets/master/extra/_beet | sed s/awk/gawk/g"
-    <<<            @empty/cht,gen-completion:"${URL}/cheat.sh/:zsh"
-    <<<            @empty/exa,gen-completion:"${GH}/ogham/exa/master/contrib/completions.zsh"
-    <<<            @empty/nnn,gen-completion:"${GH}/jarun/nnn/master/misc/auto-completion/zsh/_nnn"
-    <<<           @empty/beet,gen-completion:"${GH}/beetbox/beets/master/extra/_beet"
-    <<<           @empty/buku,gen-completion:"${GH}/jarun/Buku/master/auto-completion/zsh/_buku"
-    <<<           @empty/gist,gen-completion:"${GH}/jdowner/gist/alpha/share/gist.zsh"
-    <<<           @empty/guix,gen-completion:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix"
-    <<<           @empty/khal,gen-completion:"${GH}/pimutils/khal/master/misc/__khal"
-    <<<         @empty/ffsend,gen-completion:"${GH}/timvisee/ffsend/master/contrib/completions/_ffsend"
-    <<<         @empty/watson,gen-completion:"${GH}/TailorDev/Watson/master/watson.zsh-completion"
-    <<<    @empty/taskwarrior,gen-completion:"${GH}/GothenburgBitFactory/taskwarrior/master/scripts/zsh/_task"
-    <<< @empty/docker-compose,gen-completion:"${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose"
+        <<<   @exec/beet,apply:fpath,origin:"${GH}/beetbox/beets/master/extra/_beet | sed s/awk/gawk/g > _beet"
+    <<<            @exec/cht,apply:fpath,origin:"${URL}/cheat.sh/:zsh > _cht"
+    <<<            @exec/exa,apply:fpath,origin:"${GH}/ogham/exa/master/completions/zsh/_exa > _exa"
+    <<<            @exec/nnn,apply:fpath,origin:"${GH}/jarun/nnn/master/misc/auto-completion/zsh/_nnn > _nnn"
+    <<<           @exec/beet,apply:fpath,origin:"${GH}/beetbox/beets/master/extra/_beet > _beet"
+    <<<           @exec/buku,apply:fpath,origin:"${GH}/jarun/Buku/master/auto-completion/zsh/_buku > _buku"
+    <<<           @exec/gist,apply:fpath,origin:"${GH}/jdowner/gist/master/share/gist.zsh > _gist"
+    <<<           @exec/guix,apply:fpath,origin:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix > _guix"
+    <<<         @exec/ffsend,apply:fpath,origin:"${GH}/timvisee/ffsend/master/contrib/completions/_ffsend > _ffsend"
+    <<<         @exec/watson,apply:fpath,origin:"${GH}/TailorDev/Watson/master/watson.zsh-completion > _watson"
+    <<<    @exec/taskwarrior,apply:fpath,origin:"${GH}/GothenburgBitFactory/taskwarrior/master/scripts/zsh/_task > _taskwarrior"
+    <<< @exec/docker-compose,apply:fpath,origin:"${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose > _docker-compose"
 
     # Download bash completions
-    <<< @empty/timewarrior,gen-plugin:"${GH}/GothenburgBitFactory/timewarrior/master/completion/timew-completion.bash"
-    # <<<     @empty/hledger,gen-completion:"${GH}/simonmichael/hledger/master/hledger/shell-completion/hledger-completion.bash"
+    <<< @exec/timewarrior,origin:"${GH}/GothenburgBitFactory/timewarrior/master/completion/timew-completion.bash > _timewarrior"
+    # <<<     @exec/hledger,apply:fpath,origin:"${GH}/simonmichael/hledger/master/hledger/shell-completion/hledger-completion.bash > _hledger"
 
     # Generate completions
-    (( ${+commands[wgcf]}   )) && <<<   @empty/wgcf,gen-completion:"wgcf completion zsh"
-    (( ${+commands[arc]}    )) && <<<    @empty/arc,gen-completion:"arc completion zsh"
-    (( ${+commands[ya]}    ))  && <<<     @empty/ya,gen-completion:"ya completion --zsh; cat ~/.ya.completion/zsh/_ya; rm -rf ~/.ya.completion/zsh"
-    (( ${+commands[k0s]}    )) && <<<    @empty/k0s,gen-completion:"k0s completion zsh"
-    (( ${+commands[k0sctl]} )) && <<< @empty/k0sctl,gen-completion:"k0sctl completion zsh"
-    (( ${+commands[hcloud]} )) && <<< @empty/hcloud,gen-completion:"hcloud completion zsh"
-    (( ${+commands[dvc]}    )) && <<<    @empty/dvc,gen-completion:"dvc completion -s zsh"
-    (( ${+commands[gh]}     )) && <<<     @empty/gh,gen-completion:"gh completion -s zsh"
-    (( ${+commands[poetry]} )) && <<< @empty/poetry,gen-completion:"poetry completions zsh"
-    (( ${+commands[rclone]} )) && <<< @empty/rclone,gen-completion:"rclone genautocomplete zsh /dev/stdout"
-    (( ${+commands[restic]} )) && <<< @empty/restic,gen-completion:"restic generate --zsh-completion /dev/stdout"
-    (( ${+commands[rustup]} )) && <<<  @empty/cargo,gen-completion:"rustup completions zsh cargo"
-    (( ${+commands[rustup]} )) && <<< @empty/rustup,gen-completion:"rustup completions zsh rustup"
+    (( ${+commands[khal]}   )) && <<<   @exec/khal,apply:fpath,origin:"_KHAL_COMPLETE=zsh_source khal > _khal"
+    (( ${+commands[wgcf]}   )) && <<<   @exec/wgcf,apply:fpath,origin:"wgcf completion zsh > _wgcf"
+    (( ${+commands[arc]}    )) && <<<    @exec/arc,apply:fpath,origin:"arc completion zsh > _arc"
+    (( ${+commands[ya]}    ))  && <<<     @exec/ya,apply:fpath,origin:"ya completion --zsh; cat ~/.ya.completion/zsh/_ya; rm -rf ~/.ya.completion/zsh > _ya"
+    (( ${+commands[k0s]}    )) && <<<    @exec/k0s,apply:fpath,origin:"k0s completion zsh > _k0s"
+    (( ${+commands[k0sctl]} )) && <<< @exec/k0sctl,apply:fpath,origin:"k0sctl completion zsh > _k0sctl"
+    (( ${+commands[hcloud]} )) && <<< @exec/hcloud,apply:fpath,origin:"hcloud completion zsh > _hcloud"
+    (( ${+commands[dvc]}    )) && <<<    @exec/dvc,apply:fpath,origin:"dvc completion -s zsh > _dvc"
+    (( ${+commands[gh]}     )) && <<<     @exec/gh,apply:fpath,origin:"gh completion -s zsh > _gh"
+    (( ${+commands[poetry]} )) && <<< @exec/poetry,apply:fpath,origin:"poetry completions zsh > _poetry"
+    (( ${+commands[rclone]} )) && <<< @exec/rclone,apply:fpath,origin:"rclone genautocomplete zsh /dev/stdout > _rclone"
+    (( ${+commands[restic]} )) && <<< @exec/restic,apply:fpath,origin:"restic generate --zsh-completion /dev/stdout > _restic"
+    (( ${+commands[rustup]} )) && <<<  @exec/cargo,apply:fpath,origin:"rustup completions zsh cargo > _cargo"
+    (( ${+commands[rustup]} )) && <<< @exec/rustup,apply:fpath,origin:"rustup completions zsh rustup > _rustup"
     if (( ${+commands[register-python-argcomplete]} )); then
-        (( ${+commands[pipx]} ))   && <<<   @empty/pipx,gen-completion:"register-python-argcomplete pipx"
-        (( ${+commands[cz]} ))     && <<<     @empty/cz,gen-completion:"register-python-argcomplete cz"
-        (( ${+commands[git-cz]} )) && <<< @empty/git-cz,gen-completion:"register-python-argcomplete git-cz"
+        (( ${+commands[pipx]} ))   && <<<   @exec/pipx,apply:fpath,origin:"register-python-argcomplete pipx > _pipx"
+        (( ${+commands[cz]} ))     && <<<     @exec/cz,apply:fpath,origin:"register-python-argcomplete cz > _cz"
+        (( ${+commands[git-cz]} )) && <<< @exec/git-cz,apply:fpath,origin:"register-python-argcomplete git-cz > _git-cz"
     fi
 
     # Generate sourceables
-    (( ${+commands[brew]}          )) && <<< @empty/linuxbrew,gen-plugin:"brew shellenv; <<<'FPATH=$(brew --prefix)/share/zsh/site-functions:\${FPATH}'"
-    (( ${+commands[aws_completer]} )) && <<<       @empty/aws,gen-plugin:"<<<'complete -C =aws_completer aws'"
-    (( ${+commands[dircolors]}     )) && <<< @empty/dircolors,gen-plugin:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
-    (( ${+commands[git-town]}      )) && <<<  @empty/git-town,gen-plugin:"git-town completions zsh"
-    (( ${+commands[broot]}         )) && <<<     @empty/broot,gen-plugin:"broot --print-shell-function zsh"
-    (( ${+commands[pip]}           )) && <<<       @empty/pip,gen-plugin:"pip completion --zsh"
-    (( ${+commands[pip3]}          )) && <<<      @empty/pip3,gen-plugin:"pip3 completion --zsh"
-    (( ${+commands[pyenv]}         )) && <<<     @empty/pyenv,gen-plugin:"pyenv init - --no-rehash"
-    (( ${+commands[kubectl]}       )) && <<<   @empty/kubectl,gen-plugin:"kubectl completion zsh"
-    (( ${+commands[terraform]}     )) && <<< @empty/terraform,gen-plugin:"<<<'complete -o nospace -C =terraform terraform'"
-    (( ${+commands[s5cmd]}         )) && <<<     @empty/s5cmd,gen-plugin:"<<<'complete -o nospace -C =s5cmd s5cmd'"
-    (( ${+commands[git-extras]}    )) && <<<@empty/git-extras,gen-plugin:"cat /usr/share/zsh/vendor-completions/_git-extras"
+    (( ${+commands[brew]}          )) && <<< @exec/linuxbrew,origin:"brew shellenv; <<<'FPATH=$(brew --prefix)/share/zsh/site-functions:\${FPATH}'"
+    (( ${+commands[aws_completer]} )) && <<<       @exec/aws,origin:"<<<'complete -C =aws_completer aws'"
+    (( ${+commands[dircolors]}     )) && <<< @exec/dircolors,origin:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
+    (( ${+commands[git-town]}      )) && <<<  @exec/git-town,origin:"git-town completions zsh"
+    (( ${+commands[broot]}         )) && <<<     @exec/broot,origin:"broot --print-shell-function zsh"
+    (( ${+commands[pip]}           )) && <<<       @exec/pip,origin:"pip completion --zsh"
+    (( ${+commands[pip3]}          )) && <<<      @exec/pip3,origin:"pip3 completion --zsh"
+    (( ${+commands[pyenv]}         )) && <<<     @exec/pyenv,origin:"pyenv init - --no-rehash"
+    (( ${+commands[kubectl]}       )) && <<<   @exec/kubectl,origin:"kubectl completion zsh"
+    (( ${+commands[terraform]}     )) && <<< @exec/terraform,origin:"<<<'complete -o nospace -C =terraform terraform'"
+    (( ${+commands[s5cmd]}         )) && <<<     @exec/s5cmd,origin:"<<<'complete -o nospace -C =s5cmd s5cmd'"
+    (( ${+commands[git-extras]}    )) && <<<@exec/git-extras,origin:"cat /usr/share/zsh/vendor-completions/_git-extras"
 }
 
 pick_fzf() {
