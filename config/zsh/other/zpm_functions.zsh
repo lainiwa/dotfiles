@@ -150,7 +150,7 @@ SELECT min(history.command_id), REPLACE(argv, X'0A', '; ')
 FROM history
 LEFT JOIN commands ON history.command_id = commands.rowid
 GROUP BY argv
-ORDER BY history.start_time DESC
+ORDER BY max(history.start_time) DESC
 " |
     pick_fzf
     )
