@@ -93,6 +93,7 @@ requirements() {
 
     # Generate completions
     (( ${+commands[khal]}   )) && <<<   @exec/khal,apply:fpath,origin:"_KHAL_COMPLETE=zsh_source khal > _khal"
+    (( ${+commands[kaf]}    )) && <<<    @exec/kaf,apply:fpath,origin:"kaf completion zsh > _kaf"
     (( ${+commands[wgcf]}   )) && <<<   @exec/wgcf,apply:fpath,origin:"wgcf completion zsh > _wgcf"
     (( ${+commands[arc]}    )) && <<<    @exec/arc,apply:fpath,origin:"arc completion zsh > _arc"
     (( ${+commands[ya]}    ))  && <<<     @exec/ya,apply:fpath,origin:"ya completion --zsh; cat ~/.ya.completion/zsh/_ya; rm -rf ~/.ya.completion/zsh > _ya"
