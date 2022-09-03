@@ -40,6 +40,10 @@ fi
 ###################################
 # SETUP PROMPT
 #
+# Agkozak prompt disables PROMPT_CR and PROMPT_SP for whatever reason
+# Restore default behavior of printing PROMPT_EOL_MARK:
+# src: https://zsh.sourceforge.io/Doc/Release/Parameters.html#index-PROMPT_005fEOL_005fMARK
+setopt prompt_cr prompt_sp
 # Python virtual environment name
 AGKOZAK_CUSTOM_PROMPT='%(10V.%B%F{green}(%10v)%f%b.)'
 # Username and hostname
