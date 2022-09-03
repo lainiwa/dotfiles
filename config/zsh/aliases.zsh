@@ -66,6 +66,9 @@ alias mkdir='mkdir -pv'
 # alias mv='mv -v'
 # alias rm='rm -v'
 
+# Shortcut for sending json data via curl
+alias jcurl='curl --header "content-type: application/json"'
+
 # R is for Ranger
 alias r='ranger'
 # Tmux attach alias
