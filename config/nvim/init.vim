@@ -13,7 +13,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 "let g:deoplete#enable_at_startup = 1
 
 " Python syntax highlighting
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+" Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 " Vertical lines at each indentation level
 Plug 'Yggdroot/indentLine'
 " Auto insert closing quotes and parenthesis
@@ -23,7 +23,7 @@ Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 map <F2> :NERDTreeToggle<CR>
 " Python motion
-Plug 'jeetsukumaran/vim-pythonsense'
+" Plug 'jeetsukumaran/vim-pythonsense'
 " Status bar
 Plug 'itchyny/lightline.vim'
 " Identify changed lines
