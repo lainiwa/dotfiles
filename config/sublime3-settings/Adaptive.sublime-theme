@@ -3,10 +3,10 @@
     "variables":
     {
         "font_face": "system",
-        "font_size_sm": 18,
-        "font_size": 19,
-        "font_size_lg": 20,
-        "font_size_title": 31,
+        "font_size_sm": 19,
+        "font_size": 20,
+        "font_size_lg": 21,
+        "font_size_title": 32,
     },
     "rules":
     [
