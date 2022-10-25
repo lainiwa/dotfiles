@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# fixes issue: slow start of gtk apps
+# https://bbs.archlinux.org/viewtopic.php?id=224787
+if command -v dbus-update-activation-environment >/dev/null; then
+    dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY
+
+fi
+
 
 if [ -f ~/.Xresources ]; then
     xrdb -load ~/.Xresources
