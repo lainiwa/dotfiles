@@ -6,6 +6,8 @@ set -o nounset  # exit on undeclared variable
 # set -o xtrace    # trace execution
 
 buku_tags() {
+    requires buku sed grep sort fzf cut tr
+
     buku --np --stag |
     sed 's/.* \([^ ]*\) (\(.*\))/\2 \1/' |
     grep --invert-match --regexp='^[[:space:]]*$' --regexp=' date:' |
@@ -24,6 +26,8 @@ buku_tags() {
 }
 
 http_publish() {
+    requires ngrok tunnelto
+
     local port=$1
 
     if command -v ngrok >/dev/null; then
@@ -34,6 +38,8 @@ http_publish() {
 }
 
 bios_or_efi() {
+    requires
+
     [ -d /sys/firmware/efi ] && echo UEFI || echo BIOS
 }
 
@@ -212,6 +218,8 @@ current_layout_indicator() {
 #         https://stackoverflow.com/a/22439016
 #
 show_installed() {
+    requires curl sed apt-mark comm zsh tr apt-cache grep dpkg
+
     preinstalled=$(
         source /etc/os-release
         curl --silent "https://releases.ubuntu.com/$(
