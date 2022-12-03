@@ -20,7 +20,7 @@
         "SublimeLinter-flake8",
         "Vintage",
     ], 
-    "auto_complete": false, 
+    "auto_complete": true, 
     "show_encoding": true,
     "color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
 }
