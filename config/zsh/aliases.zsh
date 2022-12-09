@@ -95,6 +95,19 @@ else
     alias gl="git log --oneline --graph --decorate --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
 fi
 
+# gj - git worktree jump
+gj() {
+    if [[ -z "${1}" ]]; then
+        cd "$(git worktree list |fzf --height 40% --reverse |awk '{print $1}')"
+    else
+        cd "${1}"
+    fi
+}
+_gj() {
+    IFS=$'\n' compadd $(git worktree list |awk '{print $1}')
+}
+compdef _gj gj
+
 # Imitate no redirection
 if (( ${+commands[unbuffer]} )); then
     alias U='unbuffer'
@@ -174,6 +187,8 @@ compdef _directories nev
 # Follow links when opening in sublime
 # subl() { ${commands[subl]} -- "$(readlink -f "$1")"; }
 
+# Restore old `cal` bahavior: highlight current day
+cal() { if [ -t 1 ] ; then ncal -bM "$@"; else /usr/bin/cal -M "$@"; fi }
 
 # Wrap into a readline
 if (( ${+commands[rlwrap]} )); then
