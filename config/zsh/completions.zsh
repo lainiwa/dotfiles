@@ -59,6 +59,7 @@ _commands_arr=(
               town:'make software development teams who use git even more productive and happy'
               open:'open the repo website'
         branchless:'suite of tools to help you visualize, navigate, manipulate, and repair your commit graph'
+          appraise:'distributed code review for git'
     ${_commands_arr}
 )
 # Load the updated completions list back to work
