@@ -70,6 +70,10 @@
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Preferences.sublime-settings
         force: true
+    # Tig
+    ~/.config/tig:
+        path: config/tig
+        if: command -v tig >/dev/null
     # Poetry
     ~/.config/pypoetry:
         path: config/pypoetry
