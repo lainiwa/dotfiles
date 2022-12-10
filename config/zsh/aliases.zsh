@@ -47,7 +47,8 @@ fi
 # "Pronounceable" passwords are insecure
 (( ${+commands[pwgen]}  )) && alias pwgen='pwgen --secure'
 # Scale image to full window in sxiv (mode: fit)
-(( ${+commands[sxiv]}   )) && alias sxiv='sxiv -sf'
+(( ${+commands[sxiv]}    )) && alias sxiv='sxiv -sf'
+(( ${+commands[nsxiv]}   )) && alias sxiv='nsxiv -sf'
 # Drop "ng" if no old generation tool present
 (( ${+commands[ntopng]}    && ! ${+commands[ntop]}   )) && alias ntop=ntopng
 (( ${+commands[iptraf-ng]} && ! ${+commands[iptraf]} )) && alias iptraf=iptraf-ng
