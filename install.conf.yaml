@@ -92,6 +92,10 @@
     ~/.config/ranger:
         if: command -v ranger >/dev/null
         path: config/ranger
+    # Lf
+    ~/.config/lf:
+        if: command -v lf >/dev/null
+        path: config/lf
     # Nnn
     ~/.config/nnn:
         if: command -v nnn >/dev/null
