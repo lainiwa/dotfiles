@@ -29,8 +29,14 @@ font pango:monospace 12
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# Set $term variable for:
+# * mod+Enter
+# * autostart
+# Default: i3-sensible-terminal
+set $term st -f 'Liberation Mono-20'
+
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec $term
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -186,7 +192,7 @@ bindsym $mod+Shift+x exec i3lock -c 000000
 
 exec_always --no-startup-id wallpaper ~/0files/imgs/wallpapers
 
-exec --no-startup-id i3-msg "workspace $ws1; exec i3-sensible-terminal"
+exec --no-startup-id i3-msg "workspace $ws1; exec $term"
 exec --no-startup-id i3-msg "workspace $ws2; exec subl"
 # exec --no-startup-id i3-msg "workspace $ws3; exec chromium-browser"
 # exec --no-startup-id i3-msg "workspace $ws4; exec urxvt -e ranger"
