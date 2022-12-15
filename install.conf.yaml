@@ -144,11 +144,11 @@
         path: config/systemd/user/*
         if: command -v systemctl >/dev/null
     # XDG applications
-    ~/.local/share/applications/:
-        glob: true
-        relink: true
-        path: local/share/applications/*
-        if: command -v st >/dev/null
+    # ~/.local/share/applications/:
+    #     glob: true
+    #     relink: true
+    #     path: local/share/applications/*
+    #     if: command -v st >/dev/null
     # home-manager
     ~/.config/nixpkgs:
         path: config/nixpkgs
