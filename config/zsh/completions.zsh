@@ -50,7 +50,7 @@ zstyle -a ':completion:*:*:git:*' user-commands _commands_arr
 _commands_arr=(
        big-picture:'visualize git repositories'
        filter-repo:'rewrite (or analyze) repository history'
-               dsf:''
+               # dsf:''
            foresta:'text-based git log graph viewer'
               info:'show information about repository a la svn-info'
             redate:'change the dates of several git commits with a single command'
@@ -60,6 +60,7 @@ _commands_arr=(
               open:'open the repo website'
         branchless:'suite of tools to help you visualize, navigate, manipulate, and repair your commit graph'
           appraise:'distributed code review for git'
+               bug:'distributed bug tracker embedded in git'
     ${_commands_arr}
 )
 # Load the updated completions list back to work
