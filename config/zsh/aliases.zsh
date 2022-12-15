@@ -72,6 +72,8 @@ alias jcurl='curl --header "content-type: application/json"'
 
 # R is for Ranger
 alias r='ranger'
+# Use lfub (lf ueberzug wrapper script) instead of vanilla Lf
+(( ${+commands[lf]} && ${+commands[lfub]} )) && alias lf='lfub'
 # Tmux attach alias
 alias t='tmux attach || tmux'
 # Fix terminal; when fucked up with binary

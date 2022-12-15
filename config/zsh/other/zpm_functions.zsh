@@ -127,6 +127,9 @@ requirements() {
     (( ${+commands[terraform]}     )) && <<< @exec/terraform,origin:"<<<'complete -o nospace -C =terraform terraform'"
     (( ${+commands[s5cmd]}         )) && <<<     @exec/s5cmd,origin:"<<<'complete -o nospace -C =s5cmd s5cmd'"
     (( ${+commands[git-extras]}    )) && <<<@exec/git-extras,origin:"cat /usr/share/zsh/vendor-completions/_git-extras"
+
+    # Download sourceables
+    (( ${+commands[lf]}            )) && <<<        @exec/lf,origin:"${GH}/gokcehan/lf/master/etc/lfcd.sh"
 }
 
 pick_fzf() {
