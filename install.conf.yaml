@@ -22,6 +22,9 @@
     ~/.config/sxiv:
         if: command -v sxiv >/dev/null
         path: config/sxiv
+    ~/.config/nsxiv:
+        if: command -v nsxiv >/dev/null
+        path: config/sxiv
     # Dunst notification daemon
     ~/.config/dunst:
         if: command -v dunst >/dev/null
