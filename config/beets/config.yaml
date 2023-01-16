@@ -154,12 +154,12 @@ fetchart:
     sources: filesystem coverart itunes amazon albumart wikipedia google fanarttv
     # Your Google API key (to enable the Google Custom Search backend).
     # Default: None.
-    google_key: None
+    google_key: null
     # The custom search engine to use.
     # Default: The beets custom search engine, which searches the entire web.
     google_engine: 001442825323518660753:hrh5ch1gjzm
     # The personal API key for requesting art from fanart.tv. See below.
-    fanarttv_key: None
+    fanarttv_key: null
     # If enabled, fetchart stores the artwork’s source in a flexible tag named art_source.
     # See below for the rationale behind this.
     # Default: no.
@@ -222,7 +222,7 @@ lyrics:
     auto: false  # fails sometimes
     # Your Bing Translation application password (to Activate On-the-Fly
     # Translation)
-    bing_client_secret: None
+    bing_client_secret: null
     # By default all lyrics with a language other than bing_lang_to are
     # translated. Use a list of lang codes to restrict the set of source
     # languages to translate.
@@ -230,16 +230,16 @@ lyrics:
     bing_lang_from: []
     # Language to translate lyrics into.
     # Default: None.
-    bing_lang_to: None
+    bing_lang_to: null
     # By default, the file will be left unchanged when no lyrics are found. Use the empty string '' to reset the lyrics in such a case.
     # Default: None.
-    fallback: None
+    fallback: null
     # By default, beets won’t fetch lyrics if the files already have ones. To instead always fetch lyrics, set the force option to yes.
     # Default: no.
     force: false
     # Your Google API key (to enable the Google Custom Search backend).
     # Default: None.
-    google_API_key: None
+    google_API_key: null
     # The custom search engine to use.
     # Default: The beets custom search engine, which gathers an updated list
     # of sources known to be scrapeable.
@@ -327,7 +327,7 @@ duplicates:
     # checksum: 'ffprobe -i {file} -show_entries "format_tags=Acoustid Id" -v quiet'
     # A destination base directory into which to copy matched items.
     # Default: none (disabled).
-    copy: none
+    copy: null
     # Print a count of duplicate tracks or albums in the format
     # $albumartist - $album - $title: $count (for tracks) or
     # $albumartist - $album: $count (for albums).
@@ -357,7 +357,7 @@ duplicates:
     # merge:
     # A destination base directory into which it will move matched items.
     # Default: none (disabled).
-    move: None
+    move: null
     # Output the path instead of metadata when listing duplicates.
     # Default: no.
     path: false
@@ -399,7 +399,7 @@ spotify:
     mode: list
     # A two-character country abbreviation, to limit results to that market.
     # Default: None.
-    region_filter: None
+    region_filter: null
     # List each lookup that does not return a Spotify ID
     # (and therefore cannot be added to a playlist).
     # Default: no.
