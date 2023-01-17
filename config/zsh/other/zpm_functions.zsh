@@ -81,6 +81,7 @@ requirements() {
     <<<           @exec/beet,apply:fpath,origin:"${GH}/beetbox/beets/master/extra/_beet > _beet"
     <<<           @exec/buku,apply:fpath,origin:"${GH}/jarun/Buku/master/auto-completion/zsh/_buku > _buku"
     <<<           @exec/gist,apply:fpath,origin:"${GH}/jdowner/gist/master/share/gist.zsh > _gist"
+    <<<        @exec/git-bug,apply:fpath,origin:"${GH}/MichaelMure/git-bug/master/misc/completion/zsh/git-bug > _git-bug"
     <<<           @exec/guix,apply:fpath,origin:"${GNU}/cgit/guix.git/plain/etc/completion/zsh/_guix > _guix"
     <<<         @exec/ffsend,apply:fpath,origin:"${GH}/timvisee/ffsend/master/contrib/completions/_ffsend > _ffsend"
     <<<         @exec/watson,apply:fpath,origin:"${GH}/TailorDev/Watson/master/watson.zsh-completion > _watson"
@@ -107,6 +108,7 @@ requirements() {
     (( ${+commands[restic]} )) && <<< @exec/restic,apply:fpath,origin:"restic generate --zsh-completion /dev/stdout > _restic"
     (( ${+commands[rustup]} )) && <<<  @exec/cargo,apply:fpath,origin:"rustup completions zsh cargo > _cargo"
     (( ${+commands[rustup]} )) && <<< @exec/rustup,apply:fpath,origin:"rustup completions zsh rustup > _rustup"
+    (( ${+commands[helm]}   )) && <<<   @exec/helm,apply:fpath,origin:"helm completion zsh > _helm"
     if (( ${+commands[register-python-argcomplete]} )); then
         (( ${+commands[pipx]} ))   && <<<   @exec/pipx,apply:fpath,origin:"register-python-argcomplete pipx > _pipx"
         (( ${+commands[cz]} ))     && <<<     @exec/cz,apply:fpath,origin:"register-python-argcomplete cz > _cz"
