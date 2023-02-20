@@ -7,7 +7,7 @@
     "tab_size": 4, 
     "word_wrap": false, 
     "translate_tabs_to_spaces": true, 
-    "font_size": 19, 
+    "font_size": 20, 
     "create_window_at_startup": false, 
     "ignored_packages": [
         "BracketHighlighter", 
