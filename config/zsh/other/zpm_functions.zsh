@@ -87,6 +87,7 @@ requirements() {
     <<<         @exec/watson,apply:fpath,origin:"${GH}/TailorDev/Watson/master/watson.zsh-completion > _watson"
     <<<    @exec/taskwarrior,apply:fpath,origin:"${GH}/GothenburgBitFactory/taskwarrior/master/scripts/zsh/_task > _taskwarrior"
     <<< @exec/docker-compose,apply:fpath,origin:"${GH}/docker/compose/master/contrib/completion/zsh/_docker-compose > _docker-compose"
+    <<<      @exec/aws-vault,apply:fpath,origin:"${GH}/99designs/aws-vault/master/contrib/completions/zsh/aws-vault.zsh > _aws-vault"
 
     # Download bash completions
     <<< @exec/timewarrior,origin:"${GH}/GothenburgBitFactory/timewarrior/master/completion/timew-completion.bash > _timewarrior"
@@ -109,6 +110,8 @@ requirements() {
     (( ${+commands[rustup]} )) && <<<  @exec/cargo,apply:fpath,origin:"rustup completions zsh cargo > _cargo"
     (( ${+commands[rustup]} )) && <<< @exec/rustup,apply:fpath,origin:"rustup completions zsh rustup > _rustup"
     (( ${+commands[helm]}   )) && <<<   @exec/helm,apply:fpath,origin:"helm completion zsh > _helm"
+    (( ${+commands[flux]}   )) && <<<   @exec/flux,apply:fpath,origin:"flux completion zsh > _flux"
+    (( ${+commands[eksctl]} )) && <<< @exec/eksctl,apply:fpath,origin:"eksctl completion zsh > _eksctl"
     if (( ${+commands[register-python-argcomplete]} )); then
         (( ${+commands[pipx]} ))   && <<<   @exec/pipx,apply:fpath,origin:"register-python-argcomplete pipx > _pipx"
         (( ${+commands[cz]} ))     && <<<     @exec/cz,apply:fpath,origin:"register-python-argcomplete cz > _cz"
