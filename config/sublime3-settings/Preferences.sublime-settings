@@ -13,7 +13,6 @@
         "BracketHighlighter", 
         "GitGutter", 
         "LSP", 
-        "Markdown",
         "Python",
         "Rust",
         "SortBy",
