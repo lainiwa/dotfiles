@@ -73,6 +73,10 @@
         if: command -v subl >/dev/null
         path: config/sublime3-settings/Preferences.sublime-settings
         force: true
+    # Lxterminal
+    ~/.config/lxterminal:
+        path: config/lxterminal
+        if: command -v lxterminal >/dev/null
     # Tig
     ~/.config/tig:
         path: config/tig
