@@ -92,3 +92,5 @@ fi
 
 unset -f _add_to_path
 unset -f _try_source
+
+# if [ -e /home/lain/.nix-profile/etc/profile.d/nix.sh ]; then . /home/lain/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
