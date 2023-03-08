@@ -1,7 +1,15 @@
+! Use this to reload Xresources:
+! xrdb ~/.Xresources
+
 ! SXIV COLORS
-Sxiv.font: mono-18;
-!Sxiv.background: #000000
-!Sxiv.foreground: #00C0FF
+Sxiv.font: mono-18
+Sxiv.background: #000000
+Sxiv.foreground: #00C0FF
+
+! NSXIV COLORS
+Nsxiv.bar.font: mono-18
+Nsxiv.window.background: #000000
+Nsxiv.window.foreground: #00C0FF
 
 !XTerm*allowSendEvents: true
 !URxvt.termName:         rxvt-unicode
