@@ -77,6 +77,10 @@
     ~/.config/lxterminal:
         path: config/lxterminal
         if: command -v lxterminal >/dev/null
+    # Kermit terminal
+    ~/.config/kermit.conf:
+        path: config/kermit.conf
+        if: command -v kermit >/dev/null
     # Tig
     ~/.config/tig:
         path: config/tig
