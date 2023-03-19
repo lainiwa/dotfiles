@@ -127,7 +127,9 @@ alias -g T='| tail'
 
 # Per-line tools
 alias -g G='| grep --ignore-case'
+alias -g GE='| grep --ignore-case -E'
 alias -g GV='| grep --ignore-case --invert-match'  # negative grep
+alias -g GVE='| grep --ignore-case --invert-match -E'  # negative grep
 alias -g S='| sed'
 
 # Redirect to less
