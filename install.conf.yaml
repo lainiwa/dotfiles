@@ -85,6 +85,10 @@
     ~/.config/tig:
         path: config/tig
         if: command -v tig >/dev/null
+    # Lazygit
+    ~/.config/lazygit/config.yml:
+        path: config/lazygit/config.yml
+        if: command -v lazygit >/dev/null
     # Poetry
     ~/.config/pypoetry:
         path: config/pypoetry
