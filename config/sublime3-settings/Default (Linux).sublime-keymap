@@ -1,4 +1,6 @@
 [
+    { "keys": ["ctrl+tab"], "command": "next_view" },
+    { "keys": ["ctrl+shift+tab"], "command": "prev_view" },
 {
     "keys": ["ctrl+f5", "ctrl+f5"],
     "command": "insert_date",
