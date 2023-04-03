@@ -53,6 +53,7 @@ _add_to_path "${HOME}/.poetry/bin"
 # Nix
 _try_source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 # export NIX_PATH=${HOME}/.nix-defexpr/channels${NIX_PATH:+:}${NIX_PATH}
+export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive  # src: https://nixos.wiki/wiki/Locales
 
 # Guix
 export GUIX_PROFILE="${HOME}/.guix-profile"
