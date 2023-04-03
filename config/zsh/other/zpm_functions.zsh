@@ -40,6 +40,8 @@ requirements() {
     (( ${+commands[fzf]} )) && <<< wfxr/forgit
     # Get gitignore template with `gi` command
     <<< voronkovich/gitignore.plugin.zsh
+    # Source .in and .out files
+    <<< zpm-zsh/autoenv
 
     # Heavy stuff
     <<< zsh-users/zsh-autosuggestions,source:zsh-autosuggestions.zsh
