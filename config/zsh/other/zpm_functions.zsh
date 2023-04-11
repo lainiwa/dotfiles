@@ -127,6 +127,7 @@ requirements() {
     (( ${+commands[dircolors]}     )) && <<< @exec/dircolors,origin:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
     (( ${+commands[git-town]}      )) && <<<  @exec/git-town,origin:"git-town completions zsh"
     (( ${+commands[broot]}         )) && <<<     @exec/broot,origin:"broot --print-shell-function zsh"
+    (( ${+commands[direnv]}        )) && <<<    @exec/direnv,origin:"direnv hook zsh"
     (( ${+commands[pip]}           )) && <<<       @exec/pip,origin:"pip completion --zsh"
     (( ${+commands[pip3]}          )) && <<<      @exec/pip3,origin:"pip3 completion --zsh"
     (( ${+commands[pyenv]}         )) && <<<     @exec/pyenv,origin:"pyenv init - --no-rehash"
