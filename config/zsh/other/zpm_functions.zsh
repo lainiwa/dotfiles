@@ -125,7 +125,7 @@ requirements() {
     # Generate sourceables
     (( ${+commands[brew]}          )) && <<< @exec/linuxbrew,origin:"brew shellenv; <<<'FPATH=$(brew --prefix)/share/zsh/site-functions:\${FPATH}'"
     (( ${+commands[aws_completer]} )) && <<<       @exec/aws,origin:"<<<'complete -C =aws_completer aws'"
-    (( ${+commands[dircolors]}     )) && <<< @exec/dircolors,origin:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
+    # (( ${+commands[dircolors]}     )) && <<< @exec/dircolors,origin:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
     (( ${+commands[git-town]}      )) && <<<  @exec/git-town,origin:"git-town completions zsh"
     (( ${+commands[broot]}         )) && <<<     @exec/broot,origin:"broot --print-shell-function zsh"
     (( ${+commands[direnv]}        )) && <<<    @exec/direnv,origin:"direnv hook zsh"
