@@ -33,7 +33,8 @@ floating_modifier $mod
 # * mod+Enter
 # * autostart
 # Default: i3-sensible-terminal
-# set $term st -f 'Liberation Mono-20'
+set $term st -f 'Liberation Mono-20'
+set $term LIBGL_ALWAYS_SOFTWARE=1 alacritty
 set $term lxterminal
 
 # start a terminal
