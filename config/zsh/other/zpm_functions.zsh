@@ -115,6 +115,7 @@ requirements() {
     (( ${+commands[helm]}    )) && <<<   @exec/helm,apply:fpath,origin:"helm completion zsh > _helm"
     (( ${+commands[flux]}    )) && <<<   @exec/flux,apply:fpath,origin:"flux completion zsh > _flux"
     (( ${+commands[eksctl]}  )) && <<< @exec/eksctl,apply:fpath,origin:"eksctl completion zsh > _eksctl"
+    (( ${+commands[kubefwd]})) && <<< @exec/kubefwd,apply:fpath,origin:"kubefwd completion zsh > _kubefwd"
     if (( ${+commands[register-python-argcomplete]} )); then
         (( ${+commands[pipx]} ))   && <<<   @exec/pipx,apply:fpath,origin:"register-python-argcomplete pipx > _pipx"
         (( ${+commands[cz]} ))     && <<<     @exec/cz,apply:fpath,origin:"register-python-argcomplete cz > _cz"
