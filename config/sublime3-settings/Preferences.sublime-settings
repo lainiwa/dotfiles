@@ -12,8 +12,7 @@
     "ignored_packages": [
         "BracketHighlighter", 
         "GitGutter", 
-        "LSP", 
-        "Python",
+        "Python", 
         "Rust",
         "SortBy",
         "SublimeLinter-flake8",
