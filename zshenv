@@ -72,6 +72,9 @@ _add_to_path "${HOME}/.linuxbrew/bin"
 _add_to_path "${HOME}/.emacs.d/bin"
 _add_to_path "${HOME}/.config/emacs/bin"
 
+# Krew (k8s plugin manager)
+_add_to_path "${KREW_ROOT:-$HOME/.krew}/bin"
+
 # Turn on aliases for hosts
 export HOSTALIASES=${HOME}/.hosts
 
