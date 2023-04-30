@@ -123,6 +123,7 @@ requirements() {
     fi
 
     # Generate sourceables
+    (( ${+commands[logcli]}        )) && <<<    @exec/logcli,origin:"logcli --completion-script-zsh"
     (( ${+commands[brew]}          )) && <<< @exec/linuxbrew,origin:"brew shellenv; <<<'FPATH=$(brew --prefix)/share/zsh/site-functions:\${FPATH}'"
     (( ${+commands[aws_completer]} )) && <<<       @exec/aws,origin:"<<<'complete -C =aws_completer aws'"
     # (( ${+commands[dircolors]}     )) && <<< @exec/dircolors,origin:"dircolors --bourne-shell <(${GH}/trapd00r/LS_COLORS/master/LS_COLORS)"
