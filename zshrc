@@ -89,5 +89,3 @@ typeset -U path cdpath fpath manpath
 #     [[ -z "${TMUX}"          ]]; then
 #   tmux attach || tmux
 # fi
-
-
