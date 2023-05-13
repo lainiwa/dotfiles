@@ -42,6 +42,8 @@ requirements() {
     <<< voronkovich/gitignore.plugin.zsh
     # Source .in and .out files
     <<< zpm-zsh/autoenv
+    # `kubectl log` but for multiple containers
+    (( ${+commands[kubectl]} )) && <<< johanhaleby/kubetail
 
     # Heavy stuff
     <<< zsh-users/zsh-autosuggestions,source:zsh-autosuggestions.zsh
