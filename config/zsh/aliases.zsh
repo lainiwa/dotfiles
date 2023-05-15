@@ -205,3 +205,14 @@ fi
 # Suffix aliases
 alias -s json='jq <'
 alias -s {cs,ts,html}=${EDITOR}
+
+# Check if github is down
+# src: https://stackoverflow.com/a/69266748
+#      https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+github-status() {
+    curl -s https://www.githubstatus.com/api/v2/components.json |
+    jq -r '.components[] | select( .status != "operational") | .name + ": " + .status' |
+    sed 's/_/ /g' |
+    sed 's/partial outage/\o33[33;1m&\o033[0m/' |
+    sed 's/major outage/\o33[47;31;1m&\o033[0m/'
+}
