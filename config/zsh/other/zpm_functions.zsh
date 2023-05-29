@@ -120,9 +120,10 @@ requirements() {
     (( ${+commands[eksctl]}   )) && <<<   @exec/eksctl,apply:fpath,origin:"eksctl completion zsh > _eksctl"
     (( ${+commands[kubefwd]}  )) && <<<  @exec/kubefwd,apply:fpath,origin:"kubefwd completion zsh > _kubefwd"
     if (( ${+commands[register-python-argcomplete]} )); then
-        (( ${+commands[pipx]} ))   && <<<   @exec/pipx,apply:fpath,origin:"register-python-argcomplete pipx > _pipx"
-        (( ${+commands[cz]} ))     && <<<     @exec/cz,apply:fpath,origin:"register-python-argcomplete cz > _cz"
-        (( ${+commands[git-cz]} )) && <<< @exec/git-cz,apply:fpath,origin:"register-python-argcomplete git-cz > _git-cz"
+        (( ${+commands[pipx]}    )) && <<<    @exec/pipx,apply:fpath,origin:"register-python-argcomplete pipx    > _pipx"
+        (( ${+commands[cz]}      )) && <<<      @exec/cz,apply:fpath,origin:"register-python-argcomplete cz      > _cz"
+        (( ${+commands[git-cz]}  )) && <<<  @exec/git-cz,apply:fpath,origin:"register-python-argcomplete git-cz  > _git-cz"
+        (( ${+commands[checkov]} )) && <<< @exec/checkov,apply:fpath,origin:"register-python-argcomplete checkov > _checkov"
     fi
 
     # Generate sourceables
