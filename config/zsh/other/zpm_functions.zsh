@@ -149,7 +149,7 @@ requirements() {
 
 pick_fzf() {
     ${${commands[sk]:+sk}:-fzf} \
-        --preview '<<< {} |awk -F"|" "{ print \$NF }"' \
+        --preview '<<< {+}' \
         --preview-window=down:wrap:hidden \
         --bind='F2:toggle-preview' \
         --height "${FZF_TMUX_HEIGHT:-40%}" \
