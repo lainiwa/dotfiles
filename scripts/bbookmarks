@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# query all of your firefox bookmarks by tag, title or url
+# idea from https://junegunn.kr/2015/04/browsing-chrome-history-with-fzf/
+
+sep='{::}'
+
+# this is rarely locked but still, safety first
+cp ~/.mozilla/firefox/*/weave/bookmarks.sqlite /tmp
+
+sqlite3 -separator $sep /tmp/bookmarks.sqlite \
+  '
+  SELECT items.title, "--", urls.url
+  FROM items JOIN urls ON items.urlId = urls.id
+  LEFT OUTER JOIN tags ON items.id = tags.itemId
+  ;
+  ' | 
+awk -F $sep '{printf "%-'$cols's  \x1b[36m%-'$cols's  \x1b[m%-'$cols's\n", $1, $2, $3}' |
+sed -E 's/\x1b\[[0-9;]+m  //g' |
+fzf --ansi --multi --exact |
+grep -oP 'https?://.*$'
