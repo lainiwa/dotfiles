@@ -154,6 +154,7 @@ pick_fzf() {
         --bind='F2:toggle-preview' \
         --height "${FZF_TMUX_HEIGHT:-40%}" \
         --no-multi \
+        --no-mouse \
         --query="${LBUFFER}" \
         --bind=ctrl-r:toggle-sort \
         --with-nth 2.. \
