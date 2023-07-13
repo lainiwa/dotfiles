@@ -366,7 +366,7 @@ full_upgrade() {
             apt autoremove --yes
         fi
         if command -v nix >/dev/null; then
-            nix-channel --update nixpkgs
+            nix-channel --update
             nix-env -u '*'
         fi
         # if command -v guix >/dev/null; then
@@ -418,7 +418,7 @@ EOF
     fi
     # Upgrade nix packages
     if command -v nix >/dev/null; then
-        nix-channel --update nixpkgs
+        nix-channel --update
         nix-env -u '*'
     fi
     # # Upgrade guix packages
