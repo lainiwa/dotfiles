@@ -9,7 +9,6 @@
 	],
 	"installed_packages":
 	[
-		"ActivityWatch Watcher",
 		"AlignTab",
 		"Anaconda",
 		"ApplySyntax",
@@ -32,6 +31,7 @@
 		"LSP",
 		"LSP-copilot",
 		"MagicPython",
+		"Markdown Extended",
 		"MarkdownEditing",
 		"Nix",
 		"Package Control",
@@ -51,6 +51,7 @@
 		"Tmux Syntax Highlight",
 		"TOML",
 		"VimL",
+		"Vue Syntax Highlight",
 	],
 	"repositories":
 	[
