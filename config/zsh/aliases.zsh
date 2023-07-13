@@ -80,6 +80,8 @@ alias t='tmux attach || tmux'
 alias fix='reset; stty sane; tput rs1; clear; echo -e "\033c"'
 # Enter temporary directory
 alias tmp='cd $(mktemp -d)'
+# Rustfmt
+alias rustfmt='rustfmt --edition=2021'
 
 # Systemd --user aliases
 alias sys='systemctl'
@@ -123,19 +125,29 @@ alias -g NUL='&> /dev/null'
 
 # Head and shoulders
 alias -g H='| head'
+alias -g HH='|& head'
 alias -g T='| tail'
+alias -g TT='|& tail'
 
 # Per-line tools
 alias -g G='| grep --ignore-case'
+alias -g GG='|& grep --ignore-case'
 alias -g GE='| grep --ignore-case -E'
+alias -g GGE='|& grep --ignore-case -E'
 alias -g GV='| grep --ignore-case --invert-match'  # negative grep
+alias -g GGV='|& grep --ignore-case --invert-match'  # negative grep
 alias -g GVE='| grep --ignore-case --invert-match -E'  # negative grep
+alias -g GGVE='|& grep --ignore-case --invert-match -E'  # negative grep
 alias -g S='| sed'
+alias -g SS='|& sed'
 
 # Redirect to less
 alias -g L='| less'
+alias -g LL='|& less'
 alias -g LR='| less --raw-control-chars'  # colors support
+alias -g LLR='|& less --raw-control-chars'  # colors support
 alias -g LS='| less --chop-long-lines'    # don't wrap long lines
+alias -g LLS='|& less --chop-long-lines'    # don't wrap long lines
 
 # Split to columns
 alias -g COL='| column -t'
@@ -176,7 +188,7 @@ unset grc_conf
 
 # I'm not a robot
 alias du='du -h'
-alias df='df -h'
+alias df='df -Th'
 alias free='free --human'
 
 
@@ -206,6 +218,9 @@ fi
 alias -s json='jq <'
 alias -s {cs,ts,html}=${EDITOR}
 
+# Serve single a html file
+# { echo -ne "HTTP/1.0 200 OK\r\nContent-Length: $(wc -c <some.file)\r\n\r\n"; cat some.file; } | nc -l -p 8080
+
 # Check if github is down
 # src: https://stackoverflow.com/a/69266748
 #      https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
@@ -216,3 +231,26 @@ github-status() {
     sed 's/partial outage/\o33[33;1m&\o033[0m/' |
     sed 's/major outage/\o33[47;31;1m&\o033[0m/'
 }
+
+# Open current repo/folder on github
+# src: https://gist.github.com/igrigorik/6666860
+github-open() {
+    file=${1:-""}
+    git_branch=${2:-$(git symbolic-ref --quiet --short HEAD)}
+    git_project_root=$(git config remote.origin.url | sed "s~git@\(.*\):\(.*\)~https://\1/\2~" | sed "s~\(.*\).git\$~\1~")
+    git_directory=$(git rev-parse --show-prefix)
+    open ${git_project_root}/tree/${git_branch}/${git_directory}${file}
+}
+
+# alias px='chmod +x'
+
+# unalias cat
+# cat() {
+#     if [[ $# = 1 && -d $1 ]]; then
+#         exa -ah "$1"
+#     else
+#         bat "$@"
+#     fi
+# }
+
+alias git='noglob git'
