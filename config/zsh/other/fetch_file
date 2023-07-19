@@ -30,7 +30,7 @@ ssl_netcat() {
     if (( ${+commands[ncat]} )); then
         request |ncat -C --ssl "${host}" 443
 
-    elif (( ${+commands[socat]} )); then
+    elif (( ${+commands[socat]} )) && [[ "$(socat -V)" == *"WITH_OPENSSL 1"* ]]; then
         request |socat - "OPENSSL:${host}:443,verify=2"
 
     elif (( ${+commands[openssl]} )); then
