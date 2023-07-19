@@ -77,7 +77,7 @@ ssl_netcat_fetch() {
 if (( ${+commands[wget]} )); then
     wget --quiet --output-document - "${URL}"
 
-elif (( ${+commands[wget]} )); then
+elif (( ${+commands[curl]} )); then
     curl --silent --location "${URL}"
 
 elif (( ${+commands[busybox]} )) && [[ "$(busybox --list)" == *wget* ]]; then
