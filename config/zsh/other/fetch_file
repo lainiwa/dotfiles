@@ -30,6 +30,9 @@ ssl_netcat() {
     if (( ${+commands[ncat]} )); then
         request |ncat -C --ssl "${host}" 443
 
+    elif (( ${+commands[socat]} )); then
+        request |socat - "OPENSSL:${host}:443,verify=2"
+
     elif (( ${+commands[openssl]} )); then
         request |openssl s_client -quiet -verify_quiet -connect "${host}:443"
 
@@ -39,7 +42,7 @@ ssl_netcat() {
     elif (( ${+commands[gnutls-cli]} )); then
         request |gnutls-cli -p 443 "${host}"
 
-    elif (( ${+commands[busybox]} )); then
+    elif (( ${+commands[busybox]} )) && [[ "$(busybox --list)" == *ssl_client* ]]; then
         request |busybox ssl_client "${host}:443"
 
     fi
@@ -75,6 +78,12 @@ if (( ${+commands[wget]} )); then
     wget --quiet --output-document - "${URL}"
 
 elif (( ${+commands[wget]} )); then
+    curl --silent --location "${URL}"
+
+elif (( ${+commands[busybox]} )) && [[ "$(busybox --list)" == *wget* ]]; then
+    wget --quiet --output-document - "${URL}"
+
+elif (( ${+commands[busybox]} )) && [[ "$(busybox --list)" == *curl* ]]; then
     curl --silent --location "${URL}"
 
 elif (( ${+commands[python]} )); then
