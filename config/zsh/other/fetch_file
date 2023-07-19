@@ -8,7 +8,7 @@ set -o nounset  # exit on undeclared variable
 URL=$1
 
 
-py_cmd="
+PY_CMD="
 import os
 from six.moves.urllib.request import urlopen
 resp = urlopen('${URL}')
@@ -28,16 +28,19 @@ ssl_netcat() {
     }
 
     if (( ${+commands[ncat]} )); then
-        request | ncat -C --ssl "${host}" 443
+        request |ncat -C --ssl "${host}" 443
 
     elif (( ${+commands[openssl]} )); then
-        request | openssl s_client -quiet -verify_quiet -connect "${host}:443"
+        request |openssl s_client -quiet -verify_quiet -connect "${host}:443"
 
     elif (( ${+commands[ssl_client]} )); then
-        request | ssl_client "${host}:443"
+        request |ssl_client "${host}:443"
+
+    elif (( ${+commands[gnutls-cli]} )); then
+        request |gnutls-cli -p 443 "${host}"
 
     elif (( ${+commands[busybox]} )); then
-        request | busybox ssl_client "${host}:443"
+        request |busybox ssl_client "${host}:443"
 
     fi
 }
@@ -51,16 +54,14 @@ ssl_netcat_fetch() {
           route=${route:-/}
 
     full_response=$(mktemp)
-    # echo "temp: $full_response" >&2
     ssl_netcat "${host}" "${route}" > "${full_response}"
 
     while read -r line; do
-        if [[ $line =~ 'location: ' ]]; then
+        if [[ ${line} =~ '^(L|l)ocation: ' ]]; then
             ssl_netcat_fetch "${line:10:-1}"
             break
 
-        elif [[ $line == $'\r' ]]; then
-            # echo "EMPTY LINE" >&2
+        elif [[ ${line} == $'\r' ]]; then
             cat -
             break
         fi
@@ -77,13 +78,13 @@ elif (( ${+commands[wget]} )); then
     curl --silent --location "${URL}"
 
 elif (( ${+commands[python]} )); then
-    python -c "$cmd"
+    python -c "${PY_CMD}"
 
 elif (( ${+commands[python3]} )); then
-    python3 -c "$cmd"
+    python3 -c "${PY_CMD}"
 
 elif (( ${+commands[python2]} )); then
-    python2 -c "$cmd"
+    python2 -c "${PY_CMD}"
 
 else
     ssl_netcat_fetch "${URL}"
