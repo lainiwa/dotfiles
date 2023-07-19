@@ -98,6 +98,8 @@ requirements() {
     # <<<     @exec/hledger,apply:fpath,origin:"${GH}/simonmichael/hledger/master/hledger/shell-completion/hledger-completion.bash > _hledger"
 
     # Generate completions
+    (( ${+commands[pip]}      )) && <<<      @exec/pip,apply:fpath,origin:"pip completion --zsh > _pip"
+    (( ${+commands[pip3]}     )) && <<<     @exec/pip3,apply:fpath,origin:"pip3 completion --zsh > _pip3"
     (( ${+commands[kafkactl]} )) && <<< @exec/kafkactl,apply:fpath,origin:"kafkactl completion zsh > _kafkactl"
     (( ${+commands[krew]}     )) && <<<     @exec/krew,apply:fpath,origin:"krew completion zsh > _krew"
     (( ${+commands[khal]}     )) && <<<     @exec/khal,apply:fpath,origin:"_KHAL_COMPLETE=zsh_source khal > _khal"
@@ -134,8 +136,6 @@ requirements() {
     (( ${+commands[direnv]}        )) && <<<    @exec/direnv,origin:"direnv hook zsh"
     (( ${+commands[git-town]}      )) && <<<  @exec/git-town,origin:"git-town completions zsh"
     (( ${+commands[broot]}         )) && <<<     @exec/broot,origin:"broot --print-shell-function zsh"
-    (( ${+commands[pip]}           )) && <<<       @exec/pip,origin:"pip completion --zsh"
-    (( ${+commands[pip3]}          )) && <<<      @exec/pip3,origin:"pip3 completion --zsh"
     (( ${+commands[pyenv]}         )) && <<<     @exec/pyenv,origin:"pyenv init - --no-rehash"
     (( ${+commands[kubectl]}       )) && <<<   @exec/kubectl,origin:"kubectl completion zsh"
     (( ${+commands[vault]}         )) && <<<     @exec/vault,origin:"<<<'complete -o nospace -C =vault vault'"
