@@ -18,6 +18,8 @@ GH="${_FETCH} https://raw.githubusercontent.com"
 GNU="${_FETCH} https://git.savannah.gnu.org"
 URL="${_FETCH} https:/"
 
+fpath+=("${0:A:h}/completions/")
+export PATH=${_ZPM_POL}/bin${PATH:+:}${PATH}
 
 ###################################
 # ENABLE BASH COMPLETIONS
@@ -128,10 +130,6 @@ fi
 link_bin merge /opt/sublime_merge/sublime_merge
 link_bin vim   nvim
 alias cht='cht.sh'
-
-
-fpath+=("${0:A:h}/completions/")
-export PATH=${_ZPM_POL}/bin${PATH:+:}${PATH}
 
 
 ###################################
