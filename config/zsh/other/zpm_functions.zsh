@@ -25,6 +25,7 @@ requirements() {
     # My plugins
     <<< lainiwa/gitcd
     <<< lainiwa/ph-marks
+    <<< @dir/k-helpers,origin:${HOME}/.config/zsh/plugins/k-helpers
     # Completions
     # <<< MenkeTechnologies/zsh-more-completions,fpath:/src
     <<< zchee/zsh-completions
