@@ -22,6 +22,7 @@ requirements() {
     # ZPM plugins
     <<< zpm-zsh/clipboard
     <<< zpm-zsh/undollar
+    <<< zpm-zsh/autoenv  # source .in and .out files
     # My plugins
     <<< lainiwa/gitcd
     <<< lainiwa/ph-marks
@@ -41,8 +42,6 @@ requirements() {
     (( ${+commands[fzf]} )) && <<< wfxr/forgit
     # Get gitignore template with `gi` command
     <<< voronkovich/gitignore.plugin.zsh
-    # Source .in and .out files
-    <<< zpm-zsh/autoenv
     # `kubectl log` but for multiple containers
     (( ${+commands[kubectl]} )) && <<< johanhaleby/kubetail
 
@@ -166,7 +165,7 @@ pick_fzf() {
 
 histdb-fzf-widget() {
     emulate -L zsh
-    local selected num
+    local selected
     selected=$(
         _histdb_query "
 SELECT min(history.command_id), REPLACE(argv, X'0A', '; ')
@@ -197,15 +196,17 @@ LIMIT 1
 
 _zsh_autosuggest_strategy_histdb_last_command() {
     emulate -L zsh
+    local command_escaped;
+    command_escaped=$(sql_escape "${1}")
     local query="
 SELECT argv
 FROM history
 LEFT JOIN commands ON history.command_id = commands.rowid
-WHERE commands.argv LIKE '$(sql_escape ${1})%'
+WHERE commands.argv LIKE '${command_escaped}%'
 ORDER BY history.start_time DESC
 LIMIT 1
 "
-    suggestion=$(_histdb_query "$query")
+    suggestion=$(_histdb_query "${query}")
 }
 
 
