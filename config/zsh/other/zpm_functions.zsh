@@ -147,9 +147,19 @@ requirements() {
     (( ${+commands[lf]}            )) && <<<        @exec/lf,origin:"${GH}/gokcehan/lf/master/etc/lfcd.sh"
 }
 
+highlight_input_zsh() {
+    if (( ${+commands[bat]} )); then
+        <<<'bat --color=always --decorations=never --language=zsh'
+    elif (( ${+commands[highlight]} )); then
+        <<<'highlight --out-format=xterm256 --syntax=zsh'
+    else
+        <<<'cat'
+    fi
+}
+
 pick_fzf() {
     ${${commands[sk]:+sk}:-fzf} \
-        --preview '<<< {+}' \
+        --preview "$(highlight_input_zsh) <<<{+}" \
         --preview-window=down:wrap:hidden \
         --bind='F2:toggle-preview' \
         --height "${FZF_TMUX_HEIGHT:-40%}" \
