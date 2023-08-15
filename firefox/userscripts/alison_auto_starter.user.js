@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name         alison.com auto starter
+// @name         The alison.com auto starter
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Auto click "Start topic" on alison.com
-// @match        https://alison.com/topic/learn/*
 // @author       lainiwa
+// @match        https://alison.com/topic/learn/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=alison.com
 // @grant        none
 // ==/UserScript==
 

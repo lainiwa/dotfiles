@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Atomatic ChatGPT Retry
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  try to take over the world!
+// @version      1.0
+// @description  Automatic retry for ChatGPT
 // @author       lainiwa
 // @match        https://chat.openai.com/chat
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=openai.com
