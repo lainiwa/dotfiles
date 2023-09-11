@@ -112,7 +112,7 @@ weather() {
     cyan_bg=$(tput setab 6)
     nc=$(tput sgr0)
 
-    finger "mytishchi~$(tput cols)@graph.no" |
+    finger "tbilisi~$(tput cols)@graph.no" |
         head --lines=-1 |
         sed \
             -e "s/ SW/  ↙/g" \
