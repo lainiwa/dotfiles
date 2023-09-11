@@ -101,7 +101,8 @@ requirements() {
     (( ${+commands[pip]}      )) && <<<      @exec/pip,apply:fpath,origin:"pip completion --zsh > _pip"
     (( ${+commands[pip3]}     )) && <<<     @exec/pip3,apply:fpath,origin:"pip3 completion --zsh > _pip3"
     (( ${+commands[kafkactl]} )) && <<< @exec/kafkactl,apply:fpath,origin:"kafkactl completion zsh > _kafkactl"
-    (( ${+commands[krew]}     )) && <<<     @exec/krew,apply:fpath,origin:"krew completion zsh > _krew"
+    # https://github.com/kubernetes-sigs/krew/issues/810#issuecomment-1645550421
+    # (( ${+commands[krew]}     )) && <<<     @exec/krew,apply:fpath,origin:"krew completion zsh > _krew"
     (( ${+commands[khal]}     )) && <<<     @exec/khal,apply:fpath,origin:"_KHAL_COMPLETE=zsh_source khal > _khal"
     (( ${+commands[kaf]}      )) && <<<      @exec/kaf,apply:fpath,origin:"kaf completion zsh > _kaf"
     (( ${+commands[wgcf]}     )) && <<<     @exec/wgcf,apply:fpath,origin:"wgcf completion zsh > _wgcf"
