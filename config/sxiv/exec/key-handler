@@ -5,7 +5,8 @@ while read -r file; do
     case "$1" in
         # Copy to clipboard
         "C-c")
-            mimetype="$(file --mime-type -b "$file")"
+            # using readlink avoids inode/symlink mimetype
+            mimetype="$(file --mime-type -b "$(readlink -f "$file")")"
             xclip -selection clipboard -target "$mimetype" <"${file}"
             printf %s "${file}" | xclip -in -selection primary
         ;;
