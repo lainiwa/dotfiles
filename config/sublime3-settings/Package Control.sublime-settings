@@ -47,6 +47,7 @@
 		"SublimeLinter-clang",
 		"SublimeLinter-flake8",
 		"SublimeLinter-shellcheck",
+		"Tabnine",
 		"Terraform",
 		"Tmux Syntax Highlight",
 		"TOML",
