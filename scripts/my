@@ -431,6 +431,10 @@ EOF
         brew update
         brew upgrade
     fi
+    # Update nnn plugins
+    if command -v nnn >/dev/null; then
+        sh -c "$(curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs)"
+    fi
 }
 
 #################################################
