@@ -89,3 +89,20 @@ typeset -U path cdpath fpath manpath
 #     [[ -z "${TMUX}"          ]]; then
 #   tmux attach || tmux
 # fi
+
+if (( ${+commands[sgpt]}     )); then
+    :
+# Shell-GPT integration ZSH v0.1
+_sgpt_zsh() {
+    if [[ -n "$BUFFER" ]]; then
+        _sgpt_prev_cmd=$BUFFER
+        BUFFER+="⌛"
+        zle -I && zle redisplay
+        BUFFER=$(sgpt --shell <<< "$_sgpt_prev_cmd")
+        zle end-of-line
+    fi
+}
+zle -N _sgpt_zsh  # Define _sgpt_zsh as a Zsh widget
+bindkey '^f' _sgpt_zsh  # Bind Ctrl+F to the _sgpt_zsh widget
+# Shell-GPT integration ZSH v0.1
+fi
