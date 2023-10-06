@@ -76,11 +76,25 @@ fi
 # autoload -Uz add-zsh-hook
 # add-zsh-hook preexec preexec_hook_set_title
 
+# export COMPOSE_DOCKER_CLI_BUILD=1
+# export DOCKER_BUILDKIT=1
+autoload -U zargs
 
 # Deduplicate these arrays
 typeset -U path cdpath fpath manpath
 # zprof
 
+# k-fwd() {
+#     trap 'sudo kill %2 %3' SIGINT
+#     sudo -s 'exit'
+#     while true; do
+#         sudo chown -R lain:lain ~/.tsh
+#         # tsh login
+#         sleep 60
+#     done &
+#     sudo -E =kubefwd services -n quantor &
+#     wait
+# }
 
 # # Run tmux on start
 # if (( ${+commands[tmux]}     )) &&
