@@ -1,14 +1,14 @@
 [tool.poetry]
 name = "poetry-instance"
-version = "1.6.1"
+version = "1.7.0"
 description = ""
 authors = []
 license = ""
 
 [tool.poetry.dependencies]
 python = "3.8.10"
-poetry = "^1.6.1"
+poetry = "^1.7.0"
 
 [tool.poetry.group.additional.dependencies]
-poetry-plugin-up = "^0.3.0"
+poetry-plugin-up = "^0.7.1"
 
